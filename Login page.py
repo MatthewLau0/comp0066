@@ -9,3 +9,5 @@ print("Welcome to page")
 
 print('hi guys')
 print('lol')
+
+import time
