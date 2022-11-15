@@ -1,1 +1,38 @@
-[[1, 'Camp 1', 'Tsunami', 'Sample Description', '01/01/1900', '02/01/1900', 'Closed']]
+  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]  Camp name Type of Emergency  ... Emergency Status                           0
+1    Camp 1           Tsunami  ...           Closed                         NaN
+0       NaN               NaN  ...              NaN                      Camp 2
+1       NaN               NaN  ...              NaN                     Tsunami
+2       NaN               NaN  ...              NaN                   Emergency
+3       NaN               NaN  ...              NaN                          NA
+4       NaN               NaN  ...              NaN  2022-11-15 08:05:25.486664
+5       NaN               NaN  ...              NaN                          NA
+6       NaN               NaN  ...              NaN                      Active
+
+[8 rows x 8 columns]  Camp name Type of Emergency  ...  Close Date Emergency Status
+1    Camp 1           Tsunami  ...  02/01/1900           Closed
+
+[1 rows x 7 columns]

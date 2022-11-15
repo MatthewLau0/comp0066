@@ -1,15 +1,15 @@
-#Import Pandas to the dataset to store Emergency Data Information
+#Import Pandas and datetime to the dataset to store Emergency Data Information
 import pandas as pd
+import datetime
 
 #Open the Emergency Database File to edit
 emergency_database_file = open("Emergency Database", "a+")
 
 #Set up empty lists for the Emergency Database files - add area affected
-sample_emergency = [1, "Camp 1", "Tsunami", "Sample Description", "01/01/1900", "02/01/1900", "Closed"]
+sample_emergency = ["Camp 1", "Tsunami", "Sample Description", "NA",  "01/01/1900", "02/01/1900", "Closed"]
 emergency_database_list = [sample_emergency, ]
-#emergency_database_dataframe = pd.DataFrame(emergency_database_list, index=1, columns =[camp_name, emergency_type, emergency_description, area_affected, start_date, close_date, status])
-emergency_database_file.write(str(emergency_database_list))
-#emergency_database_file.write(emergency_database_database)
+emergency_database_dataframe = pd.DataFrame(emergency_database_list, index=[1, ], columns =['Camp name', 'Type of Emergency', 'Description of Emergency', 'Area Affected', 'Start Date', 'Close Date', 'Emergency Status'])
+emergency_database_file.write(str(emergency_database_dataframe))
 
 
 
@@ -40,48 +40,75 @@ new_emergency = ["NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
 
 #Enter the Camp Name
-new_emergency[1] = input("Please enter the name of the camp for this emergency:")
+new_emergency[0] = input("Please enter the name of the camp for this emergency:")
 
 #Enter the Type of Emergency
 print("[1] Flood\n[2]Tsunami\n[3]Earthquake\n[4]Drought\n[5]Other")
 emergency_type_input = int(input("Please use the above index to enter the type of emergency:"))
-while new_emergency[2] == "NA":
+while new_emergency[1] == "NA":
     try:
         if emergency_type_input == 1:
-            new_emergency[2] = "Flood"
+            new_emergency[1] = "Flood"
         elif emergency_type_input == 2:
-            new_emergency[2] = "Tsunami"
+            new_emergency[1] = "Tsunami"
         elif emergency_type_input == 3:
-            new_emergency[2] = "Earthquake"
+            new_emergency[1] = "Earthquake"
         elif emergency_type_input == 4:
-            new_emergency[2] = "Drought"
+            new_emergency[1] = "Drought"
         elif emergency_type_input == 5:
-            new_emergency[2] = input("Please specify the specific type of emergency:")
+            new_emergency[1] = input("Please specify the specific type of emergency:")
     except Exception:
         print("You entered an invalid input")
         emergency_type_input = int(input("Please use the above index to enter the type of emergency:"))
 
 #Descrpition of the Emergency
-new_emergency[3] = input("Please briefly describe the emergency that you are registering")
+new_emergency[2] = input("Please briefly describe the emergency that you are registering")
 
 #Area affected
+pass
 
 #Start date - use a setting to enter today
+start_date_binary = int(input("Did this event begin today (1 = Yes, 2 = No)?"))
+if start_date_binary == 1:
+    new_emergency[4] = datetime.datetime.today()
+if start_date_binary == 2:
+    year_input = int(input("Please enter the start year of the emergency:"))
+    month_input = int(input("Please enter the start month of the emergency:"))
+    day_input = int(input("Please enter the start day of the emergency:"))
+    while new_emergency[4] == "NA":
+        try:
+            new_emergency[4] = datetime.datetime(year_input, month_input, day_input)
+        except Exception:
+            print("Invalid date entered. Please re-enter the start date of the emergency.")
+            year_input = int(input("Please enter the start year of the emergency:"))
+            month_input = int(input("Please enter the start month of the emergency:"))
+            day_input = int(input("Please enter the start day of the emergency:"))
 
-#Close date
 
-#Status
-if new_emergency[6] == "NA":
-    new_emergency[7] = "Active"
-else:
-    new_emergency[7] = "Closed"
-
-#Set categories for the type of emergency
-
+#Close date/status
+status = int(input("Has the event finished yet? (1 = Yes, 2 = No):"))
+if status == 1:
+    new_emergency[5] = "Closed"
+    year_close_input = int(input("Please enter the close year of the emergency:"))
+    month_close_input = int(input("Please enter the close month of the emergency:"))
+    day_close_input = int(input("Please enter the close day of the emergency:"))
+    while new_emergency[6] == "NA":
+        try:
+            new_emergency[6] = datetime.datetime(year_close_input, month_close_inputinput, day_close_inputinput)
+        except Exception:
+            print("Invalid date entered. Please re-enter the start date of the emergency.")
+            year_close_input = int(input("Please enter the close year of the emergency:"))
+            month_close_input = int(input("Please enter the close month of the emergency:"))
+            day_close_input = int(input("Please enter the close day of the emergency:"))
+if status == 2:
+    new_emergency[5] = "NA"
+    new_emergency[6] = "Active"
 
 #Update Dataframe and reupload it into the Emergency Database File - change indexing variable
+emergency_database_dataframe = emergency_database_dataframe.(new_emergency)
+emergency_database_file.write(str(emergency_database_dataframe))
 
 
 #Close the Emergency Database File
-emergency_database = open("Emergency Database", "a+")
+emergency_database_file.close()
 
