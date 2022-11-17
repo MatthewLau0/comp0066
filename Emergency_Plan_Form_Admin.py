@@ -1,15 +1,15 @@
 #Import Pandas and datetime to the dataset to store Emergency Data Information
-import pandas as pd
 import datetime
 
-#Open the Emergency Database File to edit
-emergency_database_file = open("Emergency Database", "a+")
+#Open the Emergency Database File to edit - write or append"
+emergency_database_file = open("Emergency Database", "r+")
 
-#Set up empty lists for the Emergency Database files - add area affected
-sample_emergency = ["Camp 1", "Tsunami", "Sample Description", "NA",  "01/01/1900", "02/01/1900", "Closed"]
-emergency_database_list = [sample_emergency, ]
-emergency_database_dataframe = pd.DataFrame(emergency_database_list, index=[1, ], columns =['Camp name', 'Type of Emergency', 'Description of Emergency', 'Area Affected', 'Start Date', 'Close Date', 'Emergency Status'])
-emergency_database_file.write(str(emergency_database_dataframe))
+#Set up empty lists for the Emergency Database files - add area affected - how to make sure does not generate new area every time
+#sample_emergency = ["Sample Camp", "Tsunami", "Sample Description", "NA",  "01/01/1900", "02/01/1900", "Closed"]
+#emergency_database_list = [sample_emergency, ]
+emergency_database_dataframe = pd.DataFrame(emergency_database_file, index=[1, ], columns=['Camp Name', 'Type of Emergency', 'Description of Emergency', 'Area Affected', 'Start Date', 'Close Date', 'Emergency Status'])
+#emergency_database_dataframe = pd.DataFrame(emergency_database_list, index=[1, ], columns=['Camp Name', 'Type of Emergency', 'Description of Emergency', 'Area Affected', 'Start Date', 'Close Date', 'Emergency Status'])
+
 
 
 
@@ -21,8 +21,8 @@ print("[1] Create a New Emergency Plan \n [2] Update an Existing Emergency Plan 
 pathway_question = int(input("Would you like to Create a New Emergency Plan, or Update and Existing Emergency PLan?"))
 try:
     if pathway_question == 2:
-        pass
-        #Load new module on Creating a new emergency plan?
+        import Update_Existing_Form_Admin
+        exit()
     elif pathway_question == 1:
         pass
     elif pathway_question == 3:
@@ -36,10 +36,8 @@ print("You are going to make a new emergency plan. Please follow the below instr
 #Create new emergency
 new_emergency = ["NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
-#Generate the Camp Index Number
 
-
-#Enter the Camp Name
+#Enter the Camp Name - NEED TO MAKE SURE IT IS NOT A DUPLICATE
 new_emergency[0] = input("Please enter the name of the camp for this emergency:")
 
 #Enter the Type of Emergency
@@ -67,7 +65,7 @@ new_emergency[2] = input("Please briefly describe the emergency that you are reg
 #Area affected
 pass
 
-#Start date - use a setting to enter today
+#Start date - use a setting to enter today - fix this
 start_date_binary = int(input("Did this event begin today (1 = Yes, 2 = No)?"))
 if start_date_binary == 1:
     new_emergency[4] = datetime.datetime.today()
@@ -85,7 +83,7 @@ if start_date_binary == 2:
             day_input = int(input("Please enter the start day of the emergency:"))
 
 
-#Close date/status
+#Close date/status - add error if close date is before start date
 status = int(input("Has the event finished yet? (1 = Yes, 2 = No):"))
 if status == 1:
     new_emergency[5] = "Closed"
@@ -94,7 +92,7 @@ if status == 1:
     day_close_input = int(input("Please enter the close day of the emergency:"))
     while new_emergency[6] == "NA":
         try:
-            new_emergency[6] = datetime.datetime(year_close_input, month_close_inputinput, day_close_inputinput)
+            new_emergency[6] = datetime.datetime(year_close_input, month_close_input, day_close_input)
         except Exception:
             print("Invalid date entered. Please re-enter the start date of the emergency.")
             year_close_input = int(input("Please enter the close year of the emergency:"))
@@ -105,7 +103,7 @@ if status == 2:
     new_emergency[6] = "Active"
 
 #Update Dataframe and reupload it into the Emergency Database File - change indexing variable
-emergency_database_dataframe = emergency_database_dataframe.(new_emergency)
+emergency_database_dataframe.loc[len(emergency_database_dataframe)] = new_emergency
 emergency_database_file.write(str(emergency_database_dataframe))
 
 
