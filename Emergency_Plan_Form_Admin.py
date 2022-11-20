@@ -1,6 +1,10 @@
 #Recreation of Emergency Plan Form with lists instead of Pandas
 
 import datetime
+import sys
+import subprocess
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'prettytable'])
+from prettytable import PrettyTable
 
 #Open the Emergency_Database File to edit - write or append"
 emergency_database_file = open("Emergency_Database", "r")
@@ -81,16 +85,17 @@ new_emergency[3] = input("Please briefly describe the emergency that you are reg
 pass
 
 #Start date - use a setting to enter today - fix this
+from datetime import date
 start_date_binary = int(input("Did this event begin today (1 = Yes, 2 = No)?"))
 if start_date_binary == 1:
-    new_emergency[5] = str(datetime.datetime.today())
+    new_emergency[5] = str(date.today())
 if start_date_binary == 2:
     year_input = int(input("Please enter the start year of the emergency:"))
     month_input = int(input("Please enter the start month of the emergency:"))
     day_input = int(input("Please enter the start day of the emergency:"))
     while new_emergency[5] == "NA":
         try:
-            new_emergency[5] = str(datetime.datetime(year_input, month_input, day_input))
+            new_emergency[5] = str(date(year_input, month_input, day_input))
         except Exception:
             print("Invalid date entered. Please re-enter the start date of the emergency.")
             year_input = int(input("Please enter the start year of the emergency:"))
@@ -98,15 +103,16 @@ if start_date_binary == 2:
             day_input = int(input("Please enter the start day of the emergency:"))
 
 #Close date/status - add error if close date is before start date
+from datetime import date
 status = int(input("Has the event finished yet? (1 = Yes, 2 = No):"))
 if status == 1:
-    new_emergency[6] = "Closed"
+    new_emergency[7] = "Closed"
     year_close_input = int(input("Please enter the close year of the emergency:"))
     month_close_input = int(input("Please enter the close month of the emergency:"))
     day_close_input = int(input("Please enter the close day of the emergency:"))
-    while new_emergency[7] == "NA":
+    while new_emergency[6] == "NA":
         try:
-            new_emergency[6] = str(datetime.datetime(year_close_input, month_close_input, day_close_input))
+            new_emergency[6] = str(date(year_close_input, month_close_input, day_close_input))
         except Exception:
             print("Invalid date entered. Please re-enter the start date of the emergency.")
             year_close_input = int(input("Please enter the close year of the emergency:"))
@@ -119,7 +125,9 @@ if status == 2:
 #View the new emergency - add exception
 view_emergency = int(input("Would you like to review the emergency that you are adding to the database? (1 = Yes, 2 = No)"))
 if view_emergency == 1:
-    print(new_emergency)
+    t_newemergency = PrettyTable(["Index Number", "Camp Name", "Type of Emergency", "Description of Emergency", "Area Affected", "Start date", "Close date", "Emergency status"])
+    t_newemergency.add_row(new_emergency)
+    print(t_newemergency)
 new_emergency_string = ','.join(new_emergency)
 
 #Close file for reading
