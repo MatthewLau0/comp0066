@@ -1,8 +1,4 @@
-#Import Pandas and datetime to the dataset to store Emergency Data Information
-import datetime
-import sys
-import subprocess
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'prettytable'])
+#Import Pretty Table
 from prettytable import PrettyTable
 
 #Open files Emergency Plan Files
@@ -29,6 +25,12 @@ if map_view == 1:
 def emergency_update(update_selection):
     if update_selection == 1:
         new_camp_name = input("Please enter the new camp name:")
+        # Check if the name is already in the directory
+        camp_name_list = []
+        for i in range(0, len(emergency_database_list)):
+            camp_name_list.append((emergency_database_list[i])[1])
+        while new_camp_name in camp_name_list:
+            new_camp_name = input("This name is already in use. Please enter a new name of the camp for this emergency:")
         update_camp_list[1] = new_camp_name
     elif update_selection == 2:
         print("[1] Flood\n[2]Tsunami\n[3]Earthquake\n[4]Drought\n[5]Other")
