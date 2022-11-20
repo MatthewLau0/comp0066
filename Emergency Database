@@ -1,7 +1,0 @@
-  Camp Name Type of Emergency  ... Close Date     Emergency Status
-1    Camp 3           Tsunami  ...     Closed  2002-11-17 00:00:00
-
-[1 rows x 7 columns]  Camp Name Type of Emergency  ... Close Date Emergency Status
-1    Camp 4           Tsunami  ...         NA           Active
-
-[1 rows x 7 columns]

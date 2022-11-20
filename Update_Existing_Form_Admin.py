@@ -3,7 +3,10 @@ import pandas as pd
 import datetime
 
 #Open files Emergency Plan Files
-emergency_database_file = open("Emergency Database", "a+")
+emergency_database_file = open("Emergency_Database", "a+")
+
+#Clarify the path selected
+print("You are going to update an existing emergency plan. Please follow the below instructions.")
 
 #Select the Camp Name that you would like to extract - include for not relevant variables
 emergency_plans_view = int(input("Do you know the camp name of the camp you would like to update? (1 = Yes, 2 = No)"))
