@@ -13,6 +13,7 @@ for line in emergency_database_file:
     line_list = line.split(",")
     emergency_database_list.append(line_list)
 
+
 #Print the table, if requested
 map_view = int(input("Would you like to view a summary of the camps currently stored in the database? (1 = Yes, 2 = No)"))
 if map_view == 1:

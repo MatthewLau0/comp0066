@@ -1,4 +1,4 @@
-#Recreation of Emergency Plan Form with lists instead of Pandas
+#Recreation of Emergency Plan Form with lists instead of Pandas - do the same with pip
 
 import datetime
 import sys
