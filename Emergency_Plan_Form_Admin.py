@@ -7,7 +7,7 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'prettytable'])
 from prettytable import PrettyTable
 
 #Introduce the portion of the programme
-print("Use this section to Create or Update an Emergency within this Database.")
+print("C")
 
 #Choose the pathway
 print(" [1] Create a New Emergency Plan \n [2] Update an Existing Emergency Plan \n [3] Return to Main Menu")
