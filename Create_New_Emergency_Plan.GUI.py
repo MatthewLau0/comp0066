@@ -26,10 +26,17 @@ for i in range(0, len(emergency_database_list)):
     camp_name_list.append((emergency_database_list[i])[1])
 
 #New Camp
-def CreateNewCamp():
+def CreateNewCampScreen():
     global New_Camp_Screen
     global camp_name
     global new_emergency
+    global index_number
+    global emergency_type
+    global emergency_description
+    global area_affected
+    global start_date
+    global close_date
+    global emergency_status
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
     New_Camp_Screen.geometry("500x350")
@@ -50,7 +57,7 @@ def CreateNewCamp():
     camp_name_label.pack()
     camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
     camp_name_entry.pack()
-    camp_name_verify(camp_name_label)
+    camp_name_verify(camp_name)
 
     emergency_type_label = Label(New_Camp_Screen, text="Select the type of emergency")
     emergency_type_label.pack()
@@ -75,6 +82,13 @@ def CreateNewCamp():
     new_emergency[3] = emergency_description_entry
 
     #Calendar for Start/End Date
+
+    #Button to run this and then implement into Create New Camp
+
+#Processing of camp_name
+def CreateNewCamp():
+    #Use this to add to the list etc.
+
 
 
 #Function for repeated camp namefcff
@@ -113,9 +127,7 @@ def camp_name_duplicate():
 
 
 
-
-
-#Set up the Create New Emergency Screen
+#Set up the Create New Emergency Screen - ADD IN THIS
 def Create_Emergency_Screen():
     global Create_New_Emergency_Home_Screen
     Create_New_Emergency_Home_Screen = Tk()
