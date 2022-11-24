@@ -107,7 +107,7 @@ if view_emergency == 1:
     t_newemergency.add_row(new_emergency)
     print(t_newemergency)
 new_emergency_string = ','.join(new_emergency)
-
+""
 #Close file for reading
 emergency_database_file.close()
 
