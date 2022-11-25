@@ -8,7 +8,7 @@ def Create_Emergency():
     import Create_New_Emergency_Plan_GUI
 
 def Update_Emergency():
-    pass
+    import Update_Existing_Form_Admin_GUI
 
 #Create main window of the application
 admin_emergency = Tk()

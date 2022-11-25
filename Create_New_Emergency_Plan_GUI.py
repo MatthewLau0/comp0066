@@ -318,7 +318,7 @@ def Create_Emergency_Screen():
     Create_New_Emergency_Home_Screen = Tk()
     Create_New_Emergency_Home_Screen.geometry("500x600")
     Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
-    Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=CreateNewCampScreen())
+    Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=CreateNewCampScreen)
     Create_New_Emergency_Button.pack()
     Return_HomeScreen_Button = Button(Create_New_Emergency_Home_Screen, text="Return to the Homescreen")
     Return_HomeScreen_Button.pack()
