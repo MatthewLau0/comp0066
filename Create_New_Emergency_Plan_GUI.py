@@ -151,19 +151,6 @@ def NewCampVerify():
     CreateNewCampSummary()
 
 
-
-
-
-
-
-
-
-
-
-
-
-    #Button to run this and then implement into Create New Camp
-
 #Processing of camp_name
 def CreateNewCampSummary():
     global New_Camp_Screen
