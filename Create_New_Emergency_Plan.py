@@ -6,7 +6,6 @@ emergency_database_file = open("Emergency_Database", "r")
 
 #Clarify the path selected
 print("You are going to make a new emergency plan. Please follow the below instructions.")
-
 #Create a new emergency (index, camp name, type of emergency, description of emergency, area affected, start date, close date, emergency status)
 new_emergency = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
