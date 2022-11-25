@@ -5,7 +5,6 @@ import subprocess
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkcalendar import Calendar
 import datetime
-from datetime import date
 
 #Set up the required data structures
     #Open the emergency database file
