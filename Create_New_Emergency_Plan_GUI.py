@@ -32,6 +32,10 @@ camp_name_list = []
 for i in range(0, len(emergency_database_list)):
     camp_name_list.append((emergency_database_list[i])[1])
 
+#Establish some variables
+startDate = "NA"
+endDate = "NA"
+
 #New Camp
 def CreateNewCampScreen():
     global New_Camp_Screen
@@ -49,7 +53,7 @@ def CreateNewCampScreen():
     global start_date_calendar
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
-    New_Camp_Screen.geometry("500x350")
+    New_Camp_Screen.geometry("500x600")
 
     index_number = StringVar()
     camp_name = StringVar()
@@ -94,40 +98,59 @@ def CreateNewCampScreen():
     status_label.pack()
 
     status_check_yes = IntVar()
-    status_check_button_yes = Checkbutton(New_Camp_Screen, variable=status_check_yes, onvalue=1, offvalue=2, text="Yes")
+    status_check_button_yes = Checkbutton(New_Camp_Screen, variable=status_check_yes, onvalue=1, offvalue=2, text="Yes", command=setactiveStatus)
     status_check_button_yes.pack()
 
     status_check_no = IntVar()
-    status_check_button_no = Checkbutton(New_Camp_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No")
+    status_check_button_no = Checkbutton(New_Camp_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No", command=closedateSet)
     status_check_button_no.pack()
 
     submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=NewCampVerify)
     submit_new_emergency_button.pack()
 
-def New_Emergency_Status():
+def closedateSet():
     global status_check_yes
     global status_check_no
-    global new_emergency
     global New_Camp_Screen
     global close_date_calendar
     global status
-    global enddate
-    #add status check no to the below and only select one textbox
-    try:
-        while ((status_check_yes.get() == 1) and (status_check_no.get() == 2)):
+    global status_error_label
+    global close_date_label
+
+    while status_check_no.get() == 1:
+        if status_check_yes.get() == 2:
+            status_error_label.destroy()
             close_date_label = Label(New_Camp_Screen, text="Please select an end date for the emergency from the below calendar")
             close_date_label.pack()
             close_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day')
             close_date_calendar.pack()
             status = "Closed"
             break
-        else:
-            enddate = "NA"
-            status = "Active"
-    except Exception:
-        if ((status_check_yes.get() == 1) and (status_check_no.get() == 2)):
-            error_label_status = Label(New_Camp_Screen, text="Please only tick one checkbox")
-            error_label_status.pack()
+        elif status_check_yes.get() == 2:
+            status_error_label = Label(New_Camp_Screen, text="Please only tick one checkbox.")
+            status_error_label.pack()
+
+
+def setactiveStatus():
+    global status_check_yes
+    global status_check_no
+    global New_Camp_Screen
+    global close_date_calendar
+    global status
+    global endDate
+    global status_error_label
+    global close_date_label
+
+    if (status_check_no.get() == 1) and (status_check_yes.get() == 1):
+        status_error_label = Label(New_Camp_Screen, text="Please only tick one checkbox.")
+        status_error_label.pack()
+
+    if (status_check_yes.get() == 1) and (status_check_no.get() == 2):
+        status_error_label.destroy()
+        close_date_calendar.destroy()
+        close_date_label.destroy()
+        endDate = "NA"
+        status = "Active"
 
 
 def NewCampVerify():
@@ -146,8 +169,6 @@ def NewCampVerify():
 
     campnameVerify(camp_name)
     invalidDate()
-    New_Emergency_Status()
-
     CreateNewCampSummary()
 
 
@@ -165,8 +186,8 @@ def CreateNewCampSummary():
     global emergency_status
     global status_check_yes
     global status_check_no
-    global startdate
-    global enddate
+    global startDate
+    global endDate
     global status
     New_Camp_Summary_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Summary_Screen.title("Create a New Emergency")
@@ -184,10 +205,10 @@ def CreateNewCampSummary():
     New_Camp_Description_Summary_Label = Label(New_Camp_Summary_Screen, text="Your description of the new emergency is: %s" %(emergency_description.get()))
     New_Camp_Description_Summary_Label.pack()
 
-    New_Camp_StartDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(startdate))
+    New_Camp_StartDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(startDate))
     New_Camp_StartDate_Summary_Label.pack()
 
-    New_Camp_EndDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(enddate))
+    New_Camp_EndDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(endDate))
     New_Camp_EndDate_Summary_Label.pack()
 
     New_Camp_Status_Summary_Label = Label(New_Camp_Summary_Screen, text="The status of the new emergency is: %s" %(status))
@@ -210,15 +231,15 @@ def SubmitEmergency():
     global emergency_status
     global status_check_yes
     global status_check_no
-    global startdate
-    global enddate
+    global startDate
+    global endDate
     global status
 
     new_emergency[1] = camp_name.get()
     new_emergency[2] = emergency_type.get()
     new_emergency[3] = emergency_description.get()
-    new_emergency[5] = str(startdate)
-    new_emergency[6] = str(enddate)
+    new_emergency[5] = str(startDate)
+    new_emergency[6] = str(endDate)
     new_emergency[7] = status
 
     new_emergency_string = ','.join(new_emergency)
@@ -261,23 +282,23 @@ def invalidDate():
     global start_date_calendar
     global close_date_calendar
     global startdate
-    global enddate
+    global endDate
     global status
     global status_check_yes
     global status_check_no
 
-    startdate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
+    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
 
     if ((status_check_yes == 2) and (status_check_no == 1)):
-        enddate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
-        while enddate < startdate:
+        endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
+        while endDate < startDate:
             invalidDate_label = Label(New_Camp_Screen, text="The end date has to be after the start date. Please re-enter a close date below.")
             invalidDate_label.pack()
             close_date_label = Label(New_Camp_Screen, text="Please select an end date for the emergency from the below calendar")
             close_date_label.pack()
             close_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day')
             close_date_calendar.pack()
-            enddate = datetime.datetime.strptime(end_date_calendar.get_date(), "%d, %m, %Y").date()
+            endDate = datetime.datetime.strptime(end_date_calendar.get_date(), "%d, %m, %Y").date()
 
 
 
@@ -295,7 +316,7 @@ def invalidDate():
 def Create_Emergency_Screen():
     global Create_New_Emergency_Home_Screen
     Create_New_Emergency_Home_Screen = Tk()
-    Create_New_Emergency_Home_Screen.geometry("500x350")
+    Create_New_Emergency_Home_Screen.geometry("500x600")
     Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
     Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=CreateNewCampScreen())
     Create_New_Emergency_Button.pack()
