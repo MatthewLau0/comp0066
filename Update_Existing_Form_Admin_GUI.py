@@ -127,7 +127,7 @@ def printupdatingCamp():
     index_updating_camp = int(index_updating_camp)
 
     updating_camp_list = []
-    for i in range(0, 7):
+    for i in range(0, len(emergency_database_list[index_updating_camp])):
         updating_camp_list.append((emergency_database_list[index_updating_camp])[i])
         i += 1
 
@@ -163,7 +163,7 @@ def printupdatingCamp():
     update_emergency_table.heading("Status", text="Status", anchor=CENTER)
 
 
-    update_emergency_table.insert(parent='', index=i, iid=i, values=(updating_camp_list[0], updating_camp_list[1], updating_camp_list[2], updating_camp_list[3], updating_camp_list[4], updating_camp_list[5], updating_camp_list[6]))
+    update_emergency_table.insert(parent='', index=i, iid=i, values=(updating_camp_list[0], updating_camp_list[1], updating_camp_list[2], updating_camp_list[3], updating_camp_list[4], updating_camp_list[5], updating_camp_list[6], updating_camp_list[7]))
 
     update_emergency_table.pack()
 
