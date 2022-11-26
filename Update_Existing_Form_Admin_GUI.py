@@ -9,14 +9,6 @@ for line in emergency_database_file:
     emergency_database_list.append(line_list)
 emergency_database_file.close()
 
-#Set up emergency index list
-
-
-
-
-
-
-
 def UpdateEmergencyScreen():
     global Update_Emergency_Home_Screen
     global Update_Emergency_Screen
@@ -113,7 +105,6 @@ def SelectIndex():
     select_index_label = Label(Update_Emergency_Screen, text="Please select the index number of the camp you would like to update")
     select_index_label.pack()
 
-    select_index.set("Select a camp ID")
     select_index_select = OptionMenu(Update_Emergency_Screen, select_index, *emergency_database_list_index)
     select_index_select.pack()
 
