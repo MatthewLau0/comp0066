@@ -5,6 +5,7 @@ import subprocess
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkcalendar import Calendar
 import datetime
+import threading
 
 #Set up the required data structures
     #Open the emergency database file
@@ -51,6 +52,19 @@ def CreateNewCampScreen():
     global status_check_yes
     global status_check_no
     global start_date_calendar
+    global camp_name_entry
+    global emergency_type_flood
+    global emergency_type_tsunami
+    global emergency_type_earthquake
+    global emergency_type_drought
+    global emergency_type_other
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+
+
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
     New_Camp_Screen.geometry("500x600")
@@ -76,15 +90,39 @@ def CreateNewCampScreen():
 
     emergency_type_label = Label(New_Camp_Screen, text="Select the type of emergency")
     emergency_type_label.pack()
-    emergency_type_list = ["Flood", "Tsunami", "Earthquake", "Drought", "Other"]
-    emergency_type.set(emergency_type_list[0])
-    emergency_type_select = OptionMenu(New_Camp_Screen, emergency_type, *emergency_type_list)
-    emergency_type_select.pack()
-    if emergency_type_select == "Other":
-        emergency_type_label_other = Label(New_Camp_Screen, text="Specify the type of emergency")
-        emergency_type_label_other.pack()
-        emergency_type_other = Entry(New_Camp_Screen, textvariable=emergency_type)
-        emergency_type_other.pack()
+    # emergency_type_list = ["Flood", "Tsunami", "Earthquake", "Drought", "Other"]
+    # emergency_type.set(emergency_type_list[0])
+    # emergency_type_select = OptionMenu(New_Camp_Screen, emergency_type, *emergency_type_list)
+    # emergency_type_select.pack()
+
+    emergency_type_flood = IntVar()
+    emergency_type_tsunami = IntVar()
+    emergency_type_earthquake = IntVar()
+    emergency_type_drought = IntVar()
+    emergency_type_other = IntVar()
+
+
+
+
+
+    emergency_type_flood_check = Checkbutton(New_Camp_Screen, variable=emergency_type_flood, onvalue=1, offvalue=0, text="Flood", command=clickFlood)
+    emergency_type_flood_check.pack()
+    emergency_type_tsunami_check = Checkbutton(New_Camp_Screen, variable=emergency_type_tsunami, onvalue=1, offvalue=0, text="Tsunami", command=clickTsunami)
+    emergency_type_tsunami_check.pack()
+    emergency_type_earthquake_check = Checkbutton(New_Camp_Screen, variable=emergency_type_earthquake, onvalue=1, offvalue=0, text="Earthquake", command=clickEarthquake)
+    emergency_type_earthquake_check.pack()
+    emergency_type_drought_check = Checkbutton(New_Camp_Screen, variable=emergency_type_drought, onvalue=1, offvalue=0, text="Drought", command=clickDrought)
+    emergency_type_drought_check.pack()
+    emergency_type_other_check = Checkbutton(New_Camp_Screen, variable=emergency_type_other, onvalue=1, offvalue=0, text="Other", command=clickOther)
+    emergency_type_other_check.pack()
+
+
+
+
+
+
+
+
 
     emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
     emergency_description_label.pack()
@@ -96,7 +134,7 @@ def CreateNewCampScreen():
     start_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day')
     start_date_calendar.pack()
 
-    status_label = Label(New_Camp_Screen, text="Has the emergency finished yet?")
+    status_label = Label(New_Camp_Screen, text="Is the emergency active?")
     status_label.pack()
 
     def clickYes():
@@ -123,10 +161,122 @@ def CreateNewCampScreen():
     status_check_button = Button(New_Camp_Screen, text="Confirm", command=setactiveStatus)
     status_check_button.pack()
 
-    submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=NewCampVerify)
+    submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=campnameVerify)
     submit_new_emergency_button.pack()
 
 
+
+
+def clickFlood():
+    global emergency_type
+    global emergency_type_flood
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    if emergency_type_flood.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type = "Flood"
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickTsunami():
+    global emergency_type
+    global emergency_type_drought
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    if emergency_type_tsunami.get() == 1:
+        emergency_type_flood_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type = "Tsunami"
+    else:
+        emergency_type_flood_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickEarthquake():
+    global emergency_type
+    global emergency_type_earthquake
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    if emergency_type_earthquake.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type = "Earthquake"
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_flood_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickDrought():
+    global emergency_type
+    global emergency_type_drought
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    if emergency_type_drought.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type = "Drought"
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_flood_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickOther():
+    global emergency_type
+    global emergency_type_other
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+
+    if emergency_type_other.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+
+        emergency_type_label_other = Label(New_Camp_Screen, text="Specify the type of emergency")
+        emergency_type_label_other.pack()
+        emergency_type_other = Entry(New_Camp_Screen, textvariable=emergency_type)
+        emergency_type_other.pack()
+
+
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_flood_check.config(state=NORMAL)
 
 
 def setactiveStatus():
@@ -165,8 +315,8 @@ def NewCampVerify():
     global emergency_status
     global status_check_yes
     global status_check_no
+    global camp_name
 
-    campnameVerify()
     invalidDate()
     CreateNewCampSummary()
 
@@ -188,6 +338,9 @@ def CreateNewCampSummary():
     global startDate
     global endDate
     global status
+    global camp_name
+    global emergency_type_other
+
     New_Camp_Summary_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Summary_Screen.title("Create a New Emergency")
     New_Camp_Summary_Screen.geometry("500x350")
@@ -198,8 +351,13 @@ def CreateNewCampSummary():
     New_Camp_Name_Summary_Label = Label(New_Camp_Summary_Screen, text="The new camp name you are entering is: %s" %(camp_name.get()))
     New_Camp_Name_Summary_Label.pack()
 
-    New_Camp_Type_Summary_Label = Label(New_Camp_Summary_Screen, text="The emergency type for the new camp is: %s" %(emergency_type.get()))
-    New_Camp_Type_Summary_Label.pack()
+    if emergency_type_other.get() == 1:
+        New_Camp_Type_Summary_Label = Label(New_Camp_Summary_Screen, text="The emergency type for the new camp is: %s" %(emergency_type.get()))
+        New_Camp_Type_Summary_Label.pack()
+    else:
+        New_Camp_Type_Summary_Label = Label(New_Camp_Summary_Screen, text="The emergency type for the new camp is: %s" %(emergency_type))
+        New_Camp_Type_Summary_Label.pack()
+
 
     New_Camp_Description_Summary_Label = Label(New_Camp_Summary_Screen, text="Your description of the new emergency is: %s" %(emergency_description.get()))
     New_Camp_Description_Summary_Label.pack()
@@ -269,16 +427,70 @@ def SubmitEmergency():
 
 #Function for repeated camp namefcff
 def campnameVerify():
-    global new_emergency
-    if camp_name.get() in camp_name_list:
-        campnameDuplicate()
+    global camp_name
+    global camp_name_list
+    global camp_name
+    global camp_name_verify
+
+    # if (camp_name_verify in camp_name_list):
+    #     camp_name_reentry_Label = Label(New_Camp_Screen,
+    #                                     text="This camp name already exists in the database. Please re-enter another camp-name below.",
+    #                                     bg='#fff', fg='#f00')
+    #     camp_name_reentry_Label.pack()
+    #     camp_name_entry.delete(0, END)
+    #     camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=NewCampVerify)
+    #     camp_name_reentry_button.pack()
+    #     campnameVerify()
+
+    # def campnameverifyLoop():
+    #     global camp_name
+    #     global camp_name_list
+    #     global camp_name_verify
+    #
+    #     while camp_name_verify in camp_name_list:
+    #         camp_name_reentry_Label = Label(New_Camp_Screen,
+    #                                             text="This camp name already exists in the database. Please re-enter another camp-name below.",
+    #                                             bg='#fff', fg='#f00')
+    #         camp_name_reentry_Label.pack()
+    #         camp_name_entry.delete(0, END)
+    #         camp_name_verify = camp_name.get()
+    #         camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=NewCampVerify)
+    #         camp_name_reentry_button.pack()
+
+    camp_name_verify = camp_name.get()
+    while (camp_name_verify in camp_name_list):
+        camp_name_reentry_Label = Label(New_Camp_Screen,
+                                        text="This camp name already exists in the database. Please re-enter another camp-name below.",
+                                        bg='#fff', fg='#f00')
+        camp_name_reentry_Label.pack()
+        camp_name_entry.delete(0, END)
+        camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=campnameVerify)
+        camp_name_reentry_button.pack()
+        camp_name_verify = camp_name.get()
+    else:
+        NewCampVerify()
+
+
+
+
+
+
+
+
+
+
 
 def campnameDuplicate():
+    global camp_name
+
     camp_name_reentry_Label = Label(New_Camp_Screen, text="This camp name already exists in the database. Please re-enter another camp-name below.", bg='#fff', fg='#f00')
     camp_name_reentry_Label.pack()
-    camp_name = " "
     camp_name_reentry = Entry(New_Camp_Screen, textvariable=camp_name)
+    camp_name_reentry.setvar(" ")
     camp_name_reentry.pack()
+    camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=campnameVerify)
+    camp_name_reentry_button.pack()
+    campnameVerify()
 
 
 
@@ -296,7 +508,7 @@ def invalidDate():
 
     startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
 
-    if status=="Closed":
+    if status_check_no.get() == 1:
         endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
         while endDate < startDate:
             invalidDate_label = Label(New_Camp_Screen, text="The end date has to be after the start date. Please re-enter a close date below.")
