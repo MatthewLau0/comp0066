@@ -36,6 +36,8 @@ for i in range(0, len(emergency_database_list)):
 #Establish some variables
 startDate = "NA"
 endDate = "NA"
+status = "NA"
+emergency_type_string = "NA"
 
 #New Camp
 def CreateNewCampScreen():
@@ -101,10 +103,6 @@ def CreateNewCampScreen():
     emergency_type_drought = IntVar()
     emergency_type_other = IntVar()
 
-
-
-
-
     emergency_type_flood_check = Checkbutton(New_Camp_Screen, variable=emergency_type_flood, onvalue=1, offvalue=0, text="Flood", command=clickFlood)
     emergency_type_flood_check.pack()
     emergency_type_tsunami_check = Checkbutton(New_Camp_Screen, variable=emergency_type_tsunami, onvalue=1, offvalue=0, text="Tsunami", command=clickTsunami)
@@ -115,13 +113,6 @@ def CreateNewCampScreen():
     emergency_type_drought_check.pack()
     emergency_type_other_check = Checkbutton(New_Camp_Screen, variable=emergency_type_other, onvalue=1, offvalue=0, text="Other", command=clickOther)
     emergency_type_other_check.pack()
-
-
-
-
-
-
-
 
 
     emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
@@ -175,12 +166,13 @@ def clickFlood():
     global emergency_type_earthquake_check
     global emergency_type_tsunami_check
     global emergency_type_other_check
+    global emergency_type_string
     if emergency_type_flood.get() == 1:
         emergency_type_tsunami_check.config(state=DISABLED)
         emergency_type_earthquake_check.config(state=DISABLED)
         emergency_type_drought_check.config(state=DISABLED)
         emergency_type_other_check.config(state=DISABLED)
-        emergency_type = "Flood"
+        emergency_type_string = "Flood"
     else:
         emergency_type_tsunami_check.config(state=NORMAL)
         emergency_type_earthquake_check.config(state=NORMAL)
@@ -196,12 +188,13 @@ def clickTsunami():
     global emergency_type_earthquake_check
     global emergency_type_tsunami_check
     global emergency_type_other_check
+    global emergency_type_string
     if emergency_type_tsunami.get() == 1:
         emergency_type_flood_check.config(state=DISABLED)
         emergency_type_earthquake_check.config(state=DISABLED)
         emergency_type_drought_check.config(state=DISABLED)
         emergency_type_other_check.config(state=DISABLED)
-        emergency_type = "Tsunami"
+        emergency_type_string = "Tsunami"
     else:
         emergency_type_flood_check.config(state=NORMAL)
         emergency_type_earthquake_check.config(state=NORMAL)
@@ -217,12 +210,13 @@ def clickEarthquake():
     global emergency_type_earthquake_check
     global emergency_type_tsunami_check
     global emergency_type_other_check
+    global emergency_type_string
     if emergency_type_earthquake.get() == 1:
         emergency_type_tsunami_check.config(state=DISABLED)
         emergency_type_flood_check.config(state=DISABLED)
         emergency_type_drought_check.config(state=DISABLED)
         emergency_type_other_check.config(state=DISABLED)
-        emergency_type = "Earthquake"
+        emergency_type_string = "Earthquake"
     else:
         emergency_type_tsunami_check.config(state=NORMAL)
         emergency_type_flood_check.config(state=NORMAL)
@@ -238,12 +232,13 @@ def clickDrought():
     global emergency_type_earthquake_check
     global emergency_type_tsunami_check
     global emergency_type_other_check
+    global emergency_type_string
     if emergency_type_drought.get() == 1:
         emergency_type_tsunami_check.config(state=DISABLED)
         emergency_type_earthquake_check.config(state=DISABLED)
         emergency_type_flood_check.config(state=DISABLED)
         emergency_type_other_check.config(state=DISABLED)
-        emergency_type = "Drought"
+        emergency_type_string = "Drought"
     else:
         emergency_type_tsunami_check.config(state=NORMAL)
         emergency_type_earthquake_check.config(state=NORMAL)
@@ -259,6 +254,8 @@ def clickOther():
     global emergency_type_earthquake_check
     global emergency_type_tsunami_check
     global emergency_type_other_check
+    global emergency_type_string
+    global emergency_type_entry
 
     if emergency_type_other.get() == 1:
         emergency_type_tsunami_check.config(state=DISABLED)
@@ -270,6 +267,8 @@ def clickOther():
         emergency_type_label_other.pack()
         emergency_type_other = Entry(New_Camp_Screen, textvariable=emergency_type)
         emergency_type_other.pack()
+        emergency_type_other_button = Button(New_Camp_Screen, text="Confirm", command=OtherConfirm)
+        emergency_type_other_button.pack()
 
 
     else:
@@ -277,6 +276,12 @@ def clickOther():
         emergency_type_earthquake_check.config(state=NORMAL)
         emergency_type_drought_check.config(state=NORMAL)
         emergency_type_flood_check.config(state=NORMAL)
+
+def OtherConfirm():
+    global emergency_type
+    global emergency_type_string
+
+    emergency_type_string = emergency_type.get()
 
 
 def setactiveStatus():
@@ -339,7 +344,9 @@ def CreateNewCampSummary():
     global endDate
     global status
     global camp_name
+    global emergency_type_string
     global emergency_type_other
+    global emergency_type_entry
 
     New_Camp_Summary_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Summary_Screen.title("Create a New Emergency")
@@ -351,13 +358,8 @@ def CreateNewCampSummary():
     New_Camp_Name_Summary_Label = Label(New_Camp_Summary_Screen, text="The new camp name you are entering is: %s" %(camp_name.get()))
     New_Camp_Name_Summary_Label.pack()
 
-    if emergency_type_other.get() == 1:
-        New_Camp_Type_Summary_Label = Label(New_Camp_Summary_Screen, text="The emergency type for the new camp is: %s" %(emergency_type.get()))
-        New_Camp_Type_Summary_Label.pack()
-    else:
-        New_Camp_Type_Summary_Label = Label(New_Camp_Summary_Screen, text="The emergency type for the new camp is: %s" %(emergency_type))
-        New_Camp_Type_Summary_Label.pack()
-
+    New_Camp_Type_Summary_Label = Label(New_Camp_Summary_Screen, text="The emergency type for the new camp is: %s" %(emergency_type_string))
+    New_Camp_Type_Summary_Label.pack()
 
     New_Camp_Description_Summary_Label = Label(New_Camp_Summary_Screen, text="Your description of the new emergency is: %s" %(emergency_description.get()))
     New_Camp_Description_Summary_Label.pack()
