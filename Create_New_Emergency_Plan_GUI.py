@@ -64,8 +64,10 @@ def CreateNewCampScreen():
     close_date = StringVar()
     emergency_status = StringVar()
 
-    Label(New_Camp_Screen, text="You are going to make a new emergency plan. Please follow the below instructions").pack()
-    Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0])).pack()
+    New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency plan. Please follow the below instructions")
+    New_Camp_Screen_Label.pack()
+    New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
+    New_Camp_Screen_Label_Index.pack()
 
     camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
     camp_name_label.pack()
@@ -102,11 +104,14 @@ def CreateNewCampScreen():
     status_check_button_yes.pack()
 
     status_check_no = IntVar()
-    status_check_button_no = Checkbutton(New_Camp_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No", command=closedateSet)
+    status_check_button_no = Checkbutton(New_Camp_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No")
     status_check_button_no.pack()
 
-    submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=NewCampVerify)
+    submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency")
     submit_new_emergency_button.pack()
+
+    closedateSet()
+    NewCampVerify()
 
 def closedateSet():
     global status_check_yes
@@ -208,7 +213,7 @@ def CreateNewCampSummary():
     New_Camp_StartDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(startDate))
     New_Camp_StartDate_Summary_Label.pack()
 
-    New_Camp_EndDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(endDate))
+    New_Camp_EndDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The end date of the new emergency is: %s" %(endDate))
     New_Camp_EndDate_Summary_Label.pack()
 
     New_Camp_Status_Summary_Label = Label(New_Camp_Summary_Screen, text="The status of the new emergency is: %s" %(status))
@@ -247,10 +252,6 @@ def SubmitEmergency():
     emergency_database_file_append = open("Emergency_Database", "a")
     emergency_database_file_append.write("\n%s" %(new_emergency_string))
     emergency_database_file_append.close()
-
-    New_Emergency_Close_Screen = Toplevel(Create_New_Emergency_Home_Screen)
-    New_Camp_Screen.title("Emergency successfully submitted")
-    New_Camp_Screen.geometry("250x100")
 
     New_Emergency_Close_Screen_Label = Label(New_Emergency_Close_Screen, text="Your new emergency has been successfully saved.")
     New_Emergency_Close_Screen_Label.pack()
