@@ -2,12 +2,6 @@ from tkinter import *
 from tkinter import ttk
 
 #Import other functions
-from Create_New_Emergency_Plan_GUI import CreateNewCampScreen
-from Create_New_Emergency_Plan_GUI import setactiveStatus
-from Create_New_Emergency_Plan_GUI import closedateSet
-from Create_New_Emergency_Plan_GUI import NewCampVerify
-from Create_New_Emergency_Plan_GUI import campnameVerify
-from Create_New_Emergency_Plan_GUI import invalidDate
 
 #Export emergency database into a list
 emergency_database_file = open("Emergency_Database", "r")
@@ -182,17 +176,18 @@ def printupdatingCamp():
 def updateemergencyEntry():
     global updating_camp_list
 
-    index_number = StringVar()
     camp_name = StringVar()
     emergency_type = StringVar()
     emergency_description = StringVar()
     area_affected = StringVar()
     start_date = StringVar()
     close_date = StringVar()
+    emergency_marker_country = StringVar()
     emergency_status = StringVar()
 
     Update_Emergency_Screen_Label = Label(Update_Emergency_Screen, text="You are updating an existing emergency. Please fill out the below.")
     Update_Emergency_Screen_Label.pack()
+
     Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
     Update_Emergency_Screen_Label_Index.pack()
 
@@ -203,16 +198,27 @@ def updateemergencyEntry():
     camp_name_entry.setvar(str(updating_camp_list[1]))
 
     emergency_type_label = Label(Update_Emergency_Screen, text="Select the type of emergency")
-    emergency_type_label.pack()
-    emergency_type_list = ["Flood", "Tsunami", "Earthquake", "Drought", "Other"]
-    emergency_type.set(updating_camp_list[2])
-    emergency_type_select = OptionMenu(Update_Emergency_Screen, emergency_type, *emergency_type_list)
-    emergency_type_select.pack()
-    # if emergency_type_select == "Other":
-    #     emergency_type_label_other = Label(New_Camp_Screen, text="Specify the type of emergency")
-    #     emergency_type_label_other.pack()
-    #     emergency_type_other = Entry(New_Camp_Screen, textvariable=emergency_type)
-    #     emergency_type_other.pack()
+    emergency_type_flood = IntVar()
+    emergency_type_tsunami = IntVar()
+    emergency_type_earthquake = IntVar()
+    emergency_type_drought = IntVar()
+    emergency_type_other = IntVar()
+
+    emergency_type_flood_check = Checkbutton(New_Camp_Screen, variable=emergency_type_flood, onvalue=1, offvalue=0,
+                                             text="Flood", command=clickFlood)
+    emergency_type_flood_check.pack()
+    emergency_type_tsunami_check = Checkbutton(New_Camp_Screen, variable=emergency_type_tsunami, onvalue=1, offvalue=0,
+                                               text="Tsunami", command=clickTsunami)
+    emergency_type_tsunami_check.pack()
+    emergency_type_earthquake_check = Checkbutton(New_Camp_Screen, variable=emergency_type_earthquake, onvalue=1,
+                                                  offvalue=0, text="Earthquake", command=clickEarthquake)
+    emergency_type_earthquake_check.pack()
+    emergency_type_drought_check = Checkbutton(New_Camp_Screen, variable=emergency_type_drought, onvalue=1, offvalue=0,
+                                               text="Drought", command=clickDrought)
+    emergency_type_drought_check.pack()
+    emergency_type_other_check = Checkbutton(New_Camp_Screen, variable=emergency_type_other, onvalue=1, offvalue=0,
+                                             text="Other", command=clickOther)
+    emergency_type_other_check.pack()
 
     emergency_description_label = Label(Update_Emergency_Screen, text="Briefly describe the emergency")
     emergency_description_label.pack()
@@ -244,6 +250,131 @@ def updateemergencyEntry():
 
 setactiveStatus()
 closedateSet()
+
+def clickFlood():
+    global emergency_type
+    global emergency_type_flood
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    global emergency_type_string
+    if emergency_type_flood.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type_string = "Flood"
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickTsunami():
+    global emergency_type
+    global emergency_type_drought
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    global emergency_type_string
+    if emergency_type_tsunami.get() == 1:
+        emergency_type_flood_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type_string = "Tsunami"
+    else:
+        emergency_type_flood_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickEarthquake():
+    global emergency_type
+    global emergency_type_earthquake
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    global emergency_type_string
+    if emergency_type_earthquake.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type_string = "Earthquake"
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_flood_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickDrought():
+    global emergency_type
+    global emergency_type_drought
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    global emergency_type_string
+    if emergency_type_drought.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+        emergency_type_other_check.config(state=DISABLED)
+        emergency_type_string = "Drought"
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_flood_check.config(state=NORMAL)
+        emergency_type_other_check.config(state=NORMAL)
+
+
+def clickOther():
+    global emergency_type
+    global emergency_type_other
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    global emergency_type_string
+    global emergency_type_entry
+
+    if emergency_type_other.get() == 1:
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+
+        emergency_type_label_other = Label(New_Camp_Screen, text="Specify the type of emergency")
+        emergency_type_label_other.pack()
+        emergency_type_other = Entry(New_Camp_Screen, textvariable=emergency_type)
+        emergency_type_other.pack()
+        emergency_type_other_button = Button(New_Camp_Screen, text="Confirm", command=OtherConfirm)
+        emergency_type_other_button.pack()
+
+
+    else:
+        emergency_type_tsunami_check.config(state=NORMAL)
+        emergency_type_earthquake_check.config(state=NORMAL)
+        emergency_type_drought_check.config(state=NORMAL)
+        emergency_type_flood_check.config(state=NORMAL)
+
+def OtherConfirm():
+    global emergency_type
+    global emergency_type_string
+
+    emergency_type_string = emergency_type.get()
 
 def UpdateCampVerify():
     campnameVerify()

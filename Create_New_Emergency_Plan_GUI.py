@@ -1,4 +1,4 @@
-#Could we add scrollbar?
+#Could we add scrollbar?, sort image
 
 #Import modules - is pip included in standard installers
 from tkinter import *
@@ -82,6 +82,7 @@ def CreateNewCampScreen():
     global emergency_marker
     global emergency_marker_country
     global Create_New_Emergency_Home_Screen
+    global emergency_map
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
@@ -139,7 +140,6 @@ def CreateNewCampScreen():
         emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
         emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
         return emergency_marker_country
-
 
     emergency_map = tkintermapview.TkinterMapView(New_Camp_Screen, width=150, height=150, corner_radius=0)
     emergency_map.set_zoom(2)
@@ -503,3 +503,4 @@ def Create_Emergency_Screen():
     Create_New_Emergency_Home_Screen.mainloop()
 
 Create_Emergency_Screen()
+
