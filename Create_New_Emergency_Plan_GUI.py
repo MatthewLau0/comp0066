@@ -3,41 +3,53 @@ from tkinter import *
 import sys
 import subprocess
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
+import os
+import tkintermapview
 from tkcalendar import Calendar
 import datetime
-import threading
 
-#Set up the required data structures
-    #Open the emergency database file
-emergency_database_file = open("Emergency_Database", "r")
+def screenSetup():
+    global new_emergency
+    global emergency_database_list
+    global camp_name_list
+    global startDate
+    global endDate
+    global status
+    global emergency_type_string
+    global emergency_marker_country
 
-    #Create a new emergency
-new_emergency = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+    emergency_database_file = open("Emergency_Database", "r")
 
-    #Convert emergency database files into a list
-emergency_database_list = []
-for line in emergency_database_file:
-    line_list = line.split(",")
-    emergency_database_list.append(line_list)
+    new_emergency = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
-emergency_database_file.close()
+    emergency_database_list = []
+    for line in emergency_database_file:
+        line_list = line.split(",")
+        emergency_database_list.append(line_list)
 
-    #Create the index number for the new emergency
-if len(emergency_database_list) == 0:
-    new_emergency[0] = "1"
-elif len(emergency_database_list) >= 1:
-    new_emergency[0] = str((int((emergency_database_list[-1])[0]) + 1))
+    emergency_database_file.close()
 
-    #Create a list for the camp names already in existence
-camp_name_list = []
-for i in range(0, len(emergency_database_list)):
-    camp_name_list.append((emergency_database_list[i])[1])
+    # Create the index number for the new emergency
+    if len(emergency_database_list) == 0:
+        new_emergency[0] = "1"
+    elif len(emergency_database_list) >= 1:
+        new_emergency[0] = str((int((emergency_database_list[-1])[0]) + 1))
 
-#Establish some variables
-startDate = "NA"
-endDate = "NA"
-status = "NA"
-emergency_type_string = "NA"
+        # Create a list for the camp names already in existence
+    camp_name_list = []
+    for i in range(0, len(emergency_database_list)):
+        camp_name_list.append((emergency_database_list[i])[1])
+
+    #Establish some variables
+    startDate = "NA"
+    endDate = "NA"
+    status = "NA"
+    emergency_type_string = "NA"
+    emergency_marker_country = "NA"
+
+    CreateNewCampScreen()
+
 
 #New Camp
 def CreateNewCampScreen():
@@ -48,8 +60,8 @@ def CreateNewCampScreen():
     global emergency_type
     global emergency_description
     global area_affected
-    global start_date
-    global close_date
+    global startDate
+    global endDate
     global emergency_status
     global status_check_yes
     global status_check_no
@@ -65,11 +77,15 @@ def CreateNewCampScreen():
     global emergency_type_earthquake_check
     global emergency_type_tsunami_check
     global emergency_type_other_check
+    global emergency_marker
+    global emergency_marker_country
 
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
     New_Camp_Screen.geometry("500x600")
+    scroll_bar = Scrollbar(New_Camp_Screen)
+    scroll_bar.pack(side=RIGHT, fill=Y)
 
     index_number = StringVar()
     camp_name = StringVar()
@@ -120,12 +136,32 @@ def CreateNewCampScreen():
     emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
     emergency_description_entry.pack()
 
+    emergency_marker_label = Label(New_Camp_Screen, text="Please right click the below map to select the country of the emergency")
+    emergency_marker_label.pack()
+
+    def add_emergency_marker(coords):
+        global emergency_marker
+        global emergency_marker_country
+        emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
+        emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
+        return emergency_marker_country
+
+
+    emergency_map = tkintermapview.TkinterMapView(New_Camp_Screen, width=150, height=150, corner_radius=0)
+    emergency_map.set_zoom(2)
+    emergency_map.pack()
+    emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
+
+    from datetime import date
+    today = date.today()
+
     start_date_label = Label(New_Camp_Screen, text="Please select a start date for the emergency from the below calendar")
     start_date_label.pack()
-    start_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day')
+    start_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day', maxdate=today)
     start_date_calendar.pack()
+    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
 
-    status_label = Label(New_Camp_Screen, text="Is the emergency active?")
+    status_label = Label(New_Camp_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
     status_label.pack()
 
     def clickYes():
@@ -290,6 +326,7 @@ def setactiveStatus():
     global New_Camp_Screen
     global close_date_calendar
     global status
+    global startDate
     global endDate
     global status_error_label
     global close_date_label
@@ -297,7 +334,7 @@ def setactiveStatus():
     if status_check_no.get() == 1:
         close_date_label = Label(New_Camp_Screen, text="Please select an end date for the emergency from the below calendar")
         close_date_label.pack()
-        close_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day')
+        close_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day', mindate=startDate)
         close_date_calendar.pack()
         status = "Closed"
 
@@ -321,9 +358,37 @@ def NewCampVerify():
     global status_check_yes
     global status_check_no
     global camp_name
+    global emergency_type_flood
+    global emergency_type_drought
+    global emergency_type_earthquake
+    global emergency_type_tsunami
+    global emergency_type_other
+    global startDate
+    global status
+    global emergency_marker_country
 
-    invalidDate()
-    CreateNewCampSummary()
+    if len(camp_name.get()) == 0:
+        camp_name_reentry_label = Label(New_Camp_Screen, text="Please enter a name for the new camp", fg='#f00')
+        camp_name_reentry_label.pack()
+    if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
+        emergency_type_reentry_label = Label(New_Camp_Screen, text="Please enter an emergency type for the new camp", fg='#f00')
+        emergency_type_reentry_label.pack()
+    if len(emergency_description.get()) == 0:
+        emergency_description_reentry_label = Label(New_Camp_Screen, text="Please enter a description for the new emergency", fg='#f00')
+        emergency_description_reentry_label.pack()
+    if emergency_marker_country == "NA":
+        emergency_marker_reentry_label = Label(New_Camp_Screen, text="Please enter an area for the emergency", fg='#f00')
+        emergency_marker_reentry_label.pack()
+    if status == "NA":
+        if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
+            status_check_reentry_label = Label(New_Camp_Screen, text="Please select an activation status for the emergency.", fg='#f00')
+            status_check_reentry_label.pack()
+        else:
+            status_confirm_reentry_label = Label(New_Camp_Screen, text="Please tick confirm to commit your activation status answer", fg='#f00')
+            status_confirm_reentry_label.pack()
+    else:
+        CreateNewCampSummary()
+
 
 
 #Processing of camp_name
@@ -347,6 +412,7 @@ def CreateNewCampSummary():
     global emergency_type_string
     global emergency_type_other
     global emergency_type_entry
+    global emergency_marker_country
 
     New_Camp_Summary_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Summary_Screen.title("Create a New Emergency")
@@ -363,6 +429,9 @@ def CreateNewCampSummary():
 
     New_Camp_Description_Summary_Label = Label(New_Camp_Summary_Screen, text="Your description of the new emergency is: %s" %(emergency_description.get()))
     New_Camp_Description_Summary_Label.pack()
+
+    New_Camp_Description_Summary_Area = Label(New_Camp_Summary_Screen, text="The country your emergency is in is: %s" %(emergency_marker_country))
+    New_Camp_Description_Summary_Area.pack()
 
     New_Camp_StartDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(startDate))
     New_Camp_StartDate_Summary_Label.pack()
@@ -394,10 +463,12 @@ def SubmitEmergency():
     global endDate
     global status
     global Create_New_Emergency_Home_Screen
+    global emergency_marker_country
 
     new_emergency[1] = camp_name.get()
     new_emergency[2] = emergency_type.get()
     new_emergency[3] = emergency_description.get()
+    new_emergency[4] = emergency_marker_country
     new_emergency[5] = str(startDate)
     new_emergency[6] = str(endDate)
     new_emergency[7] = status
@@ -408,17 +479,18 @@ def SubmitEmergency():
     emergency_database_file_append.write("\n%s" %(new_emergency_string))
     emergency_database_file_append.close()
 
-    New_Emergency_Close_Screen = TopLevel(Create_New_Emergency_Home_Screen)
+    New_Emergency_Close_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Emergency_Close_Screen.title("Emergency Successfully Submitted")
     New_Emergency_Close_Screen.geometry("500x650")
 
     New_Emergency_Close_Screen_Label = Label(New_Emergency_Close_Screen, text="Your new emergency has been successfully saved. Would you like to submit another emergency, or return to homescreen.")
     New_Emergency_Close_Screen_Label.pack()
 
-    Submit_Another_Emergency_Button = Button(New_Emergency_Close_Screen, text="Submit Another Emergency", command=CreateNewCampScreen)
+    Submit_Another_Emergency_Button = Button(New_Emergency_Close_Screen, text="Submit Another Emergency", command=screenSetup)
     Submit_Another_Emergency_Button.pack()
     Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen")
     Return_To_HomeScreen_Button.pack()
+
 
 
 
@@ -434,51 +506,13 @@ def campnameVerify():
     global camp_name
     global camp_name_verify
 
-    # if (camp_name_verify in camp_name_list):
-    #     camp_name_reentry_Label = Label(New_Camp_Screen,
-    #                                     text="This camp name already exists in the database. Please re-enter another camp-name below.",
-    #                                     bg='#fff', fg='#f00')
-    #     camp_name_reentry_Label.pack()
-    #     camp_name_entry.delete(0, END)
-    #     camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=NewCampVerify)
-    #     camp_name_reentry_button.pack()
-    #     campnameVerify()
-
-    # def campnameverifyLoop():
-    #     global camp_name
-    #     global camp_name_list
-    #     global camp_name_verify
-    #
-    #     while camp_name_verify in camp_name_list:
-    #         camp_name_reentry_Label = Label(New_Camp_Screen,
-    #                                             text="This camp name already exists in the database. Please re-enter another camp-name below.",
-    #                                             bg='#fff', fg='#f00')
-    #         camp_name_reentry_Label.pack()
-    #         camp_name_entry.delete(0, END)
-    #         camp_name_verify = camp_name.get()
-    #         camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=NewCampVerify)
-    #         camp_name_reentry_button.pack()
-
     camp_name_verify = camp_name.get()
-    while (camp_name_verify in camp_name_list):
+    if (camp_name_verify in camp_name_list):
         camp_name_reentry_Label = Label(New_Camp_Screen,
-                                        text="This camp name already exists in the database. Please re-enter another camp-name below.",
-                                        bg='#fff', fg='#f00')
+                                        text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
         camp_name_reentry_Label.pack()
-        camp_name_entry.delete(0, END)
-        camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=campnameVerify)
-        camp_name_reentry_button.pack()
-        camp_name_verify = camp_name.get()
     else:
         NewCampVerify()
-
-
-
-
-
-
-
-
 
 
 
@@ -497,29 +531,6 @@ def campnameDuplicate():
 
 
 
-#Function for invalid date entry
-
-def invalidDate():
-    global start_date_calendar
-    global close_date_calendar
-    global startDate
-    global endDate
-    global status
-    global status_check_yes
-    global status_check_no
-
-    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
-
-    if status_check_no.get() == 1:
-        endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
-        while endDate < startDate:
-            invalidDate_label = Label(New_Camp_Screen, text="The end date has to be after the start date. Please re-enter a close date below.")
-            invalidDate_label.pack()
-            close_date_label = Label(New_Camp_Screen, text="Please select an end date for the emergency from the below calendar")
-            close_date_label.pack()
-            close_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day')
-            close_date_calendar.pack()
-            endDate = datetime.datetime.strptime(end_date_calendar.get_date(), "%d, %m, %Y").date()
 
 
 
@@ -539,7 +550,7 @@ def Create_Emergency_Screen():
     Create_New_Emergency_Home_Screen = Tk()
     Create_New_Emergency_Home_Screen.geometry("500x600")
     Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
-    Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=CreateNewCampScreen)
+    Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
     Create_New_Emergency_Button.pack()
     Return_HomeScreen_Button = Button(Create_New_Emergency_Home_Screen, text="Return to the Homescreen")
     Return_HomeScreen_Button.pack()
