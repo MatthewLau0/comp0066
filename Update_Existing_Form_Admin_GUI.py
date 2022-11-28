@@ -64,6 +64,7 @@ def ViewTable():
     global emergency_database_list
     global View_Table_Yes
     global Index_Known_No
+    global emergency_database_table
 
     emergency_database_label = Label(Update_Emergency_Screen, text="Please use the below table to find the index number of the emergency you would like to update")
     emergency_database_label.pack()
@@ -101,12 +102,21 @@ def ViewTable():
 
     emergency_database_table.pack()
 
+    emergency_database_table_button = Button(Update_Emergency_Screen, text="Continue", command=deleteTable)
+    emergency_database_table_button.pack()
+
+def deleteTable():
+    global emergency_database_table
+    global View_Table_Yes
+    global Index_Known_No
+    emergency_database_table.destroy()
     if View_Table_Yes.get() == 1:
         IndexKnown()
     elif Index_Known_No.get() == 1:
         SelectIndex()
     else:
         IndexKnown()
+
 
 def IndexKnown():
     global Update_Emergency_Screen
