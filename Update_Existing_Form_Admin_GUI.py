@@ -1,15 +1,39 @@
+#NEED TO ADD AREA AFFECTED INFORMATION
+
+#Import functions
 from tkinter import *
 from tkinter import ttk
+import sys
+import subprocess
+import datetime
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
+from tkcalendar import Calendar
 
-#Import other functions
 
-#Export emergency database into a list
-emergency_database_file = open("Emergency_Database", "r")
-emergency_database_list = []
-for line in emergency_database_file:
-    line_list = line.split(",")
-    emergency_database_list.append(line_list)
-emergency_database_file.close()
+
+def setupUpdate():
+    global startDate
+    global endDate
+    global status
+    global emergency_type_string
+    global emergency_marker_country
+    global emergency_database_list
+
+    emergency_database_file = open("Emergency_Database", "r")
+    emergency_database_list = []
+    for line in emergency_database_file:
+        line_list = line.split(",")
+        emergency_database_list.append(line_list)
+    emergency_database_file.close()
+    UpdateEmergencyScreen()
+
+    # Establish some variables
+    startDate = "NA"
+    endDate = "NA"
+    status = "NA"
+    emergency_type_string = "NA"
+    emergency_marker_country = "NA"
 
 def UpdateEmergencyScreen():
     global Update_Emergency_Home_Screen
@@ -40,6 +64,9 @@ def ViewTable():
     global emergency_database_list
     global View_Table_Yes
     global Index_Known_No
+
+    emergency_database_label = Label(Update_Emergency_Screen, text="Please use the below table to find the index number of the emergency you would like to update")
+    emergency_database_label.pack()
 
     emergency_database_frame = Frame(Update_Emergency_Screen)
     emergency_database_frame.pack()
@@ -76,7 +103,7 @@ def ViewTable():
 
     if View_Table_Yes.get() == 1:
         IndexKnown()
-    if Index_Known_No.get() == 1:
+    elif Index_Known_No.get() == 1:
         SelectIndex()
     else:
         IndexKnown()
@@ -126,15 +153,13 @@ def printupdatingCamp():
     global updating_camp_list
 
 
-    index_updating_camp = select_index.get()
-    index_updating_camp = int(index_updating_camp)
+    index_updating_camp = int(select_index.get())
+    index_updating_camp = (index_updating_camp-1)
 
     updating_camp_list = []
     for i in range(0, len(emergency_database_list[index_updating_camp])):
         updating_camp_list.append((emergency_database_list[index_updating_camp])[i])
         i += 1
-
-    print(updating_camp_list)
 
     index_select_label = Label(Update_Emergency_Screen, text="You are updating camp %d"%(index_updating_camp))
     index_select_label.pack()
@@ -174,7 +199,19 @@ def printupdatingCamp():
     update_emergency_table_button.pack()
 
 def updateemergencyEntry():
-    global updating_camp_list
+    global emergency_type
+    global emergency_type_flood
+    global emergency_type_drought
+    global emergency_type_earthquake
+    global emergency_type_tsunami
+    global emergency_type_other
+    global emergency_type_flood_check
+    global emergency_type_drought_check
+    global emergency_type_earthquake_check
+    global emergency_type_tsunami_check
+    global emergency_type_other_check
+    global emergency_type_string
+
 
     camp_name = StringVar()
     emergency_type = StringVar()
@@ -191,32 +228,33 @@ def updateemergencyEntry():
     Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
     Update_Emergency_Screen_Label_Index.pack()
 
-    camp_name_label = Label(Update_Emergency_Screenn, text="Camp Name *")
+    camp_name_label = Label(Update_Emergency_Screen, text="Camp Name *")
     camp_name_label.pack()
     camp_name_entry = Entry(Update_Emergency_Screen, textvariable=camp_name)
     camp_name_entry.pack()
     camp_name_entry.setvar(str(updating_camp_list[1]))
 
     emergency_type_label = Label(Update_Emergency_Screen, text="Select the type of emergency")
+    emergency_type_label.pack()
     emergency_type_flood = IntVar()
     emergency_type_tsunami = IntVar()
     emergency_type_earthquake = IntVar()
     emergency_type_drought = IntVar()
     emergency_type_other = IntVar()
 
-    emergency_type_flood_check = Checkbutton(New_Camp_Screen, variable=emergency_type_flood, onvalue=1, offvalue=0,
+    emergency_type_flood_check = Checkbutton(Update_Emergency_Screen, variable=emergency_type_flood, onvalue=1, offvalue=0,
                                              text="Flood", command=clickFlood)
     emergency_type_flood_check.pack()
-    emergency_type_tsunami_check = Checkbutton(New_Camp_Screen, variable=emergency_type_tsunami, onvalue=1, offvalue=0,
+    emergency_type_tsunami_check = Checkbutton(Update_Emergency_Screen, variable=emergency_type_tsunami, onvalue=1, offvalue=0,
                                                text="Tsunami", command=clickTsunami)
     emergency_type_tsunami_check.pack()
-    emergency_type_earthquake_check = Checkbutton(New_Camp_Screen, variable=emergency_type_earthquake, onvalue=1,
+    emergency_type_earthquake_check = Checkbutton(Update_Emergency_Screen, variable=emergency_type_earthquake, onvalue=1,
                                                   offvalue=0, text="Earthquake", command=clickEarthquake)
     emergency_type_earthquake_check.pack()
-    emergency_type_drought_check = Checkbutton(New_Camp_Screen, variable=emergency_type_drought, onvalue=1, offvalue=0,
+    emergency_type_drought_check = Checkbutton(Update_Emergency_Screen, variable=emergency_type_drought, onvalue=1, offvalue=0,
                                                text="Drought", command=clickDrought)
     emergency_type_drought_check.pack()
-    emergency_type_other_check = Checkbutton(New_Camp_Screen, variable=emergency_type_other, onvalue=1, offvalue=0,
+    emergency_type_other_check = Checkbutton(Update_Emergency_Screen, variable=emergency_type_other, onvalue=1, offvalue=0,
                                              text="Other", command=clickOther)
     emergency_type_other_check.pack()
 
@@ -226,30 +264,47 @@ def updateemergencyEntry():
     emergency_description_entry.pack()
     emergency_description_entry.setvar(str(updating_camp_list[3]))
 
+    from datetime import date
+    today = date.today()
+
     start_date_label = Label(Update_Emergency_Screen,
                              text="Please select a start date for the emergency from the below calendar")
     start_date_label.pack()
-    start_date_calendar = Calendar(Update_Emergency_Screen, date_pattern="d/m/y", selectmode='day')
+    start_date_calendar = Calendar(Update_Emergency_Screen, date_pattern="d/m/y", selectmode='day', maxdate=today)
     start_date_calendar.pack()
+    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
 
     status_label = Label(Update_Emergency_Screen, text="Has the emergency finished yet?")
     status_label.pack()
 
+    def clickYes():
+        if status_check_yes.get() == 1:
+            status_check_button_no.config(state=DISABLED)
+        else:
+            status_check_button_no.config(state=NORMAL)
+
+    def clickNo():
+        if status_check_no.get() == 1:
+            status_check_button_yes.config(state=DISABLED)
+        else:
+            status_check_button_yes.config(state=NORMAL)
+
     status_check_yes = IntVar()
     status_check_button_yes = Checkbutton(Update_Emergency_Screen, variable=status_check_yes, onvalue=1, offvalue=2, text="Yes",
-                                          command=setactiveStatus)
+                                          command=clickYes)
     status_check_button_yes.pack()
 
     status_check_no = IntVar()
     status_check_button_no = Checkbutton(Update_Emergency_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No",
-                                         command=closedateSet)
+                                         command=clickNo)
     status_check_button_no.pack()
 
-    submit_updated_emergency_button = Button(Update_Emergency_Screen, text="Submit Updated Emergency", command=UpdateCampVerify)
+    status_check_button = Button(Update_Emergency_Screen, text="Confirm", command=setactiveStatus)
+    status_check_button.pack()
+
+    submit_updated_emergency_button = Button(Update_Emergency_Screen, text="Submit Updated Emergency", command=campnameVerify)
     submit_updated_emergency_button.pack()
 
-setactiveStatus()
-closedateSet()
 
 def clickFlood():
     global emergency_type
@@ -376,13 +431,81 @@ def OtherConfirm():
 
     emergency_type_string = emergency_type.get()
 
-def UpdateCampVerify():
-    campnameVerify()
-    invalidDate()
-    UpdateCampSummary()
+def setactiveStatus():
+    global status_check_yes
+    global status_check_no
+    global New_Camp_Screen
+    global close_date_calendar
+    global status
+    global startDate
+    global endDate
+    global status_error_label
+    global close_date_label
+    global Update_Emergency_Screen
 
-campnameVerify()
-invalidDate()
+    if status_check_no.get() == 1:
+        close_date_label = Label(Update_Emergency_Screen, text="Please select an end date for the emergency from the below calendar")
+        close_date_label.pack()
+        close_date_calendar = Calendar(Update_Emergency_Screen, date_pattern="d/m/y", selectmode='day', mindate=startDate)
+        close_date_calendar.pack()
+        status = "Closed"
+
+    if (status_check_yes.get() == 1):
+        endDate = "NA"
+        status = "Active"
+def UpdateCampVerify():
+    global New_Camp_Screen
+    global camp_name
+    global new_emergency
+    global index_number
+    global emergency_type
+    global emergency_description
+    global area_affected
+    global start_date_calendar
+    global close_date_calendar
+    global emergency_status
+    global status_check_yes
+    global status_check_no
+    global camp_name
+    global emergency_type_flood
+    global emergency_type_drought
+    global emergency_type_earthquake
+    global emergency_type_tsunami
+    global emergency_type_other
+    global startDate
+    global status
+    global emergency_marker_country
+    global Update_Emergency_Screen
+
+    if len(camp_name.get()) == 0:
+        camp_name_reentry_label = Label(Update_Emergency_Screen, text="Please enter a name for the new camp", fg='#f00')
+        camp_name_reentry_label.pack()
+    if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (
+            emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (
+            emergency_type_other.get() != 1)):
+        emergency_type_reentry_label = Label(Update_Emergency_Screen, text="Please enter an emergency type for the new camp",
+                                             fg='#f00')
+        emergency_type_reentry_label.pack()
+    if len(emergency_description.get()) == 0:
+        emergency_description_reentry_label = Label(Update_Emergency_Screen,
+                                                    text="Please enter a description for the new emergency", fg='#f00')
+        emergency_description_reentry_label.pack()
+    if emergency_marker_country == "NA":
+        emergency_marker_reentry_label = Label(Update_Emergency_Screen, text="Please enter an area for the emergency",
+                                               fg='#f00')
+        emergency_marker_reentry_label.pack()
+    if status == "NA":
+        if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
+            status_check_reentry_label = Label(Update_Emergency_Screen,
+                                               text="Please select an activation status for the emergency.", fg='#f00')
+            status_check_reentry_label.pack()
+        else:
+            status_confirm_reentry_label = Label(Update_Emergency_Screen,
+                                                 text="Please tick confirm to commit your activation status answer",
+                                                 fg='#f00')
+            status_confirm_reentry_label.pack()
+    else:
+        UpdateCampSummary
 
 def UpdateCampSummary():
     global Update_Emergency_Screen
@@ -464,7 +587,19 @@ def UpdateEmergency():
     Update_Emergency_Close_Screen_Label.pack()
 
 
+def campnameVerify():
+    global camp_name
+    global camp_name_list
+    global camp_name
+    global camp_name_verify
 
+    camp_name_verify = camp_name.get()
+    if (camp_name_verify in camp_name_list):
+        camp_name_reentry_Label = Label(Update_Emergency_Screen,
+                                        text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
+        camp_name_reentry_Label.pack()
+    else:
+        UpdateCampVerify()
 
 
 
@@ -494,7 +629,7 @@ def UpdateEmergencyHomeScreen():
     Update_Emergency_Home_Screen = Tk()
     Update_Emergency_Home_Screen.geometry("500x600")
     Update_Emergency_Home_Screen.title("Update Existing Emergency Home screen")
-    Update_Emergency_Home_Screen_Button = Button(Update_Emergency_Home_Screen, text="Update Existing Emergency", command=UpdateEmergencyScreen)
+    Update_Emergency_Home_Screen_Button = Button(Update_Emergency_Home_Screen, text="Update Existing Emergency", command=setupUpdate)
     Update_Emergency_Home_Screen_Button.pack()
     Return_Homescreen_Button = Button(Update_Emergency_Home_Screen, text="Return to homepage")
     Return_Homescreen_Button.pack()
