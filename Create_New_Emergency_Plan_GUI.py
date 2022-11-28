@@ -1,3 +1,5 @@
+#Could we add scrollbar?
+
 #Import modules - is pip included in standard installers
 from tkinter import *
 import sys
@@ -79,21 +81,17 @@ def CreateNewCampScreen():
     global emergency_type_other_check
     global emergency_marker
     global emergency_marker_country
-
+    global Create_New_Emergency_Home_Screen
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
     New_Camp_Screen.geometry("500x600")
-    scroll_bar = Scrollbar(New_Camp_Screen)
-    scroll_bar.pack(side=RIGHT, fill=Y)
 
     index_number = StringVar()
     camp_name = StringVar()
     emergency_type = StringVar()
     emergency_description = StringVar()
     area_affected = StringVar()
-    start_date = StringVar()
-    close_date = StringVar()
     emergency_status = StringVar()
 
     New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency plan. Please follow the below instructions")
@@ -108,10 +106,6 @@ def CreateNewCampScreen():
 
     emergency_type_label = Label(New_Camp_Screen, text="Select the type of emergency")
     emergency_type_label.pack()
-    # emergency_type_list = ["Flood", "Tsunami", "Earthquake", "Drought", "Other"]
-    # emergency_type.set(emergency_type_list[0])
-    # emergency_type_select = OptionMenu(New_Camp_Screen, emergency_type, *emergency_type_list)
-    # emergency_type_select.pack()
 
     emergency_type_flood = IntVar()
     emergency_type_tsunami = IntVar()
@@ -190,9 +184,6 @@ def CreateNewCampScreen():
 
     submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=campnameVerify)
     submit_new_emergency_button.pack()
-
-
-
 
 def clickFlood():
     global emergency_type
@@ -319,7 +310,6 @@ def OtherConfirm():
 
     emergency_type_string = emergency_type.get()
 
-
 def setactiveStatus():
     global status_check_yes
     global status_check_no
@@ -341,8 +331,6 @@ def setactiveStatus():
     if (status_check_yes.get() == 1):
         endDate = "NA"
         status = "Active"
-
-
 
 def NewCampVerify():
     global New_Camp_Screen
@@ -389,9 +377,6 @@ def NewCampVerify():
     else:
         CreateNewCampSummary()
 
-
-
-#Processing of camp_name
 def CreateNewCampSummary():
     global New_Camp_Screen
     global camp_name_entry
@@ -430,8 +415,8 @@ def CreateNewCampSummary():
     New_Camp_Description_Summary_Label = Label(New_Camp_Summary_Screen, text="Your description of the new emergency is: %s" %(emergency_description.get()))
     New_Camp_Description_Summary_Label.pack()
 
-    New_Camp_Description_Summary_Area = Label(New_Camp_Summary_Screen, text="The country your emergency is in is: %s" %(emergency_marker_country))
-    New_Camp_Description_Summary_Area.pack()
+    New_Camp_Area_Summary_Label = Label(New_Camp_Summary_Screen, text="The country your emergency is in is: %s" %(emergency_marker_country))
+    New_Camp_Area_Summary_Label.pack()
 
     New_Camp_StartDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(startDate))
     New_Camp_StartDate_Summary_Label.pack()
@@ -444,7 +429,6 @@ def CreateNewCampSummary():
 
     New_Camp_Submission_Button = Button(New_Camp_Summary_Screen, text="Submit", command=SubmitEmergency)
     New_Camp_Submission_Button.pack()
-
 
 def SubmitEmergency():
     global New_Camp_Screen
@@ -491,15 +475,6 @@ def SubmitEmergency():
     Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen")
     Return_To_HomeScreen_Button.pack()
 
-
-
-
-
-
-
-
-
-#Function for repeated camp namefcff
 def campnameVerify():
     global camp_name
     global camp_name_list
@@ -514,36 +489,6 @@ def campnameVerify():
     else:
         NewCampVerify()
 
-
-
-def campnameDuplicate():
-    global camp_name
-
-    camp_name_reentry_Label = Label(New_Camp_Screen, text="This camp name already exists in the database. Please re-enter another camp-name below.", bg='#fff', fg='#f00')
-    camp_name_reentry_Label.pack()
-    camp_name_reentry = Entry(New_Camp_Screen, textvariable=camp_name)
-    camp_name_reentry.setvar(" ")
-    camp_name_reentry.pack()
-    camp_name_reentry_button = Button(New_Camp_Screen, text="Resubmit", command=campnameVerify)
-    camp_name_reentry_button.pack()
-    campnameVerify()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Set up the Create New Emergency Screen - ADD IN THIS
 def Create_Emergency_Screen():
     global Create_New_Emergency_Home_Screen
@@ -554,7 +499,6 @@ def Create_Emergency_Screen():
     Create_New_Emergency_Button.pack()
     Return_HomeScreen_Button = Button(Create_New_Emergency_Home_Screen, text="Return to the Homescreen")
     Return_HomeScreen_Button.pack()
-
 
     Create_New_Emergency_Home_Screen.mainloop()
 

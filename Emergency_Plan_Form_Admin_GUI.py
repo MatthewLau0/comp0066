@@ -1,6 +1,12 @@
 #Import modules
 from tkinter import *
-from tkinter.ttk import *
+import sys
+import subprocess
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
+import os
+from tkcalendar import Calendar
+import datetime
 
 #Define Functions
 #Load Create new emergency
@@ -10,20 +16,28 @@ def Create_Emergency():
 def Update_Emergency():
     import Update_Existing_Form_Admin_GUI
 
+def Manage_Volunteers():
+    pass
+
 #Create main window of the application
-admin_emergency = Tk()
-admin_emergency.title("Admin Manage Emergencies")
-admin_emergency_label = Label(admin_emergency, text="Use this section to Create or Update an Emergency within this Database.").pack()
+admin_home = Tk()
+admin_home.geometry("500x650")
+admin_home.title("Admin Home Page")
+admin_home_label = Label(admin_home, text="Welcome to the admin homepage.").pack()
 
 #Add buttons to the window
-create_new_emergency_frame = Frame(admin_emergency)
+create_new_emergency_frame = Frame(admin_home)
 create_new_emergency_frame.pack()
 create_new_emergency_button = Button(create_new_emergency_frame, text="Create New Emergency", command=Create_Emergency)
 create_new_emergency_button.pack()
-update_emergency_frame = Frame(admin_emergency)
+update_emergency_frame = Frame(admin_home)
 update_emergency_frame.pack()
-update_emergency_button = Button(update_emergency_frame, text="Update an Emergency", command=Update_Emergency())
+update_emergency_button = Button(update_emergency_frame, text="Update an Emergency", command=Update_Emergency)
 update_emergency_button.pack()
+manage_volunteers_frame = Frame(admin_home)
+manage_volunteers_frame.pack()
+manage_volunteers_button = Button(manage_volunteers_frame, text="Manage Volunteers", command=Manage_Volunteers)
+manage_volunteers_button.pack()
 
 
-admin_emergency.mainloop()
+admin_home.mainloop()
