@@ -1,6 +1,6 @@
 1,Camp 1,Tsunami,Tsunami in camp 1,NA,2022-11-20 00:41:30.002572,NA,Active
-2,Camp 2,Flood,Flood in camp 2,NA,2022-11-20 00:57:04.717145,NA,Active
-3,Camp 3,Drought,Drought in camp 3,NA,2022-11-20 00:57:37.950049,NA,Active
+2,Camp 2,,Earthquake in camp 2,NA,2022-11-29,NA,Active
+3,Camp 3,Tsunami,Tsunami in camp 3,NA,2022-11-21,NA,Active
 4,camp 4,Drought,Earthquake in camp 4,NA,2022-11-20,NA,Active
 5,camp 9,Earthquake,Erthquake in camp 9,NA,2022-11-20,NA,Active
 6,Camp 6,Tsunami,Tsunami in camp 6,NA,2001-11-29,NA,Active
@@ -11,4 +11,4 @@
 11,Camp 11,,Earthquake in camp 11,NA,2022-11-14,NA,Active
 12,Camp 12,,Earthquake in camp 12,France,2022-11-15,2022-11-24,Closed
 13,Camp 13,,Earthquake in camp 13,Deutschland,2022-11-14,NA,Active
-14,Camp 14,,Drought in camp 14,Polska,2022-11-14,NA,Active
+14,Camp 14,,Drought in camp 14,Polska,2022-11-14,NA,Active2-11-14,NA,Active,Active

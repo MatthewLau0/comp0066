@@ -296,18 +296,21 @@ def updateemergencyEntry():
     start_date_label.pack()
     start_date_calendar = Calendar(Update_Emergency_Screen, date_pattern="d/m/y", selectmode='day', maxdate=today)
     start_date_calendar.pack()
-    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
 
     status_label = Label(Update_Emergency_Screen, text="Is the emergency still active?")
     status_label.pack()
 
     def clickYes():
+        global startDate
+        startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
         if status_check_yes.get() == 1:
             status_check_button_no.config(state=DISABLED)
         else:
             status_check_button_no.config(state=NORMAL)
 
     def clickNo():
+        global startDate
+        startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
         if status_check_no.get() == 1:
             status_check_button_yes.config(state=DISABLED)
         else:
@@ -514,10 +517,10 @@ def UpdateCampVerify():
         emergency_description_reentry_label = Label(Update_Emergency_Screen,
                                                     text="Please enter a description for the new emergency", fg='#f00')
         emergency_description_reentry_label.pack()
-    if emergency_marker_country == "NA":
-        emergency_marker_reentry_label = Label(Update_Emergency_Screen, text="Please enter an area for the emergency",
-                                               fg='#f00')
-        emergency_marker_reentry_label.pack()
+    #if emergency_marker_country == "NA":
+        #emergency_marker_reentry_label = Label(Update_Emergency_Screen, text="Please enter an area for the emergency",
+                                               #fg='#f00')
+        #emergency_marker_reentry_label.pack()
     if status == "NA":
         if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
             status_check_reentry_label = Label(Update_Emergency_Screen,
@@ -547,30 +550,34 @@ def UpdateCampSummary():
     global startDate
     global endDate
     global status
+    global emergency_type_string
 
-    Update_Camp_Summary_Screen = TopLevel(Update_Emergency_Screen)
+    Update_Camp_Summary_Screen = Toplevel(Update_Emergency_Screen)
     Update_Camp_Summary_Screen.title("Update an Emergency")
     Update_Camp_Summary_Screen.geometry("500x350")
 
-    Update_Camp_Summary_Screen_label = Label(Update_Camp_Summary_Screen_Screen, text="Please view below a summary of the camp that you are adding to the database")
+    Update_Camp_Summary_Screen_label = Label(Update_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
     Update_Camp_Summary_Screen_label.pack()
 
-    Update_Camp_Name_Summary_label = Label(Update_Camp_Summary_Screen_Screen, text="The updated camp name is: %s"%(camp_name.get()))
+    Update_Camp_Name_Summary_label = Label(Update_Camp_Summary_Screen, text="The updated camp name is: %s"%(camp_name.get()))
     Update_Camp_Name_Summary_label.pack()
 
-    Update_Camp_Type_Summary_label = Label(Update_Camp_Summary_Screen_Screen,text="The type of emergency is: %s" % (emergency_type.get()))
+    Update_Camp_Type_Summary_label = Label(Update_Camp_Summary_Screen,text="The type of emergency is: %s" % (emergency_type_string))
     Update_Camp_Type_Summary_label.pack()
 
-    Update_Camp_Description_Summary_label = Label(Update_Camp_Summary_Screen_Screen, text="Your description of the emergency is: %s" % (emergency_description.get()))
+    Update_Camp_Description_Summary_label = Label(Update_Camp_Summary_Screen, text="Your description of the emergency is: %s" % (emergency_description.get()))
     Update_Camp_Description_Summary_label.pack()
 
-    Update_Camp_Start_Date_Summary_label = Label(Update_Camp_Summary_Screen_Screen,text="The start date of the emergency is: %s" % (startDate))
+    Update_Camp_Start_Date_Summary_label = Label(Update_Camp_Summary_Screen, text="The start date of the emergency is: %s" % (startDate))
     Update_Camp_Start_Date_Summary_label.pack()
 
-    Update_Camp_End_Date_Summary_label = Label(Update_Camp_Summary_Screen_Screen, text="The end date of the emergency is: %s" % (endDate))
+    Update_Camp_End_Date_Summary_label = Label(Update_Camp_Summary_Screen, text="The end date of the emergency is: %s" % (endDate))
     Update_Camp_End_Date_Summary_label.pack()
 
-    Update_Camp_Summission_Button = Button(Update_Camp_Summary_Screen_Screen, text="Update", command=UpdateEmergency)
+    Update_Camp_Status_Summary_label = Label(Update_Camp_Summary_Screen, text="The status of the emergency is: %s" %(status))
+    Update_Camp_Status_Summary_label.pack()
+
+    Update_Camp_Summission_Button = Button(Update_Camp_Summary_Screen, text="Update", command=UpdateEmergency)
     Update_Camp_Summission_Button.pack()
 
 def UpdateEmergency():
@@ -591,25 +598,51 @@ def UpdateEmergency():
     global status
     global emergency_database_list
     global index_updating_camp
+    global emergency_type_string
 
     updating_camp_list[1] = camp_name.get()
-    updating_camp_list[2] = emergency_type.get()
+    updating_camp_list[2] = emergency_type_string
     updating_camp_list[3] = emergency_description.get()
     updating_camp_list[5] = str(startDate)
     updating_camp_list[6] = str(endDate)
     updating_camp_list[7] = status
 
-    emergency_database_list[(index_updating_camp-1)] = updating_camp_list
+    emergency_database_list[(index_updating_camp)] = updating_camp_list
+    print(emergency_database_list)
     emergency_database_file_write = open("Emergency_Database", "r+")
     for i in range(0, len(emergency_database_list)):
         emergency_database_string = ','.join(emergency_database_list[i])
-        emergency_database_file_write.write(emergency_database_string)
+        if i == index_updating_camp:
+            emergency_database_file_write.write("%s\n" %(emergency_database_string))
+        elif i != index_updating_camp:
+            emergency_database_file_write.write(emergency_database_string)
         i += 1
     emergency_database_file_write.close()
+
+    updatescreenClose()
 
     Update_Emergency_Close_Screen_Label = Label(Update_Emergency_Screen, text="Your updated emergency has been successfully saved.")
     Update_Emergency_Close_Screen_Label.pack()
 
+def updatescreenClose():
+    global Update_Emergency_Screen
+
+    Update_Camp_Close_Screen = Toplevel(Update_Emergency_Screen)
+    Update_Camp_Close_Screen.title("Emergency successfully saved")
+    Update_Camp_Close_Screen.geometry("500x350")
+
+
+    Update_Emergency_Close_Screen_Label = Label(Update_Camp_Close_Screen,
+                                                text="Your updated emergency has been successfully saved.")
+    Update_Emergency_Close_Screen_Label.pack()
+
+    update_another_emergency_button = Button(Update_Camp_Close_Screen, text="Update another emergency", command=setupUpdate)
+    update_another_emergency_button.pack()
+    return_to_home_screen_button = Button(Update_Camp_Close_Screen, text="Return to homescreen", command=returnHome)
+    return_to_home_screen_button.pack()
+
+def returnHome():
+    import Emergency_Plan_Form_Admin_GUI
 
 def campnameVerify():
     global camp_name
@@ -627,6 +660,8 @@ def campnameVerify():
             camp_name_reentry_Label.pack()
         else:
             UpdateCampVerify()
+    else:
+        UpdateCampVerify()
 
 
 
