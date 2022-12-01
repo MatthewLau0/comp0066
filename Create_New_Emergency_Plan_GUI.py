@@ -68,6 +68,7 @@ def CreateNewCampScreen():
     global status_check_yes
     global status_check_no
     global start_date_calendar
+    global start_date_label
     global camp_name_entry
     global emergency_type_flood
     global emergency_type_tsunami
@@ -83,6 +84,10 @@ def CreateNewCampScreen():
     global emergency_marker_country
     global Create_New_Emergency_Home_Screen
     global emergency_map
+    global emergency_type_frame
+    global calendar_frame
+    global close_date_label
+    global close_date_calendar
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
@@ -108,22 +113,25 @@ def CreateNewCampScreen():
     emergency_type_label = Label(New_Camp_Screen, text="Select the type of emergency")
     emergency_type_label.pack()
 
+    emergency_type_frame = Frame(New_Camp_Screen)
+    emergency_type_frame.pack()
+
     emergency_type_flood = IntVar()
     emergency_type_tsunami = IntVar()
     emergency_type_earthquake = IntVar()
     emergency_type_drought = IntVar()
     emergency_type_other = IntVar()
 
-    emergency_type_flood_check = Checkbutton(New_Camp_Screen, variable=emergency_type_flood, onvalue=1, offvalue=0, text="Flood", command=clickFlood)
-    emergency_type_flood_check.pack()
-    emergency_type_tsunami_check = Checkbutton(New_Camp_Screen, variable=emergency_type_tsunami, onvalue=1, offvalue=0, text="Tsunami", command=clickTsunami)
-    emergency_type_tsunami_check.pack()
-    emergency_type_earthquake_check = Checkbutton(New_Camp_Screen, variable=emergency_type_earthquake, onvalue=1, offvalue=0, text="Earthquake", command=clickEarthquake)
-    emergency_type_earthquake_check.pack()
-    emergency_type_drought_check = Checkbutton(New_Camp_Screen, variable=emergency_type_drought, onvalue=1, offvalue=0, text="Drought", command=clickDrought)
-    emergency_type_drought_check.pack()
-    emergency_type_other_check = Checkbutton(New_Camp_Screen, variable=emergency_type_other, onvalue=1, offvalue=0, text="Other", command=clickOther)
-    emergency_type_other_check.pack()
+    emergency_type_flood_check = Checkbutton(emergency_type_frame, variable=emergency_type_flood, onvalue=1, offvalue=0, text="Flood", command=clickFlood)
+    emergency_type_flood_check.pack(side=LEFT)
+    emergency_type_tsunami_check = Checkbutton(emergency_type_frame, variable=emergency_type_tsunami, onvalue=1, offvalue=0, text="Tsunami", command=clickTsunami)
+    emergency_type_tsunami_check.pack(side=LEFT)
+    emergency_type_earthquake_check = Checkbutton(emergency_type_frame, variable=emergency_type_earthquake, onvalue=1, offvalue=0, text="Earthquake", command=clickEarthquake)
+    emergency_type_earthquake_check.pack(side=LEFT)
+    emergency_type_drought_check = Checkbutton(emergency_type_frame, variable=emergency_type_drought, onvalue=1, offvalue=0, text="Drought", command=clickDrought)
+    emergency_type_drought_check.pack(side=LEFT)
+    emergency_type_other_check = Checkbutton(emergency_type_frame, variable=emergency_type_other, onvalue=1, offvalue=0, text="Other", command=clickOther)
+    emergency_type_other_check.pack(side=LEFT)
 
 
     emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
@@ -149,22 +157,35 @@ def CreateNewCampScreen():
     from datetime import date
     today = date.today()
 
-    start_date_label = Label(New_Camp_Screen, text="Please select a start date for the emergency from the below calendar")
-    start_date_label.pack()
-    start_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day', maxdate=today)
-    start_date_calendar.pack()
-    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
+    calendar_frame_label = Frame(New_Camp_Screen)
+    calendar_frame_label.pack()
+
+    calendar_frame = Frame(New_Camp_Screen)
+    calendar_frame.pack()
+
+    start_date_label = Label(calendar_frame_label, text="Start Date")
+    start_date_label.pack(side=LEFT)
+    close_date_label = Label(calendar_frame_label, text="Close Date", state=DISABLED)
+    close_date_label.pack(side=RIGHT)
+    start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
+    start_date_calendar.pack(side=LEFT)
+    close_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', state=DISABLED)
+    close_date_calendar.pack(side=RIGHT)
 
     status_label = Label(New_Camp_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
     status_label.pack()
 
     def clickYes():
+        global startDate
+        startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
         if status_check_yes.get() == 1:
             status_check_button_no.config(state=DISABLED)
         else:
             status_check_button_no.config(state=NORMAL)
 
     def clickNo():
+        global startDate
+        startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
         if status_check_no.get() == 1:
             status_check_button_yes.config(state=DISABLED)
         else:
@@ -283,6 +304,7 @@ def clickOther():
     global emergency_type_other_check
     global emergency_type_string
     global emergency_type_entry
+    global emergency_type_frame
 
     if emergency_type_other.get() == 1:
         emergency_type_tsunami_check.config(state=DISABLED)
@@ -290,12 +312,12 @@ def clickOther():
         emergency_type_drought_check.config(state=DISABLED)
         emergency_type_flood_check.config(state=DISABLED)
 
-        emergency_type_label_other = Label(New_Camp_Screen, text="Specify the type of emergency")
-        emergency_type_label_other.pack()
-        emergency_type_other = Entry(New_Camp_Screen, textvariable=emergency_type)
-        emergency_type_other.pack()
-        emergency_type_other_button = Button(New_Camp_Screen, text="Confirm", command=OtherConfirm)
-        emergency_type_other_button.pack()
+        emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency")
+        emergency_type_label_other.pack(anchor=CENTER)
+        emergency_type_other = Entry(emergency_type_frame, textvariable=emergency_type)
+        emergency_type_other.pack(anchor=CENTER)
+        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm)
+        emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
 
     else:
@@ -303,6 +325,7 @@ def clickOther():
         emergency_type_earthquake_check.config(state=NORMAL)
         emergency_type_drought_check.config(state=NORMAL)
         emergency_type_flood_check.config(state=NORMAL)
+
 
 def OtherConfirm():
     global emergency_type
@@ -320,17 +343,29 @@ def setactiveStatus():
     global endDate
     global status_error_label
     global close_date_label
+    global calendar_frame
+    global start_date_label
+    global start_date_calendar
+    global close_date_label
 
     if status_check_no.get() == 1:
-        close_date_label = Label(New_Camp_Screen, text="Please select an end date for the emergency from the below calendar")
-        close_date_label.pack()
-        close_date_calendar = Calendar(New_Camp_Screen, date_pattern="d/m/y", selectmode='day', mindate=startDate)
-        close_date_calendar.pack()
+        close_date_label.configure(state=NORMAL)
+        close_date_calendar.configure(state=NORMAL)
+        close_date_calendar.configure(mindate=startDate)
         status = "Closed"
 
     if (status_check_yes.get() == 1):
         endDate = "NA"
         status = "Active"
+
+def generateEndDate():
+    global endDate
+
+    if status_check_no.get() == 1:
+        endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
+
+    NewCampVerify()
+
 
 def NewCampVerify():
     global New_Camp_Screen
@@ -354,6 +389,7 @@ def NewCampVerify():
     global startDate
     global status
     global emergency_marker_country
+    global endDate
 
     if len(camp_name.get()) == 0:
         camp_name_reentry_label = Label(New_Camp_Screen, text="Please enter a name for the new camp", fg='#f00')
@@ -487,7 +523,7 @@ def campnameVerify():
                                         text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
         camp_name_reentry_Label.pack()
     else:
-        NewCampVerify()
+        generateEndDate()
 
 #Set up the Create New Emergency Screen - ADD IN THIS
 def Create_Emergency_Screen():
