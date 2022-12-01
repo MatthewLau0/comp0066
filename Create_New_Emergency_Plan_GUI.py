@@ -525,7 +525,9 @@ def campnameVerify():
     else:
         generateEndDate()
 
-#Set up the Create New Emergency Screen - ADD IN THIS
+def destroyScreen():
+    global Create_New_Emergency_Home_Screen
+    Create_New_Emergency_Home_Screen.destroy()
 def Create_Emergency_Screen():
     global Create_New_Emergency_Home_Screen
     Create_New_Emergency_Home_Screen = Toplevel()
@@ -533,7 +535,7 @@ def Create_Emergency_Screen():
     Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
     Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
     Create_New_Emergency_Button.pack()
-    Return_HomeScreen_Button = Button(Create_New_Emergency_Home_Screen, text="Return to the Homescreen")
+    Return_HomeScreen_Button = Button(Create_New_Emergency_Home_Screen, text="Return to the Homescreen", command=destroyScreen)
     Return_HomeScreen_Button.pack()
 
     Create_New_Emergency_Home_Screen.mainloop()

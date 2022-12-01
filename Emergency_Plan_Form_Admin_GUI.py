@@ -23,7 +23,8 @@ def Manage_Volunteers():
 admin_home = Tk()
 admin_home.geometry("500x650")
 admin_home.title("Admin Home Page")
-admin_home_label = Label(admin_home, text="Welcome to the admin homepage.").pack()
+admin_home_label = Label(admin_home, text="Welcome to the admin homepage.")
+admin_home_label.pack()
 
 #Add buttons to the window
 create_new_emergency_frame = Frame(admin_home)
