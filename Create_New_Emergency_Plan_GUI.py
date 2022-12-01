@@ -528,7 +528,7 @@ def campnameVerify():
 #Set up the Create New Emergency Screen - ADD IN THIS
 def Create_Emergency_Screen():
     global Create_New_Emergency_Home_Screen
-    Create_New_Emergency_Home_Screen = Tk()
+    Create_New_Emergency_Home_Screen = Toplevel()
     Create_New_Emergency_Home_Screen.geometry("500x600")
     Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
     Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)

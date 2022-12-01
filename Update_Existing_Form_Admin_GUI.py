@@ -739,7 +739,7 @@ def campnameVerify():
 
 def UpdateEmergencyHomeScreen():
     global Update_Emergency_Home_Screen
-    Update_Emergency_Home_Screen = Tk()
+    Update_Emergency_Home_Screen = Toplevel()
     Update_Emergency_Home_Screen.geometry("500x600")
     Update_Emergency_Home_Screen.title("Update Existing Emergency Home screen")
     Update_Emergency_Home_Screen_Button = Button(Update_Emergency_Home_Screen, text="Update Existing Emergency", command=setupUpdate)
