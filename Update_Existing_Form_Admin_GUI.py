@@ -1,7 +1,3 @@
-#NEED TO ADD AREA AFFECTED INFORMATION
-
-#Scroll bar features from Codemy.com (cite this?)
-
 #Import functions
 from tkinter import *
 from tkinter import ttk

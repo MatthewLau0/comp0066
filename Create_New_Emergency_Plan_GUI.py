@@ -88,6 +88,9 @@ def CreateNewCampScreen():
     global calendar_frame
     global close_date_label
     global close_date_calendar
+    global emergency_type_label_other
+    global emergency_type_other_entry
+    global emergency_type_other_button
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
@@ -132,6 +135,13 @@ def CreateNewCampScreen():
     emergency_type_drought_check.pack(side=LEFT)
     emergency_type_other_check = Checkbutton(emergency_type_frame, variable=emergency_type_other, onvalue=1, offvalue=0, text="Other", command=clickOther)
     emergency_type_other_check.pack(side=LEFT)
+
+    emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency", state=DISABLED)
+    emergency_type_label_other.pack(anchor=CENTER)
+    emergency_type_other_entry = Entry(emergency_type_frame, textvariable=emergency_type, state=DISABLED)
+    emergency_type_other_entry.pack(anchor=CENTER)
+    emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
+    emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
 
     emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
@@ -305,6 +315,10 @@ def clickOther():
     global emergency_type_string
     global emergency_type_entry
     global emergency_type_frame
+    global emergency_type_label_other
+    global emergency_type_other_entry
+    global emergency_type_other_button
+
 
     if emergency_type_other.get() == 1:
         emergency_type_tsunami_check.config(state=DISABLED)
@@ -312,15 +326,16 @@ def clickOther():
         emergency_type_drought_check.config(state=DISABLED)
         emergency_type_flood_check.config(state=DISABLED)
 
-        emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency")
-        emergency_type_label_other.pack(anchor=CENTER)
-        emergency_type_other = Entry(emergency_type_frame, textvariable=emergency_type)
-        emergency_type_other.pack(anchor=CENTER)
-        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm)
-        emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
+        emergency_type_label_other.config(state=NORMAL)
+        emergency_type_other_entry.config(state=NORMAL)
+        emergency_type_other_button.config(state=NORMAL)
+
 
 
     else:
+        emergency_type_label_other.config(state=DISABLED)
+        emergency_type_other_entry.config(state=DISABLED)
+        emergency_type_other_button.config(state=DISABLED)
         emergency_type_tsunami_check.config(state=NORMAL)
         emergency_type_earthquake_check.config(state=NORMAL)
         emergency_type_drought_check.config(state=NORMAL)
@@ -436,7 +451,7 @@ def CreateNewCampSummary():
     global emergency_marker_country
 
     New_Camp_Summary_Screen = Toplevel(Create_New_Emergency_Home_Screen)
-    New_Camp_Summary_Screen.title("Create a New Emergency")
+    New_Camp_Summary_Screen.title("Submit New Emergency")
     New_Camp_Summary_Screen.geometry("500x350")
 
     New_Camp_Summary_Screen_Label = Label(New_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
@@ -508,8 +523,11 @@ def SubmitEmergency():
 
     Submit_Another_Emergency_Button = Button(New_Emergency_Close_Screen, text="Submit Another Emergency", command=screenSetup)
     Submit_Another_Emergency_Button.pack()
-    Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen")
+    Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen", command=returnHome)
     Return_To_HomeScreen_Button.pack()
+
+def returnHome():
+    import Emergency_Plan_Form_Admin_GUI
 
 def campnameVerify():
     global camp_name
