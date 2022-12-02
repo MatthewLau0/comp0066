@@ -342,7 +342,7 @@ def updateemergencyEntry():
         emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
         return emergency_marker_country
 
-    emergency_map = tkintermapview.TkinterMapView(New_Camp_Screen, width=150, height=150, corner_radius=0)
+    emergency_map = tkintermapview.TkinterMapView(Update_Emergency_Entry_Screen, width=150, height=150, corner_radius=0)
     emergency_map.set_zoom(2)
     emergency_map.pack()
     emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)

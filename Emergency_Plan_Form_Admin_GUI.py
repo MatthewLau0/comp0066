@@ -17,7 +17,7 @@ def Update_Emergency():
     import Update_Existing_Form_Admin_GUI
 
 def Manage_Volunteers():
-    pass
+    import volunteer_create_family_gui
 
 #Create main window of the application
 admin_home = Tk()
