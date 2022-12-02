@@ -19,6 +19,9 @@ def Update_Emergency():
 def Manage_Volunteers():
     import volunteer_create_family_gui
 
+def View_Camps():
+    import view_existing_camps_GUI
+
 #Create main window of the application
 admin_home = Tk()
 admin_home.geometry("500x650")
@@ -39,6 +42,8 @@ manage_volunteers_frame = Frame(admin_home)
 manage_volunteers_frame.pack()
 manage_volunteers_button = Button(manage_volunteers_frame, text="Manage Volunteers", command=Manage_Volunteers)
 manage_volunteers_button.pack()
+view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps)
+view_camps_button.pack()
 
 
 admin_home.mainloop()
