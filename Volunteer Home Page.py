@@ -1,11 +1,15 @@
-#Import modules
-
-import datetime
-import sys
-import subprocess
 import os
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'prettytable'])
-from prettytable import PrettyTable
+
+# Opening current database and reading it into a list
+volunteer_list_file = open("username_info.txt", "r")
+volunteer_database_list = []
+for line in volunteer_list_file:
+    x = line.split(",")
+    volunteer_database_list.append(x)
+
+
+
+
 
 
 #Choose the pathway
