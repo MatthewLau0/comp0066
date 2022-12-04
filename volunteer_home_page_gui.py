@@ -3,6 +3,7 @@
 import tkinter
 import sys
 import subprocess
+import volunteer_create_family_gui
 
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
@@ -13,7 +14,7 @@ import volunteer_view_family_gui
 #Define Functions
 #Load Create new emergency
 def Edit_Refugee():
-    import volunteer_create_family_gui
+    volunteer_create_family_gui.create_family()
 
 def View_Refugee():
     volunteer_view_family_gui.table()
