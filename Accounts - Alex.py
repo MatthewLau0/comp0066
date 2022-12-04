@@ -110,6 +110,7 @@ def main():
             database.volunteers[name].set_role(role)
 
         elif(choice == 6):
+            pass
             #call the function to create emergency plan
 
         else:
