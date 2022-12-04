@@ -27,7 +27,7 @@ def screenSetup():
 
     emergency_database_list = []
     for line in emergency_database_file:
-        line_list = line.split(",")
+        line_list = line.split("%")
         emergency_database_list.append(line_list)
 
     emergency_database_file.close()
@@ -164,6 +164,9 @@ def CreateNewCampScreen():
     emergency_map.pack()
     emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
 
+
+
+
     from datetime import date
     today = date.today()
 
@@ -185,6 +188,7 @@ def CreateNewCampScreen():
     status_label = Label(New_Camp_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
     status_label.pack()
 
+
     def clickYes():
         global startDate
         startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
@@ -205,13 +209,26 @@ def CreateNewCampScreen():
     status_check_button_yes = Checkbutton(New_Camp_Screen, variable=status_check_yes, onvalue=1, offvalue=2, text="Yes", command=clickYes)
     status_check_button_yes.pack()
 
-
     status_check_no = IntVar()
     status_check_button_no = Checkbutton(New_Camp_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No", command=clickNo)
     status_check_button_no.pack()
 
     status_check_button = Button(New_Camp_Screen, text="Confirm", command=setactiveStatus)
     status_check_button.pack()
+
+    def calendarReset():
+        global start_date_label
+        global start_date_calendar
+        global close_date_label
+        global close_date_calendar
+
+        start_date_label.configure(state=NORMAL)
+        start_date_calendar.configure(state=NORMAL)
+        close_date_label.configure(state=DISABLED)
+        close_date_calendar.configure(state=DISABLED)
+
+    status_reset_button = Button(New_Camp_Screen, text="Reset Calendar", command=calendarReset)
+    status_reset_button.pack()
 
     submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=campnameVerify)
     submit_new_emergency_button.pack()
@@ -363,7 +380,12 @@ def setactiveStatus():
     global start_date_calendar
     global close_date_label
 
+    global startDate
+    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
+
     if status_check_no.get() == 1:
+        start_date_label.configure(state=DISABLED)
+        start_date_calendar.configure(state=DISABLED)
         close_date_label.configure(state=NORMAL)
         close_date_calendar.configure(state=NORMAL)
         close_date_calendar.configure(mindate=startDate)
@@ -499,16 +521,17 @@ def SubmitEmergency():
     global status
     global Create_New_Emergency_Home_Screen
     global emergency_marker_country
+    global emergency_type_string
 
     new_emergency[1] = camp_name.get()
-    new_emergency[2] = emergency_type.get()
+    new_emergency[2] = emergency_type_string
     new_emergency[3] = emergency_description.get()
     new_emergency[4] = emergency_marker_country
     new_emergency[5] = str(startDate)
     new_emergency[6] = str(endDate)
     new_emergency[7] = status
 
-    new_emergency_string = ','.join(new_emergency)
+    new_emergency_string = '%'.join(new_emergency)
 
     emergency_database_file_append = open("Emergency_Database", "a")
     emergency_database_file_append.write("\n%s" %(new_emergency_string))

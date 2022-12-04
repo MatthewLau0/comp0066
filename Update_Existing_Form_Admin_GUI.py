@@ -21,7 +21,7 @@ def setupUpdate():
     emergency_database_file = open("Emergency_Database", "r")
     emergency_database_list = []
     for line in emergency_database_file:
-        line_list = line.split(",")
+        line_list = line.split("%")
         emergency_database_list.append(line_list)
     emergency_database_file.close()
     UpdateEmergencyScreen()
@@ -396,6 +396,20 @@ def updateemergencyEntry():
     status_check_button = Button(Update_Emergency_Entry_Screen, text="Confirm", command=setactiveStatus)
     status_check_button.pack()
 
+    def calendarReset():
+        global start_date_label
+        global start_date_calendar
+        global close_date_label
+        global close_date_calendar
+
+        start_date_label.configure(state=NORMAL)
+        start_date_calendar.configure(state=NORMAL)
+        close_date_label.configure(state=DISABLED)
+        close_date_calendar.configure(state=DISABLED)
+
+    status_reset_button = Button(Update_Emergency_Entry_Screen, text="Reset Calendar", command=calendarReset)
+    status_reset_button.pack()
+
     submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=campnameVerify)
     submit_updated_emergency_button.pack()
 
@@ -538,6 +552,9 @@ def setactiveStatus():
     global close_date_label
     global Update_Emergency_Screen
     global update_emergency_frame_two
+    global startDate
+
+    startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
 
     if status_check_no.get() == 1:
         close_date_label.configure(state=NORMAL)
@@ -697,7 +714,7 @@ def UpdateEmergency():
     print(emergency_database_list)
     emergency_database_file_write = open("Emergency_Database", "r+")
     for i in range(0, len(emergency_database_list)):
-        emergency_database_string = ','.join(emergency_database_list[i])
+        emergency_database_string = '%'.join(emergency_database_list[i])
         if i == index_updating_camp:
             emergency_database_file_write.write("%s\n" %(emergency_database_string))
         elif i != index_updating_camp:
