@@ -428,19 +428,19 @@ def NewCampVerify():
     global emergency_marker_country
     global endDate
 
-    if len(camp_name.get()) == 0:
+    if not camp_name.get():
         camp_name_reentry_label = Label(New_Camp_Screen, text="Please enter a name for the new camp", fg='#f00')
         camp_name_reentry_label.pack()
-    if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
+    elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
         emergency_type_reentry_label = Label(New_Camp_Screen, text="Please enter an emergency type for the new camp", fg='#f00')
         emergency_type_reentry_label.pack()
-    if len(emergency_description.get()) == 0:
+    elif len(emergency_description.get()) == 0:
         emergency_description_reentry_label = Label(New_Camp_Screen, text="Please enter a description for the new emergency", fg='#f00')
         emergency_description_reentry_label.pack()
-    if emergency_marker_country == "NA":
+    elif emergency_marker_country == "NA":
         emergency_marker_reentry_label = Label(New_Camp_Screen, text="Please enter an area for the emergency", fg='#f00')
         emergency_marker_reentry_label.pack()
-    if status == "NA":
+    elif status == "NA":
         if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
             status_check_reentry_label = Label(New_Camp_Screen, text="Please select an activation status for the emergency.", fg='#f00')
             status_check_reentry_label.pack()
