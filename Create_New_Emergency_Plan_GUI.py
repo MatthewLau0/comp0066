@@ -91,6 +91,7 @@ def CreateNewCampScreen():
     global emergency_type_label_other
     global emergency_type_other_entry
     global emergency_type_other_button
+    global map_confirm
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
@@ -110,6 +111,8 @@ def CreateNewCampScreen():
 
     camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
     camp_name_label.pack()
+    camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters")
+    camp_name_label_instructions.pack()
     camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
     camp_name_entry.pack()
 
@@ -149,23 +152,46 @@ def CreateNewCampScreen():
     emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
     emergency_description_entry.pack()
 
-    emergency_marker_label = Label(New_Camp_Screen, text="Please right click the below map to select the country of the emergency")
-    emergency_marker_label.pack()
+
+
+    def mapReset():
+        global emergency_map
+        global emergency_marker
+        global emergency_marker_country
+
+        emergency_marker.delete()
+        emergency_marker_country = "NA"
+
 
     def add_emergency_marker(coords):
         global emergency_marker
         global emergency_marker_country
-        emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
-        emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
-        return emergency_marker_country
+        global emergency_map
+        if emergency_marker_country != "NA":
+            marker_error_label = Label(New_Camp_Screen, text="Please only select one marker", fg='#f00')
+            marker_error_label.pack()
+            mapReset()
+        else:
+            emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
+            emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
+            emergency_map.configure()
+            return emergency_marker_country
+
+    emergency_marker_label = Label(New_Camp_Screen,
+                                   text="Please right click the below map to select the country of the emergency")
+    emergency_marker_label.pack()
 
     emergency_map = tkintermapview.TkinterMapView(New_Camp_Screen, width=150, height=150, corner_radius=0)
     emergency_map.set_zoom(2)
     emergency_map.pack()
-    emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
+    emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker,
+                                               pass_coords=True)
+    map_reset_button = Button(New_Camp_Screen, text="Reset Map", command=mapReset)
+    map_reset_button.pack()
 
-
-
+    map_confirm = IntVar()
+    map_confirm_entry = Checkbutton(New_Camp_Screen, variable=map_confirm, onvalue=1, offvalue=0, text="Confirm Map Entry")
+    map_confirm_entry.pack()
 
     from datetime import date
     today = date.today()
@@ -427,20 +453,21 @@ def NewCampVerify():
     global status
     global emergency_marker_country
     global endDate
+    global map_confirm
 
-    if not camp_name.get():
-        camp_name_reentry_label = Label(New_Camp_Screen, text="Please enter a name for the new camp", fg='#f00')
+    if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
+        camp_name_reentry_label = Label(New_Camp_Screen, text="Please enter a name for the new camp. Camp Name must only contain letters with no spaces.", fg='#f00')
         camp_name_reentry_label.pack()
-    elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
+    if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
         emergency_type_reentry_label = Label(New_Camp_Screen, text="Please enter an emergency type for the new camp", fg='#f00')
         emergency_type_reentry_label.pack()
-    elif len(emergency_description.get()) == 0:
+    if len(emergency_description.get()) == 0:
         emergency_description_reentry_label = Label(New_Camp_Screen, text="Please enter a description for the new emergency", fg='#f00')
         emergency_description_reentry_label.pack()
-    elif emergency_marker_country == "NA":
-        emergency_marker_reentry_label = Label(New_Camp_Screen, text="Please enter an area for the emergency", fg='#f00')
+    if map_confirm.get() != 1 or emergency_marker_country == "NA":
+        emergency_marker_reentry_label = Label(New_Camp_Screen, text="Please enter an area for the emergency, and check confirm.", fg='#f00')
         emergency_marker_reentry_label.pack()
-    elif status == "NA":
+    if status == "NA":
         if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
             status_check_reentry_label = Label(New_Camp_Screen, text="Please select an activation status for the emergency.", fg='#f00')
             status_check_reentry_label.pack()

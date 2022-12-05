@@ -600,4 +600,3 @@ def create_family():
 
     #tkinter.mainloop()
     screen.mainloop()
-

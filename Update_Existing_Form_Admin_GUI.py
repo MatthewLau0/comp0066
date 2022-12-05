@@ -275,6 +275,7 @@ def updateemergencyEntry():
     global close_date_calendar
     global close_date_label
     global emergency_marker_country
+    global map_confirm
 
 
     camp_name = StringVar()
@@ -294,6 +295,9 @@ def updateemergencyEntry():
 
     camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name *")
     camp_name_label.pack()
+    camp_name_label_instructions = Label(Update_Emergency_Entry_Screen,
+                                         text="Camp Names must have no spaces and must only contain letters")
+    camp_name_label_instructions.pack()
     camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name)
     camp_name_entry.pack()
     camp_name_entry.setvar(str(updating_camp_list[1]))
@@ -334,14 +338,28 @@ def updateemergencyEntry():
     def add_emergency_marker(coords):
         global emergency_marker
         global emergency_marker_country
-        emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
-        emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
-        return emergency_marker_country
+        global emergency_map
+        if emergency_marker_country != "NA":
+            marker_error_label = Label(Update_Emergency_Entry_Screen, text="Please only select one marker", fg='#f00')
+            marker_error_label.pack()
+            mapReset()
+        else:
+            emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
+            emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
+            emergency_map.configure()
+            return emergency_marker_country
 
     emergency_map = tkintermapview.TkinterMapView(Update_Emergency_Entry_Screen, width=150, height=150, corner_radius=0)
     emergency_map.set_zoom(2)
     emergency_map.pack()
     emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
+
+    map_reset_button = Button(Update_Emergency_Entry_Screen, text="Reset Map", command=mapReset)
+    map_reset_button.pack()
+    map_confirm = IntVar()
+    map_confirm_entry = Checkbutton(Update_Emergency_Entry_Screen, variable=map_confirm, onvalue=1, offvalue=0,
+                                    text="Confirm Map Entry")
+    map_confirm_entry.pack()
 
     calendar_frame_label = Frame(Update_Emergency_Entry_Screen)
     calendar_frame_label.pack()
@@ -597,12 +615,13 @@ def UpdateCampVerify():
     global emergency_marker_country
     global Update_Emergency_Screen
     global endDate
+    global map_confirm
 
     if status_check_no.get() == 1:
         endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
 
-    if len(camp_name.get()) == 0:
-        camp_name_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter a name for the new camp", fg='#f00')
+    if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != Tru:
+        camp_name_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter a name for the new camp. Camp name must only contain letters with no spaces.", fg='#f00')
         camp_name_reentry_label.pack()
     if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (
             emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (
@@ -614,8 +633,8 @@ def UpdateCampVerify():
         emergency_description_reentry_label = Label(Update_Emergency_Entry_Screen,
                                                     text="Please enter a description for the new emergency", fg='#f00')
         emergency_description_reentry_label.pack()
-    if emergency_marker_country == "NA":
-        emergency_marker_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter an area for the emergency",
+    if map_confirm.get() != 1:
+        emergency_marker_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter an area for the emergency and click confirm.",
                                                fg='f00')
         emergency_marker_reentry_label.pack()
     if status == "NA":
