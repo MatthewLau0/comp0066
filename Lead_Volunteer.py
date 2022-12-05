@@ -1,11 +1,24 @@
-from prettytable import PrettyTable
+from tkinter import *
+from tkinter import ttk
 
+camps = open("Emergency_Database", "r")
+
+camps_list = []
+for i in camps:
+    camp_string = i.split("%")
+    camps_list.append(camp_string)
+
+chosen_camp = 1
+x = chosen_camp - 1
+
+camp_id = camps_list[x][0]
 
 def volunteers_portal():
     pass
 
 
 def accommodation_portal():
+
     accommodations = open("accommodations.txt", "r+")
 
     blocks_list = []
@@ -14,585 +27,1230 @@ def accommodation_portal():
         blocks_list.append(line_list)
 
     def add_new_block():
-        new_accommodation = ["NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_accommodation = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_accommodation_screen = Toplevel()
+        new_accommodation_screen.title("Add New Block")
+
+        new_accommodation[0] = str(camp_id)
 
         def new_block_id():
             if len(blocks_list) == 0:
-                new_accommodation[0] = "1"
+                new_accommodation[1] = "1"
             elif len(blocks_list) >= 1:
-                new_accommodation[0] = str((int((blocks_list[-1])[0]) + 1))
-            print("The index number for this emergency is ", new_accommodation[0])
+                new_accommodation[1] = str((int((blocks_list[-1])[1]) + 1))
 
         new_block_id()
 
-        def new_block_name():
-            new_accommodation[1] = input("Accommodation Block Name: ")
+        block_name = StringVar()
+        block_cap = StringVar()
+        block_occ = StringVar()
+        block_location = StringVar()
 
-            accommodation_name_list = []
-            for n in range(0, len(blocks_list)):
-                accommodation_name_list.append((blocks_list[n])[1])
-            while new_accommodation[1] in accommodation_name_list:
-                new_accommodation[1] = input(
-                    "This name is already in use. Please enter a new name for this accommodation: ")
+        new_block_intro_label = Label(new_accommodation_screen, text="To create a new Accommodation Block, please fill in the form below.")
+        new_block_intro_label.pack()
 
-        new_block_name()
+        new_block_id_label = Label(new_accommodation_screen, text=f"The ID Number of this Accommodation Block is {new_accommodation[1]}")
+        new_block_id_label.pack()
 
-        def capacity_input():
-            new_accommodation[2] = input("Block Capacity: ")
-            try:
-                new_accommodation[2] = str(int(new_accommodation[2]))
-            except TypeError:
-                print("Please enter a integer")
-                capacity_input()
+        new_block_name_label = Label(new_accommodation_screen, text="Block Name: ")
+        new_block_name_label.pack()
+        new_block_name_entry = Entry(new_accommodation_screen, textvariable=block_name)
+        new_block_name_entry.pack()
 
-        capacity_input()
+        new_block_capacity_label = Label(new_accommodation_screen, text="Block Capacity: ")
+        new_block_capacity_label.pack()
+        new_block_capacity_entry = Entry(new_accommodation_screen, textvariable=block_cap)
+        new_block_capacity_entry.pack()
 
-        def occupancy_input():
-            new_accommodation[3] = input("Block Occupancy: ")
-            try:
-                new_accommodation[3] = str(int(new_accommodation[3]))
-            except TypeError:
-                print("Please enter a integer")
-                occupancy_input()
-            if int(new_accommodation[3]) <= int(new_accommodation[2]):
-                new_accommodation[3] = new_accommodation[3]
+        new_block_occupancy_label = Label(new_accommodation_screen, text="Block Occupancy: ")
+        new_block_occupancy_label.pack()
+        new_block_occupancy_entry = Entry(new_accommodation_screen, textvariable=block_occ)
+        new_block_occupancy_entry.pack()
+
+        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+        block_location.set("Select Camp Area")
+        new_block_location_label = Label(new_accommodation_screen, text="Block Location: ")
+        new_block_location_label.pack()
+        new_block_location_entry = OptionMenu(new_accommodation_screen, block_location, *location_list)
+        new_block_location_entry.pack()
+
+        def summary():
+            accommodation_summary = Toplevel()
+
+            accommodation_summary.title("Accommodation Block Summary")
+
+            label_1 = Label(accommodation_summary, text="Please check that you are happy with the entry below:")
+            label_1.pack()
+
+            summary_label = Label(accommodation_summary, text=f"""
+            Block Name: {block_name.get()} \n 
+            Block Capacity: {block_cap.get()} \n 
+            Block Occupancy: {block_occ.get()} \n 
+            Block Location: {block_location.get()}""")
+            summary_label.pack()
+
+            def edit_command():
+                accommodation_summary.destroy()
+
+            def submit_command():
+                new_accommodation[2] = block_name.get()
+                new_accommodation[3] = str(block_cap.get())
+                new_accommodation[4] = str(block_occ.get())
+                new_accommodation[6] = str(int(new_accommodation[3]) - int(new_accommodation[4]))
+                if int(new_accommodation[6]) > 0:
+                    new_accommodation[5] = "VACANT"
+                else:
+                    new_accommodation[5] = "FULL"
+                new_accommodation[7] = block_location.get()
+
+                new_accommodation_string = ','.join(new_accommodation)
+
+                accommodations.close()
+
+                accommodations_append = open("accommodations.txt", "a")
+                accommodations_append.write(new_accommodation_string + ",\n")
+                accommodations_append.close()
+
+                accommodation_summary.destroy()
+                new_accommodation_screen.destroy()
+                accommodation_window.destroy()
+                main_window.destroy()
+                main()
+
+            edit_button = Button(accommodation_summary, text="Edit", command=edit_command)
+            edit_button.pack()
+            submit_button = Button(accommodation_summary, text="Submit", command=submit_command)
+            submit_button.pack()
+
+            accommodation_summary.mainloop()
+
+        error_frame = Frame(new_accommodation_screen)
+
+        def check_block():
+
+            for widget in error_frame.winfo_children():
+                widget.destroy()
+
+            check_status = ["0", "0", "0", "0", "0", "0"]
+
+            def name_check():
+                if block_name.get().strip() == "":
+                    new_block_name_reentry_1 = Label(error_frame, text="Please enter a Block Name")
+                    new_block_name_reentry_1.pack()
+                else:
+                    check_status[0] = "1"
+
+                accommodation_name_list = []
+                for n in range(0, len(blocks_list)):
+                    accommodation_name_list.append(blocks_list[n][2])
+                if block_name.get() in accommodation_name_list:
+                    new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                    new_block_name_reentry_2.pack()
+                else:
+                    check_status[1] = "1"
+
+            name_check()
+
+            def cap_check():
+                try:
+                    int(block_cap.get())
+                    check_status[2] = "1"
+                except ValueError:
+                    new_block_capacity_reentry = Label(error_frame, text="Please enter an integer for capacity")
+                    new_block_capacity_reentry.pack()
+
+            cap_check()
+
+            def occ_check():
+                try:
+                    int(block_occ.get())
+                    check_status[3] = "1"
+                except ValueError:
+                    new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for occupancy")
+                    new_block_occupancy_reentry_1.pack()
+                if check_status[3] == "1" and check_status[1] == "1":
+                    try:
+                        if int(block_occ.get()) <= int(block_cap.get()):
+                            check_status[4] = "1"
+                        else:
+                            new_block_occupancy_reentry_2 = Label(error_frame, text="Please enter an occupancy lower than capacity")
+                            new_block_occupancy_reentry_2.pack()
+                    except ValueError:
+                        pass
+
+            occ_check()
+
+            def location_check():
+                if block_location.get() == "Select Camp Area":
+                    new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                    new_block_location_reentry.pack()
+                else:
+                    check_status[5] = "1"
+
+            location_check()
+
+
+            if "0" in check_status:
+                error_frame.pack()
             else:
-                print("Please enter a occupancy under than the capacity")
-                occupancy_input()
+                summary()
 
-        occupancy_input()
+        new_block_done = Button(new_accommodation_screen, text="Done", command=check_block)
+        new_block_done.pack()
 
-        def new_block_status_spaces():
-            new_accommodation[5] = str(int(new_accommodation[2]) - int(new_accommodation[3]))
-            if int(new_accommodation[5]) > 0:
-                new_accommodation[4] = "VACANT SPACES"
-            else:
-                new_accommodation[4] = "FULL"
+        new_accommodation_screen.mainloop()
 
-        new_block_status_spaces()
+    def view_existing_blocks():
 
-        def new_block_location():
+        view_existing_blocks_screen = Toplevel()
 
-            new_accommodation[6] = input("Location: ")
+        view_existing_blocks_screen.title("View/Update Blocks")
 
-        new_block_location()
+        game_frame = Frame(view_existing_blocks_screen)
+        game_frame.pack()
 
-        new_accommodation_string = ','.join(new_accommodation)
+        my_game = ttk.Treeview(game_frame)
 
-        accommodations.close()
+        my_game['columns'] = (
+            "Camp ID",
+            "Block ID",
+            "Block Name",
+            "Block Capacity",
+            "Block Occupancy",
+            "Block Status",
+            "Block Space",
+            "Block Location"
+        )
 
-        accommodations_append = open("accommodations.txt", "a")
-        accommodations_append.write(new_accommodation_string + ",\n")
-        accommodations_append.close()
+        my_game.column("#0", width=0, stretch=NO)
+        my_game.column("Camp ID", anchor=CENTER, width=100)
+        my_game.column("Block ID", anchor=CENTER, width=100)
+        my_game.column("Block Name", anchor=CENTER, width=150)
+        my_game.column("Block Capacity", anchor=CENTER, width=150)
+        my_game.column("Block Occupancy", anchor=CENTER, width=150)
+        my_game.column("Block Status", anchor=CENTER, width=150)
+        my_game.column("Block Space", anchor=CENTER, width=150)
+        my_game.column("Block Location", anchor=CENTER, width=150)
 
-    def update_choice():
-        update = input("Would you like to edit any of the accommodation blocks? [Y/N]: ").strip().upper()
-        if update == "Y":
-            row_choose()
-        elif update == "N":
-            home()
-        else:
-            print("Please enter a valid option ")
-            update_choice()
+        my_game.heading("#0", text="", anchor=CENTER)
+        my_game.heading("Camp ID", text="Camp ID", anchor=CENTER)
+        my_game.heading("Block ID", text="Block ID", anchor=CENTER)
+        my_game.heading("Block Name", text="Name", anchor=CENTER)
+        my_game.heading("Block Capacity", text="Capacity", anchor=CENTER)
+        my_game.heading("Block Occupancy", text="Occupancy", anchor=CENTER)
+        my_game.heading("Block Status", text="Status", anchor=CENTER)
+        my_game.heading("Block Space", text="Spaces", anchor=CENTER)
+        my_game.heading("Block Location", text="Location", anchor=CENTER)
 
-    def row_choose():
-        row_choice = input("Which accommodation would you like to update? Enter Block ID: ")
-        try:
-            row_choice = str(int(row_choice))
-        except TypeError:
-            print("Please enter a integer")
-            row_choose()
-        block_id_list = []
-        for x in blocks_list:
-            block_id_list.append(x[0])
-        while row_choice not in block_id_list:
-            print("Please choose from one of the IDs in the table")
-            row_choose()
-        row_choice_index = int(row_choice) - 1
+        for i in range(0, len(blocks_list)):
+            my_game.insert(parent='', index=i, iid=i, values=(
+                blocks_list[i][0],
+                blocks_list[i][1],
+                blocks_list[i][2],
+                blocks_list[i][3],
+                blocks_list[i][4],
+                blocks_list[i][5],
+                blocks_list[i][6],
+                blocks_list[i][7]
+            ))
 
-        def update_block_name():
-            blocks_list[row_choice_index][1] = input("Accommodation Block Name: ")
+        my_game.pack()
 
-            accommodation_name_list = []
-            for y in range(0, len(blocks_list)):
-                accommodation_name_list.append((blocks_list[y])[1])
-            while blocks_list[row_choice_index][1] in accommodation_name_list:
-                blocks_list[row_choice_index][1] = input(
-                    "This name is already in use. Please enter a new name for this accommodation: ")
+        update_button = Button(view_existing_blocks_screen, text="Update a Block", command=update_block)
 
-        def update_capacity_input():
-            blocks_list[row_choice_index][2] = input("Block Capacity: ")
-            try:
-                blocks_list[row_choice_index][2] = str(int(blocks_list[row_choice_index][2]))
-            except TypeError:
-                print("Please enter a integer")
-                update_capacity_input()
+        if len(blocks_list) > 0:
+            update_button.pack()
 
-        def update_occupancy_input():
-            blocks_list[row_choice_index][3] = input("Block Occupancy: ")
-            try:
-                blocks_list[row_choice_index][3] = str(int(blocks_list[row_choice_index][3]))
-            except TypeError:
-                print("Please enter a integer")
-                update_occupancy_input()
-            if int(blocks_list[row_choice_index][3]) <= int(blocks_list[row_choice_index][2]):
-                blocks_list[row_choice_index][3] = blocks_list[row_choice_index][3]
-            else:
-                print("Please enter a occupancy under than the capacity")
-                update_occupancy_input()
+        view_existing_blocks_screen.mainloop()
 
-        def update_block_status_spaces():
-            blocks_list[row_choice_index][5] = \
-                str(int(blocks_list[row_choice_index][2]) - int(blocks_list[row_choice_index][3]))
-            if int(blocks_list[row_choice_index][5]) > 0:
-                blocks_list[row_choice_index][4] = "VACANT SPACES"
-            else:
-                blocks_list[row_choice_index][4] = "FULL"
+    def update_block():
+        update_block_screen_id = Toplevel()
+        update_block_screen_id.title("Update ID Select")
 
-        def update_block_location():
-            blocks_list[row_choice_index][6] = input("Location: ")
+        id_list = []
 
-        def column_choose():
-            column_choice = input("""Which field would you like to update? 
-            [1] Name
-            [2] Capacity
-            [3] Occupancy
-            [4] Location
-            Enter column number [1-4]: """)
-            try:
-                column_choice = str(int(column_choice))
-            except TypeError:
-                print("Please enter a integer")
-                column_choose()
-            try:
-                1 <= int(column_choice) <= 4
-            except ArithmeticError:
-                print("Please enter a number between 1 and 4")
-                column_choose()
+        for i in blocks_list:
+            id_list.append(i[1])
 
-            if column_choice == "1":
-                update_block_name()
-            elif column_choice == "2":
-                update_capacity_input()
-                update_block_status_spaces()
-            elif column_choice == "3":
-                update_occupancy_input()
-                update_block_status_spaces()
-            elif column_choice == "4":
-                update_block_location()
+        block_id = StringVar()
+        block_name = StringVar()
+        block_cap = StringVar()
+        block_occ = StringVar()
+        block_location = StringVar()
 
-        column_choose()
+        id_select_label = Label(update_block_screen_id, text="Please choose a block ID to update")
+        id_select_label.pack()
+        block_id.set("Select ID")
+        id_select_option = OptionMenu(update_block_screen_id, block_id, *id_list)
+        id_select_option.pack()
 
-        new_string = ','.join(blocks_list[row_choice_index])
+        def update_run():
 
-        accommodations.close()
+            update_block_screen = Toplevel()
+            update_block_screen.title("Update Block")
 
-        accommodations_read = open("accommodations.txt", "r")
+            id = int(block_id.get())
+            x = id - 1
 
-        lines = accommodations_read.readlines()
+            update_accommodation = [blocks_list[x][0], id, blocks_list[x][2], blocks_list[x][3], blocks_list[x][4], blocks_list[x][5], blocks_list[x][6], blocks_list[x][7]]
 
-        lines[int(row_choice_index)] = new_string
+            new_block_intro_label = Label(update_block_screen, text="To update this Accommodation Block, please fill in the form below.")
+            new_block_intro_label.pack()
 
-        with open('accommodations.txt', 'w') as file:
-            file.writelines(lines)
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Accommodation Block is {id}")
+            new_block_id_label.pack()
 
-        print("File Updated!")
+            new_block_name_label = Label(update_block_screen, text="Block Name: ")
+            new_block_name_label.pack()
+            new_block_name_entry = Entry(update_block_screen, textvariable=block_name)
+            new_block_name_entry.insert(END, f"{blocks_list[x][2]}")
+            new_block_name_entry.pack()
 
-    def add_or_view_func():
-        add_or_view = int(input("""
-    Would you like to: 
-        [1] View 
-        [2] Add
-    Your Choice: """))
+            new_block_capacity_label = Label(update_block_screen, text="Block Capacity: ")
+            new_block_capacity_label.pack()
+            new_block_capacity_entry = Entry(update_block_screen, textvariable=block_cap)
+            new_block_capacity_entry.insert(END, f"{blocks_list[x][3]}")
+            new_block_capacity_entry.pack()
 
-        if add_or_view == 1:
-            t_accommodation = PrettyTable([
-                "Block ID",
-                "Block Name",
-                "Block Capacity",
-                "Block Occupancy",
-                "Block Status",
-                "Block Space",
-                "Block Location"
-            ])
-            for z in blocks_list:
-                t_accommodation.add_row(z[0:7])
-            print(t_accommodation)
-            update_choice()
+            new_block_occupancy_label = Label(update_block_screen, text="Block Occupancy: ")
+            new_block_occupancy_label.pack()
+            new_block_occupancy_entry = Entry(update_block_screen, textvariable=block_occ)
+            new_block_occupancy_entry.insert(END, f"{blocks_list[x][4]}")
+            new_block_occupancy_entry.pack()
 
-            home()
-        elif add_or_view == 2:
-            add_new_block()
-            home()
+            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+            block_location.set(f"{blocks_list[x][7]}")
+            new_block_location_label = Label(update_block_screen, text="Block Location: ")
+            new_block_location_label.pack()
+            new_block_location_entry = OptionMenu(update_block_screen, block_location, *location_list)
+            new_block_location_entry.pack()
 
-    add_or_view_func()
+            def summary():
+                accommodation_summary = Toplevel()
+
+                accommodation_summary.title("Accommodation Block Summary")
+
+                label_1 = Label(accommodation_summary, text="Please check that you are happy with the entry below:")
+                label_1.pack()
+
+                summary_label = Label(accommodation_summary, text=f"""
+                        Block Name: {block_name.get()} \n 
+                        Block Capacity: {block_cap.get()} \n 
+                        Block Occupancy: {block_occ.get()} \n 
+                        Block Location: {block_location.get()}""")
+                summary_label.pack()
+
+                def edit_command():
+                    accommodation_summary.destroy()
+
+                def submit_command():
+                    update_accommodation[1] = str(block_id.get())
+                    update_accommodation[2] = block_name.get()
+                    update_accommodation[3] = str(block_cap.get())
+                    update_accommodation[4] = str(block_occ.get())
+                    update_accommodation[6] = str(int(update_accommodation[3]) - int(update_accommodation[4]))
+                    if int(update_accommodation[6]) > 0:
+                        update_accommodation[5] = "VACANT"
+                    else:
+                        update_accommodation[5] = "FULL"
+                    update_accommodation[7] = block_location.get()
+
+                    new_accommodation_string = ','.join(update_accommodation) + ","
+
+                    accommodations.close()
+
+                    accommodations_read = open("accommodations.txt", "r")
+
+                    lines = accommodations_read.readlines()
+
+                    lines[int(x)] = new_accommodation_string + "\n"
+
+                    with open('accommodations.txt', 'w') as file1:
+                        file1.writelines(lines)
+
+                    accommodation_summary.destroy()
+                    update_block_screen.destroy()
+                    accommodation_window.destroy()
+                    main_window.destroy()
+                    main()
+
+                edit_button = Button(accommodation_summary, text="Edit", command=edit_command)
+                edit_button.pack()
+                submit_button = Button(accommodation_summary, text="Submit", command=submit_command)
+                submit_button.pack()
+
+                accommodation_summary.mainloop()
+
+            error_frame = Frame(update_block_screen)
+
+            def check_block():
+
+                for widget in error_frame.winfo_children():
+                    widget.destroy()
+
+                check_status = ["0", "0", "0", "0", "0"]
+
+                def name_check():
+                    if block_name.get().strip() == "":
+                        new_block_name_reentry_1 = Label(error_frame, text="Please enter a Block Name")
+                        new_block_name_reentry_1.pack()
+                    else:
+                        check_status[0] = "1"
+                    accommodation_name_list = []
+                    for n in range(0, len(blocks_list)):
+                        accommodation_name_list.append(blocks_list[n][2])
+                    accommodation_name_list.remove(blocks_list[x][2])
+                    if block_name.get() in accommodation_name_list:
+                        new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                        new_block_name_reentry_2.pack()
+                    else:
+                        check_status[0] = "1"
+
+                name_check()
+
+                def cap_check():
+                    try:
+                        int(block_cap.get())
+                        check_status[1] = "1"
+                    except ValueError:
+                        new_block_capacity_reentry = Label(error_frame, text="Please enter an integer for capacity")
+                        new_block_capacity_reentry.pack()
+
+                cap_check()
+
+                def occ_check():
+                    try:
+                        int(block_occ.get())
+                        check_status[2] = "1"
+                    except ValueError:
+                        new_block_occupancy_reentry_1 = Label(error_frame,
+                                                              text="Please enter an integer for occupancy")
+                        new_block_occupancy_reentry_1.pack()
+                    if check_status[2] == "1" and check_status[1] == "1":
+                        try:
+                            if int(block_occ.get()) <= int(block_cap.get()):
+                                check_status[3] = "1"
+                            else:
+                                new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                      text="Please enter an occupancy lower than capacity")
+                                new_block_occupancy_reentry_2.pack()
+                        except ValueError:
+                            pass
+
+                occ_check()
+
+                def location_check():
+                    if block_location.get() == "Select Camp Area":
+                        new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                        new_block_location_reentry.pack()
+                    else:
+                        check_status[4] = "1"
+
+                location_check()
+
+                if "0" in check_status:
+                    error_frame.pack()
+                else:
+                    summary()
+
+            new_block_done = Button(update_block_screen, text="Done", command=check_block)
+            new_block_done.pack()
+
+            update_block_screen.mainloop()
+
+        id_done = Button(update_block_screen_id, text="Done", command=update_run)
+        id_done.pack()
+
+        update_block_screen_id.mainloop()
+
+    def generate_accommodation_window():
+        global accommodation_window
+        accommodation_window = Toplevel()
+
+        accommodation_window.title("Accommodation Portal")
+
+        accommodation_label = Label(accommodation_window, text="Accommodation Portal", font=("Avenir", 22))
+        accommodation_label.pack()
+
+        view_block_button = Button(accommodation_window, text="View/Update Blocks", command=view_existing_blocks, width=30, height=2, borderwidth=5)
+        view_block_button.pack()
+
+        add_block_button = Button(accommodation_window, text="Add New Block", command=add_new_block, width=30, height=2, borderwidth=5)
+        add_block_button.pack()
+
+        camp_layout_button = Button(accommodation_window, text="View Camp Layout", command=camp_layout, width=30, height=2, borderwidth=5)
+        camp_layout_button.pack()
+
+        accommodation_window.mainloop()
+
+    generate_accommodation_window()
 
 
 def ration_portal():
-    ration_stalls = open("ration_stall.txt", "r+")
+    ration = open("ration_stall.txt", "r+")
 
     ration_list = []
-    for line in ration_stalls:
+    for line in ration:
         line_list = line.split(",")
         ration_list.append(line_list)
 
-    def add_new_stall():
-        new_stall = ["NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+    def add_new_ration():
 
-        def new_stall_id():
+        new_ration = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_ration_screen = Toplevel()
+        new_ration_screen.title("Add New Ration Stall")
+
+        new_ration[0] = str(camp_id)
+
+        def new_ration_id():
             if len(ration_list) == 0:
-                new_stall[0] = "1"
+                new_ration[1] = "1"
             elif len(ration_list) >= 1:
-                new_stall[0] = str((int((ration_list[-1])[0]) + 1))
-            print("The index number for this Ration Stall is ", new_stall[0])
+                new_ration[1] = str((int((ration_list[-1])[1]) + 1))
 
-        new_stall_id()
+        new_ration_id()
 
-        def new_stall_name():
-            new_stall[1] = input("Ration Stall Name: ")
+        ration_name = StringVar()
+        ration_supply = StringVar()
+        ration_use = StringVar()
+        ration_location = StringVar()
 
-            stall_name_list = []
-            for n in range(0, len(ration_list)):
-                stall_name_list.append((ration_list[n])[1])
-            while new_stall[1] in stall_name_list:
-                new_stall[1] = input(
-                    "This name is already in use. Please enter a new name for this stall: ")
+        new_block_intro_label = Label(new_ration_screen,
+                                      text="To create a new Ration Stall, please fill in the form below.")
+        new_block_intro_label.pack()
 
-        new_stall_name()
+        new_block_id_label = Label(new_ration_screen,
+                                   text=f"The ID Number of this Ration Stall is {new_ration[1]}")
+        new_block_id_label.pack()
 
-        def packs_supplied():
-            new_stall[2] = input("No. Ration Packages Supplied to this Ration Stall: ")
-            try:
-                new_stall[2] = str(int(new_stall[2]))
-            except TypeError:
-                print("Please enter a integer")
-                packs_supplied()
+        new_block_name_label = Label(new_ration_screen, text="Ration Stall Name: ")
+        new_block_name_label.pack()
+        new_block_name_entry = Entry(new_ration_screen, textvariable=ration_name)
+        new_block_name_entry.pack()
 
-        packs_supplied()
+        new_block_capacity_label = Label(new_ration_screen, text="Ration Packs Supplied: ")
+        new_block_capacity_label.pack()
+        new_block_capacity_entry = Entry(new_ration_screen, textvariable=ration_supply)
+        new_block_capacity_entry.pack()
 
-        def packs_used():
-            new_stall[3] = input("No. Ration Packages Distributed from this Ration Stall: ")
-            try:
-                new_stall[3] = str(int(new_stall[3]))
-            except TypeError:
-                print("Please enter a integer")
-                packs_used()
-            if int(new_stall[3]) <= int(new_stall[2]):
-                new_stall[3] = new_stall[3]
+        new_block_occupancy_label = Label(new_ration_screen, text="Ration Packs Distributed: ")
+        new_block_occupancy_label.pack()
+        new_block_occupancy_entry = Entry(new_ration_screen, textvariable=ration_use)
+        new_block_occupancy_entry.pack()
+
+        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+        ration_location.set("Select Stall Area")
+        new_block_location_label = Label(new_ration_screen, text="Stall Location: ")
+        new_block_location_label.pack()
+        new_block_location_entry = OptionMenu(new_ration_screen, ration_location, *location_list)
+        new_block_location_entry.pack()
+
+        def summary():
+            ration_summary = Toplevel()
+
+            ration_summary.title("Accommodation Block Summary")
+
+            label_1 = Label(ration_summary, text="Please check that you are happy with the entry below:")
+            label_1.pack()
+
+            summary_label = Label(ration_summary, text=f"""
+                Stall Name: {ration_name.get()} \n 
+                Packs Supplied: {ration_supply.get()} \n 
+                Packs Distributed: {ration_use.get()} \n 
+                Stall Location: {ration_location.get()}""")
+            summary_label.pack()
+
+            def edit_command():
+                ration_summary.destroy()
+
+            def submit_command():
+                new_ration[2] = ration_name.get()
+                new_ration[3] = str(ration_supply.get())
+                new_ration[4] = str(ration_use.get())
+                new_ration[6] = str(int(new_ration[3]) - int(new_ration[4]))
+                if int(new_ration[6]) > 0:
+                    new_ration[5] = "PACKS REMAINING"
+                else:
+                    new_ration[5] = "PACKS DEPLETED"
+                new_ration[7] = ration_location.get()
+
+                new_ration_string = ','.join(new_ration)
+
+                ration.close()
+
+                ration_append = open("ration_stall.txt", "a")
+                ration_append.write(new_ration_string + ",\n")
+                ration_append.close()
+
+                ration_summary.destroy()
+                new_ration_screen.destroy()
+                ration_window.destroy()
+                main_window.destroy()
+                main()
+
+            edit_button = Button(ration_summary, text="Edit", command=edit_command)
+            edit_button.pack()
+            submit_button = Button(ration_summary, text="Submit", command=submit_command)
+            submit_button.pack()
+
+            ration_summary.mainloop()
+
+        error_frame = Frame(new_ration_screen)
+
+        def check_block():
+
+            for widget in error_frame.winfo_children():
+                widget.destroy()
+
+            check_status = ["0", "0", "0", "0", "0", "0"]
+
+            def name_check():
+                if ration_name.get().strip() == "":
+                    new_block_name_reentry_1 = Label(error_frame, text="Please enter a Stall Name")
+                    new_block_name_reentry_1.pack()
+                else:
+                    check_status[0] = "1"
+
+                ration_name_list = []
+                for n in range(0, len(ration_list)):
+                    ration_name_list.append(ration_list[n][2])
+                if ration_name.get() in ration_name_list:
+                    new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                    new_block_name_reentry_2.pack()
+                else:
+                    check_status[1] = "1"
+
+            name_check()
+
+            def supply_check():
+                try:
+                    int(ration_supply.get())
+                    check_status[2] = "1"
+                except ValueError:
+                    new_block_capacity_reentry = Label(error_frame, text="Please enter an integer for packs supplied")
+                    new_block_capacity_reentry.pack()
+
+            supply_check()
+
+            def use_check():
+                try:
+                    int(ration_use.get())
+                    check_status[3] = "1"
+                except ValueError:
+                    new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for packs distributed")
+                    new_block_occupancy_reentry_1.pack()
+                if check_status[3] == "1" and check_status[1] == "1":
+                    try:
+                        if int(ration_use.get()) <= int(ration_supply.get()):
+                            check_status[4] = "1"
+                        else:
+                            new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                  text="Please enter an used lower than supplied")
+                            new_block_occupancy_reentry_2.pack()
+                    except ValueError:
+                        pass
+
+            use_check()
+
+            def location_check():
+                if ration_location.get() == "Select Stall Area":
+                    new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                    new_block_location_reentry.pack()
+                else:
+                    check_status[5] = "1"
+
+            location_check()
+
+            if "0" in check_status:
+                error_frame.pack()
             else:
-                print("Please enter a No. Used under than the No. Supplied")
-                packs_used()
+                summary()
 
-        packs_used()
+        new_block_done = Button(new_ration_screen, text="Done", command=check_block)
+        new_block_done.pack()
 
-        def new_stall_status_remaining():
-            new_stall[5] = str(int(new_stall[2]) - int(new_stall[3]))
-            if int(new_stall[5]) > 0:
-                new_stall[4] = "PACKS REMAINING"
-            else:
-                new_stall[4] = "ALL DEPLETED"
+        new_ration_screen.mainloop()
 
-        new_stall_status_remaining()
+    def view_existing_stalls():
 
-        def new_stall_location():
+        view_existing_stalls_screen = Toplevel()
 
-            new_stall[6] = input("Ration Stall Location: ")
+        view_existing_stalls_screen.title("View/Update Stalls")
 
-        new_stall_location()
+        game_frame = Frame(view_existing_stalls_screen)
+        game_frame.pack()
 
-        new_stall_string = ','.join(new_stall)
+        my_game = ttk.Treeview(game_frame)
 
-        ration_stalls.close()
+        my_game['columns'] = (
+            "Camp ID",
+            "Stall ID",
+            "Ration Stall Name",
+            "Ration Packs Supplied",
+            "Ration Packs Depleted",
+            "Stock Status",
+            "Packs Remaining",
+            "Stall Location"
+        )
 
-        ration_stalls_append = open("ration_stall.txt", "a")
-        ration_stalls_append.write(new_stall_string + ",\n")
-        ration_stalls_append.close()
+        my_game.column("#0", width=0, stretch=NO)
+        my_game.column("Camp ID", anchor=CENTER, width=100)
+        my_game.column("Stall ID", anchor=CENTER, width=100)
+        my_game.column("Ration Stall Name", anchor=CENTER, width=150)
+        my_game.column("Ration Packs Supplied", anchor=CENTER, width=150)
+        my_game.column("Ration Packs Depleted", anchor=CENTER, width=150)
+        my_game.column("Stock Status", anchor=CENTER, width=150)
+        my_game.column("Packs Remaining", anchor=CENTER, width=150)
+        my_game.column("Stall Location", anchor=CENTER, width=150)
 
-    def update_choice():
-        update = input("Would you like to edit any of the ration stalls? [Y/N]: ").strip().upper()
-        if update == "Y":
-            row_choose()
-        elif update == "N":
-            home()
-        else:
-            print("Please enter a valid option ")
-            update_choice()
+        my_game.heading("#0", text="", anchor=CENTER)
+        my_game.heading("Camp ID", text="Camp ID", anchor=CENTER)
+        my_game.heading("Stall ID", text="Stall ID", anchor=CENTER)
+        my_game.heading("Ration Stall Name", text="Name", anchor=CENTER)
+        my_game.heading("Ration Packs Supplied", text="Packs Supplied", anchor=CENTER)
+        my_game.heading("Ration Packs Depleted", text="Packs Distributed", anchor=CENTER)
+        my_game.heading("Stock Status", text="Stock Status", anchor=CENTER)
+        my_game.heading("Packs Remaining", text="Packs Remaining", anchor=CENTER)
+        my_game.heading("Stall Location", text="Location", anchor=CENTER)
 
-    def row_choose():
-        row_choice = input("Which ration stall would you like to update? Enter Stall ID: ")
-        try:
-            row_choice = str(int(row_choice))
-        except TypeError:
-            print("Please enter a integer")
-            row_choose()
-        ration_id_list = []
-        for x in ration_list:
-            ration_id_list.append(x[0])
-        while row_choice not in ration_id_list:
-            print("Please choose from one of the IDs in the table")
-            row_choose()
-        row_choice_index = int(row_choice) - 1
+        for i in range(0, len(ration_list)):
+            my_game.insert(parent='', index=i, iid=i, values=(
+                ration_list[i][0],
+                ration_list[i][1],
+                ration_list[i][2],
+                ration_list[i][3],
+                ration_list[i][4],
+                ration_list[i][5],
+                ration_list[i][6],
+                ration_list[i][7]
+            ))
 
-        def update_stall_name():
-            ration_list[row_choice_index][1] = input("Ration Stall Name: ")
+        my_game.pack()
 
-            ration_name_list = []
-            for y in range(0, len(ration_list)):
-                ration_name_list.append((ration_list[y])[1])
-            while ration_list[row_choice_index][1] in ration_name_list:
-                ration_list[row_choice_index][1] = input(
-                    "This name is already in use. Please enter a new name for this ration stall: ")
+        update_button = Button(view_existing_stalls_screen, text="Update a Stall", command=update_stall)
 
-        def update_packs_supplied():
-            ration_list[row_choice_index][2] = input("No. Ration Packages Supplied to this Ration Stall: ")
-            try:
-                ration_list[row_choice_index][2] = str(int(ration_list[row_choice_index][2]))
-            except TypeError:
-                print("Please enter a integer")
-                update_packs_supplied()
+        if len(ration_list) > 0:
+            update_button.pack()
 
-        def update_packs_used():
-            ration_list[row_choice_index][3] = input("No. Ration Packages Distributed from this Ration Stall: ")
-            try:
-                ration_list[row_choice_index][3] = str(int(ration_list[row_choice_index][3]))
-            except TypeError:
-                print("Please enter a integer")
-                update_packs_used()
-            if int(ration_list[row_choice_index][3]) <= int(ration_list[row_choice_index][2]):
-                ration_list[row_choice_index][3] = ration_list[row_choice_index][3]
-            else:
-                print("Please enter a occupancy under than the capacity")
-                update_packs_used()
+        view_existing_stalls_screen.mainloop()
 
-        def update_stall_status_remaining():
-            ration_list[row_choice_index][5] = \
-                str(int(ration_list[row_choice_index][2]) - int(ration_list[row_choice_index][3]))
-            if int(ration_list[row_choice_index][5]) > 0:
-                ration_list[row_choice_index][4] = "PACKS REMAINING"
-            else:
-                ration_list[row_choice_index][4] = "ALL DEPLETED"
+    def update_stall():
+        update_block_screen_id = Toplevel()
+        update_block_screen_id.title("Update ID Select")
 
-        def update_stall_location():
-            ration_list[row_choice_index][6] = input("Ration Stall Location: ")
+        id_list = []
 
-        def column_choose():
-            column_choice = input("""Which field would you like to update? 
-                [1] Name
-                [2] Packs Supplied
-                [3] Packs Used
-                [4] Location
-                Enter column number [1-4]: """)
-            try:
-                column_choice = str(int(column_choice))
-            except TypeError:
-                print("Please enter a integer")
-                column_choose()
-            try:
-                1 <= int(column_choice) <= 4
-            except ArithmeticError:
-                print("Please enter a number between 1 and 4")
-                column_choose()
+        for i in ration_list:
+            id_list.append(i[1])
 
-            if column_choice == "1":
-                update_stall_name()
-            elif column_choice == "2":
-                update_packs_supplied()
-                update_stall_status_remaining()
-            elif column_choice == "3":
-                update_packs_used()
-                update_stall_status_remaining()
-            elif column_choice == "4":
-                update_stall_location()
+        ration_id = StringVar()
+        ration_name = StringVar()
+        ration_supply = StringVar()
+        ration_use = StringVar()
+        ration_location = StringVar()
 
-        column_choose()
+        id_select_label = Label(update_block_screen_id, text="Please choose a Stall ID to update")
+        id_select_label.pack()
+        ration_id.set("Select ID")
+        id_select_option = OptionMenu(update_block_screen_id, ration_id, *id_list)
+        id_select_option.pack()
 
-        new_string = ','.join(ration_list[row_choice_index])
+        def update_run():
 
-        ration_stalls.close()
+            update_block_screen = Toplevel()
+            update_block_screen.title("Update Stall")
 
-        stalls_read = open("ration_stall.txt", "r")
+            id = int(ration_id.get())
+            x = id - 1
 
-        lines = stalls_read.readlines()
+            update_stall = [ration_list[x][0], id, ration_list[x][2], ration_list[x][3], ration_list[x][4],
+                                    ration_list[x][5], ration_list[x][6], ration_list[x][7]]
 
-        lines[int(row_choice_index)] = new_string
+            new_block_intro_label = Label(update_block_screen,
+                                          text="To update this Ration Stall, please fill in the form below.")
+            new_block_intro_label.pack()
 
-        with open('ration_stall.txt', 'w') as file1:
-            file1.writelines(lines)
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Ration Stall is {id}")
+            new_block_id_label.pack()
 
-        print("File Updated!")
+            new_block_name_label = Label(update_block_screen, text="Stall Name: ")
+            new_block_name_label.pack()
+            new_block_name_entry = Entry(update_block_screen, textvariable=ration_name)
+            new_block_name_entry.insert(END, f"{ration_list[x][2]}")
+            new_block_name_entry.pack()
 
-    def add_or_view_func():
-        add_or_view = int(input("""
-        Would you like to: 
-            [1] View 
-            [2] Add
-        Your Choice: """))
+            new_block_capacity_label = Label(update_block_screen, text="Packs Supplied: ")
+            new_block_capacity_label.pack()
+            new_block_capacity_entry = Entry(update_block_screen, textvariable=ration_supply)
+            new_block_capacity_entry.insert(END, f"{ration_list[x][3]}")
+            new_block_capacity_entry.pack()
 
-        if add_or_view == 1:
-            t_ration = PrettyTable([
-                "Stall ID",
-                "Ration Stall Name",
-                "Packs Supplied",
-                "Packs Distributed",
-                "Stall Status",
-                "Remaining Stock",
-                "Stall Location"
-            ])
-            for z in ration_list:
-                t_ration.add_row(z[0:7])
-            print(t_ration)
-            update_choice()
+            new_block_occupancy_label = Label(update_block_screen, text="Packs Distributed: ")
+            new_block_occupancy_label.pack()
+            new_block_occupancy_entry = Entry(update_block_screen, textvariable=ration_use)
+            new_block_occupancy_entry.insert(END, f"{ration_list[x][4]}")
+            new_block_occupancy_entry.pack()
 
-            home()
-        elif add_or_view == 2:
-            add_new_stall()
-            home()
+            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+            ration_location.set(f"{ration_list[x][7]}")
+            new_block_location_label = Label(update_block_screen, text="Stall Location: ")
+            new_block_location_label.pack()
+            new_block_location_entry = OptionMenu(update_block_screen, ration_location, *location_list)
+            new_block_location_entry.pack()
 
-    add_or_view_func()
+            def summary():
+                ration_summary = Toplevel()
+
+                ration_summary.title("Ration Stall Summary")
+
+                label_1 = Label(ration_summary, text="Please check that you are happy with the entry below:")
+                label_1.pack()
+
+                summary_label = Label(ration_summary, text=f"""
+                            Stall Name: {ration_name.get()} \n 
+                            Packs Supplied: {ration_supply.get()} \n 
+                            Packs Distributed: {ration_use.get()} \n 
+                            Stall Location: {ration_location.get()}""")
+                summary_label.pack()
+
+                def edit_command():
+                    ration_summary.destroy()
+
+                def submit_command():
+                    update_stall[1] = str(ration_id.get())
+                    update_stall[2] = ration_name.get()
+                    update_stall[3] = str(ration_supply.get())
+                    update_stall[4] = str(ration_use.get())
+                    update_stall[6] = str(int(update_stall[3]) - int(update_stall[4]))
+                    if int(update_stall[6]) > 0:
+                        update_stall[5] = "PACKS AVAILABLE"
+                    else:
+                        update_stall[5] = "PACKS DEPLETED"
+                    update_stall[7] = ration_location.get()
+
+                    new_ration_string = ','.join(update_stall) + ","
+
+                    ration.close()
+
+                    ration_read = open("ration_stall.txt", "r")
+
+                    lines = ration_read.readlines()
+
+                    lines[int(x)] = new_ration_string + "\n"
+
+                    with open('ration_stall.txt', 'w') as file2:
+                        file2.writelines(lines)
+
+                    ration_summary.destroy()
+                    update_block_screen.destroy()
+                    ration_window.destroy()
+                    main_window.destroy()
+                    main()
+
+                edit_button = Button(ration_summary, text="Edit", command=edit_command)
+                edit_button.pack()
+                submit_button = Button(ration_summary, text="Submit", command=submit_command)
+                submit_button.pack()
+
+                ration_summary.mainloop()
+
+            error_frame = Frame(update_block_screen)
+
+            def check_block():
+
+                for widget in error_frame.winfo_children():
+                    widget.destroy()
+
+                check_status = ["0", "0", "0", "0", "0", "0"]
+
+                def name_check():
+                    if ration_name.get().strip() == "":
+                        new_block_name_reentry_1 = Label(error_frame, text="Please enter a Stall Name")
+                        new_block_name_reentry_1.pack()
+                    else:
+                        check_status[0] = "1"
+
+                    ration_name_list = []
+                    for n in range(0, len(ration_list)):
+                        ration_name_list.append(ration_list[n][2])
+                        ration_name_list.remove(ration_list[x][2])
+                    if ration_name.get() in ration_name_list:
+                        new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                        new_block_name_reentry_2.pack()
+                    else:
+                        check_status[1] = "1"
+
+                name_check()
+
+                def supply_check():
+                    try:
+                        int(ration_supply.get())
+                        check_status[2] = "1"
+                    except ValueError:
+                        new_block_capacity_reentry = Label(error_frame,
+                                                           text="Please enter an integer for packs supplied")
+                        new_block_capacity_reentry.pack()
+
+                supply_check()
+
+                def use_check():
+                    try:
+                        int(ration_use.get())
+                        check_status[3] = "1"
+                    except ValueError:
+                        new_block_occupancy_reentry_1 = Label(error_frame,
+                                                              text="Please enter an integer for packs distributed")
+                        new_block_occupancy_reentry_1.pack()
+                    if check_status[3] == "1" and check_status[1] == "1":
+                        try:
+                            if int(ration_use.get()) <= int(ration_supply.get()):
+                                check_status[4] = "1"
+                            else:
+                                new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                      text="Please enter an used lower than supplied")
+                                new_block_occupancy_reentry_2.pack()
+                        except ValueError:
+                            pass
+
+                use_check()
+
+                def location_check():
+                    if ration_location.get() == "Select Stall Area":
+                        new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                        new_block_location_reentry.pack()
+                    else:
+                        check_status[5] = "1"
+
+                location_check()
+
+                if "0" in check_status:
+                    error_frame.pack()
+                else:
+                    summary()
+
+            new_block_done = Button(update_block_screen, text="Done", command=check_block)
+            new_block_done.pack()
+
+            update_block_screen.mainloop()
+
+        id_done = Button(update_block_screen_id, text="Done", command=update_run)
+        id_done.pack()
+
+        update_block_screen_id.mainloop()
+
+    def generate_ration_window():
+        global ration_window
+        ration_window = Toplevel()
+
+        ration_window.title("Ration Portal")
+
+        accommodation_label = Label(ration_window, text="Ration Portal", font=("Avenir", 22))
+        accommodation_label.pack()
+
+        view_block_button = Button(ration_window, text="View/Update Stalls", command=view_existing_stalls,
+                                   width=30, height=2, borderwidth=5)
+        view_block_button.pack()
+
+        add_block_button = Button(ration_window, text="Add New Stall", command=add_new_ration, width=30, height=2,
+                                  borderwidth=5)
+        add_block_button.pack()
+
+        camp_layout_button = Button(ration_window, text="View Camp Layout", command=camp_layout, width=30,
+                                    height=2, borderwidth=5)
+        camp_layout_button.pack()
+
+        ration_window.mainloop()
+
+    generate_ration_window()
 
 
 def toilets_portal():
-    toilets = open("toilets.txt", "r+")
-
-    toilets_list = []
-    for line in toilets:
-        line_list = line.split(",")
-        toilets_list.append(line_list)
-
-    def add_new_toilet():
-        new_toilet = ["NA", "NA", "NA", "NA", "NA", "NA", "NA"]
-
-        def new_toilet_id():
-            if len(toilets_list) == 0:
-                new_toilet[0] = "1"
-            elif len(toilets_list) >= 1:
-                new_toilet[0] = str((int((toilets_list[-1])[0]) + 1))
-            print("The index number for this emergency is ", new_toilet[0])
-
-        new_toilet_id()
-
-        def new_toilet_name():
-            new_toilet[1] = input("Toilet Block Name: ")
-
-            toilets_name_list = []
-            for n in range(0, len(toilets_list)):
-                toilets_name_list.append((toilets_list[n])[1])
-            while new_toilet[1] in toilets_name_list:
-                new_toilet[1] = input(
-                    "This name is already in use. Please enter a new name for this toilet block: ")
-
-        new_toilet_name()
-
-        def new_toilet_location():
-
-            new_toilet[2] = input("Location: ")
-
-        new_toilet_location()
-
-        def new_toilet_proximity():
-            accommodations_1 = open("accommodations.txt", "r+")
-
-            blocks_list_1 = []
-            for line_1 in accommodations_1:
-                line_list_1 = line_1.split(",")
-                blocks_list_1.append(line_list_1)
-
-            new_toilet[3] = ""
-            for x in blocks_list_1:
-                if x[6] == new_toilet[2]:
-                    new_toilet[3] += (x[0] + '/')
-
-            new_toilet[3]=new_toilet[3][:-1]
-
-            print("Accommodation Blocks in proximity are ", new_toilet[3])
-
-        new_toilet_proximity()
-
-        new_toilet_string = ','.join(new_toilet)
-
-        toilets.close()
-
-        toilet_append = open("toilets.txt", "a")
-        toilet_append.write(new_toilet_string + ",\n")
-        toilet_append.close()
-
-
-    def add_or_view_func():
-        add_or_view = int(input("""
-        Would you like to: 
-            [1] View 
-            [2] Add
-        Your Choice: """))
-
-        if add_or_view == 1:
-            t_toilets = PrettyTable([
-                "Toilet ID",
-                "Toilet Name",
-                "Toilet Location",
-                "Toilet Proximity",
-                "Block Status",
-                "Block Space",
-                "Block Location"
-            ])
-            for z in toilets_list:
-                t_toilets.add_row(z[0:7])
-            print(t_toilets)
-
-            home()
-        elif add_or_view == 2:
-            add_new_toilet()
-            home()
-
-    add_or_view_func()
+    pass
 
 
 def medical_portal():
     pass
 
 
-def home():
-    home_choice = input("""
-What would you like to do now?
-    [1] Home
-    [2] Exit Application
-Your Choice: """)
+def camp_layout():
 
-    if home_choice == "1":
-        main()
-    elif home_choice == "2":
-        exit()
-    else:
-        print("Please enter valid option")
-        home()
+    accommodation_file = open("accommodations.txt", "r")
+    ration_file = open("ration_stall.txt", "r")
+    toilet_file = open("toilets.txt", "r")
+    medical_file = open("medical.txt", "r")
+
+    accom_list = []
+    for line1 in accommodation_file:
+        list1 = line1.split(",")
+        accom_list.append(list1)
+
+    ration_list = []
+    for line2 in ration_file:
+        list2 = line2.split(",")
+        ration_list.append(list2)
+
+    toilet_list = []
+    for line3 in toilet_file:
+        list3 = line3.split(",")
+        toilet_list.append(list3)
+
+    medical_list = []
+    for line4 in medical_file:
+        list4 = line4.split(",")
+        medical_list.append(list4)
+
+    accom_north = []
+    ration_north = []
+    toilet_north = []
+    medical_north = []
+
+    accom_east = []
+    ration_east = []
+    toilet_east = []
+    medical_east = []
+
+    accom_south = []
+    ration_south = []
+    toilet_south = []
+    medical_south = []
+
+    accom_west = []
+    ration_west = []
+    toilet_west = []
+    medical_west = []
+
+    for i in accom_list:
+        if i[7] == "North Wing":
+            accom_north.append(i)
+        elif i[7] == "East Wing":
+            accom_east.append(i)
+        elif i[7] == "South Wing":
+            accom_south.append(i)
+        elif i[7] == "West Wing":
+            accom_west.append(i)
+
+    for i in ration_list:
+        if i[7] == "North Wing":
+            ration_north.append(i)
+        elif i[7] == "East Wing":
+            ration_east.append(i)
+        elif i[7] == "South Wing":
+            ration_south.append(i)
+        elif i[7] == "West Wing":
+            ration_west.append(i)
+
+    for i in toilet_list:
+        if i[7] == "North Wing":
+            toilet_north.append(i)
+        elif i[7] == "East Wing":
+            toilet_east.append(i)
+        elif i[7] == "South Wing":
+            toilet_south.append(i)
+        elif i[7] == "West Wing":
+            toilet_west.append(i)
+
+    for i in medical_list:
+        if i[7] == "North Wing":
+            medical_north.append(i)
+        elif i[7] == "East Wing":
+            medical_east.append(i)
+        elif i[7] == "South Wing":
+            medical_south.append(i)
+        elif i[7] == "West Wing":
+            medical_west.append(i)
+
+    camp_summary_window = Toplevel()
+    camp_summary_window.title("Camp Layout")
+
+    screen_width = main_window.winfo_screenwidth()
+    screen_height = main_window.winfo_screenheight()
+    window_height = screen_height
+    window_width = 750
+
+    center_x = int(screen_width / 2 - window_width / 2)
+    center_y = int(screen_height / 2 - window_height / 2)
+    camp_summary_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+    north_frame = Frame(camp_summary_window, highlightbackground="orange", highlightthickness=3)
+    north_frame.pack()
+    north_frame.place(relx=0.5, rely=0.02, anchor=N)
+
+    north_label = Label(north_frame, text="North Wing", font=("Avenir", 22, "bold", "underline"))
+    north_label.pack()
+
+    north_accom_label = Label(north_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    north_accom_label.pack()
+
+    for i in accom_north:
+        accom_north_label = Label(north_frame, text=f"{i[2]} ({i[4]} occupants)")
+        accom_north_label.pack()
+
+    north_ration_label = Label(north_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    north_ration_label.pack()
+
+    for i in ration_north:
+        ration_north_label = Label(north_frame, text=f"Hello {i[2]}")
+        ration_north_label.pack()
+
+    north_toilet_label = Label(north_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    north_toilet_label.pack()
+
+    for i in toilet_north:
+        toilet_north_label = Label(north_frame, text=f"Hello {i[2]}")
+        toilet_north_label.pack()
+
+    north_medical_label = Label(north_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    north_medical_label.pack()
+
+    for i in medical_north:
+        medical_north_label = Label(north_frame, text=f"Hello {i[2]}")
+        medical_north_label.pack()
+
+    east_frame = Frame(camp_summary_window, highlightbackground="orange", highlightthickness=3)
+    east_frame.pack()
+    east_frame.place(relx=0.98, rely=0.5, anchor=E)
+
+    east_label = Label(east_frame, text="East Wing", font=("Avenir", 22, "bold", "underline"))
+    east_label.pack()
+
+    east_accom_label = Label(east_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    east_accom_label.pack()
+
+    for x in accom_east:
+        accom_east_label = Label(east_frame, text=f"{x[2]} ({x[4]} occupants)")
+        accom_east_label.pack()
+
+    east_ration_label = Label(east_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    east_ration_label.pack()
+
+    for x in ration_east:
+        ration_east_label = Label(east_frame, text=f"Hello {x[2]}")
+        ration_east_label.pack()
+
+    east_toilet_label = Label(east_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    east_toilet_label.pack()
+
+    for x in toilet_east:
+        toilet_east_label = Label(east_frame, text=f"Hello {x[2]}")
+        toilet_east_label.pack()
+
+    east_medical_label = Label(east_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    east_medical_label.pack()
+
+    for x in medical_east:
+        medical_east_label = Label(east_frame, text=f"Hello {x[2]}")
+        medical_east_label.pack()
+
+    south_frame = Frame(camp_summary_window, highlightbackground="orange", highlightthickness=3)
+    south_frame.pack()
+    south_frame.place(relx=0.5, rely=0.98, anchor=S)
+
+    south_label = Label(south_frame, text="South Wing", font=("Avenir", 22, "bold", "underline"))
+    south_label.pack()
+
+    south_accom_label = Label(south_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    south_accom_label.pack()
+
+    for y in accom_south:
+        accom_south_label = Label(south_frame, text=f"{y[2]} ({y[4]} occupants)")
+        accom_south_label.pack()
+
+    south_ration_label = Label(south_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    south_ration_label.pack()
+
+    for y in ration_south:
+        ration_south_label = Label(south_frame, text=f"Hello {y[2]}")
+        ration_south_label.pack()
+
+    south_toilet_label = Label(south_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    south_toilet_label.pack()
+
+    for y in toilet_south:
+        toilet_south_label = Label(south_frame, text=f"Hello {y[2]}")
+        toilet_south_label.pack()
+
+    south_medical_label = Label(south_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    south_medical_label.pack()
+
+    for y in medical_south:
+        medical_south_label = Label(south_frame, text=f"Hello {y[2]}")
+        medical_south_label.pack()
+
+    west_frame = Frame(camp_summary_window, highlightbackground="orange", highlightthickness=3)
+    west_frame.pack()
+    west_frame.place(relx=0.02, rely=0.5, anchor=W)
+
+    west_label = Label(west_frame, text="West Wing", font=("Avenir", 22, "bold", "underline"))
+    west_label.pack()
+
+    west_accom_label = Label(west_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    west_accom_label.pack()
+
+    for z in accom_west:
+        accom_west_label = Label(west_frame, text=f"{z[2]} ({z[4]} occupants)")
+        accom_west_label.pack()
+
+    west_ration_label = Label(west_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    west_ration_label.pack()
+
+    for z in ration_west:
+        ration_west_label = Label(west_frame, text=f"Hello {z[2]}")
+        ration_west_label.pack()
+
+    west_toilet_label = Label(west_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    west_toilet_label.pack()
+
+    for z in toilet_west:
+        toilet_west_label = Label(west_frame, text=f"Hello {z[2]}")
+        toilet_west_label.pack()
+
+    west_medical_label = Label(west_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    west_medical_label.pack()
+
+    for z in medical_west:
+        medical_west_label = Label(west_frame, text=f"Hello {z[2]}")
+        medical_west_label.pack()
+
+    camp_summary_window.mainloop()
+
+
+def settings():
+    pass
 
 
 def main():
+    global main_window
 
-    choice = input("""
-Select an option: 
-    [1] Volunteers
-    [2] Accommodation Blocks
-    [3] Ration Stalls
-    [4] Toilet Blocks
-    [5] Medical Dispensaries 
-    [6] Exit Application 
-Your Choice: """)
+    main_window = Tk()
+    main_window.minsize(320, 435)
+    main_window.maxsize(320, 435)
 
-    if choice == "1":
-        volunteers_portal()
-    elif choice == "2":
-        accommodation_portal()
-    elif choice == "3":
-        ration_portal()
-    elif choice == "4":
-        toilets_portal()
-    elif choice == "5":
-        medical_portal()
-    elif choice == "6":
-        exit()
-    else:
-        print("Please enter valid option")
-        main()
+    main_window.title("Portal Homepage")
+
+    portal_welcome = Label(main_window, text="Welcome to Your Portal!", height=2, font=('Avenir', 25, "bold", "underline"))
+    portal_welcome.pack()
+
+    volunteers_button = Button(main_window, text="Volunteers List", command=volunteers_portal, width=30, height=2)
+    volunteers_button.pack()
+    accommodation_button = Button(main_window, text="Accommodation Blocks", command=accommodation_portal, width=30, height=2)
+    accommodation_button.pack()
+    ration_button = Button(main_window, text="Ration Stalls", command=ration_portal, width=30, height=2)
+    ration_button.pack()
+    toilets_button = Button(main_window, text="Toilet Blocks", command=toilets_portal, width=30, height=2)
+    toilets_button.pack()
+    medical_button = Button(main_window, text="Medical Dispensaries", command=medical_portal, width=30, height=2)
+    medical_button.pack()
+    layout_button = Button(main_window, text="Camp Layout", command=camp_layout, width=30, height=2)
+    layout_button.pack()
+    settings_button = Button(main_window, text="Settings", command=settings, width=30, height=2)
+    settings_button.pack()
+    exit_button = Button(main_window, text="Log Out", command=exit, width=30, height=2)
+    exit_button.pack()
+
+    main_window.mainloop()
 
 
 if __name__ == '__main__':
