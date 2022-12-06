@@ -1,2 +1,0 @@
-new,new,activated
-admin,admin,deactivated
