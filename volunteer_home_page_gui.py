@@ -25,6 +25,7 @@ def View_Refugee():
 def Manage_Refugees():
     pass
 
+
 #Create main window of the application
 refugee_home = tkinter.Tk()
 refugee_home.geometry("500x1000")
