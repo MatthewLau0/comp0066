@@ -24,7 +24,6 @@ def setupUpdate():
         line_list = line.split("%")
         emergency_database_list.append(line_list)
     emergency_database_file.close()
-    UpdateEmergencyScreen()
 
     # Establish some variables
     startDate = "NA"
@@ -36,6 +35,8 @@ def setupUpdate():
     camp_name_list = []
     for i in range(0, len(emergency_database_list)):
         camp_name_list.append((emergency_database_list[i])[1])
+
+    UpdateEmergencyScreen()
 
 def UpdateEmergencyScreen():
     global Update_Emergency_Home_Screen
