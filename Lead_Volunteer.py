@@ -1,10 +1,89 @@
 from tkinter import *
 from tkinter import ttk
 
-camp_id = 1
+camp_id = 2
 
 def volunteers_portal():
-    pass
+    volunteers_file = open("volunteers.txt", "r")
+
+    volunteers_list = []
+    for line in volunteers_file:
+        line_string = line.split("%")
+        if line_string[0] == str(camp_id):
+            volunteers_list.append(line_string)
+
+    def view_volunteers_list():
+
+        view_volunteers_screen = Toplevel()
+
+        view_volunteers_screen.title("View Volunteers List")
+
+        game_frame = Frame(view_volunteers_screen)
+        game_frame.pack()
+
+        my_game = ttk.Treeview(game_frame)
+
+        my_game['columns'] = (
+            "Camp ID",
+            "Volunteer ID",
+            "Volunteer Name",
+            "Volunteer Username",
+            "Volunteer Email",
+            "Volunteer Number",
+            "Volunteer Gender",
+            "Volunteer Age",
+            "Volunteer Availability",
+            "Volunteer Account Status"
+        )
+
+        my_game.column("#0", width=0, stretch=NO)
+        my_game.column("Camp ID", anchor=CENTER, width=100)
+        my_game.column("Volunteer ID", anchor=CENTER, width=100)
+        my_game.column("Volunteer Name", anchor=CENTER, width=150)
+        my_game.column("Volunteer Username", anchor=CENTER, width=150)
+        my_game.column("Volunteer Email", anchor=CENTER, width=150)
+        my_game.column("Volunteer Number", anchor=CENTER, width=150)
+        my_game.column("Volunteer Gender", anchor=CENTER, width=150)
+        my_game.column("Volunteer Age", anchor=CENTER, width=150)
+        my_game.column("Volunteer Availability", anchor=CENTER, width=150)
+        my_game.column("Volunteer Account Status", anchor=CENTER, width=150)
+
+        my_game.heading("#0", text="", anchor=CENTER)
+        my_game.heading("Camp ID", text="Camp ID", anchor=CENTER)
+        my_game.heading("Volunteer ID", text="Volunteer ID", anchor=CENTER)
+        my_game.heading("Volunteer Name", text="Name", anchor=CENTER)
+        my_game.heading("Volunteer Username", text="Username", anchor=CENTER)
+        my_game.heading("Volunteer Email", text="Email", anchor=CENTER)
+        my_game.heading("Volunteer Number", text="Number", anchor=CENTER)
+        my_game.heading("Volunteer Gender", text="Gender", anchor=CENTER)
+        my_game.heading("Volunteer Age", text="Age", anchor=CENTER)
+        my_game.heading("Volunteer Availability", text="Availability", anchor=CENTER)
+        my_game.heading("Volunteer Account Status", text="Account Status", anchor=CENTER)
+
+        #1%1%Sanchit Aapan%username%password%sanchit@hotmail.co.uk%+447855037367%Male%20%Every Monday 3pm%Active
+
+        for i in range(0, len(volunteers_list)):
+            my_game.insert(parent='', index=i, iid=i, values=(
+                volunteers_list[i][0],
+                volunteers_list[i][1],
+                volunteers_list[i][2],
+                volunteers_list[i][3],
+                volunteers_list[i][5],
+                volunteers_list[i][6],
+                volunteers_list[i][7],
+                volunteers_list[i][8],
+                volunteers_list[i][9],
+                volunteers_list[i][10]
+            ))
+
+        my_game.pack()
+
+
+
+        view_volunteers_screen.mainloop()
+
+    view_volunteers_list()
+
 
 
 def accommodation_portal():
@@ -92,7 +171,7 @@ def accommodation_portal():
                 new_accommodation[4] = str(block_occ.get())
                 new_accommodation[6] = str(int(new_accommodation[3]) - int(new_accommodation[4]))
                 if int(new_accommodation[6]) > 0:
-                    new_accommodation[5] = "VACANT"
+                    new_accommodation[5] = "VACANCIES"
                 else:
                     new_accommodation[5] = "FULL"
                 new_accommodation[7] = block_location.get()
@@ -198,7 +277,7 @@ def accommodation_portal():
 
         view_existing_blocks_screen = Toplevel()
 
-        view_existing_blocks_screen.title("View/Update Blocks")
+        view_existing_blocks_screen.title("View/Update Accommodation Blocks")
 
         game_frame = Frame(view_existing_blocks_screen)
         game_frame.pack()
@@ -344,7 +423,7 @@ def accommodation_portal():
                     update_accommodation[4] = str(block_occ.get())
                     update_accommodation[6] = str(int(update_accommodation[3]) - int(update_accommodation[4]))
                     if int(update_accommodation[6]) > 0:
-                        update_accommodation[5] = "VACANT"
+                        update_accommodation[5] = "VACANCIES"
                     else:
                         update_accommodation[5] = "FULL"
                     update_accommodation[7] = block_location.get()
@@ -477,7 +556,7 @@ def accommodation_portal():
         accommodation_label = Label(accommodation_window, text="Accommodation Portal", font=("Avenir", 22))
         accommodation_label.pack()
 
-        view_block_button = Button(accommodation_window, text="View/Update Blocks", command=view_existing_blocks, width=30, height=2, borderwidth=5)
+        view_block_button = Button(accommodation_window, text="View/Update Accommodation Blocks", command=view_existing_blocks, width=30, height=2, borderwidth=5)
         view_block_button.pack()
 
         add_block_button = Button(accommodation_window, text="Add New Block", command=add_new_block, width=30, height=2, borderwidth=5)
@@ -546,7 +625,7 @@ def ration_portal():
         new_block_occupancy_entry.pack()
 
         location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
-        ration_location.set("Select Stall Area")
+        ration_location.set("Select Camp Area")
         new_block_location_label = Label(new_ration_screen, text="Stall Location: ")
         new_block_location_label.pack()
         new_block_location_entry = OptionMenu(new_ration_screen, ration_location, *location_list)
@@ -555,7 +634,7 @@ def ration_portal():
         def summary():
             ration_summary = Toplevel()
 
-            ration_summary.title("Accommodation Block Summary")
+            ration_summary.title("Ration Stall Summary")
 
             label_1 = Label(ration_summary, text="Please check that you are happy with the entry below:")
             label_1.pack()
@@ -660,7 +739,7 @@ def ration_portal():
             use_check()
 
             def location_check():
-                if ration_location.get() == "Select Stall Area":
+                if ration_location.get() == "Select Camp Area":
                     new_block_location_reentry = Label(error_frame, text="Please choose a location")
                     new_block_location_reentry.pack()
                 else:
@@ -682,7 +761,7 @@ def ration_portal():
 
         view_existing_stalls_screen = Toplevel()
 
-        view_existing_stalls_screen.title("View/Update Stalls")
+        view_existing_stalls_screen.title("View/Update Ration Stalls")
 
         game_frame = Frame(view_existing_stalls_screen)
         game_frame.pack()
@@ -933,7 +1012,7 @@ def ration_portal():
                 use_check()
 
                 def location_check():
-                    if ration_location.get() == "Select Stall Area":
+                    if ration_location.get() == "Select Camp Area":
                         new_block_location_reentry = Label(error_frame, text="Please choose a location")
                         new_block_location_reentry.pack()
                     else:
@@ -962,10 +1041,10 @@ def ration_portal():
 
         ration_window.title("Ration Portal")
 
-        accommodation_label = Label(ration_window, text="Ration Portal", font=("Avenir", 22))
-        accommodation_label.pack()
+        ration_label = Label(ration_window, text="Ration Portal", font=("Avenir", 22))
+        ration_label.pack()
 
-        view_block_button = Button(ration_window, text="View/Update Stalls", command=view_existing_stalls,
+        view_block_button = Button(ration_window, text="View/Update Ration Stalls", command=view_existing_stalls,
                                    width=30, height=2, borderwidth=5)
         view_block_button.pack()
 
@@ -983,11 +1062,987 @@ def ration_portal():
 
 
 def toilets_portal():
-    pass
+    toilets = open("toilets.txt", "r+")
+
+    toilet_list = []
+    for line in toilets:
+        line_list = line.split(",")
+        if line_list[0] == str(camp_id):
+            toilet_list.append(line_list)
+
+    def add_new_toilet():
+
+        new_toilet = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_toilet_screen = Toplevel()
+        new_toilet_screen.title("Add New Toilet Block")
+
+        new_toilet[0] = str(camp_id)
+
+        def new_toilet_id():
+            if len(toilet_list) == 0:
+                new_toilet[1] = "1"
+            elif len(toilet_list) >= 1:
+                new_toilet[1] = str((int((toilet_list[-1])[1]) + 1))
+
+        new_toilet_id()
+
+        toilet_name = StringVar()
+        toilet_cap = StringVar()
+        toilet_occ = StringVar()
+        toilet_location = StringVar()
+
+        new_block_intro_label = Label(new_toilet_screen,
+                                      text="To create a new Toilet Block, please fill in the form below.")
+        new_block_intro_label.pack()
+
+        new_block_id_label = Label(new_toilet_screen,
+                                   text=f"The ID Number of this Toilet Block is {new_toilet[1]}")
+        new_block_id_label.pack()
+
+        new_block_name_label = Label(new_toilet_screen, text="Toilet Block Name: ")
+        new_block_name_label.pack()
+        new_block_name_entry = Entry(new_toilet_screen, textvariable=toilet_name)
+        new_block_name_entry.pack()
+
+        new_block_capacity_label = Label(new_toilet_screen, text="Toilet Block Capacity: ")
+        new_block_capacity_label.pack()
+        new_block_capacity_entry = Entry(new_toilet_screen, textvariable=toilet_cap)
+        new_block_capacity_entry.pack()
+
+        new_block_occupancy_label = Label(new_toilet_screen, text="Toilet Block Occupancy: ")
+        new_block_occupancy_label.pack()
+        new_block_occupancy_entry = Entry(new_toilet_screen, textvariable=toilet_occ)
+        new_block_occupancy_entry.pack()
+
+        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+        toilet_location.set("Select Camp Area")
+        new_block_location_label = Label(new_toilet_screen, text="Toilet Block Location: ")
+        new_block_location_label.pack()
+        new_block_location_entry = OptionMenu(new_toilet_screen, toilet_location, *location_list)
+        new_block_location_entry.pack()
+
+        def summary():
+            toilet_summary = Toplevel()
+
+            toilet_summary.title("Toilet Block Summary")
+
+            label_1 = Label(toilet_summary, text="Please check that you are happy with the entry below:")
+            label_1.pack()
+
+            summary_label = Label(toilet_summary, text=f"""
+                    Toilet Block Name: {toilet_name.get()} \n 
+                    Toilet Block Capacity: {toilet_cap.get()} \n 
+                    Toilet Block Occupancy: {toilet_occ.get()} \n 
+                    Toilet Block Location: {toilet_location.get()}""")
+            summary_label.pack()
+
+            def edit_command():
+                toilet_summary.destroy()
+
+            def submit_command():
+                new_toilet[2] = toilet_name.get()
+                new_toilet[3] = str(toilet_cap.get())
+                new_toilet[4] = str(toilet_occ.get())
+                new_toilet[6] = str(int(new_toilet[3]) - int(new_toilet[4]))
+                if int(new_toilet[6]) > 0:
+                    new_toilet[5] = "VACANCIES"
+                else:
+                    new_toilet[5] = "FULL"
+                new_toilet[7] = toilet_location.get()
+
+                new_toilet_string = ','.join(new_toilet)
+
+                toilets.close()
+
+                toilet_append = open("toilets.txt", "a")
+                toilet_append.write(new_toilet_string + ",\n")
+                toilet_append.close()
+
+                toilet_summary.destroy()
+                new_toilet_screen.destroy()
+                toilet_window.destroy()
+                main_window.destroy()
+                main()
+
+            edit_button = Button(toilet_summary, text="Edit", command=edit_command)
+            edit_button.pack()
+            submit_button = Button(toilet_summary, text="Submit", command=submit_command)
+            submit_button.pack()
+
+            toilet_summary.mainloop()
+
+        error_frame = Frame(new_toilet_screen)
+
+        def check_block():
+
+            for widget in error_frame.winfo_children():
+                widget.destroy()
+
+            check_status = ["0", "0", "0", "0", "0", "0"]
+
+            def name_check():
+                if toilet_name.get().strip() == "":
+                    new_block_name_reentry_1 = Label(error_frame, text="Please enter a Block Name")
+                    new_block_name_reentry_1.pack()
+                else:
+                    check_status[0] = "1"
+
+                ration_name_list = []
+                for n in range(0, len(toilet_list)):
+                    ration_name_list.append(toilet_list[n][2])
+                if toilet_name.get() in ration_name_list:
+                    new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                    new_block_name_reentry_2.pack()
+                else:
+                    check_status[1] = "1"
+
+            name_check()
+
+            def supply_check():
+                try:
+                    int(toilet_cap.get())
+                    check_status[2] = "1"
+                except ValueError:
+                    new_block_capacity_reentry = Label(error_frame, text="Please enter an integer for toilet capacity")
+                    new_block_capacity_reentry.pack()
+
+            supply_check()
+
+            def use_check():
+                try:
+                    int(toilet_occ.get())
+                    check_status[3] = "1"
+                except ValueError:
+                    new_block_occupancy_reentry_1 = Label(error_frame,
+                                                          text="Please enter an integer for toilet occupancy")
+                    new_block_occupancy_reentry_1.pack()
+                if check_status[3] == "1" and check_status[1] == "1":
+                    try:
+                        if int(toilet_occ.get()) <= int(toilet_cap.get()):
+                            check_status[4] = "1"
+                        else:
+                            new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                  text="Please enter an occupancy lower than the capacity")
+                            new_block_occupancy_reentry_2.pack()
+                    except ValueError:
+                        pass
+
+            use_check()
+
+            def location_check():
+                if toilet_location.get() == "Select Camp Area":
+                    new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                    new_block_location_reentry.pack()
+                else:
+                    check_status[5] = "1"
+
+            location_check()
+
+            if "0" in check_status:
+                error_frame.pack()
+            else:
+                summary()
+
+        new_block_done = Button(new_toilet_screen, text="Done", command=check_block)
+        new_block_done.pack()
+
+        new_toilet_screen.mainloop()
+
+    def view_existing_toilets():
+
+        view_existing_toilets_screen = Toplevel()
+
+        view_existing_toilets_screen.title("View/Update Toilet Blocks")
+
+        game_frame = Frame(view_existing_toilets_screen)
+        game_frame.pack()
+
+        my_game = ttk.Treeview(game_frame)
+
+        my_game['columns'] = (
+            "Camp ID",
+            "Toilet Block ID",
+            "Toilet Block Name",
+            "Toilet Block Capacity",
+            "Toilet Block Occupancy",
+            "Toilet Block Status",
+            "Toilet Block Spaces",
+            "Toilet Block Location"
+        )
+
+        my_game.column("#0", width=0, stretch=NO)
+        my_game.column("Camp ID", anchor=CENTER, width=100)
+        my_game.column("Toilet Block ID", anchor=CENTER, width=100)
+        my_game.column("Toilet Block Name", anchor=CENTER, width=150)
+        my_game.column("Toilet Block Capacity", anchor=CENTER, width=150)
+        my_game.column("Toilet Block Occupancy", anchor=CENTER, width=150)
+        my_game.column("Toilet Block Status", anchor=CENTER, width=150)
+        my_game.column("Toilet Block Spaces", anchor=CENTER, width=150)
+        my_game.column("Toilet Block Location", anchor=CENTER, width=150)
+
+        my_game.heading("#0", text="", anchor=CENTER)
+        my_game.heading("Camp ID", text="Camp ID", anchor=CENTER)
+        my_game.heading("Toilet Block ID", text="Block ID", anchor=CENTER)
+        my_game.heading("Toilet Block Name", text="Name", anchor=CENTER)
+        my_game.heading("Toilet Block Capacity", text="Capacity", anchor=CENTER)
+        my_game.heading("Toilet Block Occupancy", text="Occupancy", anchor=CENTER)
+        my_game.heading("Toilet Block Status", text="Status", anchor=CENTER)
+        my_game.heading("Toilet Block Spaces", text="Spaces", anchor=CENTER)
+        my_game.heading("Toilet Block Location", text="Location", anchor=CENTER)
+
+        for i in range(0, len(toilet_list)):
+            my_game.insert(parent='', index=i, iid=i, values=(
+                toilet_list[i][0],
+                toilet_list[i][1],
+                toilet_list[i][2],
+                toilet_list[i][3],
+                toilet_list[i][4],
+                toilet_list[i][5],
+                toilet_list[i][6],
+                toilet_list[i][7]
+            ))
+
+        my_game.pack()
+
+        update_button = Button(view_existing_toilets_screen, text="Update a Toilet Block", command=update_toilet)
+
+        if len(toilet_list) > 0:
+            update_button.pack()
+
+        view_existing_toilets_screen.mainloop()
+
+    def update_toilet():
+        update_block_screen_id = Toplevel()
+        update_block_screen_id.title("Update ID Select")
+
+        id_list = []
+
+        for i in toilet_list:
+            id_list.append(i[1])
+
+        toilet_id = StringVar()
+        toilet_name = StringVar()
+        toilet_cap = StringVar()
+        toilet_occ = StringVar()
+        toilet_location = StringVar()
+
+        id_select_label = Label(update_block_screen_id, text="Please choose a Block ID to update")
+        id_select_label.pack()
+        toilet_id.set("Select ID")
+        id_select_option = OptionMenu(update_block_screen_id, toilet_id, *id_list)
+        id_select_option.pack()
+
+        def update_run():
+
+            update_block_screen = Toplevel()
+            update_block_screen.title("Update Block")
+
+            id = int(toilet_id.get())
+            x = id - 1
+
+            update_toilet = [toilet_list[x][0], id, toilet_list[x][2], toilet_list[x][3], toilet_list[x][4],
+                            toilet_list[x][5], toilet_list[x][6], toilet_list[x][7]]
+
+            new_block_intro_label = Label(update_block_screen,
+                                          text="To update this Toilet Block, please fill in the form below.")
+            new_block_intro_label.pack()
+
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Toilet Block is {id}")
+            new_block_id_label.pack()
+
+            new_block_name_label = Label(update_block_screen, text="Toilet Block Name: ")
+            new_block_name_label.pack()
+            new_block_name_entry = Entry(update_block_screen, textvariable=toilet_name)
+            new_block_name_entry.insert(END, f"{toilet_list[x][2]}")
+            new_block_name_entry.pack()
+
+            new_block_capacity_label = Label(update_block_screen, text="Toilet Block Capacity: ")
+            new_block_capacity_label.pack()
+            new_block_capacity_entry = Entry(update_block_screen, textvariable=toilet_cap)
+            new_block_capacity_entry.insert(END, f"{toilet_list[x][3]}")
+            new_block_capacity_entry.pack()
+
+            new_block_occupancy_label = Label(update_block_screen, text="Toilet Block Occupancy: ")
+            new_block_occupancy_label.pack()
+            new_block_occupancy_entry = Entry(update_block_screen, textvariable=toilet_occ)
+            new_block_occupancy_entry.insert(END, f"{toilet_list[x][4]}")
+            new_block_occupancy_entry.pack()
+
+            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+            toilet_location.set(f"{toilet_list[x][7]}")
+            new_block_location_label = Label(update_block_screen, text="Toilet Block Location: ")
+            new_block_location_label.pack()
+            new_block_location_entry = OptionMenu(update_block_screen, toilet_location, *location_list)
+            new_block_location_entry.pack()
+
+            def summary():
+                toilet_summary = Toplevel()
+
+                toilet_summary.title("Toilet Block Summary")
+
+                label_1 = Label(toilet_summary, text="Please check that you are happy with the entry below:")
+                label_1.pack()
+
+                summary_label = Label(toilet_summary, text=f"""
+                                Toilet Block Name: {toilet_name.get()} \n 
+                                Toilet Block Capacity: {toilet_cap.get()} \n 
+                                Toilet Block Occupancy: {toilet_occ.get()} \n 
+                                Toilet Block Location: {toilet_location.get()}""")
+                summary_label.pack()
+
+                def edit_command():
+                    toilet_summary.destroy()
+
+                def submit_command():
+                    update_toilet[1] = str(toilet_id.get())
+                    update_toilet[2] = toilet_name.get()
+                    update_toilet[3] = str(toilet_cap.get())
+                    update_toilet[4] = str(toilet_occ.get())
+                    update_toilet[6] = str(int(update_toilet[3]) - int(update_toilet[4]))
+                    if int(update_toilet[6]) > 0:
+                        update_toilet[5] = "VACANCIES"
+                    else:
+                        update_toilet[5] = "FULL"
+                    update_toilet[7] = toilet_location.get()
+
+                    new_toilet_string = ','.join(update_toilet) + ","
+
+                    toilets.close()
+
+                    toilets_read = open("toilets.txt", "r")
+
+                    lines = toilets_read.readlines()
+
+                    list_relevant_lines = []
+                    for i in lines:
+                        if i[0] == str(camp_id):
+                            list_relevant_lines.append(i)
+
+                    for i in list_relevant_lines:
+                        lines.remove(i)
+
+                    list_relevant_lines[int(x)] = new_toilet_string + "\n"
+
+                    for i in list_relevant_lines:
+                        lines.append(i)
+
+                    with open('toilets.txt', 'w') as file2:
+                        file2.writelines(lines)
+
+                    toilet_summary.destroy()
+                    update_block_screen.destroy()
+                    toilet_window.destroy()
+                    main_window.destroy()
+                    main()
+
+                edit_button = Button(toilet_summary, text="Edit", command=edit_command)
+                edit_button.pack()
+                submit_button = Button(toilet_summary, text="Submit", command=submit_command)
+                submit_button.pack()
+
+                toilet_summary.mainloop()
+
+            error_frame = Frame(update_block_screen)
+
+            def check_block():
+
+                for widget in error_frame.winfo_children():
+                    widget.destroy()
+
+                check_status = ["0", "0", "0", "0", "0", "0"]
+
+                def name_check():
+                    if toilet_name.get().strip() == "":
+                        new_block_name_reentry_1 = Label(error_frame, text="Please enter a Block Name")
+                        new_block_name_reentry_1.pack()
+                    else:
+                        check_status[0] = "1"
+
+                    ration_name_list = []
+                    for n in range(0, len(toilet_list)):
+                        ration_name_list.append(toilet_list[n][2])
+                    ration_name_list.remove(toilet_list[x][2])
+                    if toilet_name.get() in ration_name_list:
+                        new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                        new_block_name_reentry_2.pack()
+                    else:
+                        check_status[1] = "1"
+
+                name_check()
+
+                def supply_check():
+                    try:
+                        int(toilet_cap.get())
+                        check_status[2] = "1"
+                    except ValueError:
+                        new_block_capacity_reentry = Label(error_frame,
+                                                           text="Please enter an integer for toilet capacity")
+                        new_block_capacity_reentry.pack()
+
+                supply_check()
+
+                def use_check():
+                    try:
+                        int(toilet_occ.get())
+                        check_status[3] = "1"
+                    except ValueError:
+                        new_block_occupancy_reentry_1 = Label(error_frame,
+                                                              text="Please enter an integer for toilet occupancy")
+                        new_block_occupancy_reentry_1.pack()
+                    if check_status[3] == "1" and check_status[1] == "1":
+                        try:
+                            if int(toilet_occ.get()) <= int(toilet_cap.get()):
+                                check_status[4] = "1"
+                            else:
+                                new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                      text="Please enter an occupancy lower than the capacity")
+                                new_block_occupancy_reentry_2.pack()
+                        except ValueError:
+                            pass
+
+                use_check()
+
+                def location_check():
+                    if toilet_location.get() == "Select Camp Area":
+                        new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                        new_block_location_reentry.pack()
+                    else:
+                        check_status[5] = "1"
+
+                location_check()
+
+                if "0" in check_status:
+                    error_frame.pack()
+                else:
+                    summary()
+
+            new_block_done = Button(update_block_screen, text="Done", command=check_block)
+            new_block_done.pack()
+
+            update_block_screen.mainloop()
+
+        id_done = Button(update_block_screen_id, text="Done", command=update_run)
+        id_done.pack()
+
+        update_block_screen_id.mainloop()
+
+    def generate_toilet_window():
+        global toilet_window
+        toilet_window = Toplevel()
+
+        toilet_window.title("Toilets Portal")
+
+        toilet_label = Label(toilet_window, text="Toilets Portal", font=("Avenir", 22))
+        toilet_label.pack()
+
+        view_block_button = Button(toilet_window, text="View/Update Toilet Blocks", command=view_existing_toilets,
+                                   width=30, height=2, borderwidth=5)
+        view_block_button.pack()
+
+        add_block_button = Button(toilet_window, text="Add New Stall", command=add_new_toilet, width=30, height=2,
+                                  borderwidth=5)
+        add_block_button.pack()
+
+        camp_layout_button = Button(toilet_window, text="View Camp Layout", command=camp_layout, width=30,
+                                    height=2, borderwidth=5)
+        camp_layout_button.pack()
+
+        toilet_window.mainloop()
+
+    generate_toilet_window()
 
 
 def medical_portal():
-    pass
+    medical = open("medical.txt", "r+")
+
+    medical_list = []
+    for line in medical:
+        line_list = line.split(",")
+        if line_list[0] == str(camp_id):
+            medical_list.append(line_list)
+
+    def add_new_medical():
+
+        new_medical = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_medical_screen = Toplevel()
+        new_medical_screen.title("Add New Medical Dispensary")
+
+        new_medical[0] = str(camp_id)
+
+        def new_medical_id():
+            if len(medical_list) == 0:
+                new_medical[1] = "1"
+            elif len(medical_list) >= 1:
+                new_medical[1] = str((int((medical_list[-1])[1]) + 1))
+
+        new_medical_id()
+
+        medical_name = StringVar()
+        medical_cap = StringVar()
+        medical_occ = StringVar()
+        medical_location = StringVar()
+
+        new_block_intro_label = Label(new_medical_screen,
+                                      text="To create a new Medical Dispensary, please fill in the form below.")
+        new_block_intro_label.pack()
+
+        new_block_id_label = Label(new_medical_screen,
+                                   text=f"The ID Number of this Medical Dispensary is {new_medical[1]}")
+        new_block_id_label.pack()
+
+        new_block_name_label = Label(new_medical_screen, text="Medical Dispensary Name: ")
+        new_block_name_label.pack()
+        new_block_name_entry = Entry(new_medical_screen, textvariable=medical_name)
+        new_block_name_entry.pack()
+
+        new_block_capacity_label = Label(new_medical_screen, text="Medical Dispensary Capacity: ")
+        new_block_capacity_label.pack()
+        new_block_capacity_entry = Entry(new_medical_screen, textvariable=medical_cap)
+        new_block_capacity_entry.pack()
+
+        new_block_occupancy_label = Label(new_medical_screen, text="Medical Dispensary Occupancy: ")
+        new_block_occupancy_label.pack()
+        new_block_occupancy_entry = Entry(new_medical_screen, textvariable=medical_occ)
+        new_block_occupancy_entry.pack()
+
+        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+        medical_location.set("Select Camp Area")
+        new_block_location_label = Label(new_medical_screen, text="Medical Dispensary Location: ")
+        new_block_location_label.pack()
+        new_block_location_entry = OptionMenu(new_medical_screen, medical_location, *location_list)
+        new_block_location_entry.pack()
+
+        def summary():
+            medical_summary = Toplevel()
+
+            medical_summary.title("Medical Dispensary Summary")
+
+            label_1 = Label(medical_summary, text="Please check that you are happy with the entry below:")
+            label_1.pack()
+
+            summary_label = Label(medical_summary, text=f"""
+                    Medical Dispensary Name: {medical_name.get()} \n 
+                    Medical Dispensary Capacity: {medical_cap.get()} \n 
+                    Medical Dispensary Occupancy: {medical_occ.get()} \n 
+                    Medical Dispensary Location: {medical_location.get()}""")
+            summary_label.pack()
+
+            def edit_command():
+                medical_summary.destroy()
+
+            def submit_command():
+                new_medical[2] = medical_name.get()
+                new_medical[3] = str(medical_cap.get())
+                new_medical[4] = str(medical_occ.get())
+                new_medical[6] = str(int(new_medical[3]) - int(new_medical[4]))
+                if int(new_medical[6]) > 0:
+                    new_medical[5] = "VACANCIES"
+                else:
+                    new_medical[5] = "FULL"
+                new_medical[7] = medical_location.get()
+
+                new_medical_string = ','.join(new_medical)
+
+                medical.close()
+
+                medical_append = open("medical.txt", "a")
+                medical_append.write(new_medical_string + ",\n")
+                medical_append.close()
+
+                medical_summary.destroy()
+                new_medical_screen.destroy()
+                medical_window.destroy()
+                main_window.destroy()
+                main()
+
+            edit_button = Button(medical_summary, text="Edit", command=edit_command)
+            edit_button.pack()
+            submit_button = Button(medical_summary, text="Submit", command=submit_command)
+            submit_button.pack()
+
+            medical_summary.mainloop()
+
+        error_frame = Frame(new_medical_screen)
+
+        def check_block():
+
+            for widget in error_frame.winfo_children():
+                widget.destroy()
+
+            check_status = ["0", "0", "0", "0", "0", "0"]
+
+            def name_check():
+                if medical_name.get().strip() == "":
+                    new_block_name_reentry_1 = Label(error_frame, text="Please enter a Dispensary Name")
+                    new_block_name_reentry_1.pack()
+                else:
+                    check_status[0] = "1"
+
+                medical_name_list = []
+                for n in range(0, len(medical_list)):
+                    medical_name_list.append(medical_list[n][2])
+                if medical_name.get() in medical_name_list:
+                    new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                    new_block_name_reentry_2.pack()
+                else:
+                    check_status[1] = "1"
+
+            name_check()
+
+            def supply_check():
+                try:
+                    int(medical_cap.get())
+                    check_status[2] = "1"
+                except ValueError:
+                    new_block_capacity_reentry = Label(error_frame, text="Please enter an integer for dispensary capacity")
+                    new_block_capacity_reentry.pack()
+
+            supply_check()
+
+            def use_check():
+                try:
+                    int(medical_occ.get())
+                    check_status[3] = "1"
+                except ValueError:
+                    new_block_occupancy_reentry_1 = Label(error_frame,
+                                                          text="Please enter an integer for dispensary occupancy")
+                    new_block_occupancy_reentry_1.pack()
+                if check_status[3] == "1" and check_status[1] == "1":
+                    try:
+                        if int(medical_occ.get()) <= int(medical_cap.get()):
+                            check_status[4] = "1"
+                        else:
+                            new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                  text="Please enter an occupancy lower than the capacity")
+                            new_block_occupancy_reentry_2.pack()
+                    except ValueError:
+                        pass
+
+            use_check()
+
+            def location_check():
+                if medical_location.get() == "Select Camp Area":
+                    new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                    new_block_location_reentry.pack()
+                else:
+                    check_status[5] = "1"
+
+            location_check()
+
+            if "0" in check_status:
+                error_frame.pack()
+            else:
+                summary()
+
+        new_block_done = Button(new_medical_screen, text="Done", command=check_block)
+        new_block_done.pack()
+
+        new_medical_screen.mainloop()
+
+    def view_existing_medical():
+
+        view_existing_medical_screen = Toplevel()
+
+        view_existing_medical_screen.title("View/Update Medical Dispensaries")
+
+        game_frame = Frame(view_existing_medical_screen)
+        game_frame.pack()
+
+        my_game = ttk.Treeview(game_frame)
+
+        my_game['columns'] = (
+            "Camp ID",
+            "Medical Dispensary ID",
+            "Medical Dispensary Name",
+            "Medical Dispensary Capacity",
+            "Medical Dispensary Occupancy",
+            "Medical Dispensary Status",
+            "Medical Dispensary Spaces",
+            "Medical Dispensary Location"
+        )
+
+        my_game.column("#0", width=0, stretch=NO)
+        my_game.column("Camp ID", anchor=CENTER, width=100)
+        my_game.column("Medical Dispensary ID", anchor=CENTER, width=100)
+        my_game.column("Medical Dispensary Name", anchor=CENTER, width=150)
+        my_game.column("Medical Dispensary Capacity", anchor=CENTER, width=150)
+        my_game.column("Medical Dispensary Occupancy", anchor=CENTER, width=150)
+        my_game.column("Medical Dispensary Status", anchor=CENTER, width=150)
+        my_game.column("Medical Dispensary Spaces", anchor=CENTER, width=150)
+        my_game.column("Medical Dispensary Location", anchor=CENTER, width=150)
+
+        my_game.heading("#0", text="", anchor=CENTER)
+        my_game.heading("Camp ID", text="Camp ID", anchor=CENTER)
+        my_game.heading("Medical Dispensary ID", text="Medical Dispensary ID", anchor=CENTER)
+        my_game.heading("Medical Dispensary Name", text="Name", anchor=CENTER)
+        my_game.heading("Medical Dispensary Capacity", text="Capacity", anchor=CENTER)
+        my_game.heading("Medical Dispensary Occupancy", text="Occupancy", anchor=CENTER)
+        my_game.heading("Medical Dispensary Status", text="Status", anchor=CENTER)
+        my_game.heading("Medical Dispensary Spaces", text="Spaces", anchor=CENTER)
+        my_game.heading("Medical Dispensary Location", text="Location", anchor=CENTER)
+
+        for i in range(0, len(medical_list)):
+            my_game.insert(parent='', index=i, iid=i, values=(
+                medical_list[i][0],
+                medical_list[i][1],
+                medical_list[i][2],
+                medical_list[i][3],
+                medical_list[i][4],
+                medical_list[i][5],
+                medical_list[i][6],
+                medical_list[i][7]
+            ))
+
+        my_game.pack()
+
+        update_button = Button(view_existing_medical_screen, text="Update a Medical Dispensary", command=update_stall)
+
+        if len(medical_list) > 0:
+            update_button.pack()
+
+        view_existing_medical_screen.mainloop()
+
+    def update_stall():
+        update_block_screen_id = Toplevel()
+        update_block_screen_id.title("Update ID Select")
+
+        id_list = []
+
+        for i in medical_list:
+            id_list.append(i[1])
+
+        medical_id = StringVar()
+        medical_name = StringVar()
+        medical_cap = StringVar()
+        medical_occ = StringVar()
+        medical_location = StringVar()
+
+        id_select_label = Label(update_block_screen_id, text="Please choose a Medical Dispensary ID to update")
+        id_select_label.pack()
+        medical_id.set("Select ID")
+        id_select_option = OptionMenu(update_block_screen_id, medical_id, *id_list)
+        id_select_option.pack()
+
+        def update_run():
+
+            update_block_screen = Toplevel()
+            update_block_screen.title("Update Medical Dispensary")
+
+            id = int(medical_id.get())
+            x = id - 1
+
+            update_medical = [medical_list[x][0], id, medical_list[x][2], medical_list[x][3], medical_list[x][4],
+                            medical_list[x][5], medical_list[x][6], medical_list[x][7]]
+
+            new_block_intro_label = Label(update_block_screen,
+                                          text="To update this Medical Dispensary, please fill in the form below.")
+            new_block_intro_label.pack()
+
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Medical Dispensary is {id}")
+            new_block_id_label.pack()
+
+            new_block_name_label = Label(update_block_screen, text="Medical Dispensary Name: ")
+            new_block_name_label.pack()
+            new_block_name_entry = Entry(update_block_screen, textvariable=medical_name)
+            new_block_name_entry.insert(END, f"{medical_list[x][2]}")
+            new_block_name_entry.pack()
+
+            new_block_capacity_label = Label(update_block_screen, text="Medical Dispensary Capacity: ")
+            new_block_capacity_label.pack()
+            new_block_capacity_entry = Entry(update_block_screen, textvariable=medical_cap)
+            new_block_capacity_entry.insert(END, f"{medical_list[x][3]}")
+            new_block_capacity_entry.pack()
+
+            new_block_occupancy_label = Label(update_block_screen, text="Medical Dispensary Occupancy: ")
+            new_block_occupancy_label.pack()
+            new_block_occupancy_entry = Entry(update_block_screen, textvariable=medical_occ)
+            new_block_occupancy_entry.insert(END, f"{medical_list[x][4]}")
+            new_block_occupancy_entry.pack()
+
+            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
+            medical_location.set(f"{medical_list[x][7]}")
+            new_block_location_label = Label(update_block_screen, text="Medical Dispensary Location: ")
+            new_block_location_label.pack()
+            new_block_location_entry = OptionMenu(update_block_screen, medical_location, *location_list)
+            new_block_location_entry.pack()
+
+            def summary():
+                medical_summary = Toplevel()
+
+                medical_summary.title("Medical Dispensary Summary")
+
+                label_1 = Label(medical_summary, text="Please check that you are happy with the entry below:")
+                label_1.pack()
+
+                summary_label = Label(medical_summary, text=f"""
+                                Medical Dispensary Name: {medical_name.get()} \n 
+                                Medical Dispensary Capacity: {medical_cap.get()} \n 
+                                Medical Dispensary Occupancy: {medical_occ.get()} \n 
+                                Medical Dispensary Location: {medical_location.get()}""")
+                summary_label.pack()
+
+                def edit_command():
+                    medical_summary.destroy()
+
+                def submit_command():
+                    update_medical[1] = str(medical_id.get())
+                    update_medical[2] = medical_name.get()
+                    update_medical[3] = str(medical_cap.get())
+                    update_medical[4] = str(medical_occ.get())
+                    update_medical[6] = str(int(update_medical[3]) - int(update_medical[4]))
+                    if int(update_medical[6]) > 0:
+                        update_medical[5] = "VACANCIES"
+                    else:
+                        update_medical[5] = "FULL"
+                    update_medical[7] = medical_location.get()
+
+                    new_medical_string = ','.join(update_medical) + ","
+
+                    medical.close()
+
+                    medical_read = open("medical.txt", "r")
+
+                    lines = medical_read.readlines()
+
+                    list_relevant_lines = []
+                    for i in lines:
+                        if i[0] == str(camp_id):
+                            list_relevant_lines.append(i)
+
+                    for i in list_relevant_lines:
+                        lines.remove(i)
+
+                    list_relevant_lines[int(x)] = new_medical_string + "\n"
+
+                    for i in list_relevant_lines:
+                        lines.append(i)
+
+                    with open('medical.txt', 'w') as file2:
+                        file2.writelines(lines)
+
+                    medical_summary.destroy()
+                    update_block_screen.destroy()
+                    medical_window.destroy()
+                    main_window.destroy()
+                    main()
+
+                edit_button = Button(medical_summary, text="Edit", command=edit_command)
+                edit_button.pack()
+                submit_button = Button(medical_summary, text="Submit", command=submit_command)
+                submit_button.pack()
+
+                medical_summary.mainloop()
+
+            error_frame = Frame(update_block_screen)
+
+            def check_block():
+
+                for widget in error_frame.winfo_children():
+                    widget.destroy()
+
+                check_status = ["0", "0", "0", "0", "0", "0"]
+
+                def name_check():
+                    if medical_name.get().strip() == "":
+                        new_block_name_reentry_1 = Label(error_frame, text="Please enter a Medical Dispensary")
+                        new_block_name_reentry_1.pack()
+                    else:
+                        check_status[0] = "1"
+
+                    medical_name_list = []
+                    for n in range(0, len(medical_list)):
+                        medical_name_list.append(medical_list[n][2])
+                    medical_name_list.remove(medical_list[x][2])
+                    if medical_name.get() in medical_name_list:
+                        new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
+                        new_block_name_reentry_2.pack()
+                    else:
+                        check_status[1] = "1"
+
+                name_check()
+
+                def supply_check():
+                    try:
+                        int(medical_cap.get())
+                        check_status[2] = "1"
+                    except ValueError:
+                        new_block_capacity_reentry = Label(error_frame,
+                                                           text="Please enter an integer for dispensary capacity")
+                        new_block_capacity_reentry.pack()
+
+                supply_check()
+
+                def use_check():
+                    try:
+                        int(medical_occ.get())
+                        check_status[3] = "1"
+                    except ValueError:
+                        new_block_occupancy_reentry_1 = Label(error_frame,
+                                                              text="Please enter an integer for dispensary occupancy")
+                        new_block_occupancy_reentry_1.pack()
+                    if check_status[3] == "1" and check_status[1] == "1":
+                        try:
+                            if int(medical_occ.get()) <= int(medical_cap.get()):
+                                check_status[4] = "1"
+                            else:
+                                new_block_occupancy_reentry_2 = Label(error_frame,
+                                                                      text="Please enter an occupancy lower than the capacity")
+                                new_block_occupancy_reentry_2.pack()
+                        except ValueError:
+                            pass
+
+                use_check()
+
+                def location_check():
+                    if medical_location.get() == "Select Camp Area":
+                        new_block_location_reentry = Label(error_frame, text="Please choose a location")
+                        new_block_location_reentry.pack()
+                    else:
+                        check_status[5] = "1"
+
+                location_check()
+
+                if "0" in check_status:
+                    error_frame.pack()
+                else:
+                    summary()
+
+            new_block_done = Button(update_block_screen, text="Done", command=check_block)
+            new_block_done.pack()
+
+            update_block_screen.mainloop()
+
+        id_done = Button(update_block_screen_id, text="Done", command=update_run)
+        id_done.pack()
+
+        update_block_screen_id.mainloop()
+
+    def generate_medical_window():
+        global medical_window
+        medical_window = Toplevel()
+
+        medical_window.title("Medical Portal")
+
+        medical_label = Label(medical_window, text="Medical Portal", font=("Avenir", 22))
+        medical_label.pack()
+
+        view_block_button = Button(medical_window, text="View/Update Medical Dispensaries", command=view_existing_medical,
+                                   width=30, height=2, borderwidth=5)
+        view_block_button.pack()
+
+        add_block_button = Button(medical_window, text="Add New Medical Dispensary", command=add_new_medical, width=30, height=2,
+                                  borderwidth=5)
+        add_block_button.pack()
+
+        camp_layout_button = Button(medical_window, text="View Camp Layout", command=camp_layout, width=30,
+                                    height=2, borderwidth=5)
+        camp_layout_button.pack()
+
+        medical_window.mainloop()
+
+    generate_medical_window()
 
 
 def camp_layout():
