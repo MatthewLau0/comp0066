@@ -21,12 +21,12 @@ def register():
 
     Label(register_screen, text="Please enter details below", bg="blue").pack()
     Label(register_screen, text="").pack()
-    username_lable = Label(register_screen, text="Username * ")
-    username_lable.pack()
+    username_label = Label(register_screen, text="Username * ")
+    username_label.pack()
     username_entry = Entry(register_screen, textvariable=username)
     username_entry.pack()
-    password_lable = Label(register_screen, text="Password * ")
-    password_lable.pack()
+    password_label = Label(register_screen, text="Password * ")
+    password_label.pack()
     password_entry = Entry(register_screen, textvariable=password, show='*')
     password_entry.pack()
     Label(register_screen, text="").pack()
@@ -94,6 +94,18 @@ def login_verify():
     username_login_entry.delete(0, END)
     password_login_entry.delete(0, END)
 
+    for line in open("username_info.txt","r").readlines():
+        login_info = line.split()
+        if username == login_info[0] and password == login_info[1]:
+            login_sucess()
+
+        else:
+            password_not_recognised()
+
+    else:
+        user_not_found()
+
+'''
     list_of_files = os.listdir()
     if username1 in list_of_files:
         file1 = open(username1, "r")
@@ -106,7 +118,7 @@ def login_verify():
 
     else:
         user_not_found()
-
+'''
 
 # Designing popup for login success
 

@@ -286,7 +286,7 @@ def create_family():
     def submit():
         print("1")
         # Creating new refugee
-        new_refugee = [""] * 14
+        new_refugee = [""] * 9
 
         # Finding index for new refugee
         if len(volunteer_database_list) == 0:
