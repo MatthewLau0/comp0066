@@ -464,7 +464,7 @@ def NewCampVerify():
     if len(emergency_description.get()) == 0:
         emergency_description_reentry_label = Label(New_Camp_Screen, text="Please enter a description for the new emergency", fg='#f00')
         emergency_description_reentry_label.pack()
-    if map_confirm.get() != 1 or emergency_marker_country == "NA":
+    if (map_confirm.get() != 1) or emergency_marker_country == "NA":
         emergency_marker_reentry_label = Label(New_Camp_Screen, text="Please enter an area for the emergency, and check confirm.", fg='#f00')
         emergency_marker_reentry_label.pack()
     if status == "NA":
