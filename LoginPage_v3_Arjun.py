@@ -63,7 +63,7 @@ def login_verify():
         # Checks all lines in username_info.txt
         for line in open("username_info.txt", "r").readlines():
             # Checks if hashes equal
-            login_info = line.split("#")
+            login_info = line.split("%")
             if username_hash == login_info[0] and password_hash == login_info[1]:
                 login_success_bool = True
                 login_sucess()

@@ -1,17 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 
-camps = open("Emergency_Database", "r")
-
-camps_list = []
-for i in camps:
-    camp_string = i.split("%")
-    camps_list.append(camp_string)
-
-chosen_camp = 1
-x = chosen_camp - 1
-
-camp_id = camps_list[x][0]
+camp_id = 1
 
 def volunteers_portal():
     pass
@@ -23,8 +13,9 @@ def accommodation_portal():
 
     blocks_list = []
     for line in accommodations:
-        line_list = line.split(",")
-        blocks_list.append(line_list)
+        line_string = line.split(",")
+        if line_string[0] == str(camp_id):
+            blocks_list.append(line_string)
 
     def add_new_block():
 
@@ -32,6 +23,7 @@ def accommodation_portal():
 
         new_accommodation_screen = Toplevel()
         new_accommodation_screen.title("Add New Block")
+
 
         new_accommodation[0] = str(camp_id)
 
@@ -365,7 +357,18 @@ def accommodation_portal():
 
                     lines = accommodations_read.readlines()
 
-                    lines[int(x)] = new_accommodation_string + "\n"
+                    list_relevant_lines = []
+                    for i in lines:
+                        if i[0] == str(camp_id):
+                            list_relevant_lines.append(i)
+
+                    for i in list_relevant_lines:
+                        lines.remove(i)
+
+                    list_relevant_lines[int(x)] = new_accommodation_string + "\n"
+
+                    for i in list_relevant_lines:
+                        lines.append(i)
 
                     with open('accommodations.txt', 'w') as file1:
                         file1.writelines(lines)
@@ -494,7 +497,8 @@ def ration_portal():
     ration_list = []
     for line in ration:
         line_list = line.split(",")
-        ration_list.append(line_list)
+        if line_list[0] == str(camp_id):
+            ration_list.append(line_list)
 
     def add_new_ration():
 
@@ -839,7 +843,18 @@ def ration_portal():
 
                     lines = ration_read.readlines()
 
-                    lines[int(x)] = new_ration_string + "\n"
+                    list_relevant_lines = []
+                    for i in lines:
+                        if i[0] == str(camp_id):
+                            list_relevant_lines.append(i)
+
+                    for i in list_relevant_lines:
+                        lines.remove(i)
+
+                    list_relevant_lines[int(x)] = new_ration_string + "\n"
+
+                    for i in list_relevant_lines:
+                        lines.append(i)
 
                     with open('ration_stall.txt', 'w') as file2:
                         file2.writelines(lines)
@@ -876,7 +891,7 @@ def ration_portal():
                     ration_name_list = []
                     for n in range(0, len(ration_list)):
                         ration_name_list.append(ration_list[n][2])
-                        ration_name_list.remove(ration_list[x][2])
+                    ration_name_list.remove(ration_list[x][2])
                     if ration_name.get() in ration_name_list:
                         new_block_name_reentry_2 = Label(error_frame, text="Name is taken. Please try again")
                         new_block_name_reentry_2.pack()
@@ -985,22 +1000,26 @@ def camp_layout():
     accom_list = []
     for line1 in accommodation_file:
         list1 = line1.split(",")
-        accom_list.append(list1)
+        if list1[0] == str(camp_id):
+            accom_list.append(list1)
 
     ration_list = []
     for line2 in ration_file:
         list2 = line2.split(",")
-        ration_list.append(list2)
+        if list2[0] == str(camp_id):
+            ration_list.append(list2)
 
     toilet_list = []
     for line3 in toilet_file:
         list3 = line3.split(",")
-        toilet_list.append(list3)
+        if list3[0] == str(camp_id):
+            toilet_list.append(list3)
 
     medical_list = []
     for line4 in medical_file:
         list4 = line4.split(",")
-        medical_list.append(list4)
+        if list4[0] == str(camp_id):
+            medical_list.append(list4)
 
     accom_north = []
     ration_north = []
@@ -1221,8 +1240,10 @@ def settings():
     pass
 
 
+
 def main():
     global main_window
+
 
     main_window = Tk()
     main_window.minsize(320, 435)
@@ -1251,7 +1272,6 @@ def main():
     exit_button.pack()
 
     main_window.mainloop()
-
 
 if __name__ == '__main__':
     main()
