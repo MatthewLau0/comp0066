@@ -110,7 +110,8 @@ def volunteerEntry():
     global phone_number
     global gender
     global age
-    global availability
+    global volunteer_availability
+    global select_camp
 
     select_camp = StringVar()
     username = StringVar()
@@ -120,7 +121,7 @@ def volunteerEntry():
     phone_number = StringVar()
     gender = StringVar()
     age = StringVar()
-    availability = StringVar()
+    volunteer_availability = StringVar()
 
     select_camp_label = Label(volunteer_entry_screen, text="Please select a camp")
     select_camp_label.pack()
@@ -161,12 +162,15 @@ def volunteerEntry():
 
     availability_label = Label(volunteer_entry_screen, text="Please enter your weekly availability")
     availability_label.pack()
-    availability_entry = Entry(volunteer_entry_screen, textvariable=availability)
+    availability_entry = Entry(volunteer_entry_screen, textvariable=volunteer_availability)
     availability_entry.pack()
 
     emergency_submit_button = Button(volunteer_entry_screen, text="Submit", command=newvolunteerVerify)
     emergency_submit_button.pack()
 
+#def selectCamp():
+    #global select_camp
+    #newvolunteerVerify()
 
 def newvolunteerVerify():
     global volunteer_name_list
@@ -186,7 +190,7 @@ def newvolunteerVerify():
     global phone_number
     global gender
     global age
-    global availability
+    global volunteer_availability
 
     if username.get() in volunteer_name_list:
         username_label.config(text="This username already exists. Please enter another username", fg='#f00')
@@ -198,13 +202,13 @@ def newvolunteerVerify():
         email_label.config(text="Please enter a valid email address", fg='#f00')
     if '+' not in phone_area_code.get() or len(phone_area_code.get())>4:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-    if len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalpha() == True or phone_number.get().isalnum() == True:
+    if len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalpha() == True or phone_number.get().isalnum() != True:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
     if len(gender.get()) == 0 or gender.get() == ' ':
         gender_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
-    if age.get().isalpha() == True or age.get().isalnum() == True:
+    if age.get().isalpha() == True or age.get().isalnum() != True:
         age_label.config(text="Please enter a valid age (numbers only).", fg='#f00')
-    if len(availabilty.get()) == 0 or availabilty.get() == ' ':
+    if len(volunteer_availability.get()) == 0 or (volunteer_availability.get() == ' '):
         availability_label.config(text="Please enter a valid availabilty", fg='#f00')
     else:
         createvolunteerSubmit()
@@ -217,22 +221,23 @@ def createvolunteerSubmit():
     global username
     global password
     global email
-    global phone_area_cose
+    global phone_area_code
     global phone_number
     global gender
     global age
-    global availability
+    global volunteer_availability
+    global select_camp
 
-    phone_number = ' '.join(phone_area_code.get() and phone_number.get())
+    phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
     new_volunteer[1] = select_camp.get()
     new_volunteer[2] = username.get()
     new_volunteer[3] = password.get()
     new_volunteer[4] = email.get()
-    new_volunteer[5] = phone_number
+    new_volunteer[5] = phone_number_complete
     new_volunteer[6] = gender.get()
     new_volunteer[7] = age.get()
-    new_volunteer[8] = availability.get()
+    new_volunteer[8] = volunteer_availability.get()
 
     new_volunteer_string = '%'.join(new_volunteer)
 
