@@ -68,7 +68,6 @@ def CreateNewCampScreen():
     global status_check_yes
     global status_check_no
     global start_date_calendar
-    global start_date_label
     global camp_name_entry
     global emergency_type_flood
     global emergency_type_tsunami
@@ -92,6 +91,15 @@ def CreateNewCampScreen():
     global emergency_type_other_entry
     global emergency_type_other_button
     global map_confirm
+    global camp_name_label
+    global emergency_type_label
+    global emergency_description_label
+    global emergency_marker_label
+    global start_date_label
+    global close_date_label
+    global status_label
+
+
 
     New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
     New_Camp_Screen.title("Create a New Emergency")
@@ -454,26 +462,35 @@ def NewCampVerify():
     global emergency_marker_country
     global endDate
     global map_confirm
+    global camp_name_label
+    global emergency_type_label
+    global emergency_description_label
+    global emergency_marker_label
+    global start_date_label
+    global close_date_label
+    global status_label
+
+    camp_name_label.config(text="Please enter a name for the new camp. Camp Name must only contain letters with no spaces.", fg='#000000')
+    emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
+    emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
+    emergency_marker_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#000000')
+    status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
+
+
 
     if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
-        camp_name_reentry_label = Label(New_Camp_Screen, text="Please enter a name for the new camp. Camp Name must only contain letters with no spaces.", fg='#f00')
-        camp_name_reentry_label.pack()
+        camp_name_label.config(text="Please enter a name for the new camp. Camp Name must only contain letters with no spaces.", fg='#f00')
     if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
-        emergency_type_reentry_label = Label(New_Camp_Screen, text="Please enter an emergency type for the new camp", fg='#f00')
-        emergency_type_reentry_label.pack()
+        emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
     if len(emergency_description.get()) == 0:
-        emergency_description_reentry_label = Label(New_Camp_Screen, text="Please enter a description for the new emergency", fg='#f00')
-        emergency_description_reentry_label.pack()
+        emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
     if (map_confirm.get() != 1) or emergency_marker_country == "NA":
-        emergency_marker_reentry_label = Label(New_Camp_Screen, text="Please enter an area for the emergency, and check confirm.", fg='#f00')
-        emergency_marker_reentry_label.pack()
+        emergency_marker_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#f00')
     if status == "NA":
         if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
-            status_check_reentry_label = Label(New_Camp_Screen, text="Please select an activation status for the emergency.", fg='#f00')
-            status_check_reentry_label.pack()
+            status_label.config(text="Please select an activation status for the emergency.", fg='#f00')
         else:
-            status_confirm_reentry_label = Label(New_Camp_Screen, text="Please tick confirm to commit your activation status answer", fg='#f00')
-            status_confirm_reentry_label.pack()
+            status_label.config(text="Please tick confirm to commit your activation status answer", fg='#f00')
     else:
         CreateNewCampSummary()
 
