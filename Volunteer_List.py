@@ -41,6 +41,11 @@ def setupScreen():
     for i in range(0, len(emergency_database_list)):
         camp_name_list.append((emergency_database_list[i])[1])
 
+    if len(volunteer_name_list) == 0:
+        new_volunteer[0] = "1"
+    elif len(volunteer_name_list) >= 1:
+        new_volunteer[0] = str((int((volunteer_name_list[-1])[0]) + 1))
+
     campTable()
 
 
@@ -53,8 +58,12 @@ def campTable():
     global volunteer_entry_screen
     global emergency_database_list
     global camp_name_list
+    global new_volunteer
 
-    select_camp_table_label = Label(volunteer_entry_screen, text="See below the respective locations of the available camps")
+    volunteer_number_print = Label(volunteer_entry_screen, text="Your volunteer numbers is %s" %(new_volunteer[0]))
+    volunteer_number_print.pack()
+
+    select_camp_table_label = Label(volunteer_entry_screen, text="See below the respective locations of the available camps that you could volunteer at. \n Make note of the camp that is closest to your current location.")
     select_camp_table_label.pack()
 
     select_camp_table_frame = Frame(volunteer_entry_screen)
@@ -143,12 +152,17 @@ def volunteerEntry():
     email_entry = Entry(volunteer_entry_screen, textvariable=email)
     email_entry.pack()
 
-    phone_number_label = Label(volunteer_entry_screen, text="Please enter a phone number")
+    phone_frame = Frame(volunteer_entry_screen)
+    phone_frame.pack()
+
+    phone_number_label = Label(phone_frame, text="Please enter a phone number")
     phone_number_label.pack()
-    phone_number_area_code_entry = Entry(volunteer_entry_screen, textvariable=phone_area_code)
-    phone_number_area_code_entry.pack()
-    phone_number_entry = Entry(volunteer_entry_screen, textvariable=phone_number)
-    phone_number_entry.pack()
+    area_code_sign = Label(phone_frame, text="+")
+    area_code_sign.pack(side=LEFT)
+    phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
+    phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
+    phone_number_entry = Entry(phone_frame, textvariable=phone_number)
+    phone_number_entry.pack(side=LEFT)
 
     gender_label = Label(volunteer_entry_screen, text="Please enter the gender you identify with")
     gender_label.pack()
@@ -200,9 +214,9 @@ def newvolunteerVerify():
         password_label.config(text="Please enter a valid password", fg='#f00')
     elif '@' not in email.get() or '.' not in email.get():
         email_label.config(text="Please enter a valid email address", fg='#f00')
-    elif '+' not in phone_area_code.get() or len(phone_area_code.get())>4:
+    elif len(phone_area_code.get())>4:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-    elif len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalpha() == True or phone_number.get().isalnum() != True:
+    elif len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalnum() != True:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
     elif len(gender.get()) == 0 or gender.get() == ' ':
         gender_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
@@ -238,12 +252,30 @@ def createvolunteerSubmit():
     new_volunteer[6] = gender.get()
     new_volunteer[7] = age.get()
     new_volunteer[8] = volunteer_availability.get()
+    new_volunteer[9] = "Deactivated"
 
     new_volunteer_string = '%'.join(new_volunteer)
 
     volunteer_file_append = open("volunteers.txt", "a")
     volunteer_file_append.write("\n%s" %(new_volunteer_string))
     volunteer_file_append.close()
+
+    closeScreen()
+
+
+def closeScreen():
+    global volunteer_entry_screen
+    Create_Volunteer_Close_Screen = Toplevel(volunteer_entry_screen)
+    Create_Volunteer_Close_Screen.title("Volunteer Request Successfully Submitted")
+    Create_Volunteer_Close_Screen.geometry("500x650")
+
+    close_label = Label(Create_Volunteer_Close_Screen, text="Thank you for submitting a request to become a volunteer. \n The admin will review your request, and once approved you will be able to access our services.")
+    close_label.pack()
+    return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=returnHome)
+    return_home_button.pack()
+
+def returnHome():
+    pass
 
 
 #Screen Setup
