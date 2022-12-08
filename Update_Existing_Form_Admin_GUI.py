@@ -761,7 +761,7 @@ def updatescreenClose():
     return_to_home_screen_button.pack()
 
 def returnHome():
-    import Emergency_Plan_Form_Admin_GUI
+    import Admin_HomePage
 
 def campnameVerify():
     global camp_name

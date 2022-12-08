@@ -594,7 +594,7 @@ def SubmitEmergency():
     Return_To_HomeScreen_Button.pack()
 
 def returnHome():
-    import Emergency_Plan_Form_Admin_GUI
+    import Admin_HomePage
 
 def campnameVerify():
     global camp_name

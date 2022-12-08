@@ -62,7 +62,7 @@ def viewTable():
 
 
 def returnHome():
-    import Emergency_Plan_Form_Admin_GUI
+    import Admin_HomePage
 
 
 def viewcampScreen():
