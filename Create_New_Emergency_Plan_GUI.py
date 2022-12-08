@@ -175,8 +175,9 @@ def CreateNewCampScreen():
         global emergency_marker
         global emergency_marker_country
         global emergency_map
+        global emergency_marker_label
         if emergency_marker_country != "NA":
-            marker_error_label = Label(New_Camp_Screen, text="Please only select one marker", fg='#f00')
+            emergency_marker_label.config(text="Please only select one marker", fg='#f00')
             marker_error_label.pack()
             mapReset()
         else:
@@ -470,7 +471,7 @@ def NewCampVerify():
     global close_date_label
     global status_label
 
-    camp_name_label.config(text="Please enter a name for the new camp. Camp Name must only contain letters with no spaces.", fg='#000000')
+    camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
     emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
     emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
     emergency_marker_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#000000')
@@ -479,14 +480,14 @@ def NewCampVerify():
 
 
     if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
-        camp_name_label.config(text="Please enter a name for the new camp. Camp Name must only contain letters with no spaces.", fg='#f00')
-    if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
+        camp_name_label.config(text="Please enter a name for the new camp.", fg='#f00')
+    elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
         emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
-    if len(emergency_description.get()) == 0:
+    elif len(emergency_description.get()) == 0:
         emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
-    if (map_confirm.get() != 1) or emergency_marker_country == "NA":
+    elif (map_confirm.get() != 1) or emergency_marker_country == "NA":
         emergency_marker_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#f00')
-    if status == "NA":
+    elif status == "NA":
         if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
             status_label.config(text="Please select an activation status for the emergency.", fg='#f00')
         else:
@@ -601,12 +602,11 @@ def campnameVerify():
     global camp_name_list
     global camp_name
     global camp_name_verify
+    global camp_name_label
 
     camp_name_verify = camp_name.get()
     if (camp_name_verify in camp_name_list):
-        camp_name_reentry_Label = Label(New_Camp_Screen,
-                                        text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
-        camp_name_reentry_Label.pack()
+        camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
     else:
         generateEndDate()
 

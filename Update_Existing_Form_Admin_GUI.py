@@ -340,9 +340,9 @@ def updateemergencyEntry():
         global emergency_marker
         global emergency_marker_country
         global emergency_map
+        global emergency_marker_label
         if emergency_marker_country != "NA":
-            marker_error_label = Label(Update_Emergency_Entry_Screen, text="Please only select one marker", fg='#f00')
-            marker_error_label.pack()
+            emergency_marker_label.config(text="Please only select one marker", fg='#f00')
             mapReset()
         else:
             emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
@@ -617,37 +617,27 @@ def UpdateCampVerify():
     global Update_Emergency_Screen
     global endDate
     global map_confirm
-
-    if status_check_no.get() == 1:
-        endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
+    global camp_name_label
+    global emergency_type_label
+    global emergency_description_label
+    global emergency_marker_label
+    global start_date_label
+    global close_date_label
+    global status_label
 
     if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
-        camp_name_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter a name for the new camp. Camp name must only contain letters with no spaces.", fg='#f00')
-        camp_name_reentry_label.pack()
-    if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (
-            emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (
-            emergency_type_other.get() != 1)):
-        emergency_type_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter an emergency type for the new camp",
-                                             fg='#f00')
-        emergency_type_reentry_label.pack()
-    if len(emergency_description.get()) == 0:
-        emergency_description_reentry_label = Label(Update_Emergency_Entry_Screen,
-                                                    text="Please enter a description for the new emergency", fg='#f00')
-        emergency_description_reentry_label.pack()
-    if map_confirm.get() != 1:
-        emergency_marker_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter an area for the emergency and click confirm.",
-                                               fg='f00')
-        emergency_marker_reentry_label.pack()
-    if status == "NA":
+        camp_name_label.config(text="Please enter a name for the new camp", fg='#f00')
+    elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() != 1)):
+        emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
+    elif len(emergency_description.get()) == 0:
+        emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
+    elif map_confirm.get() != 1:
+        emergency_marker_label(text="Please enter an area for the emergency and click confirm.", fg='f00')
+    elif status == "NA":
         if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
-            status_check_reentry_label = Label(Update_Emergency_Entry_Screen,
-                                               text="Please select an activation status for the emergency.", fg='#f00')
-            status_check_reentry_label.pack()
+            status_label.config(text="Please select an activation status for the emergency.", fg='#f00')
         else:
-            status_confirm_reentry_label = Label(Update_Emergency_Entry_Screen,
-                                                 text="Please tick confirm to commit your activation status answer",
-                                                 fg='#f00')
-            status_confirm_reentry_label.pack()
+            status_label.config(text="Please tick confirm to commit your activation status answer",fg='#f00')
     else:
         UpdateCampSummary()
 
@@ -770,14 +760,13 @@ def campnameVerify():
     global camp_name_verify
     global updating_camp_list
     global update_emergency_frame_two
+    global camp_name_label
 
     camp_name_verify = camp_name.get()
 
     if (camp_name_verify != updating_camp_list[1]):
         if (camp_name_verify in camp_name_list):
-            camp_name_reentry_Label = Label(Update_Emergency_Entry_Screen,
-                                        text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
-            camp_name_reentry_Label.pack()
+            camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
         else:
             UpdateCampVerify()
     else:

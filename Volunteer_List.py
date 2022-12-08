@@ -194,21 +194,21 @@ def newvolunteerVerify():
 
     if username.get() in volunteer_name_list:
         username_label.config(text="This username already exists. Please enter another username", fg='#f00')
-    if len(username.get()) == 0 or username.get() == ' ' or username.get().isalpha() != True:
+    elif len(username.get()) == 0 or username.get() == ' ' or username.get().isalpha() != True:
         username_label.config(text="Please enter a valid username (no spaces, no numbers)", fg='#f00')
-    if len(password.get()) == 0 or password.get() == ' ':
+    elif len(password.get()) == 0 or password.get() == ' ':
         password_label.config(text="Please enter a valid password", fg='#f00')
-    if '@' not in email.get() or '.' not in email.get():
+    elif '@' not in email.get() or '.' not in email.get():
         email_label.config(text="Please enter a valid email address", fg='#f00')
-    if '+' not in phone_area_code.get() or len(phone_area_code.get())>4:
+    elif '+' not in phone_area_code.get() or len(phone_area_code.get())>4:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-    if len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalpha() == True or phone_number.get().isalnum() != True:
+    elif len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalpha() == True or phone_number.get().isalnum() != True:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-    if len(gender.get()) == 0 or gender.get() == ' ':
+    elif len(gender.get()) == 0 or gender.get() == ' ':
         gender_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
-    if age.get().isalpha() == True or age.get().isalnum() != True:
+    elif age.get().isalpha() == True or age.get().isalnum() != True:
         age_label.config(text="Please enter a valid age (numbers only).", fg='#f00')
-    if len(volunteer_availability.get()) == 0 or (volunteer_availability.get() == ' '):
+    elif len(volunteer_availability.get()) == 0 or (volunteer_availability.get() == ' '):
         availability_label.config(text="Please enter a valid availabilty", fg='#f00')
     else:
         createvolunteerSubmit()
