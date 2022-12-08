@@ -692,6 +692,12 @@ def updateexistingForm():
         Update_Camp_Summission_Button = Button(Update_Camp_Summary_Screen, text="Update", command=UpdateEmergency)
         Update_Camp_Summission_Button.pack()
 
+        Go_Back_Button = Button(Update_Camp_Summary_Screen, text="Go Back", command=goBack)
+        Go_Back_Button.pack()
+
+    def goBack():
+        setupUpdate()
+
     def UpdateEmergency():
         global Update_Emergency_Screen
         global camp_name

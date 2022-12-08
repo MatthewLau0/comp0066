@@ -182,9 +182,6 @@ def volunteerEntry():
     emergency_submit_button = Button(volunteer_entry_screen, text="Submit", command=newvolunteerVerify)
     emergency_submit_button.pack()
 
-#def selectCamp():
-    #global select_camp
-    #newvolunteerVerify()
 
 def newvolunteerVerify():
     global volunteer_name_list

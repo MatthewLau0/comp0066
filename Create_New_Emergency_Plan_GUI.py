@@ -549,6 +549,12 @@ def createnewemergencyPlan():
         New_Camp_Submission_Button = Button(New_Camp_Summary_Screen, text="Submit", command=SubmitEmergency)
         New_Camp_Submission_Button.pack()
 
+        Go_Back_Button = Button(New_Camp_Summary_Screen, text="Go back", command=goBack)
+        Go_Back_Button.pack()
+
+    def goBack():
+        screenSetup()
+
     def SubmitEmergency():
         global New_Camp_Screen
         global camp_name
