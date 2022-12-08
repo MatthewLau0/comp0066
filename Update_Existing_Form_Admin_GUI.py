@@ -621,7 +621,7 @@ def UpdateCampVerify():
     if status_check_no.get() == 1:
         endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
 
-    if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != Tru:
+    if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
         camp_name_reentry_label = Label(Update_Emergency_Entry_Screen, text="Please enter a name for the new camp. Camp name must only contain letters with no spaces.", fg='#f00')
         camp_name_reentry_label.pack()
     if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (
