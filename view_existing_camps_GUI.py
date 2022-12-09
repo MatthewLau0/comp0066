@@ -71,6 +71,8 @@ def viewexistingCamps():
     def layoutsetUp():
         pass
 
+    def viewRefugees():
+
 
 
 
@@ -90,6 +92,8 @@ def viewexistingCamps():
         view_camp_button.pack()
         view_camp_layout_button = Button(view_camp_home_screen, text="View Layout of a Camp", command=layoutsetUp)
         view_camp_layout_button.pack()
+        view_refugees_summary_button = Button(view_camp_home_screen, text="View Refugees", command=viewRefugees)
+        view_refugees_summary_button.pack()
 
 
         view_camp_screen.mainloop()
