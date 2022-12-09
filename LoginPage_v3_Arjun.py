@@ -43,7 +43,6 @@ def register_user():
     new_user[3] = username_hash
     new_user[4] = password_hash
 
-
     file.close()
 
     new_user_string = ("%".join(new_user)+"\n")
@@ -82,15 +81,27 @@ def login_verify():
     login_success_bool = False
     try:
         # Checks all lines in username_info.txt
-        for line in open("username_info.txt", "r").readlines():
-            # Checks if hashes equal
-            login_info = [line[0:64], line[65:129]]
-            if username_hash == login_info[0] and password_hash == login_info[1] and check_user_active(username_string):
-                login_success_bool = True
-                login_sucess()
-                volunteer_home_page_gui.volunteer_home_page()
-                break
-            continue
+        file = open("volunteers.txt", "r")
+        current_volunteer_list_2 = []
+        for line in file:
+            line_list = line.split("%")
+            current_volunteer_list_2.append(line_list)
+
+        logins_list = []
+        for i in current_volunteer_list_2:
+            string_user = i[3]
+            string_password = i[4]
+            string_login = str(string_user + string_password)
+            logins_list.append(string_login)
+
+        login_deets_string = str(username_hash + password_hash)
+        print(logins_list)
+        print(login_deets_string)
+
+        if login_deets_string in logins_list:
+            login_success_bool = True
+            login_sucess()
+            volunteer_home_page_gui.volunteer_home_page()
         if not login_success_bool:
             login_failure()
     except FileNotFoundError:
@@ -100,10 +111,7 @@ def check_user_active(username):
     for line in open("volunteers.txt", "r").readlines():
         lines = line.split('%')
 
-        if lines[3] != username:
-            continue
-
-        if lines[10] != "Active":
+        if lines[11] != "Active":
             continue
 
         return True
