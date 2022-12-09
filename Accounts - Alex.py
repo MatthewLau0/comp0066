@@ -17,7 +17,7 @@ class Database:
         self.volunteers[name] = user
 
     def deactivate_volunteer(self, name):
-        volunteer = self.volunteers[name]  #getting a user from database 'users' by name
+        volunteer = self.volunteers[name]  #getting a user from database 'volunteer' by name
         volunteer.set_activity(False)
 
     def reactivate_volunteer(self, name):
@@ -118,3 +118,47 @@ def main():
 
 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ select_camp_label = Label(volunteer_entry_screen, text="Please select a camp")
+    select_camp_label.pack()
+    select_camp_select = OptionMenu(volunteer_entry_screen, select_camp, *camp_name_list)
+    select_camp_select.pack()
+
+select_reactivate_select = OptionMenu(manage_volunteer_screen, select_volunteer, *deactivated_volunteer_list)
+
+def reactivate_volunteer(volunteers[11])
+volunteers[11] == activity
+volunteer.set_activity(True)
+
+
+select_volunteer_label = Label(manage_volunteer_screen, text="Select a volunteer to activate")
+    select_volunteer_label.pack()
+    select_volunteer_select = OptionMenu(manage_volunteer_screen, select_volunteer, deactivated_volunteer_list)
+
+
+deactivated_list = []
+for i in volunteer_list:
+    if i[11] == 'Deactivated'
+    deactivated_list.append = []
+
+def deactivate_volunteer(volunteers[12])
+volunteers[12] == activity
+volunteer.set_activity(False)
+
+select_volunteer_label = Label(manage_volunteer_screen, text="Select a volunteer to deactivate")
+    select_volunteer_label.pack()
+    select_volunteer_select = OptionMenu(manage_volunteer_screen, select_volunteer, active_volunteer_list)
+
+active_list = []
+for i in volunteer_list:
+    if i[11] == "Active"
+    active_list.append = []
+
+def delete_volunteer(volunteer)
+    del 
+
+
+
+
+
+
