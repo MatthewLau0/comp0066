@@ -38,7 +38,7 @@ new_refugee = [""]*14
 
 
 #Opening the volunteer database and adding current volunteers into a list
-volunteer_list_file = open("Volunteer_Database", "r")
+volunteer_list_file = open("Refugee_Database", "r")
 volunteer_database_list = []
 for line in volunteer_database_list:
     x = line.split(",")
@@ -127,7 +127,7 @@ new_volunteer_string = ','.join(new_refugee)
 
 volunteer_list_file.close()
 
-volunteer_list_file_append = open("Volunteer_Database", "a")
+volunteer_list_file_append = open("Refugee_Database", "a")
 volunteer_list_file_append.write("\n%s" %(new_volunteer_string))
 volunteer_list_file_append.close()
 

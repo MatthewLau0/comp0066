@@ -4,13 +4,14 @@ def create_family():
     import subprocess
     import sys
     import tkcalendar
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
+    import tkinter.messagebox
+    #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+    #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 
 
 
     # Opening current database and reading it into a list
-    volunteer_list_file = open("Volunteer_Database", "r")
+    volunteer_list_file = open("Refugee_Database", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("#")
@@ -32,146 +33,135 @@ def create_family():
 
     def save_to_file():
 
-        name = refugee_name.get()
-        number = refugee_number.get()
-        dob = refugee_dob.get()
-        age = str(calculate_age(dob))
+        name = refugee_name.get().strip()
+        number = refugee_number.get().strip()
+        dob = refugee_dob_calendar.selection_get()
+        age = str(calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y")))
         sex = refugee_sex.get()
 
-        first_address = refugee_first_address.get()
-        city_address = refugee_city_address.get()
-        postcode_address = refugee_postcode_address.get()
-        country_address = refugee_country_address.get()
+        first_address = refugee_first_address.get().strip()
+        city_address = refugee_city_address.get().strip()
+        postcode_address = refugee_postcode_address.get().strip()
+        country_address = refugee_country_address.get().strip()
 
 
 
-        weight = refugee_weight.get()
-        height = refugee_height.get()
+        conditions = refugee_height.get()
+        no_fam_conditions = refugee_family_medical_no.get()
 
         #Check if there is no input in the required fields
-        if name == "" or number == "" or sex == "":
-            noinput_error()
-            print("1")
+        if name == "" or name == "Enter refugee name...":
+            tkinter.messagebox.showerror(title = 'Error!', message = 'Name cannot be empty')
             return
 
         #Check if name has errors
         for i in name:
-            if i.isalpha() != True and i != " ":
-                print("2")
-                noinput_error()
+            if i.isnumeric() == True:
+                tkinter.messagebox.showerror(title='Error!', message='Name cannot have numeric characters')
+                return
+
+            elif i.isalpha() != True and i != " ":
+                tkinter.messagebox.showerror(title='Error!', message='Name cannot have special characters')
                 return
 
         if len(name) == 0:
-            noinput_error()
-            print("3")
+            tkinter.messagebox.showerror(title='Error!', message='Name cannot be empty')
             return
 
         if any(i.isdigit() for i in name):
-            print("4")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='Name cannot have numeric characters')
             return
 
         if name.count(" ") > 3:
-            print("5")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='Name cannot have more than 4 parts')
             return
+
+
 
 
         #Check if number has error
+
+        if number == "":
+            tkinter.messagebox.showerror(title='Error!', message='Number of family members cannot be empty')
+            return
+
         try:
             int(number)
         except ValueError:
-            print("6")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='No. of family members must be numeric')
             return
 
-        if len(number)!=5:
-            print("7")
-            noinput_error()
+        if int(number) > 20:
+            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
             return
 
         if any(i.isalpha() for i in number):
-            print("8")
-            noinput_error()
-
+            tkinter.messagebox.showerror(title='Error!', message='No. of family members cannot have alphabetical characters')
             return
 
-        if len(volunteer_database_list) == 0:
-            pass
-        else:
-            for i in range(len(volunteer_database_list)):
-                if number == volunteer_database_list[i][2]:
-                    print("9")
-                    noinput_error()
-                    return
 
+        #Check for sex
 
+        if sex == "":
+            tkinter.messagebox.showerror(title='Error!', message='Sex cannot be empty')
+            return
 
         #Checks for address line 1
         if first_address.isnumeric():
-            print("10")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='Address cannot be fully numeric')
             return
         if len(first_address) > 100:
-            print("11")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='Address must be shorter than 100 characters')
             return
 
+        if first_address != "" or first_address != "Address Line 1":
+            for i in first_address:
+                if i.isalnum() != True and i != " ":
+                    tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in Address Line 1')
+                    return
+
         #Checks for city
-        if city_address.count(" ") > 4:
-            print("12")
-            noinput_error()
+        if city_address.count(" ") > 3:
+            tkinter.messagebox.showerror(title='Error!', message='City cannot have more than 3 words')
             return
 
         if city_address.isnumeric():
-            print("13")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='City address cannot be numeric')
             return
+
+        if any(i.isnumeric() for i in city_address):
+            tkinter.messagebox.showerror(title='Error!', message='City cannot have numerical characters')
+            return
+
+        if city_address != "" or city_address != "Town/City":
+            for i in city_address:
+                if i.isalnum() != True and i != " " and i!= "/":
+                    tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in town/city')
+                    return
 
         #Checks for postcode
         if len(postcode_address) > 10:
-            print("14")
-            noinput_error()
+            tkinter.messagebox.showerror(title='Error!', message='Postcode cannot be longer than 10 characters')
             return
 
-        for i in postcode_address:
-            if i.isalnum() != True and i != " ":
-                print("14.5")
-                noinput_error()
-                return
+        if postcode_address != "" or postcode_address != "Postcode":
+            for i in postcode_address:
+                if i.isalnum() != True and i != " ":
+                    tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in postcode')
+                    return
 
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
 
 
-        #Checks for weight
-        try:
-            float(weight)
-        except ValueError:
-            print("15")
-            noinput_error()
+        #Checks for conditions
+        if len(conditions) > 300:
+            tkinter.messagebox.showerror(title = 'Error!', message = 'Character length should be below 300!')
             return
 
-        if float(weight) > 400 or float(weight) < 1:
-            print("16")
-            noinput_error()
-            return
+        #Checks for family conditions
 
 
-
-
-        #Checks for height
-        try:
-            float(height)
-        except ValueError:
-            print("18")
-            noinput_error()
-            return
-
-        if float(height) > 230 or float(height) < 30:
-            print("19")
-            noinput_error()
-            return
 
 
         success()
@@ -186,14 +176,13 @@ def create_family():
     def delete3():
         screen3.destroy()
 
-    def calculate_age(lol):
-        today = datetime.date.today()
-        x = lol.split("/")
-        birthyear = int(x[2])
-        birthmonth = int(x[1])
-        birthday = int(x[0])
+    def calculate_age(birthdate):
+        today = datetime.datetime.today()
+        #x = lol.split("/")
+        #birthyear = int(x[2])
+        #birthmonth = int(x[1])
+        #birthday = int(x[0])
 
-        birthdate = datetime.date(birthyear, birthmonth, birthday)
         age = 0
 
         if birthdate.month < today.month and today.year > birthdate.year:
@@ -231,7 +220,7 @@ def create_family():
             except:
                 pass
         return True
-
+    '''
     def number_validate():
         number = refugee_number.get()
 
@@ -260,6 +249,7 @@ def create_family():
             except:
                 pass
         return True
+    '''
 
     def delete2():
         screen2.destroy()
@@ -284,7 +274,6 @@ def create_family():
         close_button.place(x = 95, y = 80)
 
     def submit():
-        print("1")
         # Creating new refugee
         new_refugee = [""] * 9
 
@@ -297,17 +286,23 @@ def create_family():
 
         name = refugee_name.get()
         number = refugee_number.get()
-        dob = refugee_dob.get()
-        age = str(calculate_age(dob))
+        dob = refugee_dob_calendar.get_date()
+        age = str(calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y")))
         sex = refugee_sex.get()
-        weight = refugee_weight.get()
-        height = refugee_height.get()
+        conditions = refugee_height.get()
+        no_fam_conditions = refugee_family_medical_no.get()
 
         print("2")
 
         first_address = refugee_first_address.get()
+        if first_address == "Address Line 1":
+            first_address = ''
         city_address = refugee_city_address.get()
+        if city_address == "Town/City":
+            city_address = ''
         postcode_address = refugee_postcode_address.get()
+        if postcode_address == "Postcode":
+            postcode_address = ''
         country_address = refugee_country_address.get()
 
         address_list = [first_address, city_address, postcode_address, country_address]
@@ -319,12 +314,12 @@ def create_family():
         new_refugee[4] = age
         new_refugee[5] = sex
         new_refugee[6] = address
-        new_refugee[7] = weight
-        new_refugee[8] = height
+        new_refugee[7] = conditions
+        new_refugee[8] = str(no_fam_conditions)
         print("3")
         new_refugee_string = "#".join(new_refugee)
         volunteer_list_file.close()
-        volunteer_list_file_append = open("Volunteer_Database", "a")
+        volunteer_list_file_append = open("Refugee_Database", "a")
         volunteer_list_file_append.write("\n%s" % (new_refugee_string))
         volunteer_list_file_append.close()
 
@@ -355,15 +350,21 @@ def create_family():
         sex_confirmation = tkinter.Label(screen2, text="The sex you are entering is: %s" %refugee_sex.get())
         sex_confirmation.pack()
 
-        dob_confirmation = tkinter.Label(screen2, text="The date of birth you are entering is: %s" %str(refugee_dob.get()))
+        dob_confirmation = tkinter.Label(screen2, text="The date of birth you are entering is: %s" %refugee_dob_calendar.get_date())
         dob_confirmation.pack()
 
-        age_confirmation = tkinter.Label(screen2, text="This means their age is: %s" %str(calculate_age(str(refugee_dob.get()))))
+        age_confirmation = tkinter.Label(screen2, text="This means their age is: %s" %str(calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y"))))
         age_confirmation.pack()
 
         first_address = refugee_first_address.get()
+        if first_address == "Address Line 1":
+            first_address = ''
         city_address = refugee_city_address.get()
+        if city_address == "Town/City":
+            city_address = ''
         postcode_address = refugee_postcode_address.get()
+        if postcode_address == "Postcode":
+            postcode_address = ''
         country_address = refugee_country_address.get()
 
         address_list = [first_address, city_address, postcode_address, country_address]
@@ -372,10 +373,10 @@ def create_family():
         address_confirmation = tkinter.Label(screen2, text="Their address is: %s" %address)
         address_confirmation.pack()
 
-        weight_confirmation = tkinter.Label(screen2, text="Their weight is: %s kg" %refugee_weight.get())
+        weight_confirmation = tkinter.Label(screen2, text="Your conditions are: %s" %refugee_height.get())
         weight_confirmation.pack()
 
-        height_confirmation = tkinter.Label(screen2, text="Their height is: %s cm" %refugee_height.get())
+        height_confirmation = tkinter.Label(screen2, text="Number of family members with conditions: %s" %str(refugee_family_medical_no.get()))
         height_confirmation.pack()
 
         submit_button = tkinter.Button(screen2, text="Submit", command=submit)
@@ -395,13 +396,13 @@ def create_family():
             refugee_name_entry.config(fg = 'grey')
 
     def refugee_number_on(self):
-        if refugee_number_entry.get() == 'Enter 5-digit number...':
+        if refugee_number_entry.get() == 'Enter no. of family members...':
            refugee_number_entry.delete(0, "end") # delete all the text in the entry
            refugee_number_entry.insert(0, '') #Insert blank for user input
            refugee_number_entry.config(fg = 'black')
     def refugee_number_off(self):
         if refugee_number_entry.get() == '':
-            refugee_number_entry.insert(0, 'Enter 5-digit number...')
+            refugee_number_entry.insert(0, 'Enter no. of family members...')
             refugee_number_entry.config(fg = 'grey')
 
     def refugee_first_address_on(self):
@@ -446,13 +447,13 @@ def create_family():
             refugee_weight_entry.config(fg = 'grey')
 
     def refugee_height_on(self):
-        if refugee_height_entry.get() == 'Enter height in cm...':
+        if refugee_height_entry.get() == 'Enter any medical conditions...':
            refugee_height_entry.delete(0, "end") # delete all the text in the entry
            refugee_height_entry.insert(0, '') #Insert blank for user input
            refugee_height_entry.config(fg = 'black')
     def refugee_height_off(self):
         if refugee_height_entry.get() == '':
-            refugee_height_entry.insert(0, 'Enter height in cm...')
+            refugee_height_entry.insert(0, 'Enter any medical conditions...')
             refugee_height_entry.config(fg = 'grey')
 
 
@@ -466,65 +467,68 @@ def create_family():
     #screen.configure(background="#A1CDEC")
 
     #Title text
-    intro_text = tkinter.Label(screen, text = "Use this section to create a refugee within this Database.", fg = 'Green', bg="Light Grey", width= 500)
-    intro_text.pack
+    intro_text = tkinter.Label(screen, text = "Use this section to create a refugee within this Database.", fg = 'Green', width= 300)
+    intro_text.place(x = 20, y = 20)
 
     #Input from user
 
 
     namestatus = tkinter.Label(screen, text = "")
-    namestatus.place(x = 20, y = 70)
+    namestatus.place(x = 20, y = 50)
 
     refugee_name_text = tkinter.Label(screen, text = "Refugee name*: ")
-    refugee_name_text.place(x = 20, y = 50)
+    refugee_name_text.place(x = 20, y = 30)
     refugee_name = tkinter.StringVar()
     refugee_name_entry = tkinter.Entry(screen, validate = 'all', validatecommand = name_validate, textvariable=refugee_name)
     refugee_name_entry.insert(0, 'Enter refugee name...')
     refugee_name_entry.bind('<FocusIn>', refugee_text_on)
     refugee_name_entry.bind('<FocusOut>', refugee_text_off)
     refugee_name_entry.config(fg = 'grey')
-    refugee_name_entry.place(x = 175, y = 50, width=300)
+    refugee_name_entry.place(x = 175, y = 30, width=300)
 
 
 
     numberstatus = tkinter.Label(screen, text = "")
-    numberstatus.place(x = 20, y = 140)
+    numberstatus.place(x = 20, y = 120)
 
-    refugee_number_text = tkinter.Label(screen, text = "Refugee Number*: ")
-    refugee_number_text.place(x = 20, y = 120)
+    refugee_number_text = tkinter.Label(screen, text = "No. of family members*: ")
+    refugee_number_text.place(x = 20, y = 100)
     refugee_number = tkinter.StringVar()
-    refugee_number_entry = tkinter.Entry(screen, textvariable=refugee_number, validate = 'all', validatecommand=number_validate)
-    refugee_number_entry.insert(0, 'Enter 5-digit number...')
-    refugee_number_entry.bind('<FocusIn>', refugee_number_on)
-    refugee_number_entry.bind('<FocusOut>', refugee_number_off)
-    refugee_number_entry.config(fg = 'grey')
-    refugee_number_entry.place(x = 175, y = 120, width=300)
+    refugee_number_entry = tkinter.Spinbox(screen, textvariable = refugee_number, from_=0, to = 20)
+    #refugee_number_entry.insert(0, 'Enter no. of family members...')
+    #refugee_number_entry.bind('<FocusIn>', refugee_number_on)
+    #refugee_number_entry.bind('<FocusOut>', refugee_number_off)
+    #refugee_number_entry.config(fg = 'grey')
+    refugee_number_entry.place(x = 175, y = 100, width=300)
 
 
 
     refugee_sex_text = tkinter.Label(screen, text = "Sex*:")
-    refugee_sex_text.place(x = 20, y = 190)
+    refugee_sex_text.place(x = 20, y = 170)
     refugee_sex = tkinter.StringVar()
     #refugee_sex_entry = Entry(textvariable=refugee_sex)
     #refugee_sex_entry.place(x = 175, y = 150, width=300)
     drop = tkinter.OptionMenu(screen, refugee_sex, "Male", "Female", "Prefer not to say")
-    drop.place(x = 175, y = 190, width = 300)
+    drop.place(x = 175, y = 170, width = 300)
 
     refugee_dob_text = tkinter.Label(screen, text = "Date of Birth*: ")
-    refugee_dob_text.place(x = 20, y = 260)
+    refugee_dob_text.place(x = 20, y = 240)
 
     #refugee_dob_var= StringVar()
     # refugee_dob_entry = Entry(textvariable=refugee_dob)
     # refugee_dob_entry.place(x = 175, y = 200, width=300)
 
     today = datetime.date.today()
+    max = datetime.date(1904, 2, 11)
+    #oldest person alive!
 
-    refugee_dob = tkinter.StringVar()
-    refugee_dob_calendar = tkcalendar.DateEntry(screen, textvariable = refugee_dob, date_pattern="d/m/y", selectmode='day')
-    refugee_dob_calendar.place(x = 175, y = 260)
+
+    #refugee_dob = tkinter.StringVar()
+    refugee_dob_calendar = tkcalendar.Calendar(screen, date_pattern="d/m/y", selectmode='day', borderwidthint= 400, foreground = 'black', maxdate= today, mindate= max)
+    refugee_dob_calendar.place(x = 175, y = 240)
 
     #refugee_dob.trace('w', refugee_dob.get())
-    calculate_refugee_dob = refugee_dob.get()
+    calculate_refugee_dob = refugee_dob_calendar.get_date()
 
 
     #global refugee_age_status
@@ -535,7 +539,7 @@ def create_family():
     #refugee_age_status.place(x = 175, y = 250, width=300)
 
     refugee_address_text = tkinter.Label(screen, text = "Address:")
-    refugee_address_text.place(x = 20, y = 330)
+    refugee_address_text.place(x = 20, y = 380)
 
     refugee_first_address = tkinter.StringVar()
     refugee_first_address_entry = tkinter.Entry(screen, textvariable=refugee_first_address)
@@ -543,7 +547,7 @@ def create_family():
     refugee_first_address_entry.bind('<FocusIn>', refugee_first_address_on)
     refugee_first_address_entry.bind('<FocusOut>', refugee_first_address_off)
     refugee_first_address_entry.config(fg = 'grey')
-    refugee_first_address_entry.place(x = 175, y = 330, width=300)
+    refugee_first_address_entry.place(x = 175, y = 380, width=300)
 
     refugee_city_address = tkinter.StringVar()
     refugee_city_address_entry = tkinter.Entry(screen, textvariable=refugee_city_address)
@@ -551,7 +555,7 @@ def create_family():
     refugee_city_address_entry.bind('<FocusIn>', refugee_city_address_on)
     refugee_city_address_entry.bind('<FocusOut>', refugee_city_address_off)
     refugee_city_address_entry.config(fg = 'grey')
-    refugee_city_address_entry.place(x = 175, y = 360, width=150)
+    refugee_city_address_entry.place(x = 175, y = 410, width=150)
 
     refugee_postcode_address = tkinter.StringVar()
     refugee_postcode_address_entry = tkinter.Entry(screen, textvariable=refugee_postcode_address)
@@ -559,36 +563,74 @@ def create_family():
     refugee_postcode_address_entry.bind('<FocusIn>', refugee_postcode_address_on)
     refugee_postcode_address_entry.bind('<FocusOut>', refugee_postcode_address_off)
     refugee_postcode_address_entry.config(fg = 'grey')
-    refugee_postcode_address_entry.place(x = 325, y = 360, width=150)
+    refugee_postcode_address_entry.place(x = 325, y = 410, width=150)
 
     refugee_country_address = tkinter.StringVar()
     refugee_country_address_entry = tkinter.OptionMenu(screen, refugee_country_address, *country_list)
-    refugee_country_address_entry.place(x = 175, y = 390, width = 300)
+    refugee_country_address_entry.place(x = 175, y = 440, width = 300)
+
+    def clickYes():
+        global refugee_height
+        global refugee_height_entry
+        global refugee_family_medical_no
+        if refugee_weight.get() == 1:
+            refugee_weight_entry_2.config(state='disabled')
+            refugee_height_text = tkinter.Label(screen, text="Your conditions:")
+            refugee_height_text.place(x=20, y=580)
+            refugee_height = tkinter.StringVar()
+            refugee_height_entry = tkinter.Entry(screen, textvariable=refugee_height)
+            refugee_height_entry.insert(0, 'Enter any medical conditions...')
+            refugee_height_entry.bind('<FocusIn>', refugee_height_on)
+            refugee_height_entry.bind('<FocusOut>', refugee_height_off)
+            refugee_height_entry.config(fg='grey')
+            refugee_height_entry.place(x=175, y=580, width=300)
+            refugee_family_medical_no_label = tkinter.Label(screen, text="How many family members have conditions")
+            refugee_family_medical_no_label.place(x=20, y=650)
+            refugee_family_medical_no = tkinter.StringVar(value = 0)
+            refugee_family_num = []
+            for i in range(0, int(refugee_number.get())+1):
+                refugee_family_num.append(i)
+            refugee_family_medical_no_option = tkinter.OptionMenu(screen, refugee_family_medical_no, *refugee_family_num)
+            refugee_family_medical_no_option.place(x=300, y=650)
+
+        else:
+            refugee_weight_entry_2.config(state='normal')
+            hehe_label = tkinter.Label(screen, text='')
+            hehe_label.place(x=15, y=580, width=800, height=40)
+            hehe_label = tkinter.Label(screen, text='')
+            hehe_label.place(x=15, y=650, width=800, height=40)
+
+    def clickNo():
+        if refugee_weight_2.get() == 1:
+            refugee_weight_entry.config(state='disabled')
+            lol_label = tkinter.Label(screen, text = '')
+            lol_label.place(x = 15, y = 580, width= 800, height = 40)
+            lol_label = tkinter.Label(screen, text='')
+            lol_label.place(x=15, y=650, width=800, height=40)
+        else:
+            refugee_weight_entry.config(state='normal')
+
+    #THIS IS REPLACED WITH MEDICAL CONDITION CHECKBOX
+    refugee_weight_text = tkinter.Label(screen, text = "Do you or your family have\n any medical conditions?*")
+    refugee_weight_text.place(x = 20, y = 510)
+    refugee_weight = tkinter.IntVar()
+    refugee_weight_2 = tkinter.IntVar()
+    refugee_weight_entry = tkinter.Checkbutton(screen, variable = refugee_weight, onvalue=1, offvalue=2, text = "Yes", command = clickYes)
+    refugee_weight_entry_2 = tkinter.Checkbutton(screen, variable = refugee_weight_2, onvalue=1, offvalue=2, text = "No", command = clickNo)
+    #refugee_weight_entry.insert(0, 'Enter weight in kg...')
+    #refugee_weight_entry.bind('<FocusIn>', refugee_weight_on)
+    #refugee_weight_entry.bind('<FocusOut>', refugee_weight_off)
+    #refugee_weight_entry.config(fg = 'grey')
+    refugee_weight_entry.place(x = 300, y = 510)
+    refugee_weight_entry_2.place(x = 300, y = 530)
 
 
-    refugee_weight_text = tkinter.Label(screen, text = "Weight")
-    refugee_weight_text.place(x = 20, y = 460)
-    refugee_weight = tkinter.StringVar()
-    refugee_weight_entry = tkinter.Entry(screen, textvariable=refugee_weight)
-    refugee_weight_entry.insert(0, 'Enter weight in kg...')
-    refugee_weight_entry.bind('<FocusIn>', refugee_weight_on)
-    refugee_weight_entry.bind('<FocusOut>', refugee_weight_off)
-    refugee_weight_entry.config(fg = 'grey')
-    refugee_weight_entry.place(x = 175, y = 460, width=300)
 
-    refugee_height_text = tkinter.Label(screen, text = "Height")
-    refugee_height_text.place(x = 20, y = 530)
-    refugee_height = tkinter.StringVar()
-    refugee_height_entry = tkinter.Entry(screen, textvariable=refugee_height)
-    refugee_height_entry.insert(0, 'Enter height in cm...')
-    refugee_height_entry.bind('<FocusIn>', refugee_height_on)
-    refugee_height_entry.bind('<FocusOut>', refugee_height_off)
-    refugee_height_entry.config(fg = 'grey')
-    refugee_height_entry.place(x = 175, y = 530, width=300)
+
 
 
     submit_button = tkinter.Button(screen, text = "Submit the form", width=30, command=save_to_file)
-    submit_button.place(x = 100, y= 600)
+    submit_button.place(x = 100, y= 720)
 
 
     #click_me = Button(text = "Click me", fg = "red", height = 20, width = 20)
