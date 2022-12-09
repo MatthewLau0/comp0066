@@ -62,6 +62,13 @@ def create_family():
         x = line.split(",")
         ration_database_list.append(x)
     open_ration_file.close()
+
+    open_accommodation_write = open("accommodationstestlol, 'r")
+    accommodation_write_list = []
+    for line in open_accommodation_write:
+        x = line.split(",")
+        accommodation_write_list.append(x)
+    open_accommodation_write.close()
     # def age_status():
     #     date = refugee_dob.get()
     #
@@ -421,9 +428,29 @@ def create_family():
         #iterate through list to see which one is free
         refugee_assigned_accommodation = ''
         for i in range(len(accommodation_specific_camp_list)):
-            if int(accommodation_specific_camp_list[i][6]) > int(refugee_number.get()):
+            if int(accommodation_specific_camp_list[i][6]) > (int(refugee_number.get())+1):
                 refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
                 refugee_assigned_block = accommodation_specific_camp_list[i][7]
+                that_block_list = accommodation_specific_camp_list[i]
+                that_block_list[4] = int(that_block_list[4]) + (int(refugee_number.get())+1)
+                that_block_list[6] = that_block_list[6] - (int(refugee_number.get())+1)
+
+                for j in range(len(accommodation_database_list)):
+                    if accommodation_database_list[j][0] == that_block_list[0] and accommodation_database_list[j][1] == that_block_list[1]:
+                        accommodation_database_list[j] = that_block_list
+
+                new_rewritten_database_temp = []
+                for i in accommodation_database_list:
+                    new_rewritten_database_temp.append(','.join(i))
+
+                new_rewritten_database = []
+                for i in new_rewritten_database_temp:
+                    new_rewritten_database.append('\n'.join(i))
+
+                accommodations_write_new = open("accommodationstestlol, 'w")
+                accommodations_write_new.write(new_rewritten_database)
+                accommodations_write_new.close()
+
                 break
 
         refugee_assigned_accommodation_label = tkinter.Label(add_camp_screen, text = 'Your refugee accommodation will be in: %s, %s' %(refugee_assigned_accommodation, refugee_assigned_block))
