@@ -431,10 +431,14 @@ def create_family():
                 refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
                 refugee_assigned_block = accommodation_specific_camp_list[i][7]
                 that_block_list = accommodation_specific_camp_list[i]
-                that_block_list[4] = str(int(that_block_list[4]) + (int(refugee_number.get())+1))
-                that_block_list[6] = str(int(that_block_list[6]) - (int(refugee_number.get())+1))
-                print(str(int(that_block_list[4]) + (int(refugee_number.get())+1)))
+                xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())+1))
+                yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())+1))
+                print(xhaha)
+                print(yhaha)
+                that_block_list[4] = xhaha
+                that_block_list[6] = yhaha
                 print(that_block_list)
+
 
 
                 for j in range(len(accommodation_database_list)):
