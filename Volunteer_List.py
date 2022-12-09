@@ -127,6 +127,10 @@ def volunteerList(screen):
         global full_name
         global DOB
         global age
+        global full_name_label
+        global DOB_calendar
+        global today
+
 
         select_camp = StringVar()
         full_name = StringVar()
@@ -180,6 +184,19 @@ def volunteerList(screen):
         DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
 
 
+
+        emergency_submit_button = Button(volunteer_entry_screen, text="Submit", command=confirmAge)
+        emergency_submit_button.pack()
+
+    def confirmAge():
+        global volunteer_age
+        global DOB
+        global DOB_calendar
+        global today
+
+
+        DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
+
         volunteer_age = 0
 
         if DOB.month < today.month and today.year > DOB.year:
@@ -196,13 +213,8 @@ def volunteerList(screen):
 
         volunteer_age = str(volunteer_age)
 
-        availability_label = Label(volunteer_entry_screen, text="Please enter your weekly availability")
-        availability_label.pack()
-        availability_entry = Entry(volunteer_entry_screen, textvariable=volunteer_availability)
-        availability_entry.pack()
+        newvolunteerVerify()
 
-        emergency_submit_button = Button(volunteer_entry_screen, text="Submit", command=newvolunteerVerify)
-        emergency_submit_button.pack()
 
 
     def newvolunteerVerify():
@@ -224,8 +236,12 @@ def volunteerList(screen):
         global gender
         global age
         global volunteer_availability
+        global full_name
+        global full_name_label
 
-        if '@' not in email.get() or '.' not in email.get():
+        if len(full_name.get()) == 0 or full_name.get() == ' ':
+            full_name_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
+        elif '@' not in email.get() or '.' not in email.get():
             email_label.config(text="Please enter a valid email address", fg='#f00')
         elif len(phone_area_code.get())>4:
             phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
@@ -233,8 +249,6 @@ def volunteerList(screen):
             phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
         elif len(gender.get()) == 0 or gender.get() == ' ':
             gender_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
-        elif len(volunteer_availability.get()) == 0 or (volunteer_availability.get() == ' '):
-            availability_label.config(text="Please enter a valid availabilty", fg='#f00')
         else:
             createvolunteerSubmit()
 
@@ -255,6 +269,7 @@ def volunteerList(screen):
         global DOB
         global age
         global current_volunteer_list
+        global volunteer_age
 
         phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
@@ -264,10 +279,9 @@ def volunteerList(screen):
         new_volunteer[6] = phone_number_complete
         new_volunteer[7] = gender.get()
         new_volunteer[8] = str(DOB)
-        new_volunteer[9] = age.get()
-        new_volunteer[10] = volunteer_availability.get()
-        new_volunteer[11] = "Deactivated"
-        new_volunteer[12] = "Standard"
+        new_volunteer[9] = volunteer_age
+        new_volunteer[10] = "Deactivated"
+        new_volunteer[11] = "Standard"
 
         current_volunteer_list.append(new_volunteer)
         volunteer_file_write = open("volunteers.txt", "r+")
@@ -291,7 +305,9 @@ def volunteerList(screen):
         return_home_button.pack()
 
     def returnHome():
-        pass
+        from LoginPage_v3_Arjun import loginPage
+        loginPage()
+
 
 
     #Screen Setup
