@@ -45,7 +45,7 @@ def register_user():
 
     file.close()
 
-    new_user_string = ("%".join(new_user)+"\n")
+    new_user_string = ("\n"+"%".join(new_user))
 
     volunteer_append = open("volunteers.txt", "a")
 

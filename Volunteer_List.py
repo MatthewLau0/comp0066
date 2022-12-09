@@ -26,10 +26,11 @@ def volunteerList(screen):
             current_volunteer_list.append(line_list)
 
         volunteer_file.close()
-        del current_volunteer_list[-1]
+        #del current_volunteer_list[-1]
 
         new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
+        new_volunteer[1] = current_volunteer_list[-1][1]
         new_volunteer[3] = current_volunteer_list[-1][3]
         new_volunteer[4] = current_volunteer_list[-1][4]
         del current_volunteer_list[-1]
@@ -271,8 +272,8 @@ def volunteerList(screen):
         current_volunteer_list.append(new_volunteer)
         volunteer_file_write = open("volunteers.txt", "r+")
         for i in range(0, len(current_volunteer_list)):
-            current_volunteer_string = '%'.join(current_volunteer_list)
-            volunteer_file_write.write("%s\n" %(current_volunteer_string))
+            current_volunteer_string = '%'.join(current_volunteer_list[i])
+            volunteer_file_write.write("%s" %(current_volunteer_string))
             i += 1
         volunteer_file_write.close()
         closeScreen()
