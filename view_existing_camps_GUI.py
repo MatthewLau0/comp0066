@@ -68,13 +68,10 @@ def viewexistingCamps():
         return_home_button = Button(view_camp_screen, text="Return to Homescreen", command=returnHome)
         return_home_button.pack()
 
-    def layoutsetUp():
-        accommodation_file = open("accommodations.txt", "r")
-        ration_file = open("ration_stall.txt", "r")
-        toilet_file = open("toilets.txt", "r")
-        medical_file = open("medical.txt", "r")
-        volunteer_file = open("volunteers.txt", "r")
-        refugee_file = open("refugee_database.txt", "r")
+    def selectLayoutCamp():
+        global selected_camp_id
+        global Layout_Screen
+
 
         Layout_Screen = Toplevel()
         Layout_Screen.title("View Camp Layout")
@@ -96,7 +93,22 @@ def viewexistingCamps():
         select_camp_id_label.pack()
         select_camp_id = OptionMenu(Layout_Screen, selected_camp_id, *camp_ID_list)
         select_camp_id.pack()
-        camp_id = selected_camp_id.get()
+        select_camp_button = Button(Layout_Screen, text="Submit", command=layoutSetUp)
+        select_camp_button.pack()
+
+
+    def layoutSetUp():
+        global selected_camp_id
+        global Layout_Screen
+
+        camp_id = selected_camp_id
+
+        accommodation_file = open("accommodations.txt", "r")
+        ration_file = open("ration_stall.txt", "r")
+        toilet_file = open("toilets.txt", "r")
+        medical_file = open("medical.txt", "r")
+        volunteer_file = open("volunteers.txt", "r")
+        refugee_file = open("refugee_database.txt", "r")
 
         accom_list = []
         for line1 in accommodation_file:
@@ -484,12 +496,12 @@ def viewexistingCamps():
         view_camp_home_screen_label.pack()
         view_camp_button = Button(view_camp_home_screen, text="View Existing Camps", command=viewcampsetUp)
         view_camp_button.pack()
-        view_camp_layout_button = Button(view_camp_home_screen, text="View Layout of a Camp", command=layoutsetUp)
+        view_camp_layout_button = Button(view_camp_home_screen, text="View Layout of a Camp", command=selectLayoutCamp)
         view_camp_layout_button.pack()
         view_refugees_summary_button = Button(view_camp_home_screen, text="View Refugees", command=viewRefugees)
         view_refugees_summary_button.pack()
 
 
-        view_camp_screen.mainloop()
+        view_camp_home_screen.mainloop()
 
     viewcampScreen()
