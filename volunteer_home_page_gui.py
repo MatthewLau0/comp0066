@@ -4,15 +4,25 @@ from tkinter import *
 import sys
 import subprocess
 import volunteer_create_family_gui
-
+import LoginPage_v3_Arjun
 #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 
 import volunteer_view_family_gui
 import volunteer_update_family_gui
 #import volunteer_add_availability
+
+
 def volunteer_home_page():
     #Define Functions
+
+
+    open_volunteer_file = open("volunteers.txt", 'r')
+    volunteer_actual_database_list = []
+    for line in open_volunteer_file:
+        x = line.split("%")
+        volunteer_actual_database_list.append(x)
+
     #Load Create new emergency
     def Edit_Refugee():
         volunteer_create_family_gui.create_family()
@@ -30,7 +40,9 @@ def volunteer_home_page():
     def Log_out():
         refugee_home.destroy()
 
-    current_refugee_id = 3
+
+    current_refugee_id = LoginPage_v3_Arjun.haha
+    print(current_refugee_id)
     open_volunteer_file = open("volunteers.txt", 'r')
     volunteer_actual_database_list = []
     for line in open_volunteer_file:
