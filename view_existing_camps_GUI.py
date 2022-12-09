@@ -72,8 +72,7 @@ def viewexistingCamps():
         pass
 
     def viewRefugees():
-
-
+        pass
 
 
 
