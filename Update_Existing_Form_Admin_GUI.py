@@ -728,7 +728,6 @@ def updateexistingForm():
         updating_camp_list[7] = status
 
         emergency_database_list[(index_updating_camp)] = updating_camp_list
-        print(emergency_database_list)
         emergency_database_file_write = open("Emergency_Database", "r+")
         for i in range(0, len(emergency_database_list)):
             emergency_database_string = '%'.join(emergency_database_list[i])
