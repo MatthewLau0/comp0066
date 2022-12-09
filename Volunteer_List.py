@@ -27,17 +27,6 @@ def volunteerList():
         new_volunteer = current_volunteer_list[-1]
 
 
-        #Create Volunteer Number
-        if len(current_volunteer_list) == 0:
-            new_volunteer[1] = "1"
-        elif len(current_volunteer_list) >= 1:
-            new_volunteer[1] = str((int((current_volunteer_list[-2])[1])+1))
-
-        #Create name of current usernames
-        volunteer_name_list = []
-        for i in range(0, len(current_volunteer_list)):
-            volunteer_name_list.append((current_volunteer_list[i])[0])
-
         #List of camp names
         emergency_database_file = open("Emergency_Database", "r")
         emergency_database_list = []
@@ -50,10 +39,8 @@ def volunteerList():
         for i in range(0, len(emergency_database_list)):
             camp_ID_list.append((emergency_database_list[i])[0])
 
-        if len(volunteer_name_list) == 0:
-            new_volunteer[1] = "1"
-        elif len(volunteer_name_list) >= 1:
-            new_volunteer[1] = str((int((volunteer_name_list[-1])[0]) + 1))
+        volunteer_file.close()
+
 
         campTable()
 
@@ -267,7 +254,7 @@ def volunteerList():
         new_volunteer[0] = select_camp.get()
         new_volunteer[2] = full_name.get()
         new_volunteer[5] = email.get()
-        new_volunteer[6] = phone_number_complaete
+        new_volunteer[6] = phone_number_complete
         new_volunteer[7] = gender.get()
         new_volunteer[8] = str(DOB)
         new_volunteer[9] = age.get()
