@@ -13,8 +13,12 @@ def volunteerList():
         global volunteer_name_list
         global emergency_database_list
         global camp_ID_list
+        global current_volunteer_list
+        global username
+        global password
 
         volunteer_file = open("volunteers.txt", "r")
+
 
         current_volunteer_list = []
         for line in volunteer_file:
@@ -23,8 +27,14 @@ def volunteerList():
 
         volunteer_file.close()
 
-        new_volunteer = []
-        new_volunteer = current_volunteer_list[-1]
+        username = current_volunteer_list[-1][3]
+        password = current_volunteer_list[-1][4]
+        del(current_volunteer_list[-1])
+
+        new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_volunteer[3] = username
+        new_volunteer[4] = password
 
 
         #List of camp names
@@ -37,10 +47,7 @@ def volunteerList():
 
         camp_ID_list = []
         for i in range(0, len(emergency_database_list)):
-            camp_ID_list.append((emergency_database_list[i])[0])
-
-        volunteer_file.close()
-
+            camp_ID_list.append(emergency_database_list[i][0])
 
         campTable()
 
@@ -176,17 +183,17 @@ def volunteerList():
 
         volunteer_age = 0
 
-        if DOB.month < today.month and DOB.year > birthdate.year:
+        if DOB.month < today.month and today.year > DOB.year:
             volunteer_age = today.year - DOB.year
 
-        elif DOB.month > DOB.month and DOB.year > birthdate.year:
+        elif DOB.month > DOB.month and today.year > DOB.year:
             volunteer_age = today.year - DOB.year - 1
 
         elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
             volunteer_age = today.year - DOB.year - 1
 
         elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
-            volunteer_age = today.year - birthdate.year
+            volunteer_age = today.year - DOB.year
 
         volunteer_age = str(volunteer_age)
 
@@ -248,6 +255,7 @@ def volunteerList():
         global select_camp
         global DOB
         global age
+        global create_volunteer_list
 
         phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
@@ -264,9 +272,17 @@ def volunteerList():
 
         new_volunteer_string = '%'.join(new_volunteer)
 
-        volunteer_file_append = open("volunteers.txt", "a")
-        volunteer_file_append.write("\n%s" %(new_volunteer_string))
-        volunteer_file_append.close()
+        create_volunteer_list.append(new_volunteer_string)
+
+        volunteer_file_write = open("volunteers.txt", "r+")
+        for i in range(0, len(create_volunteer_list)):
+            if i == len(create_volunteer_list):
+                volunteer_file_write.write("%s\n" %(new_volunteer_string))
+            elif i != len(create_volunteer_list):
+                volunteer_file_write.write(new_volunteer_string)
+            i += 1
+
+        volunteer_file_write.close()
 
         closeScreen()
 
@@ -288,9 +304,9 @@ def volunteerList():
 
     #Screen Setup
 
-    def VolunteerEntryScreen():
+    def VolunteerEntryScreen(screen):
         global volunteer_entry_screen
-        volunteer_entry_screen = Toplevel()
+        volunteer_entry_screen = Toplevel(screen)
         volunteer_entry_screen.geometry("500x600")
         volunteer_entry_screen.title("Volunteer Entry Screen")
         setupScreen()
@@ -298,4 +314,3 @@ def volunteerList():
         volunteer_entry_screen.mainloop()
 
     VolunteerEntryScreen()
-
