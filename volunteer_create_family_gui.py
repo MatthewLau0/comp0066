@@ -17,6 +17,24 @@ def create_family():
         x = line.split("#")
         volunteer_database_list.append(x)
 
+    current_refugee_id = 1
+    open_volunteer_file = open("volunteers.txt", 'r')
+    volunteer_actual_database_list = []
+    for line in open_volunteer_file:
+        x = line.split("%")
+        volunteer_actual_database_list.append(x)
+
+    open_camp_file = open("Emergency_Database.txt", 'r')
+    camp_database_list = []
+    for line in open_camp_file:
+        x = line.split("%")
+        camp_database_list.append(x)
+
+    open_accommodation_file = open("accommodations.txt", 'r')
+    accommodation_database_list = []
+    for line in open_accommodation_file:
+        x = line.split("%")
+        accommodation_database_list.append(x)
     # def age_status():
     #     date = refugee_dob.get()
     #
@@ -164,7 +182,7 @@ def create_family():
 
 
 
-        success()
+        add_camp()
 
 
     def delete1():
@@ -282,7 +300,7 @@ def create_family():
             new_refugee[0] = "1"
         elif len(volunteer_database_list) >= 1:
             new_refugee[0] = str((int((volunteer_database_list[-1])[0]) + 1))
-        print("The index number for this emergency is ", new_refugee[0])
+
 
         name = refugee_name.get()
         number = refugee_number.get()
@@ -292,7 +310,7 @@ def create_family():
         conditions = refugee_height.get()
         no_fam_conditions = refugee_family_medical_no.get()
 
-        print("2")
+
 
         first_address = refugee_first_address.get()
         if first_address == "Address Line 1":
@@ -308,6 +326,9 @@ def create_family():
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
 
+        if conditions == "Enter any medical conditions...":
+            conditions = ''
+
         new_refugee[1] = name
         new_refugee[2] = number
         new_refugee[3] = dob
@@ -316,7 +337,6 @@ def create_family():
         new_refugee[6] = address
         new_refugee[7] = conditions
         new_refugee[8] = str(no_fam_conditions)
-        print("3")
         new_refugee_string = "#".join(new_refugee)
         volunteer_list_file.close()
         volunteer_list_file_append = open("Refugee_Database", "a")
@@ -326,6 +346,63 @@ def create_family():
         delete2()
         finish_message()
         delete0()
+
+
+    def add_camp():
+        add_camp_screen = tkinter.Toplevel()
+        add_camp_screen.geometry("500x1000")
+        add_camp_screen.title("Enter refugee camp details")
+
+        #CALENDAR TO CHOOSE ARRIVAL DATE
+        refugee_arrival_date_text = tkinter.Label(add_camp_screen, text="Please select date of arrival*:")
+        refugee_arrival_date_text.pack()
+        today = datetime.date.today()
+        max = datetime.date(today.year + 2, today.month, today.day)
+        min = datetime.date(today.year -2 ,today.month, today.day)
+        # + or - 2 years
+        refugee_arrival_calendar = tkcalendar.Calendar(add_camp_screen, date_pattern="d/m/y", selectmode='day', borderwidthint=400, foreground='black', maxdate=max, mindate=min)
+        refugee_arrival_calendar.pack(pady = 30)
+
+        #SELECT WHICH CAMP THEY WANT TO PUT REFUGEE IN
+
+        #sees which camp the volunteer is currently assigned to
+        volunteer_current_camp = int(volunteer_actual_database_list[current_refugee_id][1])
+
+        #label to get them to select which camp
+        volunteer_current_camp_label = tkinter.Label(add_camp_screen, text = "Please select which camp to put refugee in:")
+        volunteer_current_camp_label.pack(pady = 30)
+
+        #get list of only camp names
+        camp_name_list = []
+        for i in range(len(camp_database_list)):
+            camp_name_list.append(camp_database_list[i][1])
+
+        #function that runs when continue is clicked
+        def output_camp():
+            camp_name = volunteer_current_camp_var.get()
+            index = camp_name_list.index(camp_name)
+
+            #campID: THIS IS IDENTIFIER OF CAMP
+            camp_id_pog = camp_database_list[index][0]
+
+            #get a list of accommodations in that camp
+            specific_accommodation_camp_list = []
+            for i in range(len(accommodation_database_list)):
+                if accommodation_database_list[i][0] == camp_id_pog:
+                    specific_accommodation_camp_list.append(accommodation_database_list[i])
+
+            print(specific_accommodation_camp_list)
+
+
+        volunteer_current_camp_var = tkinter.StringVar(value=camp_name_list[int(volunteer_current_camp)])
+        volunteer_current_camp_dropdown = tkinter.OptionMenu(add_camp_screen, volunteer_current_camp_var, *camp_name_list, command = output_camp())
+        volunteer_current_camp_dropdown.pack()
+
+        camp_submit_button = tkinter.Button(add_camp_screen, text="Submit the form", width=30, command=success)
+        camp_submit_button.pack()
+
+
+
 
 
 
@@ -373,7 +450,11 @@ def create_family():
         address_confirmation = tkinter.Label(screen2, text="Their address is: %s" %address)
         address_confirmation.pack()
 
-        weight_confirmation = tkinter.Label(screen2, text="Your conditions are: %s" %refugee_height.get())
+        conditions = refugee_height.get()
+        if conditions == 'Enter any medical conditions...':
+            conditions = ''
+
+        weight_confirmation = tkinter.Label(screen2, text="Your conditions are: %s" %conditions)
         weight_confirmation.pack()
 
         height_confirmation = tkinter.Label(screen2, text="Number of family members with conditions: %s" %str(refugee_family_medical_no.get()))
@@ -512,7 +593,7 @@ def create_family():
     drop.place(x = 175, y = 170, width = 300)
 
     refugee_dob_text = tkinter.Label(screen, text = "Date of Birth*: ")
-    refugee_dob_text.place(x = 20, y = 240)
+    refugee_dob_text.place(x = 20, y = 220)
 
     #refugee_dob_var= StringVar()
     # refugee_dob_entry = Entry(textvariable=refugee_dob)
@@ -525,7 +606,7 @@ def create_family():
 
     #refugee_dob = tkinter.StringVar()
     refugee_dob_calendar = tkcalendar.Calendar(screen, date_pattern="d/m/y", selectmode='day', borderwidthint= 400, foreground = 'black', maxdate= today, mindate= max)
-    refugee_dob_calendar.place(x = 175, y = 240)
+    refugee_dob_calendar.place(x = 175, y = 220)
 
     #refugee_dob.trace('w', refugee_dob.get())
     calculate_refugee_dob = refugee_dob_calendar.get_date()
@@ -539,7 +620,7 @@ def create_family():
     #refugee_age_status.place(x = 175, y = 250, width=300)
 
     refugee_address_text = tkinter.Label(screen, text = "Address:")
-    refugee_address_text.place(x = 20, y = 380)
+    refugee_address_text.place(x = 20, y = 400)
 
     refugee_first_address = tkinter.StringVar()
     refugee_first_address_entry = tkinter.Entry(screen, textvariable=refugee_first_address)
@@ -547,7 +628,7 @@ def create_family():
     refugee_first_address_entry.bind('<FocusIn>', refugee_first_address_on)
     refugee_first_address_entry.bind('<FocusOut>', refugee_first_address_off)
     refugee_first_address_entry.config(fg = 'grey')
-    refugee_first_address_entry.place(x = 175, y = 380, width=300)
+    refugee_first_address_entry.place(x = 175, y = 400, width=300)
 
     refugee_city_address = tkinter.StringVar()
     refugee_city_address_entry = tkinter.Entry(screen, textvariable=refugee_city_address)
@@ -555,7 +636,7 @@ def create_family():
     refugee_city_address_entry.bind('<FocusIn>', refugee_city_address_on)
     refugee_city_address_entry.bind('<FocusOut>', refugee_city_address_off)
     refugee_city_address_entry.config(fg = 'grey')
-    refugee_city_address_entry.place(x = 175, y = 410, width=150)
+    refugee_city_address_entry.place(x = 175, y = 430, width=150)
 
     refugee_postcode_address = tkinter.StringVar()
     refugee_postcode_address_entry = tkinter.Entry(screen, textvariable=refugee_postcode_address)
@@ -563,21 +644,22 @@ def create_family():
     refugee_postcode_address_entry.bind('<FocusIn>', refugee_postcode_address_on)
     refugee_postcode_address_entry.bind('<FocusOut>', refugee_postcode_address_off)
     refugee_postcode_address_entry.config(fg = 'grey')
-    refugee_postcode_address_entry.place(x = 325, y = 410, width=150)
+    refugee_postcode_address_entry.place(x = 325, y = 430, width=150)
 
     refugee_country_address = tkinter.StringVar()
     refugee_country_address_entry = tkinter.OptionMenu(screen, refugee_country_address, *country_list)
-    refugee_country_address_entry.place(x = 175, y = 440, width = 300)
+    refugee_country_address_entry.place(x = 175, y = 460, width = 300)
 
     def clickYes():
         global refugee_height
         global refugee_height_entry
         global refugee_family_medical_no
+        refugee_height = tkinter.StringVar()
+        refugee_family_medical_no = tkinter.StringVar(value=0)
         if refugee_weight.get() == 1:
             refugee_weight_entry_2.config(state='disabled')
             refugee_height_text = tkinter.Label(screen, text="Your conditions:")
             refugee_height_text.place(x=20, y=580)
-            refugee_height = tkinter.StringVar()
             refugee_height_entry = tkinter.Entry(screen, textvariable=refugee_height)
             refugee_height_entry.insert(0, 'Enter any medical conditions...')
             refugee_height_entry.bind('<FocusIn>', refugee_height_on)
@@ -586,7 +668,7 @@ def create_family():
             refugee_height_entry.place(x=175, y=580, width=300)
             refugee_family_medical_no_label = tkinter.Label(screen, text="How many family members have conditions")
             refugee_family_medical_no_label.place(x=20, y=650)
-            refugee_family_medical_no = tkinter.StringVar(value = 0)
+
             refugee_family_num = []
             for i in range(0, int(refugee_number.get())+1):
                 refugee_family_num.append(i)
@@ -594,6 +676,7 @@ def create_family():
             refugee_family_medical_no_option.place(x=300, y=650)
 
         else:
+            refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry_2.config(state='normal')
             hehe_label = tkinter.Label(screen, text='')
             hehe_label.place(x=15, y=580, width=800, height=40)
@@ -601,13 +684,19 @@ def create_family():
             hehe_label.place(x=15, y=650, width=800, height=40)
 
     def clickNo():
+        global refugee_height
+        refugee_height = tkinter.StringVar()
+        global refugee_family_medical_no
+        refugee_family_medical_no = tkinter.StringVar(value=0)
         if refugee_weight_2.get() == 1:
+            refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry.config(state='disabled')
             lol_label = tkinter.Label(screen, text = '')
             lol_label.place(x = 15, y = 580, width= 800, height = 40)
             lol_label = tkinter.Label(screen, text='')
             lol_label.place(x=15, y=650, width=800, height=40)
         else:
+            refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry.config(state='normal')
 
     #THIS IS REPLACED WITH MEDICAL CONDITION CHECKBOX
