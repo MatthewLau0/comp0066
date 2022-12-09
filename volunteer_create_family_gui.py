@@ -867,4 +867,3 @@ def create_family():
     #tkinter.mainloop()
     screen.mainloop()
 
-create_family()
