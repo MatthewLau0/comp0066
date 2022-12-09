@@ -291,7 +291,9 @@ def volunteerList(screen):
         return_home_button.pack()
 
     def returnHome():
-        pass
+        from LoginPage_v3_Arjun import loginPage
+        loginPage()
+
 
 
     #Screen Setup
