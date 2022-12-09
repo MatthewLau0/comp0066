@@ -34,7 +34,7 @@ def create_family():
         camp_database_list.append(x)
     open_camp_file.close()
 
-    open_accommodation_file = open("accommodations.txt", 'r')
+    open_accommodation_file = open("accommodationstestlol.txt", 'r')
     accommodation_database_list = []
     for line in open_accommodation_file:
         x = line.split(",")
@@ -433,11 +433,9 @@ def create_family():
                 that_block_list = accommodation_specific_camp_list[i]
                 xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())+1))
                 yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())+1))
-                print(xhaha)
-                print(yhaha)
                 that_block_list[4] = xhaha
                 that_block_list[6] = yhaha
-                print(that_block_list)
+
 
 
 
@@ -869,3 +867,4 @@ def create_family():
     #tkinter.mainloop()
     screen.mainloop()
 
+create_family()
