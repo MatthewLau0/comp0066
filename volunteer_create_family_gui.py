@@ -436,9 +436,6 @@ def create_family():
                 that_block_list[4] = xhaha
                 that_block_list[6] = yhaha
 
-
-
-
                 for j in range(len(accommodation_database_list)):
                     if accommodation_database_list[j][0] == that_block_list[0] and accommodation_database_list[j][1] == that_block_list[1]:
                         accommodation_database_list[j] = that_block_list
@@ -470,7 +467,29 @@ def create_family():
         for i in range(len(medical_specific_camp_list)):
             if int(medical_specific_camp_list[i][6]) > int(refugee_family_medical_no.get()):
                 refugee_assigned_medical = medical_specific_camp_list[i][2]
+
+                that_medic_list = medical_specific_camp_list[i]
+                ahaha = str(int(that_medic_list[4]) + (int(refugee_family_medical_no.get())))
+                bhaha = str(int(that_medic_list[6]) - (int(refugee_family_medical_no.get())))
+                that_medic_list[4] = ahaha
+                that_medic_list[6] = bhaha
+
+
+                for j in range(len(medical_database_list)):
+                    if medical_database_list[j][0] == that_medic_list[0] and medical_database_list[j][1] == that_medic_list[1]:
+                        medical_database_list[j] = that_medic_list
+
+                new_rewritten_database_temp_medic = []
+                for i in medical_database_list:
+                    new_rewritten_database_temp_medic.append(','.join(i))
+
+                medical_write_new = open("medical.txt", "w")
+                for i in range(len(new_rewritten_database_temp_medic)):
+                    medical_write_new.write(new_rewritten_database_temp_medic[i])
+                medical_write_new.close()
+
                 break
+
 
         refugee_assigned_medical_label = tkinter.Label(add_camp_screen, text='Your refugee medical stall will be in: %s' % refugee_assigned_medical)
         refugee_assigned_medical_label.pack(pady=10)
@@ -487,6 +506,26 @@ def create_family():
         for i in range(len(toilet_specific_camp_list)):
             if int(toilet_specific_camp_list[i][6]) > int(refugee_number.get()):
                 refugee_assigned_toilet = toilet_specific_camp_list[i][2]
+                that_toilet_list = toilet_specific_camp_list[i]
+                chaha = str(int(that_toilet_list[4]) + (int(refugee_number.get()) + 1))
+                dhaha = str(int(that_toilet_list[6]) - (int(refugee_number.get()) + 1))
+                that_toilet_list[4] = chaha
+                that_toilet_list[6] = dhaha
+                print(that_toilet_list)
+
+                for j in range(len(toilet_database_list)):
+                    if toilet_database_list[j][0] == that_toilet_list[0] and toilet_database_list[j][1] == that_toilet_list[1]:
+                        toilet_database_list[j] = that_toilet_list
+
+                new_rewritten_database_temp_toilet = []
+                for i in toilet_database_list:
+                    new_rewritten_database_temp_toilet.append(','.join(i))
+
+                toilets_write_new = open("toilets.txt", "w")
+                for i in range(len(new_rewritten_database_temp_toilet)):
+                    toilets_write_new.write(new_rewritten_database_temp_toilet[i])
+                toilets_write_new.close()
+
                 break
 
         refugee_assigned_toilet_label = tkinter.Label(add_camp_screen, text='Your refugee toilet stall will be in: %s' % refugee_assigned_toilet)
@@ -867,4 +906,3 @@ def create_family():
     #tkinter.mainloop()
     screen.mainloop()
 
-create_family()

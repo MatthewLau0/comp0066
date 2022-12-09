@@ -10,7 +10,7 @@ import LoginPage_v3_Arjun
 
 import volunteer_view_family_gui
 import volunteer_update_family_gui
-#import volunteer_add_availability
+import volunteer_add_availability
 
 
 def volunteer_home_page():
@@ -33,15 +33,15 @@ def volunteer_home_page():
     def View_Refugee():
         volunteer_view_family_gui.table()
 
-    #def Calendly_Refugees():
-        #volunteer_add_availability.calendly_volunteer()
+    def Calendly_Refugees():
+        volunteer_add_availability.add_calendar()
 
 
     def Log_out():
         refugee_home.destroy()
 
 
-    current_refugee_id = LoginPage_v3_Arjun.haha
+    current_refugee_id = 1
     print(current_refugee_id)
     open_volunteer_file = open("volunteers.txt", 'r')
     volunteer_actual_database_list = []
@@ -69,8 +69,8 @@ def volunteer_home_page():
     view_refugee_button = Button(refugee_home, text="View list of refugees in your camp", command=View_Refugee, width = 30, height = 2)
     view_refugee_button.pack(pady = 10)
 
-    #change_availability_button = Button(refugee_home, text = "Edit/Manage your availability", command = Calendly_Refugees, width = 30, height = 2)
-    #change_availability_button.pack(pady = 10)
+    change_availability_button = Button(refugee_home, text = "Edit/Manage your availability", command = Calendly_Refugees, width = 30, height = 2)
+    change_availability_button.pack(pady = 10)
 
     #manage_refugees_button = Button(refugee_home, text="Return to home page", command=Manage_Refugees, width = 30, height = 2)
     #manage_refugees_button.pack()
@@ -78,3 +78,4 @@ def volunteer_home_page():
     quit_button = Button(refugee_home, text = 'Log Out', command = Log_out, width= 30, height= 2)
     quit_button.pack(pady = 10)
     refugee_home.mainloop()
+volunteer_home_page()
