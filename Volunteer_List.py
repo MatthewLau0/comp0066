@@ -265,9 +265,8 @@ def volunteerList(screen):
         new_volunteer[7] = gender.get()
         new_volunteer[8] = str(DOB)
         new_volunteer[9] = age.get()
-        new_volunteer[10] = volunteer_availability.get()
-        new_volunteer[11] = "Deactivated"
-        new_volunteer[12] = "Standard"
+        new_volunteer[10] = "Deactivated"
+        new_volunteer[11] = "Standard"
 
         current_volunteer_list.append(new_volunteer)
         volunteer_file_write = open("volunteers.txt", "r+")
