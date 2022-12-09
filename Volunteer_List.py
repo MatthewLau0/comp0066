@@ -7,7 +7,8 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkcalendar import Calendar
 import datetime
 
-def volunteerList():
+def volunteerList(screen):
+    volunteer_screen = screen
     def setupScreen():
         global new_volunteer
         global volunteer_name_list
@@ -313,4 +314,4 @@ def volunteerList():
 
         volunteer_entry_screen.mainloop()
 
-    VolunteerEntryScreen()
+    VolunteerEntryScreen(volunteer_screen)
