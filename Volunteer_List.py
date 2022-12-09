@@ -18,24 +18,21 @@ def volunteerList(screen):
         global username
         global password
 
-        volunteer_file = open("volunteers.txt", "r")
-
 
         current_volunteer_list = []
+        volunteer_file = open("volunteers.txt", "r")
         for line in volunteer_file:
             line_list = line.split("%")
             current_volunteer_list.append(line_list)
 
         volunteer_file.close()
-
-        username = current_volunteer_list[-1][3]
-        password = current_volunteer_list[-1][4]
-        del(current_volunteer_list[-1])
+        del current_volunteer_list[-1]
 
         new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
-        new_volunteer[3] = username
-        new_volunteer[4] = password
+        new_volunteer[3] = current_volunteer_list[-1][3]
+        new_volunteer[4] = current_volunteer_list[-1][4]
+        del current_volunteer_list[-1]
 
 
         #List of camp names
@@ -256,7 +253,7 @@ def volunteerList(screen):
         global select_camp
         global DOB
         global age
-        global create_volunteer_list
+        global current_volunteer_list
 
         phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
@@ -271,20 +268,13 @@ def volunteerList(screen):
         new_volunteer[11] = "Deactivated"
         new_volunteer[12] = "Standard"
 
-        new_volunteer_string = '%'.join(new_volunteer)
-
-        create_volunteer_list.append(new_volunteer_string)
-
+        current_volunteer_list.append(new_volunteer)
         volunteer_file_write = open("volunteers.txt", "r+")
-        for i in range(0, len(create_volunteer_list)):
-            if i == len(create_volunteer_list):
-                volunteer_file_write.write("%s\n" %(new_volunteer_string))
-            elif i != len(create_volunteer_list):
-                volunteer_file_write.write(new_volunteer_string)
+        for i in range(0, len(current_volunteer_list)):
+            current_volunteer_string = '%'.join(current_volunteer_list)
+            volunteer_file_write.write("%s\n" %(current_volunteer_string))
             i += 1
-
         volunteer_file_write.close()
-
         closeScreen()
 
 
