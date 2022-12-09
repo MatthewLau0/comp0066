@@ -59,7 +59,7 @@ def register_user():
     # Success message
     Label(register_screen, text="Registration Successful", fg="green", font=("calibri", 12)).pack()
     from Volunteer_List import volunteerList
-    volunteerList()
+    volunteerList(register_screen)
 
 # Functionality of user login
 def login_verify():

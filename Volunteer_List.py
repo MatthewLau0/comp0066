@@ -7,24 +7,32 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkcalendar import Calendar
 import datetime
 
-def volunteerList():
+def volunteerList(screen):
+    volunteer_screen = screen
     def setupScreen():
         global new_volunteer
         global volunteer_name_list
         global emergency_database_list
         global camp_ID_list
+        global current_volunteer_list
+        global username
+        global password
 
-        volunteer_file = open("volunteers.txt", "r")
 
         current_volunteer_list = []
+        volunteer_file = open("volunteers.txt", "r")
         for line in volunteer_file:
             line_list = line.split("%")
             current_volunteer_list.append(line_list)
 
         volunteer_file.close()
+        del current_volunteer_list[-1]
 
-        new_volunteer = []
-        new_volunteer = current_volunteer_list[-1]
+        new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+        new_volunteer[3] = current_volunteer_list[-1][3]
+        new_volunteer[4] = current_volunteer_list[-1][4]
+        del current_volunteer_list[-1]
 
 
         #List of camp names
@@ -37,10 +45,7 @@ def volunteerList():
 
         camp_ID_list = []
         for i in range(0, len(emergency_database_list)):
-            camp_ID_list.append((emergency_database_list[i])[0])
-
-        volunteer_file.close()
-
+            camp_ID_list.append(emergency_database_list[i][0])
 
         campTable()
 
@@ -176,17 +181,17 @@ def volunteerList():
 
         volunteer_age = 0
 
-        if DOB.month < today.month and DOB.year > birthdate.year:
+        if DOB.month < today.month and today.year > DOB.year:
             volunteer_age = today.year - DOB.year
 
-        elif DOB.month > DOB.month and DOB.year > birthdate.year:
+        elif DOB.month > DOB.month and today.year > DOB.year:
             volunteer_age = today.year - DOB.year - 1
 
         elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
             volunteer_age = today.year - DOB.year - 1
 
         elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
-            volunteer_age = today.year - birthdate.year
+            volunteer_age = today.year - DOB.year
 
         volunteer_age = str(volunteer_age)
 
@@ -248,6 +253,7 @@ def volunteerList():
         global select_camp
         global DOB
         global age
+        global current_volunteer_list
 
         phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
@@ -262,12 +268,13 @@ def volunteerList():
         new_volunteer[11] = "Deactivated"
         new_volunteer[12] = "Standard"
 
-        new_volunteer_string = '%'.join(new_volunteer)
-
-        volunteer_file_append = open("volunteers.txt", "a")
-        volunteer_file_append.write("\n%s" %(new_volunteer_string))
-        volunteer_file_append.close()
-
+        current_volunteer_list.append(new_volunteer)
+        volunteer_file_write = open("volunteers.txt", "r+")
+        for i in range(0, len(current_volunteer_list)):
+            current_volunteer_string = '%'.join(current_volunteer_list)
+            volunteer_file_write.write("%s\n" %(current_volunteer_string))
+            i += 1
+        volunteer_file_write.close()
         closeScreen()
 
 
@@ -288,14 +295,13 @@ def volunteerList():
 
     #Screen Setup
 
-    def VolunteerEntryScreen():
+    def VolunteerEntryScreen(screen):
         global volunteer_entry_screen
-        volunteer_entry_screen = Toplevel()
+        volunteer_entry_screen = Toplevel(screen)
         volunteer_entry_screen.geometry("500x600")
         volunteer_entry_screen.title("Volunteer Entry Screen")
         setupScreen()
 
         volunteer_entry_screen.mainloop()
 
-    VolunteerEntryScreen()
-
+    VolunteerEntryScreen(volunteer_screen)
