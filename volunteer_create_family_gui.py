@@ -9,7 +9,6 @@ def create_family():
     #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 
 
-
     # Opening current database and reading it into a list
     volunteer_list_file = open("Refugee_Database", "r")
     volunteer_database_list = []
@@ -63,7 +62,7 @@ def create_family():
         ration_database_list.append(x)
     open_ration_file.close()
 
-    open_accommodation_write = open("accommodationstestlol, 'r")
+    open_accommodation_write = open("accommodationstestlol.txt", "r")
     accommodation_write_list = []
     for line in open_accommodation_write:
         x = line.split(",")
@@ -423,7 +422,7 @@ def create_family():
         for i in range(len(accommodation_database_list)):
             if int(accommodation_database_list[i][0]) == int(volunteer_current_camp):
                 accommodation_specific_camp_list.append(accommodation_database_list[i])
-        print(accommodation_specific_camp_list)
+
 
         #iterate through list to see which one is free
         refugee_assigned_accommodation = ''
@@ -432,8 +431,11 @@ def create_family():
                 refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
                 refugee_assigned_block = accommodation_specific_camp_list[i][7]
                 that_block_list = accommodation_specific_camp_list[i]
-                that_block_list[4] = int(that_block_list[4]) + (int(refugee_number.get())+1)
-                that_block_list[6] = that_block_list[6] - (int(refugee_number.get())+1)
+                that_block_list[4] = str(int(that_block_list[4]) + (int(refugee_number.get())+1))
+                that_block_list[6] = str(int(that_block_list[6]) - (int(refugee_number.get())+1))
+                print(str(int(that_block_list[4]) + (int(refugee_number.get())+1)))
+                print(that_block_list)
+
 
                 for j in range(len(accommodation_database_list)):
                     if accommodation_database_list[j][0] == that_block_list[0] and accommodation_database_list[j][1] == that_block_list[1]:
@@ -443,12 +445,11 @@ def create_family():
                 for i in accommodation_database_list:
                     new_rewritten_database_temp.append(','.join(i))
 
-                new_rewritten_database = []
-                for i in new_rewritten_database_temp:
-                    new_rewritten_database.append('\n'.join(i))
 
-                accommodations_write_new = open("accommodationstestlol, 'w")
-                accommodations_write_new.write(new_rewritten_database)
+
+                accommodations_write_new = open("accommodationstestlol.txt", "w")
+                for i in range(len(new_rewritten_database_temp)):
+                    accommodations_write_new.write(new_rewritten_database_temp[i])
                 accommodations_write_new.close()
 
                 break
@@ -461,7 +462,6 @@ def create_family():
         for i in range(len(medical_database_list)):
             if int(medical_database_list[i][0]) == int(volunteer_current_camp) and medical_database_list[i][7] == refugee_assigned_block:
                 medical_specific_camp_list.append(medical_database_list[i])
-        print(medical_specific_camp_list)
 
         # iterate through list to see which one is free
         refugee_assigned_medical = 'No blocks available!'
@@ -479,7 +479,6 @@ def create_family():
         for i in range(len(toilet_database_list)):
             if int(toilet_database_list[i][0]) == int(volunteer_current_camp) and toilet_database_list[i][7] == refugee_assigned_block:
                 toilet_specific_camp_list.append(toilet_database_list[i])
-        print(toilet_specific_camp_list)
 
         # iterate through list to see which one is free
         refugee_assigned_toilet = 'No toilets available!'
@@ -497,7 +496,6 @@ def create_family():
         for i in range(len(ration_database_list)):
             if int(ration_database_list[i][0]) == int(volunteer_current_camp) and ration_database_list[i][7] == refugee_assigned_block:
                 ration_specific_camp_list.append(ration_database_list[i])
-        print(ration_specific_camp_list)
 
         # iterate through list to see which one is free
         refugee_assigned_ration = 'No rations available!'
