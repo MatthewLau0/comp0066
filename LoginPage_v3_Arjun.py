@@ -1,6 +1,7 @@
 # import modules
 
 from distutils.command.config import config
+from textwrap import wrap
 from tkinter import *
 from tkinter import messagebox
 import hashlib
@@ -27,7 +28,7 @@ def register_user():
 
     # Writes binary hash's to file
     new_user = [username_hash, password_hash]
-    new_user_string = ' '.join(new_user)
+    new_user_string = '%'.join(new_user)
     file = open("username_info.txt", "a")
     file.write(f"{new_user_string} \n")
     file.close()
@@ -39,10 +40,10 @@ def register_user():
     # Success message
     Label(register_screen, text="Registration Successful", fg="green", font=("calibri", 12)).pack()
 
-
 # Functionality of user login
 def login_verify():
     # Gets username and password from UI
+    username_string = username = username_verify.get()
     username = username_verify.get().encode()
     password = password_verify.get().encode()
 
@@ -63,18 +64,28 @@ def login_verify():
         # Checks all lines in username_info.txt
         for line in open("username_info.txt", "r").readlines():
             # Checks if hashes equal
-            login_info = line.split("%")
-            if username_hash == login_info[0] and password_hash == login_info[1]:
+            login_info = [line[0:64], line[65:129]]
+            if username_hash == login_info[0] and password_hash == login_info[1] and check_user_active(username_string):
                 login_success_bool = True
                 login_sucess()
                 break
-            else:
-                continue
+            continue
         if not login_success_bool:
-            password_not_recognised()
+            login_failure()
     except FileNotFoundError:
-        user_not_found()
+        login_failure()
 
+def check_user_active(username):
+    for line in open("volunteers.txt", "r").readlines():
+        lines = line.split('%')
+
+        if lines[3] != username:
+            continue
+
+        if lines[10] != "Active":
+            continue
+
+        return True
 
 # Designing window for registration
 def register():
@@ -119,7 +130,6 @@ def register():
     Label(register_screen, text="").pack()
     Button(register_screen, text="Register", width=10, height=1, bg="blue", command=register_user).pack()
 
-
 # Designing window for login
 def login():
     global login_screen
@@ -161,9 +171,6 @@ def login():
     Label(login_screen, text="").pack()
     Button(login_screen, text="Login", width=10, height=1, command=login_verify).pack()
 
-
-# Find a way to add "activation status" next to login of volunteer
-
 # Show Password button functionailty
 def change_password_visability():
     # Check if password is hidden
@@ -180,7 +187,6 @@ def change_password_visability():
         # Error catching
         messagebox.messagebox.showerror('Error:', 'Invalid visability state of password feild.')
 
-
 # Designing popup for login success
 def login_sucess():
     global login_success_screen
@@ -188,27 +194,16 @@ def login_sucess():
     login_success_screen.title("Success")
     login_success_screen.geometry("150x100")
     Label(login_success_screen, text="Login Success").pack()
-    Button(login_success_screen, text="OK", command=login_success_screen.destroy).pack()
+    Button(login_success_screen, text="OK", command=lambda: [main_screen.destroy(), campDropDownScreen()] ).pack()
 
-
-# Designing popup for login invalid password
-def password_not_recognised():
+# Designing popup for login failure
+def login_failure():
     global password_not_recog_screen
     password_not_recog_screen = Toplevel(login_screen)
-    password_not_recog_screen.title("Success")
-    password_not_recog_screen.geometry("150x100")
-    Label(password_not_recog_screen, text="Invalid Password ").pack()
+    password_not_recog_screen.title("Failure")
+    password_not_recog_screen.geometry("250x100")
+    Label(password_not_recog_screen, wraplength=200,text="Invalid Login Information or User Not Activated: Please try again or contact system administrator.").pack()
     Button(password_not_recog_screen, text="OK", command=password_not_recog_screen.destroy).pack()
-
-
-# Designing popup for user not found
-def user_not_found():
-    global user_not_found_screen
-    user_not_found_screen = Toplevel(login_screen)
-    user_not_found_screen.title("Success")
-    user_not_found_screen.geometry("150x100")
-    Label(user_not_found_screen, text="User Not Found").pack()
-    Button(user_not_found_screen, text="OK", command=user_not_found_screen.destroy).pack()
 
 
 # Designing Main(first) window
@@ -225,5 +220,38 @@ def main_account_screen():
 
     main_screen.mainloop()
 
+#Open the emergency database file and import camp names into a list
+def activationStatusFileChecker():
+    global camp_name_list
+    emergency_database_file = open("Emergency_Database", "r")
+    emergency_database_list = []
+    for line in emergency_database_file:
+        line_list = line.split("%")
+        emergency_database_list.append(line_list)
+    emergency_database_file.close()
+
+    camp_name_list = []
+    for i in range (0, len(emergency_database_list)):
+        camp_name_list.append((emergency_database_list[i])[1])
+
+    campDropDown()
+
+def campDropDown():
+    global camp_name_list
+    select_camp = StringVar()
+    select_camp_label = Label(camp_drop_down_screen, text="Please select a camp")
+    select_camp_label.pack()
+    select_camp_select = OptionMenu(camp_drop_down_screen, select_camp, *camp_name_list)
+    select_camp_select.pack()
+
+
+#Camp Drop Down Screen Creation
+def campDropDownScreen():
+    global camp_drop_down_screen
+    camp_drop_down_screen = Tk()
+    camp_drop_down_screen.geometry("500x650")
+    camp_drop_down_screen.title("Mock Screen")
+    activationStatusFileChecker()
+    camp_drop_down_screen.mainloop()
 
 main_account_screen()
