@@ -12,7 +12,7 @@ from tkinter import messagebox
 import hashlib
 
 
-# Functionality of user registration
+# Functionality of user regi stration
 def register_user():
     # Gets user info from UI
     username_info_entry = username.get().encode()
