@@ -16,25 +16,52 @@ def create_family():
     for line in volunteer_list_file:
         x = line.split("#")
         volunteer_database_list.append(x)
+    volunteer_list_file.close()
 
+    #CHECK THIS!!!!
     current_refugee_id = 1
+
     open_volunteer_file = open("volunteers.txt", 'r')
     volunteer_actual_database_list = []
     for line in open_volunteer_file:
         x = line.split("%")
         volunteer_actual_database_list.append(x)
+    open_volunteer_file.close()
 
     open_camp_file = open("Emergency_Database.txt", 'r')
     camp_database_list = []
     for line in open_camp_file:
         x = line.split("%")
         camp_database_list.append(x)
+    open_camp_file.close()
 
     open_accommodation_file = open("accommodations.txt", 'r')
     accommodation_database_list = []
     for line in open_accommodation_file:
         x = line.split(",")
         accommodation_database_list.append(x)
+    open_accommodation_file.close()
+
+    open_medical_file = open("medical.txt", 'r')
+    medical_database_list = []
+    for line in open_medical_file:
+        x = line.split(",")
+        medical_database_list.append(x)
+    open_medical_file.close()
+
+    open_toilet_file = open("toilets.txt", 'r')
+    toilet_database_list = []
+    for line in open_toilet_file:
+        x = line.split(",")
+        toilet_database_list.append(x)
+    open_toilet_file.close()
+
+    open_ration_file = open("ration_stall.txt", 'r')
+    ration_database_list = []
+    for line in open_ration_file:
+        x = line.split(",")
+        ration_database_list.append(x)
+    open_ration_file.close()
     # def age_status():
     #     date = refugee_dob.get()
     #
@@ -384,9 +411,8 @@ def create_family():
         volunteer_current_camp_label = tkinter.Label(add_camp_screen, text="Your refugee will be placed in your camp: %s" %current_camp_name)
         volunteer_current_camp_label.pack(pady=30)
 
-        #get specific list with accommodation only for camp
+        #ACCOMMODATION: get specific list with accommodation only for camp
         accommodation_specific_camp_list = []
-        print(accommodation_database_list)
         for i in range(len(accommodation_database_list)):
             if int(accommodation_database_list[i][0]) == int(volunteer_current_camp):
                 accommodation_specific_camp_list.append(accommodation_database_list[i])
@@ -397,10 +423,67 @@ def create_family():
         for i in range(len(accommodation_specific_camp_list)):
             if int(accommodation_specific_camp_list[i][6]) > int(refugee_number.get()):
                 refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
+                refugee_assigned_block = accommodation_specific_camp_list[i][7]
                 break
 
-        refugee_assigned_accommodation_label = tkinter.Label(add_camp_screen, text = 'Your refugee will be in: %s' %refugee_assigned_accommodation)
+        refugee_assigned_accommodation_label = tkinter.Label(add_camp_screen, text = 'Your refugee accommodation will be in: %s, %s' %(refugee_assigned_accommodation, refugee_assigned_block))
         refugee_assigned_accommodation_label.pack(pady = 10)
+
+        #MEDICAL: get specific list with medical only for camp
+        medical_specific_camp_list = []
+        for i in range(len(medical_database_list)):
+            if int(medical_database_list[i][0]) == int(volunteer_current_camp) and medical_database_list[i][7] == refugee_assigned_block:
+                medical_specific_camp_list.append(medical_database_list[i])
+        print(medical_specific_camp_list)
+
+        # iterate through list to see which one is free
+        refugee_assigned_medical = 'No blocks available!'
+        for i in range(len(medical_specific_camp_list)):
+            if int(medical_specific_camp_list[i][6]) > int(refugee_family_medical_no.get()):
+                refugee_assigned_medical = medical_specific_camp_list[i][2]
+                break
+
+        refugee_assigned_medical_label = tkinter.Label(add_camp_screen, text='Your refugee medical stall will be in: %s' % refugee_assigned_medical)
+        refugee_assigned_medical_label.pack(pady=10)
+
+        #TOILET: get specific list with toilets only for camp
+        toilet_specific_camp_list = []
+
+        for i in range(len(toilet_database_list)):
+            if int(toilet_database_list[i][0]) == int(volunteer_current_camp) and toilet_database_list[i][7] == refugee_assigned_block:
+                toilet_specific_camp_list.append(toilet_database_list[i])
+        print(toilet_specific_camp_list)
+
+        # iterate through list to see which one is free
+        refugee_assigned_toilet = 'No toilets available!'
+        for i in range(len(toilet_specific_camp_list)):
+            if int(toilet_specific_camp_list[i][6]) > int(refugee_number.get()):
+                refugee_assigned_toilet = toilet_specific_camp_list[i][2]
+                break
+
+        refugee_assigned_toilet_label = tkinter.Label(add_camp_screen, text='Your refugee toilet stall will be in: %s' % refugee_assigned_toilet)
+        refugee_assigned_toilet_label.pack(pady=10)
+
+        #RATIONS: get specific list with rations only for camp
+        ration_specific_camp_list = []
+
+        for i in range(len(ration_database_list)):
+            if int(ration_database_list[i][0]) == int(volunteer_current_camp) and ration_database_list[i][7] == refugee_assigned_block:
+                ration_specific_camp_list.append(ration_database_list[i])
+        print(ration_specific_camp_list)
+
+        # iterate through list to see which one is free
+        refugee_assigned_ration = 'No rations available!'
+        for i in range(len(ration_specific_camp_list)):
+            if int(ration_specific_camp_list[i][6]) > int(refugee_number.get()):
+                refugee_assigned_ration = ration_specific_camp_list[i][2]
+                break
+
+        refugee_assigned_ration_label = tkinter.Label(add_camp_screen, text='Your refugee ration stall will be in: %s' % refugee_assigned_ration)
+        refugee_assigned_ration_label.pack(pady=10)
+
+
+
 
 
 
