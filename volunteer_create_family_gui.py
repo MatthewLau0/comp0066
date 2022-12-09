@@ -33,7 +33,7 @@ def create_family():
     open_accommodation_file = open("accommodations.txt", 'r')
     accommodation_database_list = []
     for line in open_accommodation_file:
-        x = line.split("%")
+        x = line.split(",")
         accommodation_database_list.append(x)
     # def age_status():
     #     date = refugee_dob.get()
@@ -349,6 +349,8 @@ def create_family():
 
 
     def add_camp():
+
+        #Setting up the screen
         add_camp_screen = tkinter.Toplevel()
         add_camp_screen.geometry("500x1000")
         add_camp_screen.title("Enter refugee camp details")
@@ -366,18 +368,44 @@ def create_family():
         #SELECT WHICH CAMP THEY WANT TO PUT REFUGEE IN
 
         #sees which camp the volunteer is currently assigned to
-        volunteer_current_camp = int(volunteer_actual_database_list[current_refugee_id][1])
-
-        #label to get them to select which camp
-        volunteer_current_camp_label = tkinter.Label(add_camp_screen, text = "Your refugee will be placed in your camp: %s")
-        volunteer_current_camp_label.pack(pady = 30)
+        volunteer_current_camp = int(volunteer_actual_database_list[current_refugee_id][0])
 
         #get list of only camp names
         camp_name_list = []
         for i in range(len(camp_database_list)):
-            camp_name_list.append(camp_database_list[i][1])
+            camp_name_list.append([camp_database_list[i][0], camp_database_list[i][1]])
+        # label to get them to select which camp
+        current_camp_name = ''
+        for i in range(len(camp_name_list)):
+            if int(camp_name_list[i][0]) == int(volunteer_current_camp):
+                current_camp_name = camp_name_list[i][1]
+                break
+
+        volunteer_current_camp_label = tkinter.Label(add_camp_screen, text="Your refugee will be placed in your camp: %s" %current_camp_name)
+        volunteer_current_camp_label.pack(pady=30)
+
+        #get specific list with accommodation only for camp
+        accommodation_specific_camp_list = []
+        print(accommodation_database_list)
+        for i in range(len(accommodation_database_list)):
+            if int(accommodation_database_list[i][0]) == int(volunteer_current_camp):
+                accommodation_specific_camp_list.append(accommodation_database_list[i])
+        print(accommodation_specific_camp_list)
+
+        #iterate through list to see which one is free
+        refugee_assigned_accommodation = ''
+        for i in range(len(accommodation_specific_camp_list)):
+            if int(accommodation_specific_camp_list[i][6]) > int(refugee_number.get()):
+                refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
+                break
+
+        refugee_assigned_accommodation_label = tkinter.Label(add_camp_screen, text = 'Your refugee will be in: %s' %refugee_assigned_accommodation)
+        refugee_assigned_accommodation_label.pack(pady = 10)
+
+
 
         #function that runs when continue is clicked
+        '''
         def output_camp():
             camp_name = volunteer_current_camp_var.get()
             index = camp_name_list.index(camp_name)
@@ -392,11 +420,8 @@ def create_family():
                     specific_accommodation_camp_list.append(accommodation_database_list[i])
 
             print(specific_accommodation_camp_list)
+        '''
 
-
-        volunteer_current_camp_var = tkinter.StringVar(value=camp_name_list[int(volunteer_current_camp)])
-        volunteer_current_camp_dropdown = tkinter.OptionMenu(add_camp_screen, volunteer_current_camp_var, *camp_name_list, command = output_camp())
-        volunteer_current_camp_dropdown.pack()
 
         camp_submit_button = tkinter.Button(add_camp_screen, text="Submit the form", width=30, command=success)
         camp_submit_button.pack()
