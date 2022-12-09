@@ -88,6 +88,7 @@ def login_verify():
             if username_hash == login_info[0] and password_hash == login_info[1] and check_user_active(username_string):
                 login_success_bool = True
                 login_sucess()
+                haha = line
                 volunteer_home_page_gui.volunteer_home_page()
                 break
             continue

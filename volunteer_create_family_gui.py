@@ -354,7 +354,7 @@ def create_family():
         add_camp_screen.title("Enter refugee camp details")
 
         #CALENDAR TO CHOOSE ARRIVAL DATE
-        refugee_arrival_date_text = tkinter.Label(add_camp_screen, text="Please select date of arrival*:")
+        refugee_arrival_date_text = tkinter.Label(add_camp_screen, text="Please select date of arrival if known:")
         refugee_arrival_date_text.pack()
         today = datetime.date.today()
         max = datetime.date(today.year + 2, today.month, today.day)
@@ -369,7 +369,7 @@ def create_family():
         volunteer_current_camp = int(volunteer_actual_database_list[current_refugee_id][1])
 
         #label to get them to select which camp
-        volunteer_current_camp_label = tkinter.Label(add_camp_screen, text = "Please select which camp to put refugee in:")
+        volunteer_current_camp_label = tkinter.Label(add_camp_screen, text = "Your refugee will be placed in your camp: %s")
         volunteer_current_camp_label.pack(pady = 30)
 
         #get list of only camp names
@@ -731,3 +731,5 @@ def create_family():
 
     #tkinter.mainloop()
     screen.mainloop()
+
+create_family()
