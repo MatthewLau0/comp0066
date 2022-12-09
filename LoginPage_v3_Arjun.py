@@ -14,7 +14,7 @@ import hashlib
 
 
 # Functionality of user regi stration
-def loginPage()
+def loginPage():
     def register_user():
         new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
         # Gets user info from UI
@@ -287,3 +287,5 @@ def loginPage()
         camp_drop_down_screen.mainloop()
 
     main_account_screen()
+
+loginPage()

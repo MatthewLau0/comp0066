@@ -255,6 +255,7 @@ def volunteerList(screen):
         global DOB
         global age
         global current_volunteer_list
+        global volunteer_age
 
         phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
@@ -264,7 +265,7 @@ def volunteerList(screen):
         new_volunteer[6] = phone_number_complete
         new_volunteer[7] = gender.get()
         new_volunteer[8] = str(DOB)
-        new_volunteer[9] = age.get()
+        new_volunteer[9] = volunteer_age
         new_volunteer[10] = "Deactivated"
         new_volunteer[11] = "Standard"
 
