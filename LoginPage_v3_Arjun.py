@@ -5,6 +5,7 @@ from textwrap import wrap
 from tkinter import *
 from tkinter import messagebox
 import hashlib
+import volunteer_home_page_gui
 
 from distutils.command.config import config
 from tkinter import *
@@ -14,6 +15,7 @@ import hashlib
 
 # Functionality of user regi stration
 def register_user():
+    new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
     # Gets user info from UI
     username_info_entry = username.get().encode()
     password_info_entry = password.get().encode()
@@ -26,12 +28,30 @@ def register_user():
     username_hash = secret_username_info.hexdigest()
     password_hash = secret_password_info.hexdigest()
 
-    # Writes binary hash's to file
-    new_user = [username_hash, password_hash]
-    new_user_string = '%'.join(new_user)
-    file = open("username_info.txt", "a")
-    file.write(f"{new_user_string} \n")
+
+    file = open("volunteers.txt", "r")
+    current_volunteer_list_1 = []
+    for line in file:
+        line_list = line.split("%")
+        current_volunteer_list_1.append(line_list)
+
+    if len(current_volunteer_list_1) == 0:
+        new_user[1] = "1"
+    elif len(current_volunteer_list_1) >= 1:
+        new_user[1] = str((int((current_volunteer_list_1[-1])[1]) + 1))
+
+    new_user[3] = username_hash
+    new_user[4] = password_hash
+
+
     file.close()
+
+    new_user_string = ("%".join(new_user)+"\n")
+
+    volunteer_append = open("volunteers.txt", "a")
+
+    volunteer_append.write(f"{new_user_string}")
+    volunteer_append.close()
 
     # Cleaning
     username_entry.delete(0, END)
@@ -68,6 +88,7 @@ def login_verify():
             if username_hash == login_info[0] and password_hash == login_info[1] and check_user_active(username_string):
                 login_success_bool = True
                 login_sucess()
+                volunteer_home_page_gui.volunteer_home_page()
                 break
             continue
         if not login_success_bool:
@@ -194,7 +215,7 @@ def login_sucess():
     login_success_screen.title("Success")
     login_success_screen.geometry("150x100")
     Label(login_success_screen, text="Login Success").pack()
-    Button(login_success_screen, text="OK", command=lambda: [main_screen.destroy(), campDropDownScreen()] ).pack()
+    Button(login_success_screen, text="OK", command=main_screen.destroy).pack()
 
 # Designing popup for login failure
 def login_failure():
