@@ -9,7 +9,7 @@ def table():
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 
 
-    volunteer_list_file = open("Volunteer_Database", "r")
+    volunteer_list_file = open("Refugee_Database", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("#")

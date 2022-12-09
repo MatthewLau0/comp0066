@@ -405,14 +405,14 @@ def modify_family():
                 print(volunteer_database_list)
 
 
-                volunteer_list_file_append = open("Volunteer_Database", "w")
+                volunteer_list_file_append = open("Refugee_Database", "w")
                 for item in volunteer_database_list:
                     volunteer_list_file_append.write(f'{item}')
 
                 volunteer_list_file_append.close()
 
                 '''
-                volunteer_list_file_append = open("Volunteer_Database", "w")
+                volunteer_list_file_append = open("Refugee_Database", "w")
                 volunteer_list_file_append.write("%s\n" %(new_refugee_string))
                 volunteer_list_file_append.close()
                 '''
@@ -694,7 +694,7 @@ def modify_family():
 
 
     # Opening current database and reading it into a list
-    volunteer_list_file = open("Volunteer_Database", "r")
+    volunteer_list_file = open("Refugee_Database", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("#")
