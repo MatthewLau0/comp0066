@@ -41,6 +41,11 @@ def setupScreen():
     for i in range(0, len(emergency_database_list)):
         camp_name_list.append((emergency_database_list[i])[1])
 
+    if len(volunteer_name_list) == 0:
+        new_volunteer[0] = "1"
+    elif len(volunteer_name_list) >= 1:
+        new_volunteer[0] = str((int((volunteer_name_list[-1])[0]) + 1))
+
     campTable()
 
 
@@ -53,8 +58,12 @@ def campTable():
     global volunteer_entry_screen
     global emergency_database_list
     global camp_name_list
+    global new_volunteer
 
-    select_camp_table_label = Label(volunteer_entry_screen, text="See below the respective locations of the available camps")
+    volunteer_number_print = Label(volunteer_entry_screen, text="Your volunteer numbers is %s" %(new_volunteer[0]))
+    volunteer_number_print.pack()
+
+    select_camp_table_label = Label(volunteer_entry_screen, text="See below the respective locations of the available camps that you could volunteer at. \n Make note of the camp that is closest to your current location.")
     select_camp_table_label.pack()
 
     select_camp_table_frame = Frame(volunteer_entry_screen)
@@ -110,7 +119,8 @@ def volunteerEntry():
     global phone_number
     global gender
     global age
-    global availability
+    global volunteer_availability
+    global select_camp
 
     select_camp = StringVar()
     username = StringVar()
@@ -120,7 +130,7 @@ def volunteerEntry():
     phone_number = StringVar()
     gender = StringVar()
     age = StringVar()
-    availability = StringVar()
+    volunteer_availability = StringVar()
 
     select_camp_label = Label(volunteer_entry_screen, text="Please select a camp")
     select_camp_label.pack()
@@ -142,12 +152,17 @@ def volunteerEntry():
     email_entry = Entry(volunteer_entry_screen, textvariable=email)
     email_entry.pack()
 
-    phone_number_label = Label(volunteer_entry_screen, text="Please enter a phone number")
+    phone_frame = Frame(volunteer_entry_screen)
+    phone_frame.pack()
+
+    phone_number_label = Label(phone_frame, text="Please enter a phone number")
     phone_number_label.pack()
-    phone_number_area_code_entry = Entry(volunteer_entry_screen, textvariable=phone_area_code)
-    phone_number_area_code_entry.pack()
-    phone_number_entry = Entry(volunteer_entry_screen, textvariable=phone_number)
-    phone_number_entry.pack()
+    area_code_sign = Label(phone_frame, text="+")
+    area_code_sign.pack(side=LEFT)
+    phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
+    phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
+    phone_number_entry = Entry(phone_frame, textvariable=phone_number)
+    phone_number_entry.pack(side=LEFT)
 
     gender_label = Label(volunteer_entry_screen, text="Please enter the gender you identify with")
     gender_label.pack()
@@ -161,7 +176,7 @@ def volunteerEntry():
 
     availability_label = Label(volunteer_entry_screen, text="Please enter your weekly availability")
     availability_label.pack()
-    availability_entry = Entry(volunteer_entry_screen, textvariable=availability)
+    availability_entry = Entry(volunteer_entry_screen, textvariable=volunteer_availability)
     availability_entry.pack()
 
     emergency_submit_button = Button(volunteer_entry_screen, text="Submit", command=newvolunteerVerify)
@@ -186,25 +201,25 @@ def newvolunteerVerify():
     global phone_number
     global gender
     global age
-    global availability
+    global volunteer_availability
 
     if username.get() in volunteer_name_list:
         username_label.config(text="This username already exists. Please enter another username", fg='#f00')
-    if len(username.get()) == 0 or username.get() == ' ' or username.get().isalpha() != True:
+    elif len(username.get()) == 0 or username.get() == ' ' or username.get().isalpha() != True:
         username_label.config(text="Please enter a valid username (no spaces, no numbers)", fg='#f00')
-    if len(password.get()) == 0 or password.get() == ' ':
+    elif len(password.get()) == 0 or password.get() == ' ':
         password_label.config(text="Please enter a valid password", fg='#f00')
-    if '@' not in email.get() or '.' not in email.get():
+    elif '@' not in email.get() or '.' not in email.get():
         email_label.config(text="Please enter a valid email address", fg='#f00')
-    if '+' not in phone_area_code.get() or len(phone_area_code.get())>4:
+    elif len(phone_area_code.get())>4:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-    if len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalpha() == True or phone_number.get().isalnum() == True:
+    elif len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalnum() != True:
         phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-    if len(gender.get()) == 0 or gender.get() == ' ':
+    elif len(gender.get()) == 0 or gender.get() == ' ':
         gender_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
-    if age.get().isalpha() == True or age.get().isalnum() == True:
+    elif age.get().isalpha() == True or age.get().isalnum() != True:
         age_label.config(text="Please enter a valid age (numbers only).", fg='#f00')
-    if len(availabilty.get()) == 0 or availabilty.get() == ' ':
+    elif len(volunteer_availability.get()) == 0 or (volunteer_availability.get() == ' '):
         availability_label.config(text="Please enter a valid availabilty", fg='#f00')
     else:
         createvolunteerSubmit()
@@ -217,28 +232,47 @@ def createvolunteerSubmit():
     global username
     global password
     global email
-    global phone_area_cose
+    global phone_area_code
     global phone_number
     global gender
     global age
-    global availability
+    global volunteer_availability
+    global select_camp
 
-    phone_number = ' '.join(phone_area_code.get() and phone_number.get())
+    phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
 
     new_volunteer[1] = select_camp.get()
     new_volunteer[2] = username.get()
     new_volunteer[3] = password.get()
     new_volunteer[4] = email.get()
-    new_volunteer[5] = phone_number
+    new_volunteer[5] = phone_number_complete
     new_volunteer[6] = gender.get()
     new_volunteer[7] = age.get()
-    new_volunteer[8] = availability.get()
+    new_volunteer[8] = volunteer_availability.get()
+    new_volunteer[9] = "Deactivated"
 
     new_volunteer_string = '%'.join(new_volunteer)
 
     volunteer_file_append = open("volunteers.txt", "a")
     volunteer_file_append.write("\n%s" %(new_volunteer_string))
     volunteer_file_append.close()
+
+    closeScreen()
+
+
+def closeScreen():
+    global volunteer_entry_screen
+    Create_Volunteer_Close_Screen = Toplevel(volunteer_entry_screen)
+    Create_Volunteer_Close_Screen.title("Volunteer Request Successfully Submitted")
+    Create_Volunteer_Close_Screen.geometry("500x650")
+
+    close_label = Label(Create_Volunteer_Close_Screen, text="Thank you for submitting a request to become a volunteer. \n The admin will review your request, and once approved you will be able to access our services.")
+    close_label.pack()
+    return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=returnHome)
+    return_home_button.pack()
+
+def returnHome():
+    pass
 
 
 #Screen Setup

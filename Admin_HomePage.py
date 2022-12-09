@@ -11,16 +11,19 @@ import datetime
 #Define Functions
 #Load Create new emergency
 def Create_Emergency():
-    import Create_New_Emergency_Plan_GUI
+    from Create_New_Emergency_Plan_GUI import createnewemergencyPlan
+    createnewemergencyPlan()
 
 def Update_Emergency():
-    import Update_Existing_Form_Admin_GUI
+    from Update_Existing_Form_Admin_GUI import updateexistingForm
+    updateexistingForm()
 
 def Manage_Volunteers():
     import volunteer_create_family_gui
 
 def View_Camps():
-    import view_existing_camps_GUI
+    from view_existing_camps_GUI import viewexistingCamps
+    viewexistingCamps()
 
 #Create main window of the application
 admin_home = Tk()

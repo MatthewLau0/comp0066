@@ -1,2 +1,4 @@
 1%1%Sanchit Aapan%username%password%sanchit@hotmail.co.uk%+447855037367%Male%20%Every Monday 3pm%Active
 2%1%Sanchit Aapan%sanchitaapan%password%sanchit@hotmail.co.uk%+447855037367%Male%20%Every Monday 3pm%Active
+3%CampSpain%LukeM%1111%luke@email.com%447584735837%Male%20%Monday 10-2%Deactivated
+4%CampGermany%LukeM%Password%luke@email.com%447858458475%Male%21%Monday 10-2%Deactivated
