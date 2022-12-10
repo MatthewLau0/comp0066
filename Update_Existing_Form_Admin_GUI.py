@@ -15,7 +15,7 @@ def updateexistingForm():
         global endDate
         global status
         global emergency_type_string
-        global emergency_marker_country
+        global emergency_marker_country_update
         global emergency_database_list
         global camp_name_list
 
@@ -31,7 +31,7 @@ def updateexistingForm():
         endDate = "NA"
         status = "NA"
         emergency_type_string = "NA"
-        emergency_marker_country = "NA"
+        emergency_marker_country_update = "NA"
 
         camp_name_list = []
         for i in range(0, len(emergency_database_list)):
@@ -255,13 +255,15 @@ def updateexistingForm():
         global emergency_type_frame
         global close_date_calendar
         global close_date_label
-        global emergency_marker_country
+        global emergency_marker_country_update
         global map_confirm
         global emergency_type_label_other
         global emergency_type_other_entry
         global emergency_type_other_button
         global emergency_marker_label
         global update_emergency_table_button
+        global update_emergency_map
+        global start_date_calendar
 
         update_emergency_table_button.destroy()
 
@@ -271,7 +273,6 @@ def updateexistingForm():
         area_affected = StringVar()
         start_date = StringVar()
         close_date = StringVar()
-        emergency_marker_country = StringVar()
         emergency_status = StringVar()
 
         Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Entry_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
@@ -323,36 +324,38 @@ def updateexistingForm():
         emergency_description_entry.pack()
         emergency_description_entry.setvar(str(updating_camp_list[3]))
 
+        def mapReset():
+            global update_emergency_map
+            global emergency_marker_update
+            global emergency_marker_country_update
+
+            emergency_marker_update.delete()
+            emergency_marker_country_update = "NA"
+
         def add_emergency_marker(coords):
-            global emergency_marker
-            global emergency_marker_country
-            global emergency_map
+            global emergency_marker_update
+            global emergency_marker_country_update
+            global update_emergency_map
             global emergency_marker_label
 
-            if emergency_marker_country != "NA":
+            if emergency_marker_country_update != "NA":
                 emergency_marker_label.config(text="Please only select one marker", fg='#f00')
                 mapReset()
             else:
-                emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
-                emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
-                emergency_map.configure()
-                return emergency_marker_country
+                emergency_marker_update = update_emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
+                emergency_marker_country_update = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
+                update_emergency_map.configure()
+                return emergency_marker_country_update
 
         emergency_marker_label = Label(Update_Emergency_Entry_Screen,
                                        text="Please right click the below map to select the country of the emergency")
         emergency_marker_label.pack()
-        emergency_map = tkintermapview.TkinterMapView(Update_Emergency_Entry_Screen, width=150, height=150, corner_radius=0)
-        emergency_map.set_zoom(2)
-        emergency_map.pack()
-        emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
+        update_emergency_map = tkintermapview.TkinterMapView(Update_Emergency_Entry_Screen, width=150, height=150, corner_radius=0)
+        update_emergency_map.set_zoom(2)
+        update_emergency_map.pack()
+        update_emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
 
-        def mapReset():
-            global emergency_map
-            global emergency_marker
-            global emergency_marker_country
 
-            emergency_marker.delete()
-            emergency_marker_country = "NA"
 
         map_reset_button = Button(Update_Emergency_Entry_Screen, text="Reset Map", command=mapReset)
         map_reset_button.pack()
@@ -382,7 +385,7 @@ def updateexistingForm():
                                        state=DISABLED)
         close_date_calendar.pack(side=RIGHT)
 
-        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency still active?")
+        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency still active? Please confirm your answer using the button below.")
         status_label.pack()
 
         def clickYes():
@@ -583,7 +586,7 @@ def updateexistingForm():
             close_date_calendar.configure(mindate=startDate)
             status = "Closed"
 
-        if (status_check_yes.get() == 1):
+        elif status_check_yes.get() == 1:
             endDate = "NA"
             status = "Active"
 
@@ -615,7 +618,7 @@ def updateexistingForm():
         global emergency_type_other
         global startDate
         global status
-        global emergency_marker_country
+        global emergency_marker_country_update
         global Update_Emergency_Screen
         global endDate
         global map_confirm
@@ -678,7 +681,7 @@ def updateexistingForm():
         Update_Camp_Description_Summary_label.pack()
 
         Update_Camp_Area_Summary_Label = Label(Update_Camp_Summary_Screen,
-                                            text="The country your emergency is in is: %s" % (emergency_marker_country))
+                                            text="The country your emergency is in is: %s" % (emergency_marker_country_update))
         Update_Camp_Area_Summary_Label.pack()
 
         Update_Camp_Start_Date_Summary_label = Label(Update_Camp_Summary_Screen, text="The start date of the emergency is: %s" % (startDate))
@@ -718,12 +721,12 @@ def updateexistingForm():
         global emergency_database_list
         global index_updating_camp
         global emergency_type_string
-        global emergency_marker_country
+        global emergency_marker_country_update
 
         updating_camp_list[1] = camp_name.get()
         updating_camp_list[2] = emergency_type_string
         updating_camp_list[3] = emergency_description.get()
-        updating_camp_list[4] = emergency_marker_country
+        updating_camp_list[4] = emergency_marker_country_update
         updating_camp_list[5] = str(startDate)
         updating_camp_list[6] = str(endDate)
         updating_camp_list[7] = status
