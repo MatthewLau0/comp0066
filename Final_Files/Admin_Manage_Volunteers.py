@@ -1,5 +1,5 @@
-
-
+from tkinter import *
+from tkinter import ttk
 
 
 def manageVolunteers():
@@ -80,6 +80,7 @@ def manageVolunteers():
 
 
     def activestatusVolunteer():
+        pass
 
 
 
@@ -92,7 +93,7 @@ def manageVolunteers():
 
     def manageVolunteerScreen():
         global manage_volunteer_home_screen
-        manage_volunteer_home_screen = TopLevel()
+        manage_volunteer_home_screen = Toplevel()
         manage_volunteer_home_screen.title("Manage Volunteer Homescreen")
         manage_volunteer_home_screen.geometry("500x650")
         manage_volunteer_home_screen_label = Label(manage_volunteer_home_screen, text="Please select an option below")
@@ -106,3 +107,5 @@ def manageVolunteers():
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+
+manageVolunteers()
