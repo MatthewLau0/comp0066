@@ -9,18 +9,19 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview']
 #Define Functions
 #Load Create new emergency
 def Create_Emergency():
-    from Final_Files.Admin_Create_Plan import createnewemergencyPlan
+    from Admin_Create_Plan import createnewemergencyPlan
     createnewemergencyPlan()
 
 def Update_Emergency():
-    from Final_Files.Admin_Update_Plan import updateexistingForm
+    from Admin_Update_Plan import updateexistingForm
     updateexistingForm()
 
 def Manage_Volunteers():
-    pass
+    from Admin_Manage_Volunteers import manageVolunteers
+    manageVolunteers()
 
 def View_Camps():
-    from venv.view_existing_camps_GUI import viewexistingCamps
+    from Admin_View_Plan import viewexistingCamps
     viewexistingCamps()
 
 #Create main window of the application

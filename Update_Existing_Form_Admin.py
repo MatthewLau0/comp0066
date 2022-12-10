@@ -2,12 +2,12 @@
 from prettytable import PrettyTable
 
 #Open files Emergency Plan Files
-emergency_database_file = open("Emergency_Database.txt", "r")
+emergency_database_file = open("Final_Files/emergency_database.txt", "r")
 
 #Clarify the path selected
 print("You are going to update an existing emergency plan. Please follow the below instructions.")
 
-#Extract from Emergency_Database.txt into a list
+#Extract from emergency_database.txt into a list
 emergency_database_list = []
 for line in emergency_database_file:
     line_list = line.split(",")
@@ -123,7 +123,7 @@ while further_update_question == 1:
 #Append to the new database
 emergency_database_list[(index_number - 1)] = update_camp_list
 emergency_database_file.close()
-emergency_database_file_write = open("Emergency_Database.txt", "r+")
+emergency_database_file_write = open("Final_Files/emergency_database.txt", "r+")
 emergency_database_one_string = ','.join(emergency_database_list[0])
 emergency_database_file_write.write(emergency_database_one_string)
 for i in range(1, len(emergency_database_list)):

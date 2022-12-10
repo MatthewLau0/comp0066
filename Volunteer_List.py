@@ -20,7 +20,7 @@ def volunteerList(screen):
 
 
         current_volunteer_list = []
-        volunteer_file = open("volunteers.txt", "r")
+        volunteer_file = open("Final_Files/volunteer_database.txt", "r")
         for line in volunteer_file:
             line_list = line.split("%")
             current_volunteer_list.append(line_list)
@@ -37,7 +37,7 @@ def volunteerList(screen):
 
 
         #List of camp names
-        emergency_database_file = open("Emergency_Database.txt", "r")
+        emergency_database_file = open("Final_Files/emergency_database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")
@@ -286,7 +286,7 @@ def volunteerList(screen):
         new_volunteer[11] = "Standard"
 
         current_volunteer_list.append(new_volunteer)
-        volunteer_file_write = open("volunteers.txt", "r+")
+        volunteer_file_write = open("Final_Files/volunteer_database.txt", "r+")
         for i in range(0, len(current_volunteer_list)):
             current_volunteer_string = '%'.join(current_volunteer_list[i])
             if i == len(current_volunteer_list):
