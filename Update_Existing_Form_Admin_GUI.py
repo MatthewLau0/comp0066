@@ -19,7 +19,7 @@ def updateexistingForm():
         global emergency_database_list
         global camp_name_list
 
-        emergency_database_file = open("Emergency_Database", "r")
+        emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")
@@ -47,28 +47,6 @@ def updateexistingForm():
         Update_Emergency_Screen = Toplevel(Update_Emergency_Home_Screen)
         Update_Emergency_Screen.title("Update an existing emergency")
         Update_Emergency_Screen.geometry("500x600")
-
-        # #Create main frame
-        # update_emergency_frame_scroll = Frame(Update_Emergency_Screen)
-        # update_emergency_frame_scroll.pack(expand=1, fill=BOTH)
-        #
-        # #Create canvas
-        # update_emergency_canvas = Canvas(update_emergency_frame_scroll)
-        # update_emergency_canvas.pack(side=LEFT, expand=1, fill=BOTH)
-        #
-        # #Create scrollbar
-        # update_emergency_scrollbar = Scrollbar(update_emergency_frame_scroll, orient=VERTICAL, command=update_emergency_canvas.yview)
-        # update_emergency_scrollbar.pack(side=RIGHT, fill=Y)
-        #
-        # #Configure the canvas
-        # update_emergency_canvas.configure(yscrollcommand=update_emergency_scrollbar.set)
-        # update_emergency_canvas.bind('<Configure>', lambda e: update_emergency_canvas.configure(scrollregion=update_emergency_canvas.bbox("all")))
-        #
-        # #Create another frame inside the canvas
-        # update_emergency_frame_two = Frame(update_emergency_canvas)
-        #
-        # #Add new frame to window in the canvas
-        # update_emergency_canvas.create_window((0,0), window=update_emergency_frame_two, anchor="nw")
 
         Update_Emergency_Screen_Label = Label(Update_Emergency_Screen, text="You are going to update an existing emergency plan. Please follow the below instructions")
         Update_Emergency_Screen_Label.pack()
@@ -280,9 +258,9 @@ def updateexistingForm():
         global map_confirm
 
 
-        camp_name = StringVar()
-        emergency_type = StringVar()
-        emergency_description = StringVar()
+        camp_name = updating_camp_list[1]
+        emergency_type = updating_camp_list[2]
+        emergency_description = updating_camp_list[3]
         area_affected = StringVar()
         start_date = StringVar()
         close_date = StringVar()
@@ -728,7 +706,7 @@ def updateexistingForm():
         updating_camp_list[7] = status
 
         emergency_database_list[(index_updating_camp)] = updating_camp_list
-        emergency_database_file_write = open("Emergency_Database", "r+")
+        emergency_database_file_write = open("Emergency_Database.txt", "r+")
         for i in range(0, len(emergency_database_list)):
             emergency_database_string = '%'.join(emergency_database_list[i])
             if i == index_updating_camp:

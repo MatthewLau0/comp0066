@@ -14,7 +14,7 @@ def viewexistingCamps():
                                        text="Please see below a summary of all of the camps in the database")
         view_camp_screen_label.pack()
 
-        emergency_database_file = open("Emergency_Database", "r")
+        emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split(",")
@@ -77,7 +77,7 @@ def viewexistingCamps():
         Layout_Screen.title("View Camp Layout")
         Layout_Screen.geometry("500x600")
 
-        emergency_database_file = open("Emergency_Database", "r")
+        emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")

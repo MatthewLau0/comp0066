@@ -255,7 +255,7 @@ def loginPage():
     #Open the emergency database file and import camp names into a list
     def activationStatusFileChecker():
         global camp_name_list
-        emergency_database_file = open("Emergency_Database", "r")
+        emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")
