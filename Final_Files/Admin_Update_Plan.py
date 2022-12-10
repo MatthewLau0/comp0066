@@ -19,7 +19,7 @@ def updateexistingForm():
         global emergency_database_list
         global camp_name_list
 
-        emergency_database_file = open("Emergency_Database.txt", "r")
+        emergency_database_file = open("emergency_database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")
@@ -732,7 +732,7 @@ def updateexistingForm():
         updating_camp_list[7] = status
 
         emergency_database_list[(index_updating_camp)] = updating_camp_list
-        emergency_database_file_write = open("Emergency_Database.txt", "r+")
+        emergency_database_file_write = open("emergency_database.txt", "r+")
         for i in range(0, len(emergency_database_list)):
             emergency_database_string = '%'.join(emergency_database_list[i])
             if i == index_updating_camp:

@@ -4,7 +4,7 @@ from tkinter import *
 #Open the emergency database file and import camp names into a list
 def openFile():
     global camp_name_list
-    emergency_database_file = open("Final_Files/Emergency_Database.txt", "r")
+    emergency_database_file = open("Final_Files/emergency_database.txt", "r")
     emergency_database_list = []
     for line in emergency_database_file:
         line_list = line.split("%")

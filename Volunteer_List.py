@@ -37,7 +37,7 @@ def volunteerList(screen):
 
 
         #List of camp names
-        emergency_database_file = open("Final_Files/Emergency_Database.txt", "r")
+        emergency_database_file = open("Final_Files/emergency_database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")

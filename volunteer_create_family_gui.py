@@ -27,7 +27,7 @@ def create_family():
         volunteer_actual_database_list.append(x)
     open_volunteer_file.close()
 
-    open_camp_file = open("Emergency_Database.txt.txt", 'r')
+    open_camp_file = open("emergency_database.txt.txt", 'r')
     camp_database_list = []
     for line in open_camp_file:
         x = line.split("%")

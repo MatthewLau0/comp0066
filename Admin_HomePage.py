@@ -20,7 +20,7 @@ def Manage_Volunteers():
     pass
 
 def View_Camps():
-    from Final_Files.view_existing_camps_GUI import viewexistingCamps
+    from venv.view_existing_camps_GUI import viewexistingCamps
     viewexistingCamps()
 
 #Create main window of the application

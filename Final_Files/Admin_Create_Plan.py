@@ -22,7 +22,7 @@ def createnewemergencyPlan():
         global emergency_type_string
         global emergency_marker_country
 
-        emergency_database_file = open("Emergency_Database.txt", "r")
+        emergency_database_file = open("emergency_database.txt", "r")
 
         new_emergency = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
@@ -585,7 +585,7 @@ def createnewemergencyPlan():
 
         new_emergency_string = '%'.join(new_emergency)
 
-        emergency_database_file_append = open("Emergency_Database.txt", "a")
+        emergency_database_file_append = open("emergency_database.txt", "a")
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
