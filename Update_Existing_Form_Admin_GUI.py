@@ -141,6 +141,7 @@ def updateexistingForm():
         global Update_Emergency_Screen
         global emergency_database_list
         global select_index
+        global select_index_label
 
         select_index = StringVar()
 
@@ -169,11 +170,11 @@ def updateexistingForm():
         global updating_camp_list
         global camp_name
         global Update_Emergency_Entry_Screen
+        global select_index_label
+        global update_emergency_table_button
 
         if select_index.get() == '':
-            invalid_select_index = Label(Update_Emergency_Screen, text="Invalid entry.")
-            invalid_select_index.pack()
-            SelectIndex()
+            select_index_label.config(fg="#f00")
         else:
             Update_Emergency_Entry_Screen = Toplevel(Update_Emergency_Screen)
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
@@ -256,28 +257,28 @@ def updateexistingForm():
         global close_date_label
         global emergency_marker_country
         global map_confirm
+        global emergency_type_label_other
+        global emergency_type_other_entry
+        global emergency_type_other_button
+        global emergency_marker_label
+        global update_emergency_table_button
 
+        update_emergency_table_button.destroy()
 
-        camp_name = updating_camp_list[1]
-        emergency_type = updating_camp_list[2]
-        emergency_description = updating_camp_list[3]
+        camp_name = StringVar()
+        emergency_type = StringVar()
+        emergency_description = StringVar()
         area_affected = StringVar()
         start_date = StringVar()
         close_date = StringVar()
         emergency_marker_country = StringVar()
         emergency_status = StringVar()
 
-        Update_Emergency_Screen_Label = Label(Update_Emergency_Entry_Screen, text="You are updating an existing emergency. Please fill out the below.")
-        Update_Emergency_Screen_Label.pack()
-
         Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Entry_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
         Update_Emergency_Screen_Label_Index.pack()
 
-        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name *")
+        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name * (Camp Names must have no spaces and must only contain letters)")
         camp_name_label.pack()
-        camp_name_label_instructions = Label(Update_Emergency_Entry_Screen,
-                                             text="Camp Names must have no spaces and must only contain letters")
-        camp_name_label_instructions.pack()
         camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name)
         camp_name_entry.pack()
         camp_name_entry.setvar(str(updating_camp_list[1]))
@@ -286,7 +287,7 @@ def updateexistingForm():
         emergency_type_frame.pack()
 
         emergency_type_label = Label(Update_Emergency_Entry_Screen, text="Select the type of emergency")
-        emergency_type_label.pack()
+        emergency_type_label.pack(side=TOP)
         emergency_type_flood = IntVar()
         emergency_type_tsunami = IntVar()
         emergency_type_earthquake = IntVar()
@@ -309,6 +310,13 @@ def updateexistingForm():
                                                  text="Other", command=clickOther)
         emergency_type_other_check.pack(side=LEFT)
 
+        emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency", state=DISABLED)
+        emergency_type_label_other.pack(anchor=CENTER)
+        emergency_type_other_entry = Entry(emergency_type_frame, textvariable=emergency_type, state=DISABLED)
+        emergency_type_other_entry.pack(anchor=CENTER)
+        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
+        emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
+
         emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency")
         emergency_description_label.pack()
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
@@ -320,6 +328,7 @@ def updateexistingForm():
             global emergency_marker_country
             global emergency_map
             global emergency_marker_label
+
             if emergency_marker_country != "NA":
                 emergency_marker_label.config(text="Please only select one marker", fg='#f00')
                 mapReset()
@@ -329,10 +338,21 @@ def updateexistingForm():
                 emergency_map.configure()
                 return emergency_marker_country
 
+        emergency_marker_label = Label(Update_Emergency_Entry_Screen,
+                                       text="Please right click the below map to select the country of the emergency")
+        emergency_marker_label.pack()
         emergency_map = tkintermapview.TkinterMapView(Update_Emergency_Entry_Screen, width=150, height=150, corner_radius=0)
         emergency_map.set_zoom(2)
         emergency_map.pack()
         emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker, pass_coords=True)
+
+        def mapReset():
+            global emergency_map
+            global emergency_marker
+            global emergency_marker_country
+
+            emergency_marker.delete()
+            emergency_marker_country = "NA"
 
         map_reset_button = Button(Update_Emergency_Entry_Screen, text="Reset Map", command=mapReset)
         map_reset_button.pack()
@@ -511,6 +531,9 @@ def updateexistingForm():
         global emergency_type_string
         global emergency_type_entry
         global emergency_type_frame
+        global emergency_type_label_other
+        global emergency_type_other_entry
+        global emergency_type_other_button
 
         if emergency_type_other.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
@@ -518,15 +541,15 @@ def updateexistingForm():
             emergency_type_drought_check.config(state=DISABLED)
             emergency_type_flood_check.config(state=DISABLED)
 
-            emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency")
-            emergency_type_label_other.pack(anchor=CENTER)
-            emergency_type_other = Entry(emergency_type_frame, textvariable=emergency_type)
-            emergency_type_other.pack(anchor=CENTER)
-            emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm)
-            emergency_type_other_button.pack(anchor=CENTER)
+            emergency_type_label_other.config(state=NORMAL)
+            emergency_type_other_entry.config(state=NORMAL)
+            emergency_type_other_button.config(state=NORMAL)
 
 
         else:
+            emergency_type_label_other.config(state=DISABLED)
+            emergency_type_other_entry.config(state=DISABLED)
+            emergency_type_other_button.config(state=DISABLED)
             emergency_type_tsunami_check.config(state=NORMAL)
             emergency_type_earthquake_check.config(state=NORMAL)
             emergency_type_drought_check.config(state=NORMAL)
