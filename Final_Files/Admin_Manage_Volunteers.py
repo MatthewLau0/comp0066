@@ -17,9 +17,6 @@ def manageVolunteers():
 
         viewexistingVolunteers()
 
-
-
-
     def viewexistingVolunteers():
         global manage_volunteer_home_screen
         global current_volunteer_list
@@ -74,21 +71,8 @@ def manageVolunteers():
         import view_volunteers_screen
         view_volunteers_screen.destroy()
 
-
-
-
-
-
     def activestatusVolunteer():
         pass
-
-
-
-
-
-
-
-
 
 
     def manageVolunteerScreen():
