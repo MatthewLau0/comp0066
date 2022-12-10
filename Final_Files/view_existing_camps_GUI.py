@@ -105,15 +105,16 @@ def viewexistingCamps():
     def layoutSetUp():
         global selected_camp_id
         global Layout_Screen
+        global camp_summary_window
 
         camp_id = selected_camp_id.get()
 
-        accommodation_file = open("accommodations.txt", "r")
-        ration_file = open("ration_stall.txt", "r")
-        toilet_file = open("toilets.txt", "r")
-        medical_file = open("medical.txt", "r")
-        volunteer_file = open("volunteers.txt", "r")
-        refugee_file = open("refugee_database.txt", "r")
+        accommodation_file = open("../accommodations.txt", "r")
+        ration_file = open("../ration_stall.txt", "r")
+        toilet_file = open("../toilets.txt", "r")
+        medical_file = open("../medical.txt", "r")
+        volunteer_file = open("volunteer_database.txt", "r")
+        refugee_file = open("../refugee_database.txt", "r")
 
         accom_list = []
         for line1 in accommodation_file:
@@ -483,12 +484,7 @@ def viewexistingCamps():
         volunteer_file.close()
         refugee_file.close()
 
-        layout_summary_returnhome_button = Button(Layout_Screen, text="Close Screen", command=layoutReturnHome)
-        layout_summary_returnhome_button.pack()
 
-    def layoutReturnHome():
-        global Layout_Screen
-        Layout_Screen.destroy()
 
     def viewRefugees():
         pass

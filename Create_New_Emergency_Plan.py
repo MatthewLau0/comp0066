@@ -2,7 +2,7 @@
 from prettytable import PrettyTable
 
 #Open the Emergency_Database.txt File to edit - write or append"
-emergency_database_file = open("Emergency_Database.txt", "r")
+emergency_database_file = open("Final_Files/Emergency_Database.txt", "r")
 
 #Clarify the path selected
 print("You are going to make a new emergency plan. Please follow the below instructions.")
@@ -111,6 +111,6 @@ new_emergency_string = ','.join(new_emergency)
 emergency_database_file.close()
 
 #Open File for appending and add new emergency
-emergency_database_file_append = open("Emergency_Database.txt", "a")
+emergency_database_file_append = open("Final_Files/Emergency_Database.txt", "a")
 emergency_database_file_append.write("\n%s" %(new_emergency_string))
 emergency_database_file_append.close()

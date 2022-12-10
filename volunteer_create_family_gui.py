@@ -20,7 +20,7 @@ def create_family():
     #CHECK THIS!!!!
     current_refugee_id = 1
 
-    open_volunteer_file = open("volunteers.txt", 'r')
+    open_volunteer_file = open("Final_Files/volunteer_database.txt", 'r')
     volunteer_actual_database_list = []
     for line in open_volunteer_file:
         x = line.split("%")

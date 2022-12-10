@@ -18,7 +18,7 @@ def add_calendar():
     #screen.configure(background="#A1CDEC")
 
 
-    volunteer_list_file = open("volunteers.txt", "r")
+    volunteer_list_file = open("Final_Files/volunteer_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("%")

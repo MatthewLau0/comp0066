@@ -4,7 +4,7 @@ from tkinter import ttk
 camp_id = 1
 
 def volunteers_portal():
-    volunteers_file = open("volunteers.txt", "r")
+    volunteers_file = open("Final_Files/volunteer_database.txt", "r")
 
     volunteers_list = []
     for line in volunteers_file:
@@ -2052,7 +2052,7 @@ def camp_layout():
     ration_file = open("ration_stall.txt", "r")
     toilet_file = open("toilets.txt", "r")
     medical_file = open("medical.txt", "r")
-    volunteer_file = open("volunteers.txt", "r")
+    volunteer_file = open("Final_Files/volunteer_database.txt", "r")
     refugee_file = open("refugee_database.txt", "r")
 
     accom_list = []

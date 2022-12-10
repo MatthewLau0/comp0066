@@ -30,7 +30,7 @@ def loginPage():
         password_hash = secret_password_info.hexdigest()
 
 
-        file = open("volunteers.txt", "r")
+        file = open("Final_Files/volunteer_database.txt", "r")
         current_volunteer_list_1 = []
         for line in file:
             line_list = line.split("%")
@@ -48,7 +48,7 @@ def loginPage():
 
         new_user_string = "%".join(new_user)
 
-        volunteer_append = open("volunteers.txt", "a")
+        volunteer_append = open("Final_Files/volunteer_database.txt", "a")
 
         volunteer_append.write("%s" %(new_user_string))
         volunteer_append.close()
@@ -84,7 +84,7 @@ def loginPage():
         login_success_bool = False
         try:
             # Checks all lines in username_info.txt
-            file = open("volunteers.txt", "r")
+            file = open("Final_Files/volunteer_database.txt", "r")
             current_volunteer_list_2 = []
             for line in file:
                 line_list = line.split("%")
@@ -111,7 +111,7 @@ def loginPage():
             login_failure()
 
     def check_user_active(username):
-        for line in open("volunteers.txt", "r").readlines():
+        for line in open("Final_Files/volunteer_database.txt", "r").readlines():
             lines = line.split('%')
 
             if lines[11] != "Active":
@@ -255,7 +255,7 @@ def loginPage():
     #Open the emergency database file and import camp names into a list
     def activationStatusFileChecker():
         global camp_name_list
-        emergency_database_file = open("Emergency_Database.txt", "r")
+        emergency_database_file = open("Final_Files/Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")

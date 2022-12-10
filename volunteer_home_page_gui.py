@@ -17,7 +17,7 @@ def volunteer_home_page():
     #Define Functions
 
 
-    open_volunteer_file = open("volunteers.txt", 'r')
+    open_volunteer_file = open("Final_Files/volunteer_database.txt", 'r')
     volunteer_actual_database_list = []
     for line in open_volunteer_file:
         x = line.split("%")
@@ -44,7 +44,7 @@ def volunteer_home_page():
 
     current_refugee_id = 1
     print(current_refugee_id)
-    open_volunteer_file = open("volunteers.txt", 'r')
+    open_volunteer_file = open("Final_Files/volunteer_database.txt", 'r')
     volunteer_actual_database_list = []
     for line in open_volunteer_file:
         x = line.split("%")
