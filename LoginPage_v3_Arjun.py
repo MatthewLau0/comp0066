@@ -46,7 +46,7 @@ def loginPage():
 
         file.close()
 
-        new_user_string = ("\n"+"%".join(new_user))
+        new_user_string = "%".join(new_user)
 
         volunteer_append = open("volunteers.txt", "a")
 
