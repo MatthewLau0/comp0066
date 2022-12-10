@@ -196,6 +196,7 @@ def volunteerList(screen):
 
 
         DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
+        print(DOB.month)
 
         volunteer_age = 0
 
@@ -212,6 +213,7 @@ def volunteerList(screen):
             volunteer_age = today.year - DOB.year
 
         volunteer_age = str(volunteer_age)
+        print(volunteer_age)
 
         newvolunteerVerify()
 
