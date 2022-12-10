@@ -289,7 +289,10 @@ def volunteerList(screen):
         volunteer_file_write = open("volunteers.txt", "r+")
         for i in range(0, len(current_volunteer_list)):
             current_volunteer_string = '%'.join(current_volunteer_list[i])
-            volunteer_file_write.write("%s\n" %(current_volunteer_string))
+            if i == len(current_volunteer_list):
+                volunteer_file_write.write("%s\n" % (current_volunteer_string))
+            else:
+                volunteer_file_write.write(current_volunteer_string)
             i += 1
         volunteer_file_write.close()
         closeScreen()
