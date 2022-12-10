@@ -17,7 +17,8 @@ def Update_Emergency():
     updateexistingForm()
 
 def Manage_Volunteers():
-    pass
+    from Admin_Manage_Volunteers import manageVolunteers
+    manageVolunteers()
 
 def View_Camps():
     from Admin_View_Plan import viewexistingCamps
