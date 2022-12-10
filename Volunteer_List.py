@@ -37,7 +37,7 @@ def volunteerList(screen):
 
 
         #List of camp names
-        emergency_database_file = open("Emergency_Database", "r")
+        emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")
@@ -196,6 +196,7 @@ def volunteerList(screen):
 
 
         DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
+        print(DOB.month)
 
         volunteer_age = 0
 
@@ -212,6 +213,7 @@ def volunteerList(screen):
             volunteer_age = today.year - DOB.year
 
         volunteer_age = str(volunteer_age)
+        print(volunteer_age)
 
         newvolunteerVerify()
 
@@ -240,7 +242,7 @@ def volunteerList(screen):
         global full_name_label
 
         if len(full_name.get()) == 0 or full_name.get() == ' ':
-            full_name_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
+            full_name_label.config(text="Please enter your full name.", fg='#f00')
         elif '@' not in email.get() or '.' not in email.get():
             email_label.config(text="Please enter a valid email address", fg='#f00')
         elif len(phone_area_code.get())>4:
@@ -287,7 +289,10 @@ def volunteerList(screen):
         volunteer_file_write = open("volunteers.txt", "r+")
         for i in range(0, len(current_volunteer_list)):
             current_volunteer_string = '%'.join(current_volunteer_list[i])
-            volunteer_file_write.write("%s" %(current_volunteer_string))
+            if i == len(current_volunteer_list):
+                volunteer_file_write.write("%s\n" % (current_volunteer_string))
+            else:
+                volunteer_file_write.write(current_volunteer_string)
             i += 1
         volunteer_file_write.close()
         closeScreen()

@@ -16,7 +16,7 @@ import hashlib
 # Functionality of user regi stration
 def loginPage():
     def register_user():
-        new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+        new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
         # Gets user info from UI
         username_info_entry = username.get().encode()
         password_info_entry = password.get().encode()
@@ -46,11 +46,11 @@ def loginPage():
 
         file.close()
 
-        new_user_string = ("\n"+"%".join(new_user))
+        new_user_string = "%".join(new_user)
 
         volunteer_append = open("volunteers.txt", "a")
 
-        volunteer_append.write(f"{new_user_string}")
+        volunteer_append.write("%s" %(new_user_string))
         volunteer_append.close()
 
         # Cleaning
@@ -255,7 +255,7 @@ def loginPage():
     #Open the emergency database file and import camp names into a list
     def activationStatusFileChecker():
         global camp_name_list
-        emergency_database_file = open("Emergency_Database", "r")
+        emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
             line_list = line.split("%")
