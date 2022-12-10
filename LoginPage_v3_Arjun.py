@@ -16,7 +16,7 @@ import hashlib
 # Functionality of user regi stration
 def loginPage():
     def register_user():
-        new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+        new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
         # Gets user info from UI
         username_info_entry = username.get().encode()
         password_info_entry = password.get().encode()
@@ -50,7 +50,7 @@ def loginPage():
 
         volunteer_append = open("volunteers.txt", "a")
 
-        volunteer_append.write(f"{new_user_string}")
+        volunteer_append.write("%s" %(new_user_string))
         volunteer_append.close()
 
         # Cleaning
