@@ -2,12 +2,15 @@ from tkinter import *
 import hashlib
 import Register_Info
 import Volunteer_Home
-
+import Admin_Home
+import Camp_Lead
+import Clean_Database
 
 def main_signin_screen():
     main_window = Toplevel()
 
     def register_volunteer():
+        Clean_Database.clean_volunteer_database()
         main_window.destroy()
         register_screen = Toplevel()
         register_screen.title("Register")
@@ -112,6 +115,10 @@ def main_signin_screen():
                 password_error4.pack()
                 error_count.append("p4")
 
+            r_close_button1 = Button(register_errors, text="Close", command=register_errors.destroy)
+            r_close_button1.pack()
+
+
             if len(error_count) > 0:
                 register_errors.mainloop()
             else:
@@ -129,7 +136,7 @@ def main_signin_screen():
 
                 password_hash = encrypt_password(verified_password)
 
-                new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+                new_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
                 file = open("volunteer_database.txt", "r")
                 current_volunteer_list_1 = []
@@ -144,14 +151,16 @@ def main_signin_screen():
 
                 new_user[3] = verified_username
                 new_user[4] = password_hash
+                new_user[10] = "Deactivated"
+                new_user[11] = "Standard"
 
                 file.close()
 
-                new_user_string = ("\n" + "%".join(new_user))
+                new_user_string = "%".join(new_user)
 
                 volunteer_append = open("volunteer_database.txt", "a")
 
-                volunteer_append.write(f"{new_user_string}")
+                volunteer_append.write(f"\n{new_user_string}")
                 volunteer_append.close()
 
                 Register_Info.volunteerList()
@@ -162,6 +171,8 @@ def main_signin_screen():
         register_screen.mainloop()
 
     def volunteer_login():
+        Clean_Database.clean_volunteer_database()
+
         choose_role_window.destroy()
         volunteer_login_screen = Toplevel()
         volunteer_login_screen.title("Login")
@@ -207,14 +218,19 @@ def main_signin_screen():
 
             logins_list = []
             logins_status_list = []
+            camp_lead_list = []
+            usernames_list = []
             for i in current_volunteer_list_2:
                 string_user = i[3]
                 string_password = i[4]
                 string_status = i[10]
+                usernames_list.append(string_user)
                 string_login = str(string_user + string_password)
                 string_login_status = str(string_user + string_password + string_status)
                 logins_list.append(string_login)
                 logins_status_list.append(string_login_status)
+                if i[11] == "Lead":
+                    camp_lead_list.append(string_login)
 
             login_entry_string = str(username_entry.get() + password_hash)
             login_entry_status_string = str(username_entry.get() + password_hash + "Active")
@@ -227,21 +243,38 @@ def main_signin_screen():
                 close_button1 = Button(login_error_window, text="Close", command=login_error_window.destroy)
                 close_button1.pack()
                 login_error_window.mainloop()
-            elif (login_entry_string not in logins_list) and (login_entry_status_string not in logins_status_list):
-                wrong_detail_label = Label(login_error_window, text="Wrong details entered. Please try again")
+            elif (username_entry.get() not in usernames_list):
+                wrong_detail_label = Label(login_error_window, text="Username does not exist, or Account has been deleted. Please Register")
                 wrong_detail_label.pack()
                 close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy)
                 close_button2.pack()
                 login_error_window.mainloop()
+            elif (username_entry.get() in usernames_list) and (login_entry_string not in logins_list):
+                wrong_password_label = Label(login_error_window, text="Username exists. Wrong Password entered.")
+                wrong_password_label.pack()
+                close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                close_button2.pack()
+                login_error_window.mainloop()
             elif (login_entry_string in logins_list) and (login_entry_status_string in logins_status_list):
+
                 volunteer_login_screen.destroy()
                 login_error_window.destroy()
-                Volunteer_Home.function1()
+
+                if login_entry_string not in camp_lead_list:
+                    Volunteer_Home.function1()
+                elif login_entry_string in camp_lead_list:
+                    Camp_Lead.main()
+                else:
+                    unknown_error_label_1 = Label(login_error_window, text="An unknown error has occurred. Please try again")
+                    unknown_error_label_1.pack()
+                    close_button3 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button3.pack()
+                    login_error_window.mainloop()
             else:
-                unknown_error_label = Label(login_error_window, text="An unknown error has occurred. Please try again")
-                unknown_error_label.pack()
-                close_button1 = Button(login_error_window, text="Close", command=login_error_window.destroy)
-                close_button1.pack()
+                unknown_error_label_2 = Label(login_error_window, text="An unknown error has occurred. Please try again")
+                unknown_error_label_2.pack()
+                close_button4 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                close_button4.pack()
                 login_error_window.mainloop()
 
         done_button = Button(volunteer_login_screen, text="Login", command=check_login_entry)
@@ -250,9 +283,79 @@ def main_signin_screen():
         volunteer_login_screen.mainloop()
 
     def admin_login():
-        pass
+        choose_role_window.destroy()
+        admin_login_screen = Toplevel()
+        admin_login_screen.title("Admin Login")
+
+        Label(admin_login_screen, text="Please enter details").pack()
+
+        admin_username_entry = StringVar()
+        admin_password_entry = StringVar()
+
+        Label(admin_login_screen, text="Username * ").pack()
+        username_login_entry = Entry(admin_login_screen, textvariable=admin_username_entry)
+        username_login_entry.pack()
+
+        Label(admin_login_screen, text="Password * ").pack()
+        password_entry = Entry(admin_login_screen, textvariable=admin_password_entry, show='*')
+        password_entry.pack()
+
+        def change_password_visibility():
+            if password_entry.cget('show') == '*':
+                password_entry.config(show='')
+                password_visibility_btn.config(text='Hide Password')
+            elif password_entry.cget('show') == '':
+                password_entry.config(show='*')
+                password_visibility_btn.config(text='Show Password')
+
+        password_visibility_btn = Button(admin_login_screen, text='Show Password',
+                                         command=change_password_visibility)
+        password_visibility_btn.pack()
+
+        def check_login_entry():
+
+            file = open("admin_login.txt", "r")
+            admin_login_list = []
+            for line in file:
+                line_list = line.split("%")
+                admin_login_list.append(line_list)
+
+            logins_list = []
+            for i in admin_login_list:
+                string_user = i[0]
+                string_password = i[1]
+                string_login = str(string_user + string_password)
+                logins_list.append(string_login)
+
+            login_entry_string = str(admin_username_entry.get() + admin_password_entry.get())
+
+            admin_login_error_window = Toplevel()
+
+
+            if (login_entry_string not in logins_list):
+                wrong_detail_label = Label(admin_login_error_window, text="Wrong details entered. Please try again")
+                wrong_detail_label.pack()
+                close_button2 = Button(admin_login_error_window, text="Close", command=admin_login_error_window.destroy)
+                close_button2.pack()
+                admin_login_error_window.mainloop()
+            elif (login_entry_string in logins_list):
+                admin_login_screen.destroy()
+                admin_login_error_window.destroy()
+                Admin_Home.function1()
+            else:
+                unknown_error_label = Label(admin_login_error_window, text="An unknown error has occurred. Please try again")
+                unknown_error_label.pack()
+                close_button3 = Button(admin_login_error_window, text="Close", command=admin_login_error_window.destroy)
+                close_button3.pack()
+                admin_login_error_window.mainloop()
+
+        done_button = Button(admin_login_screen, text="Login", command=check_login_entry)
+        done_button.pack()
+
+        admin_login_screen.mainloop()
 
     def choose_role():
+        Clean_Database.clean_volunteer_database()
         global choose_role_window
         main_window.destroy()
         choose_role_window = Toplevel()

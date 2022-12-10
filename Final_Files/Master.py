@@ -9,11 +9,20 @@ import Volunteer_Create_Family
 import Volunteer_View_Family
 import Volunteer_Update_Family
 import Volunteer_Settings
+import Clean_Database
+
+
+Clean_Database.clean_volunteer_database()
+
+
+
 
 master_window = Tk()
 
+
 def app_info():
     pass
+
 
 signin = Button(master_window, text="Sign In", command=Login.main_signin_screen)
 signin.pack()
@@ -21,4 +30,3 @@ info = Button(master_window, text="How to use this Application", command=app_inf
 info.pack()
 
 master_window.mainloop()
-

@@ -26,11 +26,13 @@ def volunteerList():
 
         volunteer_file.close()
 
-        new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+        new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
         new_volunteer[1] = current_volunteer_list[-1][1]
         new_volunteer[3] = current_volunteer_list[-1][3]
         new_volunteer[4] = current_volunteer_list[-1][4]
+        new_volunteer[10] = current_volunteer_list[-1][10]
+        new_volunteer[11] = current_volunteer_list[-1][11]
         del current_volunteer_list[-1]
 
 
@@ -278,8 +280,6 @@ def volunteerList():
         new_volunteer[7] = gender.get()
         new_volunteer[8] = str(DOB)
         new_volunteer[9] = volunteer_age
-        new_volunteer[10] = "Deactivated"
-        new_volunteer[11] = "Standard"
 
         current_volunteer_list.append(new_volunteer)
         volunteer_file_write = open("volunteer_database.txt", "r+")
