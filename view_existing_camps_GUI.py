@@ -6,6 +6,7 @@ def viewexistingCamps():
     def viewcampsetUp():
         global view_camp_home_screen
         global emergency_database_list
+        global view_camp_screen
 
         view_camp_screen = Toplevel(view_camp_home_screen)
         view_camp_screen.title("View Existing Camps")
@@ -17,7 +18,7 @@ def viewexistingCamps():
         emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
         for line in emergency_database_file:
-            line_list = line.split(",")
+            line_list = line.split("%")
             emergency_database_list.append(line_list)
         emergency_database_file.close()
 
@@ -65,8 +66,12 @@ def viewexistingCamps():
 
         emergency_database_table.pack()
 
-        return_home_button = Button(view_camp_screen, text="Return to Homescreen", command=returnHome)
+        return_home_button = Button(view_camp_screen, text="Return to Homescreen", command=returnHomeViewTable)
         return_home_button.pack()
+
+    def returnHomeViewTable():
+        global view_camp_screen
+        view_camp_screen.destroy()
 
     def selectLayoutCamp():
         global selected_camp_id
@@ -101,7 +106,7 @@ def viewexistingCamps():
         global selected_camp_id
         global Layout_Screen
 
-        camp_id = selected_camp_id
+        camp_id = selected_camp_id.get()
 
         accommodation_file = open("accommodations.txt", "r")
         ration_file = open("ration_stall.txt", "r")
@@ -478,13 +483,18 @@ def viewexistingCamps():
         volunteer_file.close()
         refugee_file.close()
 
+        layout_summary_returnhome_button = Button(Layout_Screen, text="Close Screen", command=layoutReturnHome)
+        layout_summary_returnhome_button.pack()
+
+    def layoutReturnHome():
+        global Layout_Screen
+        Layout_Screen.destroy()
+
     def viewRefugees():
         pass
 
 
 
-    def returnHome():
-        import Admin_HomePage
 
 
     def viewcampScreen():
