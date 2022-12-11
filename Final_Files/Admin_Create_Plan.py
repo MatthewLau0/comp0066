@@ -11,7 +11,8 @@ import tkintermapview
 from tkcalendar import Calendar
 import datetime
 
-def createnewemergencyPlan():
+def createnewemergencyPlan(screen):
+    admin_create_screen = screen
     def screenSetup():
         global new_emergency
         global emergency_database_list
@@ -620,9 +621,9 @@ def createnewemergencyPlan():
     def destroyScreen():
         global Create_New_Emergency_Home_Screen
         Create_New_Emergency_Home_Screen.destroy()
-    def Create_Emergency_Screen():
+    def Create_Emergency_Screen(screen):
         global Create_New_Emergency_Home_Screen
-        Create_New_Emergency_Home_Screen = Toplevel()
+        Create_New_Emergency_Home_Screen = Toplevel(screen)
         Create_New_Emergency_Home_Screen.geometry("500x600")
         Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
         Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
@@ -632,5 +633,5 @@ def createnewemergencyPlan():
 
         Create_New_Emergency_Home_Screen.mainloop()
 
-    Create_Emergency_Screen()
+    Create_Emergency_Screen(admin_create_screen)
 
