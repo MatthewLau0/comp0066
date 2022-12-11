@@ -11,8 +11,7 @@ import tkintermapview
 from tkcalendar import Calendar
 import datetime
 
-def createnewemergencyPlan(screen):
-    admin_create_screen = screen
+def createnewemergencyPlan():
     def screenSetup():
         global new_emergency
         global emergency_database_list
@@ -603,7 +602,12 @@ def createnewemergencyPlan(screen):
         Return_To_HomeScreen_Button.pack()
 
     def returnHome():
-        import Admin_HomePage
+        global Create_New_Emergency_Home_Screen
+        global New_Emergency_Close_Screen
+        global New_Camp_Summary_Screen
+        Create_New_Emergency_Home_Screen.destroy()
+        New_Emergency_Close_Screen.destroy()
+        New_Camp_Summary_Screen.destroy()
 
     def campnameVerify():
         global camp_name
@@ -621,9 +625,9 @@ def createnewemergencyPlan(screen):
     def destroyScreen():
         global Create_New_Emergency_Home_Screen
         Create_New_Emergency_Home_Screen.destroy()
-    def Create_Emergency_Screen(screen):
+    def Create_Emergency_Screen():
         global Create_New_Emergency_Home_Screen
-        Create_New_Emergency_Home_Screen = Toplevel(screen)
+        Create_New_Emergency_Home_Screen = Toplevel()
         Create_New_Emergency_Home_Screen.geometry("500x600")
         Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
         Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
@@ -633,5 +637,5 @@ def createnewemergencyPlan(screen):
 
         Create_New_Emergency_Home_Screen.mainloop()
 
-    Create_Emergency_Screen(admin_create_screen)
+    Create_Emergency_Screen()
 

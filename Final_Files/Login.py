@@ -357,7 +357,7 @@ def main_signin_screen():
                 admin_login_error_window.mainloop()
             elif (login_entry_string in logins_list):
                 admin_login_screen.destroy()
-                Admin_Home.function1()
+                Admin_Home.adminHome()
             else:
                 unknown_error_label = Label(admin_login_error_window, text="An unknown error has occurred. Please try again")
                 unknown_error_label.pack()

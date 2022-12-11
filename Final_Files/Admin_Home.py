@@ -9,11 +9,9 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview']
 #Define Functions
 #Load Create new emergency
 def adminHome():
-    global admin_home
     def Create_Emergency():
-        global admin_home
         from Admin_Create_Plan import createnewemergencyPlan
-        createnewemergencyPlan(admin_home)
+        createnewemergencyPlan()
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm
