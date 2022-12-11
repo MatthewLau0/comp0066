@@ -1,11 +1,8 @@
 #Import functions
 from tkinter import *
 from tkinter import ttk
-import sys
-import subprocess
 import datetime
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
+
 import tkintermapview
 from tkcalendar import Calendar
 
@@ -761,7 +758,7 @@ def updateexistingForm():
         return_to_home_screen_button.pack()
 
     def returnHome():
-        import Admin_HomePage
+        import Admin_Home
 
     def campnameVerify():
         global camp_name

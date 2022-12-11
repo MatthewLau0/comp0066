@@ -2,11 +2,6 @@
 
 #Import modules - is pip included in standard installers
 from tkinter import *
-import sys
-import subprocess
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
-import os
 import tkintermapview
 from tkcalendar import Calendar
 import datetime
@@ -180,7 +175,7 @@ def createnewemergencyPlan(screen):
             global emergency_marker_label
             if emergency_marker_country != "NA":
                 emergency_marker_label.config(text="Please only select one marker", fg='#f00')
-                marker_error_label.pack()
+                emergency_marker_label.pack()
                 mapReset()
             else:
                 emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
@@ -603,7 +598,7 @@ def createnewemergencyPlan(screen):
         Return_To_HomeScreen_Button.pack()
 
     def returnHome():
-        import Admin_HomePage
+        import Admin_Home
 
     def campnameVerify():
         global camp_name

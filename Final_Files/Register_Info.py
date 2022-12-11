@@ -1,8 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-import sys
-import subprocess
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkcalendar import Calendar
 import datetime
 

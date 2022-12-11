@@ -5,6 +5,10 @@ import Volunteer_Home
 import Admin_Home
 import Camp_Lead
 import Clean_Database
+import sys
+import subprocess
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 
 
 Clean_Database.clean_volunteer_database()
@@ -282,7 +286,7 @@ def main_signin_screen():
                 login_s.close()
                 if login_entry_string not in camp_lead_list:
                     volunteer_login_screen.destroy()
-                    Volunteer_Home.function1()
+                    Volunteer_Home.volunteer_home_page()
                 if login_entry_string in camp_lead_list:
                     volunteer_login_screen.destroy()
                     Camp_Lead.camp_id_generate()
@@ -357,7 +361,7 @@ def main_signin_screen():
                 admin_login_error_window.mainloop()
             elif (login_entry_string in logins_list):
                 admin_login_screen.destroy()
-                Admin_Home.function1()
+                Admin_Home.adminHome()
             else:
                 unknown_error_label = Label(admin_login_error_window, text="An unknown error has occurred. Please try again")
                 unknown_error_label.pack()
