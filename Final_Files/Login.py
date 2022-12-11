@@ -3,16 +3,36 @@ import hashlib
 import Register_Info
 import Volunteer_Home
 import Admin_Home
+#import Admin_Create_Plan
+#import Admin_View_Plan
+#import Admin_Update_Plan
+#import Admin_Manage_Volunteers
 import Camp_Lead
+#import Volunteer_Create_Family
+#import Volunteer_View_Family
+#import Volunteer_Update_Family
+#import Volunteer_Settings
 import Clean_Database
 
+
+Clean_Database.clean_volunteer_database()
+
+master_window = Tk()
+
+
+
+
+
+
 def main_signin_screen():
-    main_window = Toplevel()
+    master_window.destroy()
+    main_window = Tk()
 
     def register_volunteer():
+        global register_screen
         Clean_Database.clean_volunteer_database()
         main_window.destroy()
-        register_screen = Toplevel()
+        register_screen = Tk()
         register_screen.title("Register")
         register_screen.geometry("300x250")
 
@@ -123,7 +143,7 @@ def main_signin_screen():
                 register_errors.mainloop()
             else:
                 register_errors.destroy()
-                register_screen.destroy()
+
                 global verified_username
 
                 verified_username = username.get()
@@ -174,7 +194,7 @@ def main_signin_screen():
         Clean_Database.clean_volunteer_database()
 
         choose_role_window.destroy()
-        volunteer_login_screen = Toplevel()
+        volunteer_login_screen = Tk()
         volunteer_login_screen.title("Login")
 
         Label(volunteer_login_screen, text="Please enter details").pack()
@@ -258,11 +278,17 @@ def main_signin_screen():
             elif (login_entry_string in logins_list) and (login_entry_status_string in logins_status_list):
 
                 volunteer_login_screen.destroy()
-                login_error_window.destroy()
+
+                for i in current_volunteer_list_2:
+                    if i[3] == username_entry.get():
+                        string = "%".join(i)
+                        with open("successful_login.txt", "a") as login_s:
+                            login_s.write(f"{string}\n")
 
                 if login_entry_string not in camp_lead_list:
                     Volunteer_Home.function1()
                 elif login_entry_string in camp_lead_list:
+                    Camp_Lead.camp_id_generate()
                     Camp_Lead.main()
                 else:
                     unknown_error_label_1 = Label(login_error_window, text="An unknown error has occurred. Please try again")
@@ -284,7 +310,7 @@ def main_signin_screen():
 
     def admin_login():
         choose_role_window.destroy()
-        admin_login_screen = Toplevel()
+        admin_login_screen = Tk()
         admin_login_screen.title("Admin Login")
 
         Label(admin_login_screen, text="Please enter details").pack()
@@ -358,7 +384,7 @@ def main_signin_screen():
         Clean_Database.clean_volunteer_database()
         global choose_role_window
         main_window.destroy()
-        choose_role_window = Toplevel()
+        choose_role_window = Tk()
 
         volunteer_button = Button(choose_role_window, text="Volunteer Login", command=volunteer_login)
         volunteer_button.pack()
@@ -374,3 +400,14 @@ def main_signin_screen():
     register_button.pack()
 
     main_window.mainloop()
+
+def app_info():
+    pass
+
+
+signin = Button(master_window, text="Sign In", command=main_signin_screen)
+signin.pack()
+info = Button(master_window, text="How to use this Application", command=app_info)
+info.pack()
+
+master_window.mainloop()

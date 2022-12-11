@@ -1,7 +1,23 @@
 from tkinter import *
 from tkinter import ttk
 
-camp_id = 1
+
+
+def camp_id_generate():
+    global camp_id
+    logins_file = open("successful_login.txt", "r")
+
+    logins_list = []
+    for line in logins_file:
+        line_string = line.split("%")
+        logins_list.append(line_string)
+    if len(logins_list) > 0:
+        camp_id = logins_list[-1][0]
+    else:
+        pass
+
+
+
 
 def volunteers_portal():
     volunteers_file = open("volunteer_database.txt", "r")
