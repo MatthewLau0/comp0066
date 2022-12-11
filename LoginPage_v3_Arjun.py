@@ -5,7 +5,7 @@ from textwrap import wrap
 from tkinter import *
 from tkinter import messagebox
 import hashlib
-import volunteer_home_page_gui
+import ML1_volunteer_home_page_gui
 
 from distutils.command.config import config
 from tkinter import *

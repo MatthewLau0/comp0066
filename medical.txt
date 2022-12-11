@@ -9,3 +9,4 @@
 1,9,Block 9,100,100,FULL,0,South Wing,
 1,10,Block 10,100,0,VACANT,100,West Wing,
 2,1,Medical 1,105,1,VACANCIES,104,East Wing,
+3,1,Medical 1, 100,100, VACANT,0, East Wing,

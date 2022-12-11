@@ -11,19 +11,22 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 
 def add_calendar():
 
-    #Setting up the screen
+    #SETTING UP THE DEFAULT SCREEN
     availability_screen = tkinter.Toplevel()
     availability_screen.geometry("500x1000")
     availability_screen.title("Manage availability")
     #screen.configure(background="#A1CDEC")
 
-
+    #READING ALL VOLUNTEERS INTO A LIST
     volunteer_list_file = open("Final_Files/volunteer_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("%")
         volunteer_database_list.append(x)
 
+    volunteerID = 1
+
+    #LIST WITH THE TIMINGS
     times = ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45', '03:00', '03:15', '03:30', '03:45', '04:00', '04:15', '04:30', '04:45', '05:00', '05:15', '05:30', '05:45', '06:00', '06:15', '06:30' , '06:45' , '07:00', '07:15' , '07:30' , '07:45' , '08:00', '08:15' , '08:30' , '08:45' , '09:00', '09:15' , '09:30' , '09:45' , '10:00', '10:15' , '10:30' , '10:45' , '11:00', '11:15' , '11:30' , '11:45' , '12:00', '12:15' , '12:30' , '12:45' , '13:00', '13:15' , '13:30' , '13:45' , '14:00', '14:15' , '14:30' , '14:45' , '15:00', '15:15' , '15:30' , '15:45' , '16:00', '16:15' , '16:30' , '16:45' , '17:00', '17:15' , '17:30' , '17:45' , '18:00', '18:15' , '18:30' , '18:45' , '19:00', '19:15' , '19:30' , '19:45' , '20:00', '20:15' , '20:30' , '20:45' , '21:00', '21:15' , '21:30' , '21:45' , '22:00', '22:15' , '22:30' , '22:45' , '23:00', '23:15' , '23:30' , '23:45' ]
 
     def delete1():
@@ -32,6 +35,7 @@ def add_calendar():
     def delete2():
         final_calendar_screen.destroy()
 
+    #SECOND SCREEN, ALLOWS USER TO SELECT THE END DATE OF THEIR VOLUNTEERING
     def final_calendar_lol():
         availability_screen.destroy()
         global final_calendar_screen
@@ -42,40 +46,46 @@ def add_calendar():
         final_calendar_screen.geometry("500x1000")
         final_calendar_screen.title("Manage availability")
 
+        #SETTING UP THE CALENDAR
         max = datetime.date(2024, today.month, today.day)
-
+        final_text = tkinter.Label(final_calendar_screen, text="Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg='Green', width=300)
+        final_text.pack()
         final_calendar_label = tkinter.Label(final_calendar_screen, text="Please enter the final date in the range:", font='Arial 18')
         final_calendar_label.pack(pady=50)
         initial_calendar_date = initial_calendar.selection_get()
         final_calendar = Calendar(final_calendar_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= initial_calendar_date, maxdate= max)
         final_calendar.pack(pady = 50)
 
+        #SUBMIT DATE RANGE
         final_calendar_button = tkinter.Button(final_calendar_screen, text="Continue", width=30, command=choose_days)
         final_calendar_button.pack()
         final_calendar_back_button = tkinter.Button(final_calendar_screen, text="Quit", width=30, command=delete2)
         final_calendar_back_button.pack()
 
-    global initial_calendar_date
-    global initial_calendar
-    intro_text = tkinter.Label(availability_screen, text = "Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg = 'Green', width= 300)
-    intro_text.pack()
-    today = datetime.date.today()
-    max = datetime.date(2024, today.month, today.day)
+    #INITIAL SCREEN, ALLOWS USER TO SELECT THE START DATE OF THEIR VOLUNTEERING
+    def initial_calendar_lol():
+        global initial_calendar_date
+        global initial_calendar
+        intro_text = tkinter.Label(availability_screen, text = "Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg = 'Green', width= 300)
+        intro_text.pack()
+        today = datetime.date.today()
+        max = datetime.date(2024, today.month, today.day)
 
-    initial_calendar_label = tkinter.Label(availability_screen, text = "Please enter the inital date in the range:", font = 'Arial 18')
-    initial_calendar_label.pack(pady = 50)
-    initial_calendar = Calendar(availability_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= today, maxdate= max)
-    initial_calendar.pack()
+        #SETTING UP THE CALENDAR
+        initial_calendar_label = tkinter.Label(availability_screen, text = "Please enter the inital date in the range:", font = 'Arial 18')
+        initial_calendar_label.pack(pady = 50)
+        initial_calendar = Calendar(availability_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= today, maxdate= max)
+        initial_calendar.pack()
 
-    initial_calendar_button = tkinter.Button(availability_screen, text = "Continue", width = 30, command = final_calendar_lol)
-    initial_calendar_button.pack(pady = 20)
-    initial_calendar_quit_button = tkinter.Button(availability_screen, text="Quit", width=30, command=delete1)
-    initial_calendar_quit_button.pack()
+        #SETTING UP THE BUTTONS
+        initial_calendar_button = tkinter.Button(availability_screen, text = "Continue", width = 30, command = final_calendar_lol)
+        initial_calendar_button.pack(pady = 20)
+        initial_calendar_quit_button = tkinter.Button(availability_screen, text="Quit", width=30, command=delete1)
+        initial_calendar_quit_button.pack()
 
 
-    #Title text
 
-
+    #THIS IS THE THIRD SCREEN TO OPEN, ALLOWS USER TO SELECT THE RANGE OF TIMES THEY'RE FREE
     def choose_days():
         global choose_days_screen
         final_calendar_screen.destroy()
@@ -83,6 +93,7 @@ def add_calendar():
         choose_days_screen.geometry("500x1000")
         choose_days_screen.title("Manage availability")
 
+        #DISPLAY THEIR START AND END DATE
         range_confirmation_label = tkinter.Label(choose_days_screen, text = "Please check the summary below to ensure these are your dates of volunteering")
         range_confirmation_label.pack()
 
@@ -95,9 +106,11 @@ def add_calendar():
         x = str(final_calendar.selection_get() - initial_calendar.selection_get())
         y = x.split(',')
 
+        #CALCULATES THE AMOUNT OF DAYS THEY WORK
         diff_confirmation = tkinter.Label(choose_days_screen, text = "The total days you will be working is: %s" %str(y[0]))
         diff_confirmation.pack(pady = 20)
 
+        #THIS PART IS TO CREATE BUTTONS AND ALLOW THEM TO CHOOSE THE DAYS THEY ARE FREE
         day_text = tkinter.Label(choose_days_screen, text="Please select which days of the week you are available\nand add the hours you are available: ")
         day_text.pack(pady = 20)
         global monday_text
@@ -115,6 +128,7 @@ def add_calendar():
         saturday_text = tkinter.IntVar()
         sunday_text = tkinter.IntVar()
 
+        #EACH INDIVIDUAL FUNCTION IS EACH DAY OF THE WEEK
         def mon():
             global monday_initial_time
             global monday_final_time
@@ -251,6 +265,7 @@ def add_calendar():
                 lol_label = tkinter.Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=580, width=800, height=40)
 
+        #ALL THE CHECKBUTTON FUNCTIONALITY
         monday_entry = tkinter.Checkbutton(choose_days_screen, variable=monday_text, onvalue=1, offvalue=0, text="Monday", command = mon)
         tuesday_entry = tkinter.Checkbutton(choose_days_screen, variable=tuesday_text, onvalue=2, offvalue=0, text="Tuesday", command = tues)
         wednesday_entry = tkinter.Checkbutton(choose_days_screen, variable=wednesday_text, onvalue=3, offvalue=0, text="Wednesday", command = wed)
@@ -266,6 +281,7 @@ def add_calendar():
         saturday_entry.place(x = 20, y = 530)
         sunday_entry.place(x = 20, y = 580)
 
+        #PROMPTS USER TO GO TO NEXT STAGE WITH BUTTON
         choose_days_button = tkinter.Button(choose_days_screen, text="Continue", width=30, command=save_to_file_volunteer)
         choose_days_button.place(x = 115, y = 650)
 
@@ -274,6 +290,8 @@ def add_calendar():
 
     def delete3():
         choose_days_screen.destroy()
+
+    #THIS IS THE ERROR CHECKING FUNCTION. CHECKS TO SEE IF TIMES SUBMITTED ARE BEFORE EACH OTHER, ANY BLANK TABS ETC.
     def save_to_file_volunteer():
 
 
@@ -401,6 +419,7 @@ def add_calendar():
 
         summary_page()
 
+    #DISPLAYS A SUMMARY PAGE OF ALL THEIR INPUT
     def summary_page():
         global time_summary_page
         time_summary_page = tkinter.Toplevel()
@@ -496,65 +515,108 @@ def add_calendar():
     def no():
         time_summary_page.destroy()
 
+    #IF THEY SUBMIT, WILL CREATE A LIST OF [START DATE, END DATE, MONDAY INITIAL, MONDAY END, TUESDAY INITIAL, TUESDAY END...]
     def save_to_database():
 
+        #GETTING ALL OF THE DATES
         volunteer_start_day = initial_calendar.get_date()
         volunteer_end_day = final_calendar.get_date()
         if monday_text.get() == 1:
             monday_summary_initial = monday_initial_time.get()
             monday_summary_final = monday_final_time.get()
-            monday_summary = [monday_summary_initial, monday_summary_final]
+
         else:
-            monday_summary = "NA"
+            monday_summary_initial = 'Not Available'
+            monday_summary_final = 'Not Available'
 
         if tuesday_text.get() == 2:
             tuesday_summary_initial = tuesday_initial_time.get()
             tuesday_summary_final = tuesday_final_time.get()
-            tuesday_summary = [tuesday_summary_initial, tuesday_summary_final]
+
         else:
-            tuesday_summary = "NA"
+            tuesday_summary_initial = 'Not Available'
+            tuesday_summary_final = 'Not Available'
 
         if wednesday_text.get() == 3:
             wednesday_summary_initial = wednesday_initial_time.get()
             wednesday_summary_final = wednesday_final_time.get()
-            wednesday_summary = [wednesday_summary_initial, wednesday_summary_final]
+
         else:
-            wednesday_summary = "NA"
+            wednesday_summary_initial = 'Not Available'
+            wednesday_summary_final = 'Not Available'
 
         if thursday_text.get() == 4:
             thursday_summary_initial = thursday_initial_time.get()
             thursday_summary_final = thursday_final_time.get()
-            thursday_summary = [thursday_summary_initial, thursday_summary_final]
+
         else:
-            thursday_summary = "NA"
+            thursday_summary_initial = 'Not Available'
+            thursday_summary_final = 'Not Available'
 
         if friday_text.get() == 5:
             friday_summary_initial = friday_initial_time.get()
             friday_summary_final = friday_final_time.get()
-            friday_summary = [friday_summary_initial, friday_summary_final]
         else:
-            friday_summary = "NA"
+            friday_summary_initial = 'Not Available'
+            friday_summary_final = 'Not Available'
 
         if saturday_text.get() == 6:
             saturday_summary_initial = saturday_initial_time.get()
             saturday_summary_final = saturday_final_time.get()
-            saturday_summary = [saturday_summary_initial, saturday_summary_final]
         else:
-            saturday_summary = "NA"
+            saturday_summary_initial = 'Not Available'
+            saturday_summary_final = 'Not Available'
 
         if sunday_text.get() == 7:
             sunday_summary_initial = sunday_initial_time.get()
             sunday_summary_final = sunday_final_time.get()
-            sunday_summary = [sunday_summary_initial, sunday_summary_final]
         else:
-            sunday_summary = "NA"
+            sunday_summary_initial = 'Not Available'
+            sunday_summary_final = 'Not Available'
 
-        timing_info = [volunteer_start_day, volunteer_end_day, monday_summary, tuesday_summary, wednesday_summary, thursday_summary, friday_summary, saturday_summary, sunday_summary]
-        print(timing_info)
+        #CURRENTLY JUST OUTPUTS THE TIMINGS INFO
+        timing_info = [volunteer_start_day, volunteer_end_day, monday_summary_initial, monday_summary_final, tuesday_summary_initial, tuesday_summary_final, wednesday_summary_initial, wednesday_summary_final, thursday_summary_initial, thursday_summary_final, friday_summary_initial, friday_summary_final, saturday_summary_initial, saturday_summary_final, sunday_summary_initial, sunday_summary_final]
+
+        #COPYING THE OG VOLUNTEER INTO A TEMPORARY LIST
+        for i in range(len(volunteer_database_list)):
+            if int(volunteer_database_list[i][1]) == int(volunteerID):
+                temp_volunteer_list = volunteer_database_list[i]
+                break
+
+        #USING ARBITRARY INDEX NUMBER RN
+        index_num_of_timings = 5
+
+
+        #ADDING TIMINGS TO THE ARBITRARY INDEX IN LIST
+        temp_volunteer_list[index_num_of_timings] = ','.join(timing_info)
+
+
+        #REPLACING OG VOLUNTEER WITH UPDATED VOLUNTEER AT SAME INDEX IN BIG LIST
+        for j in range(len(volunteer_database_list)):
+            if volunteer_database_list[j][1] == temp_volunteer_list[1] and volunteer_database_list[j][2] == temp_volunteer_list[2]:
+                volunteer_database_list[j] = temp_volunteer_list
+
+        #CREATING A LIST OF STRINGS
+        new_rewritten_volunteer_temp = []
+        for k in volunteer_database_list:
+            new_rewritten_volunteer_temp.append('%'.join(k))
+        print(new_rewritten_volunteer_temp)
+
+        #WRITING TO THE FILE
+        volunteer_write_new = open("volunteers.txt", 'w')
+        for i in range(len(new_rewritten_volunteer_temp)):
+            volunteer_write_new.write(new_rewritten_volunteer_temp[i])
+        volunteer_write_new.close()
+
+
+
+
+
+
 
         time_summary_page.destroy()
         choose_days_screen.destroy()
 
-
+    initial_calendar_lol()
     availability_screen.mainloop()
 
