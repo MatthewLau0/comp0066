@@ -226,6 +226,7 @@ def volunteerList():
     campTable()
 
     def closeScreen():
+        global Create_Volunteer_Close_Screen
         volunteer_entry_screen.destroy()
         Create_Volunteer_Close_Screen = Tk()
         Create_Volunteer_Close_Screen.title("Volunteer Request Successfully Submitted")
@@ -233,7 +234,13 @@ def volunteerList():
 
         close_label = Label(Create_Volunteer_Close_Screen, text="Thank you for submitting a request to become a volunteer. \n The admin will review your request, and once approved you will be able to access our services.")
         close_label.pack()
-        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=Create_Volunteer_Close_Screen.destroy)
+        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=returnHome)
         return_home_button.pack()
+
+    def returnHome():
+        global Create_Volunteer_Close_Screen
+        Create_Volunteer_Close_Screen.destroy()
+        from Login import main_signin_screen
+        main_signin_screen()
 
     volunteer_entry_screen.mainloop()

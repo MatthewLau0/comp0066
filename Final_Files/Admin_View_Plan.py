@@ -76,9 +76,10 @@ def viewexistingCamps():
     def selectLayoutCamp():
         global selected_camp_id
         global Layout_Screen
+        global view_camp_home_screen
 
 
-        Layout_Screen = Toplevel()
+        Layout_Screen = Toplevel(view_camp_home_screen)
         Layout_Screen.title("View Camp Layout")
         Layout_Screen.geometry("500x600")
 
@@ -93,12 +94,16 @@ def viewexistingCamps():
         for i in range(0, len(emergency_database_list)):
             camp_ID_list.append(emergency_database_list[i][0])
 
+        selected_camp_id_frame = Frame(Layout_Screen)
+        selected_camp_id_frame.pack()
+
+
         selected_camp_id = StringVar()
-        select_camp_id_label = Label(Layout_Screen, text="Please select the camp ID that you would like to view")
+        select_camp_id_label = Label(selected_camp_id_frame, text="Please select the camp ID that you would like to view")
         select_camp_id_label.pack()
-        select_camp_id = OptionMenu(Layout_Screen, selected_camp_id, *camp_ID_list)
+        select_camp_id = OptionMenu(selected_camp_id_frame, selected_camp_id, *camp_ID_list)
         select_camp_id.pack()
-        select_camp_button = Button(Layout_Screen, text="Submit", command=layoutSetUp)
+        select_camp_button = Button(selected_camp_id_frame, text="Submit", command=layoutSetUp)
         select_camp_button.pack()
 
 
@@ -108,7 +113,7 @@ def viewexistingCamps():
 
         camp_id = selected_camp_id.get()
 
-        accommodation_file = open("accommodation_database.txt.txt", "r")
+        accommodation_file = open("accommodation_database.txt", "r")
         ration_file = open("ration_database.txt", "r")
         toilet_file = open("toilet_database.txt", "r")
         medical_file = open("medical_database.txt", "r")
