@@ -250,7 +250,62 @@ def main_signin_screen():
         volunteer_login_screen.mainloop()
 
     def admin_login():
-        pass
+        global username_entry_admin
+        global password_entry_admin
+        global admin_login_screen
+        choose_role_window.destroy()
+        admin_login_screen = Toplevel()
+        admin_login_screen.title("Login")
+
+        Label(admin_login_screen, text="Please enter details").pack()
+
+        username_entry_admin = StringVar()
+        password_entry_admin = StringVar()
+
+        Label(admin_login_screen, text="Username * ").pack()
+        username_login_entry_admin = Entry(admin_login_screen, textvariable=username_entry_admin)
+        username_login_entry_admin.pack()
+
+        Label(admin_login_screen, text="Password * ").pack()
+        password_entry_admin = Entry(admin_login_screen, textvariable=password_entry_admin, show='*')
+        password_entry_admin.pack()
+
+        def change_password_visibility_admin():
+            if password_entry_admin.cget('show') == '*':
+                password_entry_admin.config(show='')
+                password_visibility_btn_admin.config(text='Hide Password')
+            elif password_entry_admin.cget('show') == '':
+                password_entry_admin.config(show='*')
+                password_visibility_btn_admin.config(text='Show Password')
+
+        password_visibility_btn_admin = Button(admin_login_screen, text='Show Password',
+                                         command=change_password_visibility_admin)
+        password_visibility_btn_admin.pack()
+
+        done_button_admin = Button(admin_login_screen, text="Login", command=check_login_entry_admin)
+        done_button_admin.pack()
+
+        admin_login_screen.mainloop()
+
+    def check_login_entry_admin():
+        global username_entry_admin
+        global password_entry_admin
+        global admin_login_screen
+        login_failure_window_admin = Toplevel()
+        def adminfailwindowClose():
+            login_failure_window_admin.destroy()
+
+        if username_entry_admin.get() == "admin" and password_entry_admin.get() == "111":
+            login_failure_window_admin.destroy()
+            admin_login_screen.destroy()
+            from Admin_Home import adminHome
+            adminHome()
+        else:
+            login_failure_window_admin.title("Login unsuccessful")
+            login_failure_window_admin_label = Label(login_failure_window_admin, text="Wrong details entered. Please try again")
+            login_failure_window_admin_label.pack()
+            login_failure_window_admin_button = Button(login_failure_window_admin_label, text="Close", command=adminfailwindowClose)
+            login_failure_window_admin_button.pack()
 
     def choose_role():
         global choose_role_window
