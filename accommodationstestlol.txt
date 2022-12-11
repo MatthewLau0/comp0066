@@ -19,3 +19,4 @@
 2,2,Block 2,100,0,VACANT,100,West Wing,
 2,3,Block 3,25,12,VACANT,13,North Wing,
 2,4,Block 4,100,0,VACANT,100,South Wing,
+3,1,Block 4, 100,100, VACANT,0, East Wing,
