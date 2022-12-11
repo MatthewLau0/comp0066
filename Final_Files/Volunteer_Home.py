@@ -1,4 +1,6 @@
 from tkinter import *
+
+import Login
 import Volunteer_Create_Family
 import Volunteer_View_Family
 import Volunteer_Update_Family
@@ -32,6 +34,7 @@ def volunteer_home_page():
 
     def Log_out():
         refugee_home.destroy()
+        Login.main()
 
 
     current_refugee_id = 1

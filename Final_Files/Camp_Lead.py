@@ -1,6 +1,8 @@
 from tkinter import *
 from tkinter import ttk
 
+import Login
+
 
 def camp_id_generate():
     global camp_id
@@ -2480,7 +2482,7 @@ def main():
     layout_button.pack()
     settings_button = Button(main_window, text="Settings", command=settings, width=30, height=2)
     settings_button.pack()
-    exit_button = Button(main_window, text="Log Out", command=exit, width=30, height=2)
+    exit_button = Button(main_window, text="Log Out", command=lambda:[main_window.destroy(), Login.main()], width=30, height=2)
     exit_button.pack()
 
     main_window.mainloop()

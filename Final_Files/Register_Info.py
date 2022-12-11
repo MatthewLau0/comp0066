@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkcalendar import Calendar
 import datetime
 
+import Login
+
 
 def volunteerList():
 
@@ -18,13 +20,14 @@ def volunteerList():
 
     volunteer_file.close()
 
-    new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+    new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
     new_volunteer[1] = current_volunteer_list[-1][1]
     new_volunteer[3] = current_volunteer_list[-1][3]
     new_volunteer[4] = current_volunteer_list[-1][4]
     new_volunteer[10] = current_volunteer_list[-1][10]
     new_volunteer[11] = current_volunteer_list[-1][11]
+    new_volunteer[12] = current_volunteer_list[-1][12]
     del current_volunteer_list[-1]
 
     emergency_database_file = open("emergency_database.txt", "r")
@@ -211,7 +214,6 @@ def volunteerList():
                         for i in range(0, len(current_volunteer_list)):
                             current_volunteer_string = '%'.join(current_volunteer_list[i])
                             volunteer_file_write.write("%s" % (current_volunteer_string))
-                            i += 1
                         volunteer_file_write.close()
                         closeScreen()
 
@@ -222,11 +224,12 @@ def volunteerList():
 
         select_camp_table_button = Button(volunteer_entry_screen, text="Continue", command=volunteerEntry)
         select_camp_table_button.pack()
+        back_button = Button(volunteer_entry_screen, text="Cancel", command=lambda: [volunteer_entry_screen.destroy(), Login.main()])
+        back_button.pack()
 
     campTable()
 
     def closeScreen():
-        global Create_Volunteer_Close_Screen
         volunteer_entry_screen.destroy()
         Create_Volunteer_Close_Screen = Tk()
         Create_Volunteer_Close_Screen.title("Volunteer Request Successfully Submitted")
@@ -234,13 +237,7 @@ def volunteerList():
 
         close_label = Label(Create_Volunteer_Close_Screen, text="Thank you for submitting a request to become a volunteer. \n The admin will review your request, and once approved you will be able to access our services.")
         close_label.pack()
-        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=returnHome)
+        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=lambda: [Create_Volunteer_Close_Screen.destroy(), Login.main()])
         return_home_button.pack()
-
-    def returnHome():
-        global Create_Volunteer_Close_Screen
-        Create_Volunteer_Close_Screen.destroy()
-        from Login import main_signin_screen
-        main_signin_screen()
 
     volunteer_entry_screen.mainloop()

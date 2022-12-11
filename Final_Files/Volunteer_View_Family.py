@@ -2,7 +2,7 @@ def table():
     import tkinter
     import tkinter.ttk
 
-    volunteer_list_file = open("Refugee_Database", "r")
+    volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("#")

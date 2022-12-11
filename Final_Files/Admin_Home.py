@@ -1,12 +1,15 @@
 #Import modules
 from tkinter import *
+import Login
 
 #Define Functions
 #Load Create new emergency
 def adminHome():
+    global admin_home
     def Create_Emergency():
+        global admin_home
         from Admin_Create_Plan import createnewemergencyPlan
-        createnewemergencyPlan()
+        createnewemergencyPlan(admin_home)
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm
@@ -30,18 +33,20 @@ def adminHome():
     #Add buttons to the window
     create_new_emergency_frame = Frame(admin_home)
     create_new_emergency_frame.pack()
-    create_new_emergency_button = Button(create_new_emergency_frame, text="Create New Emergency", command=Create_Emergency)
+    create_new_emergency_button = Button(create_new_emergency_frame, text="Create New Emergency", command=Create_Emergency, width=30, height=2)
     create_new_emergency_button.pack()
     update_emergency_frame = Frame(admin_home)
     update_emergency_frame.pack()
-    update_emergency_button = Button(update_emergency_frame, text="Update an Emergency", command=Update_Emergency)
+    update_emergency_button = Button(update_emergency_frame, text="Update an Emergency", command=Update_Emergency, width=30, height=2)
     update_emergency_button.pack()
     manage_volunteers_frame = Frame(admin_home)
     manage_volunteers_frame.pack()
-    manage_volunteers_button = Button(manage_volunteers_frame, text="Manage Volunteers", command=Manage_Volunteers)
+    manage_volunteers_button = Button(manage_volunteers_frame, text="Manage Volunteers", command=Manage_Volunteers, width=30, height=2)
     manage_volunteers_button.pack()
-    view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps)
+    view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps, width=30, height=2)
     view_camps_button.pack()
+    exit_button = Button(admin_home, text="Log Out", command=lambda: [admin_home.destroy(), Login.main()], width=30, height=2)
+    exit_button.pack()
 
 
     admin_home.mainloop()
