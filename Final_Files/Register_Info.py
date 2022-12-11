@@ -1,4 +1,3 @@
-#Import Files
 from tkinter import *
 from tkinter import ttk
 import sys
@@ -7,60 +6,42 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkcalendar import Calendar
 import datetime
 
+
 def volunteerList():
 
-    def setupScreen():
-        global new_volunteer
-        global volunteer_name_list
-        global emergency_database_list
-        global camp_ID_list
-        global current_volunteer_list
-        global username
-        global password
+    volunteer_entry_screen = Tk()
+    volunteer_entry_screen.geometry("600x1000")
+    volunteer_entry_screen.title("Volunteer Entry Screen")
 
-        current_volunteer_list = []
-        volunteer_file = open("volunteer_database.txt", "r")
-        for line in volunteer_file:
-            line_list = line.split("%")
-            current_volunteer_list.append(line_list)
+    current_volunteer_list = []
+    volunteer_file = open("volunteer_database.txt", "r")
+    for line in volunteer_file:
+        line_list = line.split("%")
+        current_volunteer_list.append(line_list)
 
-        volunteer_file.close()
+    volunteer_file.close()
 
-        new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+    new_volunteer = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
-        new_volunteer[1] = current_volunteer_list[-1][1]
-        new_volunteer[3] = current_volunteer_list[-1][3]
-        new_volunteer[4] = current_volunteer_list[-1][4]
-        new_volunteer[10] = current_volunteer_list[-1][10]
-        new_volunteer[11] = current_volunteer_list[-1][11]
-        del current_volunteer_list[-1]
+    new_volunteer[1] = current_volunteer_list[-1][1]
+    new_volunteer[3] = current_volunteer_list[-1][3]
+    new_volunteer[4] = current_volunteer_list[-1][4]
+    new_volunteer[10] = current_volunteer_list[-1][10]
+    new_volunteer[11] = current_volunteer_list[-1][11]
+    del current_volunteer_list[-1]
 
+    emergency_database_file = open("emergency_database.txt", "r")
+    emergency_database_list = []
+    for line in emergency_database_file:
+        line_list = line.split("%")
+        emergency_database_list.append(line_list)
+    emergency_database_file.close()
 
-        #List of camp names
-        emergency_database_file = open("camp_database.txt", "r")
-        emergency_database_list = []
-        for line in emergency_database_file:
-            line_list = line.split("%")
-            emergency_database_list.append(line_list)
-        emergency_database_file.close()
-
-        camp_ID_list = []
-        for i in range(0, len(emergency_database_list)):
-            camp_ID_list.append(emergency_database_list[i][0])
-
-        campTable()
-
-
+    camp_ID_list = []
+    for i in range(0, len(emergency_database_list)):
+        camp_ID_list.append(emergency_database_list[i][0])
 
     def campTable():
-        global select_camp_table
-        global emergency_database_list
-        global select_camp_table_label
-        global select_camp_table_button
-        global volunteer_entry_screen
-        global emergency_database_list
-        global camp_ID_list
-        global new_volunteer
 
         volunteer_number_print = Label(volunteer_entry_screen, text="Your volunteer numbers is %s" %(new_volunteer[1]))
         volunteer_number_print.pack()
@@ -84,216 +65,172 @@ def volunteerList():
         select_camp_table.heading("Location", text="Location", anchor=CENTER)
 
         for i in range(0, len(emergency_database_list)):
-            select_camp_table.insert(parent='', index=i, iid=i,
-                                     values=(emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
-            i += 1
+            select_camp_table.insert(parent='', index=i, iid=i, values=(emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
 
         select_camp_table.pack()
 
-        select_camp_table_button = Button(volunteer_entry_screen, text="Continue", command=deleteTable)
+        form_frame = Frame(volunteer_entry_screen)
+        form_frame.pack()
+
+        def volunteerEntry():
+
+            select_camp_table_button.destroy()
+
+            for widget in form_frame.winfo_children():
+                widget.destroy()
+
+            select_camp = StringVar()
+            full_name = StringVar()
+            email = StringVar()
+            phone_area_code = StringVar()
+            phone_number = StringVar()
+            gender = StringVar()
+
+            select_camp_label = Label(form_frame, text="Please enter the Camp ID")
+            select_camp_label.pack()
+            select_camp_select = Entry(form_frame, textvariable=select_camp)
+            select_camp_select.pack()
+
+            full_name_label = Label(form_frame, text="Please enter your full name")
+            full_name_label.pack()
+            full_name_entry = Entry(form_frame, textvariable=full_name)
+            full_name_entry.pack()
+
+            email_label = Label(form_frame, text="Please enter an email address")
+            email_label.pack()
+            email_entry = Entry(form_frame, textvariable=email)
+            email_entry.pack()
+
+            phone_frame = Frame(form_frame)
+            phone_frame.pack()
+
+            phone_number_label = Label(phone_frame, text="Please enter a phone number")
+            phone_number_label.pack()
+            area_code_sign = Label(phone_frame, text="+")
+            area_code_sign.pack(side=LEFT)
+            phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
+            phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
+            phone_number_entry = Entry(phone_frame, textvariable=phone_number)
+            phone_number_entry.pack(side=LEFT)
+
+            gender_label = Label(form_frame, text="Please enter the gender you identify with")
+            gender_label.pack()
+            gender_entry = Entry(form_frame, textvariable=gender)
+            gender_entry.pack()
+
+            today = datetime.datetime.today()
+
+            DOB_calendar_label = Label(form_frame, text="Please enter your date of birth")
+            DOB_calendar_label.pack()
+            DOB_calendar = Calendar(form_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
+            DOB_calendar.pack()
+
+
+            def confirmAge():
+
+                DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
+
+                volunteer_age = 0
+
+                if DOB.month < today.month and today.year > DOB.year:
+                    volunteer_age = today.year - DOB.year
+
+                elif DOB.month > DOB.month and today.year > DOB.year:
+                    volunteer_age = today.year - DOB.year - 1
+
+                elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
+                    volunteer_age = today.year - DOB.year - 1
+
+                elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
+                    volunteer_age = today.year - DOB.year
+
+                volunteer_age = str(volunteer_age)
+
+                new_volunteer_error_list = []
+
+                def newvolunteerVerify():
+                    DOB_calendar_label.config(text="DoB is Valid!", fg="green")
+                    select_camp_label.config(text="Camp ID is Valid!", fg="green")
+                    full_name_label.config(text="Name is Valid!", fg="green")
+                    email_label.config(text="Email is Valid!", fg="green")
+                    phone_number_label.config(text="Phone Number is Valid!", fg="green")
+                    gender_label.config(text="Gender is Valid!", fg="green")
+                    new_volunteer_error_list.clear()
+                    if str(volunteer_age) == str(0):
+                        DOB_calendar_label.config(
+                            text="Please enter your DOB",
+                            fg="#f00")
+                        new_volunteer_error_list.append("d1")
+                    if select_camp.get() not in camp_ID_list:
+                        select_camp_label.config(
+                            text="Please enter a valid Camp ID",
+                            fg="#f00")
+                        new_volunteer_error_list.append("e1")
+                    if len(full_name.get()) == 0 or full_name.get() == ' ':
+                        full_name_label.config(
+                            text="Please enter your full name.",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e2")
+                    if '@' not in email.get() or '.' not in email.get():
+                        email_label.config(
+                            text="Please enter a valid email address",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e3")
+                    if len(phone_area_code.get()) > 4:
+                        phone_number_label.config(
+                            text="Please enter a valid phone area code and a valid phone number",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e4")
+                    if len(phone_number.get()) > 15 or len(
+                            phone_number.get()) < 7 or phone_number.get().isalnum() != True:
+                        phone_number_label.config(
+                            text="Please enter a valid phone area code and a valid phone number",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e5")
+                    if len(gender.get()) == 0 or gender.get() == ' ':
+                        gender_label.config(
+                            text="Please enter a gender. If you prefer not to specify a gender, enter n/a.",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e6")
+
+                newvolunteerVerify()
+                if len(new_volunteer_error_list) > 0:
+                    pass
+                else:
+                    def createvolunteerSubmit():
+
+                        phone_number_complete = ("%s%s" % (phone_area_code.get(), phone_number.get()))
+
+                        new_volunteer[0] = select_camp.get()
+                        new_volunteer[2] = full_name.get()
+                        new_volunteer[5] = email.get()
+                        new_volunteer[6] = phone_number_complete
+                        new_volunteer[7] = gender.get()
+                        new_volunteer[8] = str(DOB)
+                        new_volunteer[9] = volunteer_age
+
+                        current_volunteer_list.append(new_volunteer)
+                        volunteer_file_write = open("volunteer_database.txt", "r+")
+                        for i in range(0, len(current_volunteer_list)):
+                            current_volunteer_string = '%'.join(current_volunteer_list[i])
+                            volunteer_file_write.write("%s" % (current_volunteer_string))
+                            i += 1
+                        volunteer_file_write.close()
+                        closeScreen()
+
+                    createvolunteerSubmit()
+
+            emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
+            emergency_submit_button.pack()
+
+        select_camp_table_button = Button(volunteer_entry_screen, text="Continue", command=volunteerEntry)
         select_camp_table_button.pack()
 
-
-    def deleteTable():
-        global select_camp_table
-        global select_camp_table_label
-        global select_camp_table_button
-
-        select_camp_table.destroy()
-        select_camp_table_button.destroy()
-        select_camp_table_button.destroy()
-        volunteerEntry()
-
-
-    def volunteerEntry():
-        global camp_ID_list
-        global volunteer_entry_screen
-        global select_camp_label
-        global username_label
-        global password_label
-        global email_label
-        global phone_number_label
-        global gender_label
-        global age_label
-        global availability_label
-        global email
-        global phone_area_code
-        global phone_number
-        global gender
-        global age
-        global volunteer_availability
-        global select_camp
-        global volunteer_age
-        global full_name
-        global DOB
-        global age
-        global full_name_label
-        global DOB_calendar
-        global today
-
-
-        select_camp = StringVar()
-        full_name = StringVar()
-        email = StringVar()
-        phone_area_code = StringVar()
-        phone_number = StringVar()
-        gender = StringVar()
-        age = StringVar()
-        volunteer_availability = StringVar()
-
-        select_camp_label = Label(volunteer_entry_screen, text="Please select a camp")
-        select_camp_label.pack()
-        select_camp_select = OptionMenu(volunteer_entry_screen, select_camp, *camp_ID_list)
-        select_camp_select.pack()
-
-        full_name_label = Label(volunteer_entry_screen, text="Please enter your full name")
-        full_name_label.pack()
-        full_name_entry = Entry(volunteer_entry_screen, textvariable=full_name)
-        full_name_entry.pack()
-
-
-        email_label = Label(volunteer_entry_screen, text="Please enter an email address")
-        email_label.pack()
-        email_entry = Entry(volunteer_entry_screen, textvariable=email)
-        email_entry.pack()
-
-        phone_frame = Frame(volunteer_entry_screen)
-        phone_frame.pack()
-
-        phone_number_label = Label(phone_frame, text="Please enter a phone number")
-        phone_number_label.pack()
-        area_code_sign = Label(phone_frame, text="+")
-        area_code_sign.pack(side=LEFT)
-        phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
-        phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
-        phone_number_entry = Entry(phone_frame, textvariable=phone_number)
-        phone_number_entry.pack(side=LEFT)
-
-        gender_label = Label(volunteer_entry_screen, text="Please enter the gender you identify with")
-        gender_label.pack()
-        gender_entry = Entry(volunteer_entry_screen, textvariable=gender)
-        gender_entry.pack()
-
-        today = datetime.datetime.today()
-
-        DOB_calendar_label = Label(volunteer_entry_screen, text="Please enter your date of birth")
-        DOB_calendar_label.pack()
-        DOB_calendar = Calendar(volunteer_entry_screen, date_pattern="d/m/y", selectmode='day', maxdate=today)
-        DOB_calendar.pack()
-
-        DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
-
-
-
-        emergency_submit_button = Button(volunteer_entry_screen, text="Submit", command=confirmAge)
-        emergency_submit_button.pack()
-
-    def confirmAge():
-        global volunteer_age
-        global DOB
-        global DOB_calendar
-        global today
-
-
-        DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
-
-        volunteer_age = 0
-
-        if DOB.month < today.month and today.year > DOB.year:
-            volunteer_age = today.year - DOB.year
-
-        elif DOB.month > DOB.month and today.year > DOB.year:
-            volunteer_age = today.year - DOB.year - 1
-
-        elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
-            volunteer_age = today.year - DOB.year - 1
-
-        elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
-            volunteer_age = today.year - DOB.year
-
-        volunteer_age = str(volunteer_age)
-
-        newvolunteerVerify()
-
-
-
-    def newvolunteerVerify():
-        global volunteer_name_list
-        global volunteer_entry_screen
-        global select_camp_label
-        global username_label
-        global password_label
-        global email_label
-        global phone_number_label
-        global gender_label
-        global age_label
-        global availability_label
-        global username
-        global password
-        global email
-        global phone_area_code
-        global phone_number
-        global gender
-        global age
-        global volunteer_availability
-        global full_name
-        global full_name_label
-
-        if len(full_name.get()) == 0 or full_name.get() == ' ':
-            full_name_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
-        elif '@' not in email.get() or '.' not in email.get():
-            email_label.config(text="Please enter a valid email address", fg='#f00')
-        elif len(phone_area_code.get())>4:
-            phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-        elif len(phone_number.get())>15 or len(phone_number.get()) < 7 or phone_number.get().isalnum() != True:
-            phone_number_label.config(text="Please enter a valid phone area code (including a + symbol) and a valid phone number", fg='#f00')
-        elif len(gender.get()) == 0 or gender.get() == ' ':
-            gender_label.config(text="Please enter a gender. If you prefer not to specify a gender, enter n/a.", fg='#f00')
-        else:
-            createvolunteerSubmit()
-
-
-
-    # Status will be determined by the admin
-    def createvolunteerSubmit():
-        global new_volunteer
-        global username
-        global password
-        global email
-        global phone_area_code
-        global phone_number
-        global gender
-        global age
-        global volunteer_availability
-        global select_camp
-        global DOB
-        global age
-        global current_volunteer_list
-        global volunteer_age
-
-        phone_number_complete = ("%s%s"%(phone_area_code.get(), phone_number.get()))
-
-        new_volunteer[0] = select_camp.get()
-        new_volunteer[2] = full_name.get()
-        new_volunteer[5] = email.get()
-        new_volunteer[6] = phone_number_complete
-        new_volunteer[7] = gender.get()
-        new_volunteer[8] = str(DOB)
-        new_volunteer[9] = volunteer_age
-
-        current_volunteer_list.append(new_volunteer)
-        volunteer_file_write = open("volunteer_database.txt", "r+")
-        for i in range(0, len(current_volunteer_list)):
-            current_volunteer_string = '%'.join(current_volunteer_list[i])
-            volunteer_file_write.write("%s" %(current_volunteer_string))
-            i += 1
-        volunteer_file_write.close()
-        closeScreen()
-
+    campTable()
 
     def closeScreen():
         volunteer_entry_screen.destroy()
-        Create_Volunteer_Close_Screen = Toplevel()
+        Create_Volunteer_Close_Screen = Tk()
         Create_Volunteer_Close_Screen.title("Volunteer Request Successfully Submitted")
         Create_Volunteer_Close_Screen.geometry("500x650")
 
@@ -302,17 +239,4 @@ def volunteerList():
         return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=Create_Volunteer_Close_Screen.destroy)
         return_home_button.pack()
 
-
-
-    #Screen Setup
-
-    def VolunteerEntryScreen():
-        global volunteer_entry_screen
-        volunteer_entry_screen = Toplevel()
-        volunteer_entry_screen.geometry("500x600")
-        volunteer_entry_screen.title("Volunteer Entry Screen")
-        setupScreen()
-
-        volunteer_entry_screen.mainloop()
-
-    VolunteerEntryScreen()
+    volunteer_entry_screen.mainloop()

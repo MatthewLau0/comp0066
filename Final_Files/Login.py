@@ -3,38 +3,30 @@ import hashlib
 import Register_Info
 import Volunteer_Home
 import Admin_Home
-#import Admin_Create_Plan
-#import Admin_View_Plan
-#import Admin_Update_Plan
-#import Admin_Manage_Volunteers
 import Camp_Lead
-#import Volunteer_Create_Family
-#import Volunteer_View_Family
-#import Volunteer_Update_Family
-#import Volunteer_Settings
 import Clean_Database
 
 
 Clean_Database.clean_volunteer_database()
+Clean_Database.clean_login_database()
 
 master_window = Tk()
-
-
-
-
+master_window.title("Welcome")
 
 
 def main_signin_screen():
     master_window.destroy()
     main_window = Tk()
+    main_window.title("Sign In")
+    main_window.geometry("300x100")
 
     def register_volunteer():
-        global register_screen
         Clean_Database.clean_volunteer_database()
+        Clean_Database.clean_login_database()
         main_window.destroy()
         register_screen = Tk()
         register_screen.title("Register")
-        register_screen.geometry("300x250")
+
 
         username = StringVar()
         password = StringVar()
@@ -183,6 +175,7 @@ def main_signin_screen():
                 volunteer_append.write(f"\n{new_user_string}")
                 volunteer_append.close()
 
+                register_screen.destroy()
                 Register_Info.volunteerList()
 
         register_button1 = Button(register_screen, text="Register", command=register_check)
@@ -190,8 +183,11 @@ def main_signin_screen():
 
         register_screen.mainloop()
 
+
+
     def volunteer_login():
         Clean_Database.clean_volunteer_database()
+        Clean_Database.clean_login_database()
 
         choose_role_window.destroy()
         volunteer_login_screen = Tk()
@@ -235,11 +231,13 @@ def main_signin_screen():
             for line in file:
                 line_list = line.split("%")
                 current_volunteer_list_2.append(line_list)
+            file.close()
 
             logins_list = []
             logins_status_list = []
             camp_lead_list = []
             usernames_list = []
+            camp_lead_list.clear()
             for i in current_volunteer_list_2:
                 string_user = i[3]
                 string_password = i[4]
@@ -276,26 +274,19 @@ def main_signin_screen():
                 close_button2.pack()
                 login_error_window.mainloop()
             elif (login_entry_string in logins_list) and (login_entry_status_string in logins_status_list):
-
-                volunteer_login_screen.destroy()
-
                 for i in current_volunteer_list_2:
                     if i[3] == username_entry.get():
                         string = "%".join(i)
                         with open("successful_login.txt", "a") as login_s:
                             login_s.write(f"{string}\n")
-
+                login_s.close()
                 if login_entry_string not in camp_lead_list:
+                    volunteer_login_screen.destroy()
                     Volunteer_Home.function1()
-                elif login_entry_string in camp_lead_list:
+                if login_entry_string in camp_lead_list:
+                    volunteer_login_screen.destroy()
                     Camp_Lead.camp_id_generate()
                     Camp_Lead.main()
-                else:
-                    unknown_error_label_1 = Label(login_error_window, text="An unknown error has occurred. Please try again")
-                    unknown_error_label_1.pack()
-                    close_button3 = Button(login_error_window, text="Close", command=login_error_window.destroy)
-                    close_button3.pack()
-                    login_error_window.mainloop()
             else:
                 unknown_error_label_2 = Label(login_error_window, text="An unknown error has occurred. Please try again")
                 unknown_error_label_2.pack()
@@ -366,7 +357,6 @@ def main_signin_screen():
                 admin_login_error_window.mainloop()
             elif (login_entry_string in logins_list):
                 admin_login_screen.destroy()
-                admin_login_error_window.destroy()
                 Admin_Home.function1()
             else:
                 unknown_error_label = Label(admin_login_error_window, text="An unknown error has occurred. Please try again")
@@ -382,9 +372,11 @@ def main_signin_screen():
 
     def choose_role():
         Clean_Database.clean_volunteer_database()
+        Clean_Database.clean_login_database()
         global choose_role_window
         main_window.destroy()
         choose_role_window = Tk()
+        choose_role_window.title("Login")
 
         volunteer_button = Button(choose_role_window, text="Volunteer Login", command=volunteer_login)
         volunteer_button.pack()
@@ -402,7 +394,9 @@ def main_signin_screen():
     main_window.mainloop()
 
 def app_info():
-    pass
+    app_info_screen = Toplevel(master_window)
+    app_info_screen.title("How to Use")
+    app_info_screen.mainloop()
 
 
 signin = Button(master_window, text="Sign In", command=main_signin_screen)

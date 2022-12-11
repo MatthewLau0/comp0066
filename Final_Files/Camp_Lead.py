@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 
 
-
 def camp_id_generate():
     global camp_id
     logins_file = open("successful_login.txt", "r")
@@ -15,8 +14,6 @@ def camp_id_generate():
         camp_id = logins_list[-1][0]
     else:
         pass
-
-
 
 
 def volunteers_portal():
