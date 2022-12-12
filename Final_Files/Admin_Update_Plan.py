@@ -5,6 +5,7 @@ import datetime
 
 import tkintermapview
 from tkcalendar import Calendar
+from country_list import countries_for_language
 
 def updateexistingForm():
 
@@ -115,6 +116,7 @@ def updateexistingForm():
         global emergency_database_list
         global select_index
         global select_index_label
+        global emergency_database_list_index
 
         select_index = StringVar()
 
@@ -248,6 +250,11 @@ def updateexistingForm():
         global update_emergency_map
         global start_date_calendar
         global update_emergency_location_label
+        global camp_name_label
+        global emergency_type_label
+        global emergency_description_label
+        global status_label
+        global area_affected
 
         update_emergency_table_button.destroy()
 
@@ -622,6 +629,7 @@ def updateexistingForm():
         global endDate
         global status
         global emergency_type_string
+        global Update_Camp_Summary_Screen
 
         Update_Emergency_Entry_Screen.destroy()
 
