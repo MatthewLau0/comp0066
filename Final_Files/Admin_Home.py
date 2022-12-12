@@ -18,6 +18,7 @@ def adminHome():
 
     def Manage_Volunteers():
         from Admin_Manage_Volunteers import manageVolunteers
+        admin_home.destroy()
         manageVolunteers()
 
     def View_Camps():

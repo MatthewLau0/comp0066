@@ -202,7 +202,7 @@ def volunteerList():
                 else:
                     def createvolunteerSubmit():
 
-                        phone_number_complete = ("%s%s" % (phone_area_code.get(), phone_number.get()))
+                        phone_number_complete = ("%s#%s" % (phone_area_code.get(), phone_number.get()))
 
                         new_volunteer[0] = select_camp.get()
                         new_volunteer[2] = full_name.get()
