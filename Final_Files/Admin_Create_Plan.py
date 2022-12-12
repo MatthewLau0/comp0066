@@ -98,7 +98,7 @@ def createnewemergencyPlan(screen):
         global status_label
 
         Create_New_Emergency_Home_Screen.destroy()
-        New_Camp_Screen = Toplevel(admin_home_screen_create)
+        New_Camp_Screen = Tk()
         New_Camp_Screen.title("Create a New Emergency")
         New_Camp_Screen.geometry("500x600")
 
@@ -621,7 +621,7 @@ def createnewemergencyPlan(screen):
         Create_New_Emergency_Home_Screen.destroy()
     def Create_Emergency_Screen():
         global Create_New_Emergency_Home_Screen
-        Create_New_Emergency_Home_Screen = Toplevel(admin_home_screen_create)
+        Create_New_Emergency_Home_Screen = Tk()
         Create_New_Emergency_Home_Screen.geometry("500x600")
         Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
         Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
