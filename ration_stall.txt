@@ -1,3 +1,2 @@
 1,1,Stall 1,100,5,PACKS AVAILABLE,95,North Wing,
-2,1,Stall 1,100,0,PACKS REMAINING,100,North Wing,
-3,1,Stall 1, 100,99, PACKS REMAINING,1, East Wing,
+3,1,Stall 1,100,100,PACKS AVAILABLE,0,North Wing,
