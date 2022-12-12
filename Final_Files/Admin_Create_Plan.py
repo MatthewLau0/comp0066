@@ -481,6 +481,7 @@ def createnewemergencyPlan():
         global emergency_type_entry
         global emergency_marker_country
         global New_Camp_Summary_Screen
+        global area_affected
 
         New_Camp_Screen.destroy()
         New_Camp_Summary_Screen = Tk()
@@ -499,7 +500,7 @@ def createnewemergencyPlan():
         New_Camp_Description_Summary_Label = Label(New_Camp_Summary_Screen, text="Your description of the new emergency is: %s" %(emergency_description.get()))
         New_Camp_Description_Summary_Label.pack()
 
-        New_Camp_Area_Summary_Label = Label(New_Camp_Summary_Screen, text="The country your emergency is in is: %s" %(emergency_marker_country))
+        New_Camp_Area_Summary_Label = Label(New_Camp_Summary_Screen, text="The country your emergency is in is: %s" %(area_affected.get()))
         New_Camp_Area_Summary_Label.pack()
 
         New_Camp_StartDate_Summary_Label = Label(New_Camp_Summary_Screen, text="The start date of the new emergency is: %s" %(startDate))
@@ -543,7 +544,7 @@ def createnewemergencyPlan():
         new_emergency[1] = camp_name.get()
         new_emergency[2] = emergency_type_string
         new_emergency[3] = emergency_description.get()
-        new_emergency[4] = emergency_marker_country
+        new_emergency[4] = area_affected.get()
         new_emergency[5] = str(startDate)
         new_emergency[6] = str(endDate)
         new_emergency[7] = status

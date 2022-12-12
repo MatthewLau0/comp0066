@@ -4,3 +4,4 @@
 4%CampRussia%Tsunami%Tsunami in Camp Russia%Россия%2022-12-05%NA%Active
 5%CampEngland%Flood%Flood in Camp England%France%2022-12-05%NA%Active
 6%CampItaly%Earthquake%Earthquake in Italy%Italia%2022-09-13%NA%Active
+7%CampChina%Earthquake%Earthquake in China%NA%2022-11-15%NA%Active
