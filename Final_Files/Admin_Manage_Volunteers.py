@@ -118,7 +118,7 @@ def manageVolunteers():
                 elif i != deactivated_volunteer_activate.get():
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
                     volunteer_file_write.write(current_volunteer_string)
-                i += 1
+
             volunteer_file_write.close()
 
             successful_update_label = Label(manage_volunteer_home_screen,
