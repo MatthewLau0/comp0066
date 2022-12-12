@@ -9,11 +9,11 @@ def adminHome():
     def Create_Emergency():
         global admin_home
         from Admin_Create_Plan import createnewemergencyPlan
-        createnewemergencyPlan(admin_home)
+        createnewemergencyPlan()
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm
-        updateexistingForm()
+        updateexistingForm(admin_home)
 
     def Manage_Volunteers():
         from Admin_Manage_Volunteers import manageVolunteers
