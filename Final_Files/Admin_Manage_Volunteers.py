@@ -8,6 +8,7 @@ def manageVolunteers():
         global current_volunteer_list
         global manage_volunteer_home_screen
 
+
         volunteer_file = open("volunteer_database.txt", "r")
 
         current_volunteer_list = []
@@ -15,7 +16,6 @@ def manageVolunteers():
             line_list = line.split("%")
             current_volunteer_list.append(line_list)
         volunteer_file.close()
-
         viewexistingVolunteers()
 
     def viewexistingVolunteers():
@@ -75,15 +75,13 @@ def manageVolunteers():
 
             deactivated_volunteer_activate_label.config(
                 text="Please enter the index number of the volunteer that you would like to activate", fg="#000000")
-            try:
-                if deactivated_volunteer_activate.get() not in deactivated_volunteers_IDs:
-                    deactivated_volunteer_activate_label.config(
+
+            if deactivated_volunteer_activate.get() not in deactivated_volunteers_IDs:
+                deactivated_volunteer_activate_label.config(
                         text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
                         fg="#f00")
-            except ValueError:
-                deactivated_volunteer_activate_label.config(text="Please enter a numeric value.", fg="#f00")
-            except Exception:
-                deactivated_volunteer_activate_label.config(text="Please enter an ID number.", fg="#f00")
+            elif deactivated_volunteer_activate.get() == ' ' or len(deactivated_volunteer_activate.get()) == 0:
+                deactivated_volunteer_activate_label.config(text="Please enter a value.", fg="#f00")
             else:
                 submitvolunteerStatus()
 
@@ -117,9 +115,11 @@ def manageVolunteers():
                 if i == (int(deactivated_volunteer_activate.get())-1):
                     current_volunteer_list[i][-3] = "Active"
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
+                    print(current_volunteer_string)
                     volunteer_file_write.write(current_volunteer_string)
                 elif i != deactivated_volunteer_activate.get():
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
+                    print(current_volunteer_string)
                     volunteer_file_write.write(current_volunteer_string)
                 i += 1
             volunteer_file_write.close()

@@ -48,7 +48,6 @@ manage_volunteers_button = Button(manage_volunteers_frame, text="Manage Voluntee
 manage_volunteers_button.pack()
 view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps)
 view_camps_button.pack()
-print(list(pycountry.countries))
 
 admin_home.mainloop()
 
