@@ -1,14 +1,12 @@
-#Could we add scrollbar?, sort image
-
 #Import modules - is pip included in standard installers
 from tkinter import *
 import tkintermapview
 from tkcalendar import Calendar
 import datetime
+import pycountry
 
-def createnewemergencyPlan(screen):
+def createnewemergencyPlan():
     global admin_home_screen_create
-    admin_home_screen_create = screen
     def screenSetup():
         global new_emergency
         global emergency_database_list
@@ -96,6 +94,7 @@ def createnewemergencyPlan(screen):
         global start_date_label
         global close_date_label
         global status_label
+        global emergency_location_label
 
         Create_New_Emergency_Home_Screen.destroy()
         New_Camp_Screen = Tk()
@@ -157,50 +156,11 @@ def createnewemergencyPlan(screen):
         emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
         emergency_description_entry.pack()
 
-
-
-        def mapReset():
-            global emergency_map
-            global emergency_marker
-            global emergency_marker_country
-
-            emergency_marker.delete()
-            emergency_marker_country = "NA"
-
-
-        def add_emergency_marker(coords):
-            global emergency_marker
-            global emergency_marker_country
-            global emergency_map
-            global emergency_marker_label
-            if emergency_marker_country != "NA":
-                emergency_marker_label.config(text="Please only select one marker", fg='#f00')
-                emergency_marker_label.pack()
-                mapReset()
-            else:
-                emergency_marker = emergency_map.set_marker(coords[0], coords[1], text="Emergency Marker")
-                emergency_marker_country = tkintermapview.convert_coordinates_to_country(coords[0], coords[1])
-                emergency_map.configure()
-                return emergency_marker_country
-
-        create_map_frame = Frame(New_Camp_Screen)
-        create_map_frame.pack()
-
-        emergency_marker_label = Label(create_map_frame,
-                                       text="Please right click the below map to select the country of the emergency")
-        emergency_marker_label.pack()
-
-        emergency_map = tkintermapview.TkinterMapView(create_map_frame, width=150, height=150, corner_radius=0)
-        emergency_map.set_zoom(2)
-        emergency_map.pack()
-        emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker,
-                                                   pass_coords=True)
-        map_reset_button = Button(create_map_frame, text="Reset Map", command=mapReset)
-        map_reset_button.pack()
-
-        map_confirm = IntVar()
-        map_confirm_entry = Checkbutton(create_map_frame, variable=map_confirm, onvalue=1, offvalue=0, text="Confirm Map Entry")
-        map_confirm_entry.pack()
+        emergency_location_label = Label(New_Camp_Screen,
+                                         text="Please enter the country in which the emergency has occured")
+        emergency_location_label.pack()
+        emergency_location_entry = Entry(New_Camp_Screen, textvariable=area_affected)
+        emergency_location_entry.pack()
 
         from datetime import date
         today = date.today()
@@ -466,15 +426,16 @@ def createnewemergencyPlan(screen):
         global camp_name_label
         global emergency_type_label
         global emergency_description_label
-        global emergency_marker_label
         global start_date_label
         global close_date_label
         global status_label
+        global area_affected
+        global emergency_location_label
 
         camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
         emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
         emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
-        emergency_marker_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#000000')
+        emergency_location_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#000000')
         status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
 
 
@@ -485,8 +446,8 @@ def createnewemergencyPlan(screen):
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
-        elif (map_confirm.get() != 1) or emergency_marker_country == "NA":
-            emergency_marker_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#f00')
+        elif area_affected.get() not in list(pycountry.countries):
+            emergency_location_label.config(text="Please enter the country where the emergency has occured", fg='#f00')
         elif status == "NA":
             if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
                 status_label.config(text="Please select an activation status for the emergency.", fg='#f00')
@@ -516,8 +477,10 @@ def createnewemergencyPlan(screen):
         global emergency_type_other
         global emergency_type_entry
         global emergency_marker_country
+        global New_Camp_Summary_Screen
 
-        New_Camp_Summary_Screen = Toplevel(admin_home_screen_create)
+        New_Camp_Screen.destroy()
+        New_Camp_Summary_Screen = Tk()
         New_Camp_Summary_Screen.title("Submit New Emergency")
         New_Camp_Summary_Screen.geometry("500x350")
 
@@ -588,7 +551,8 @@ def createnewemergencyPlan(screen):
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
-        New_Emergency_Close_Screen = Toplevel(admin_home_screen_create)
+        New_Camp_Summary_Screen.destroy()
+        New_Emergency_Close_Screen = Tk()
         New_Emergency_Close_Screen.title("Emergency Successfully Submitted")
         New_Emergency_Close_Screen.geometry("500x650")
 
