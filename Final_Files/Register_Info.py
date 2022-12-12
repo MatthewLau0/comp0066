@@ -86,6 +86,9 @@ def volunteerList():
             phone_number = StringVar()
             gender = StringVar()
 
+            drop_down_frame_register = Frame(form_frame)
+            drop_down_frame_register.pack()
+
             select_camp_label = Label(form_frame, text="Please enter the Camp ID")
             select_camp_label.pack()
             select_camp_select = Entry(form_frame, textvariable=select_camp)

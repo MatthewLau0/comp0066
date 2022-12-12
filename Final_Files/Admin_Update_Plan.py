@@ -104,35 +104,8 @@ def updateexistingForm():
 
         emergency_database_table.pack()
 
-        emergency_database_table_button = Button(Update_Emergency_Screen, text="Continue", command=deleteTable)
+        emergency_database_table_button = Button(Update_Emergency_Screen, text="Continue", command=SelectIndex)
         emergency_database_table_button.pack()
-
-    def deleteTable():
-        global emergency_database_table
-        global View_Table_Yes
-        global Index_Known_No
-        emergency_database_table.destroy()
-        if View_Table_Yes.get() == 1:
-            IndexKnown()
-        elif Index_Known_No.get() == 1:
-            SelectIndex()
-        else:
-            IndexKnown()
-
-
-    def IndexKnown():
-        global Update_Emergency_Screen
-        global Index_Known_No
-
-        Index_Known_Yes = IntVar()
-        Index_Known_No = IntVar()
-
-        Index_Known_Label = Label(Update_Emergency_Screen, text="Do you know the index number of the camp that you would like to update?")
-        Index_Known_Label.pack()
-        index_known_yes = Checkbutton(Update_Emergency_Screen, variable=Index_Known_Yes, onvalue=1, offvalue=2, text="Yes", command=SelectIndex)
-        index_known_yes.pack()
-        index_known_no = Checkbutton(Update_Emergency_Screen, variable=Index_Known_No, onvalue=1, offvalue=2, text="No", command=ViewTable)
-        index_known_no.pack()
 
     def SelectIndex():
         global Update_Emergency_Screen
@@ -147,15 +120,24 @@ def updateexistingForm():
             emergency_database_list_index.append((emergency_database_list[i])[0])
             i += 1
 
-        select_index_label = Label(Update_Emergency_Screen, text="Please select the index number of the camp you would like to update")
+        select_index_label = Label(Update_Emergency_Screen, text="Please enter the index number of the camp you would like to update")
         select_index_label.pack()
 
-        select_index_select = OptionMenu(Update_Emergency_Screen, select_index, *emergency_database_list_index)
-        select_index_select.pack()
+        select_index_enter = Entry(Update_Emergency_Screen, textvariable=select_index)
+        select_index_enter.pack()
 
         select_index_select_button = Button(Update_Emergency_Screen, text="Submit", command=printupdatingCamp)
         select_index_select_button.pack()
 
+    def submitCampErrorCheck():
+        global select_index
+        global emergency_database_list_index
+        global select_index_label
+
+        if select_index not in emergency_database_list_index:
+            select_index_label.config(text="Please enter an index number from the table above.", fg='#f00')
+        else:
+            printupdatingCamp()
 
     def printupdatingCamp():
         global update_emergency_frame_two
@@ -173,7 +155,8 @@ def updateexistingForm():
         if select_index.get() == '':
             select_index_label.config(fg="#f00")
         else:
-            Update_Emergency_Entry_Screen = Toplevel(Update_Emergency_Screen)
+            Update_Emergency_Screen.destroy()
+            Update_Emergency_Entry_Screen = Toplevel()
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
             Update_Emergency_Entry_Screen.geometry("500x650")
 
