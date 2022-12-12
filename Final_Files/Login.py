@@ -1,3 +1,7 @@
+import sys
+import subprocess
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 from tkinter import *
 import hashlib
 import Register_Info
@@ -5,10 +9,6 @@ import Volunteer_Home
 import Admin_Home
 import Camp_Lead
 import Clean_Database
-import sys
-import subprocess
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 
 
 def main():
