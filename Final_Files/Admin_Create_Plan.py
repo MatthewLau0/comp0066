@@ -435,7 +435,7 @@ def createnewemergencyPlan():
         camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
         emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
         emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
-        emergency_location_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#000000')
+        emergency_location_label.config(text="Please enter the country in which the emergency occured.", fg='#000000')
         status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
 
         countries = dict(countries_for_language('en'))
