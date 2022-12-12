@@ -3,7 +3,7 @@ from tkinter import *
 import tkintermapview
 from tkcalendar import Calendar
 import datetime
-import pycountry
+from country_list import countries_for_language
 
 def createnewemergencyPlan():
     global admin_home_screen_create
@@ -438,6 +438,9 @@ def createnewemergencyPlan():
         emergency_location_label.config(text="Please enter an area for the emergency, and check confirm.", fg='#000000')
         status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
 
+        countries = dict(countries_for_language('en'))
+        countries_list = list(countries.values())
+
 
 
         if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
@@ -446,7 +449,7 @@ def createnewemergencyPlan():
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
-        elif area_affected.get() not in list(pycountry.countries):
+        elif area_affected.get() not in countries_list:
             emergency_location_label.config(text="Please enter the country where the emergency has occured", fg='#f00')
         elif status == "NA":
             if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
