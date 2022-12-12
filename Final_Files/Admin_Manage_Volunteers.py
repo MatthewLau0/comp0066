@@ -72,7 +72,6 @@ def manageVolunteers():
                 deactivated_volunteers_IDs.append(deactivated_volunteers[i][1])
                 i += 1
 
-
             deactivated_volunteer_activate_label.config(
                 text="Please enter the index number of the volunteer that you would like to activate", fg="#000000")
 
@@ -115,11 +114,9 @@ def manageVolunteers():
                 if i == (int(deactivated_volunteer_activate.get())-1):
                     current_volunteer_list[i][-3] = "Active"
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
-                    print(current_volunteer_string)
                     volunteer_file_write.write(current_volunteer_string)
                 elif i != deactivated_volunteer_activate.get():
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
-                    print(current_volunteer_string)
                     volunteer_file_write.write(current_volunteer_string)
                 i += 1
             volunteer_file_write.close()
@@ -146,5 +143,3 @@ def manageVolunteers():
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
-
-manageVolunteers()
