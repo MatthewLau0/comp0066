@@ -9,7 +9,7 @@ def adminHome():
     def Create_Emergency():
         global admin_home
         from Admin_Create_Plan import createnewemergencyPlan
-        createnewemergencyPlan()
+        createnewemergencyPlan(admin_home)
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm

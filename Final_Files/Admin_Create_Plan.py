@@ -7,7 +7,8 @@ from tkcalendar import Calendar
 import datetime
 
 def createnewemergencyPlan(screen):
-    admin_create_screen = screen
+    global admin_home_screen_create
+    admin_home_screen_create = screen
     def screenSetup():
         global new_emergency
         global emergency_database_list
@@ -96,9 +97,8 @@ def createnewemergencyPlan(screen):
         global close_date_label
         global status_label
 
-
-
-        New_Camp_Screen = Toplevel(Create_New_Emergency_Home_Screen)
+        Create_New_Emergency_Home_Screen.destroy()
+        New_Camp_Screen = Toplevel(admin_home_screen_create)
         New_Camp_Screen.title("Create a New Emergency")
         New_Camp_Screen.geometry("500x600")
 
@@ -183,20 +183,23 @@ def createnewemergencyPlan(screen):
                 emergency_map.configure()
                 return emergency_marker_country
 
-        emergency_marker_label = Label(New_Camp_Screen,
+        create_map_frame = Frame(New_Camp_Screen)
+        create_map_frame.pack()
+
+        emergency_marker_label = Label(create_map_frame,
                                        text="Please right click the below map to select the country of the emergency")
         emergency_marker_label.pack()
 
-        emergency_map = tkintermapview.TkinterMapView(New_Camp_Screen, width=150, height=150, corner_radius=0)
+        emergency_map = tkintermapview.TkinterMapView(create_map_frame, width=150, height=150, corner_radius=0)
         emergency_map.set_zoom(2)
         emergency_map.pack()
         emergency_map.add_right_click_menu_command(label="Emergency Marker", command=add_emergency_marker,
                                                    pass_coords=True)
-        map_reset_button = Button(New_Camp_Screen, text="Reset Map", command=mapReset)
+        map_reset_button = Button(create_map_frame, text="Reset Map", command=mapReset)
         map_reset_button.pack()
 
         map_confirm = IntVar()
-        map_confirm_entry = Checkbutton(New_Camp_Screen, variable=map_confirm, onvalue=1, offvalue=0, text="Confirm Map Entry")
+        map_confirm_entry = Checkbutton(create_map_frame, variable=map_confirm, onvalue=1, offvalue=0, text="Confirm Map Entry")
         map_confirm_entry.pack()
 
         from datetime import date
@@ -514,7 +517,7 @@ def createnewemergencyPlan(screen):
         global emergency_type_entry
         global emergency_marker_country
 
-        New_Camp_Summary_Screen = Toplevel(Create_New_Emergency_Home_Screen)
+        New_Camp_Summary_Screen = Toplevel(admin_home_screen_create)
         New_Camp_Summary_Screen.title("Submit New Emergency")
         New_Camp_Summary_Screen.geometry("500x350")
 
@@ -585,7 +588,7 @@ def createnewemergencyPlan(screen):
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
-        New_Emergency_Close_Screen = Toplevel(Create_New_Emergency_Home_Screen)
+        New_Emergency_Close_Screen = Toplevel(admin_home_screen_create)
         New_Emergency_Close_Screen.title("Emergency Successfully Submitted")
         New_Emergency_Close_Screen.geometry("500x650")
 
@@ -616,9 +619,9 @@ def createnewemergencyPlan(screen):
     def destroyScreen():
         global Create_New_Emergency_Home_Screen
         Create_New_Emergency_Home_Screen.destroy()
-    def Create_Emergency_Screen(screen):
+    def Create_Emergency_Screen():
         global Create_New_Emergency_Home_Screen
-        Create_New_Emergency_Home_Screen = Toplevel(screen)
+        Create_New_Emergency_Home_Screen = Toplevel(admin_home_screen_create)
         Create_New_Emergency_Home_Screen.geometry("500x600")
         Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
         Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
@@ -628,5 +631,5 @@ def createnewemergencyPlan(screen):
 
         Create_New_Emergency_Home_Screen.mainloop()
 
-    Create_Emergency_Screen(admin_create_screen)
+    Create_Emergency_Screen()
 
