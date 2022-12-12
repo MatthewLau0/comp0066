@@ -286,10 +286,11 @@ def main():
                         if i[3] == username_entry.get():
                             string = "%".join(i)
                             with open("successful_login.txt", "a") as login_s:
-                                login_s.write(f"{string}\n")
+                                login_s.write(f"\n{string}")
                     login_s.close()
                     if login_entry_string not in camp_lead_list:
                         volunteer_login_screen.destroy()
+                        Volunteer_Home.camp_id_generate()
                         Volunteer_Home.volunteer_home_page()
                     if login_entry_string in camp_lead_list:
                         volunteer_login_screen.destroy()
