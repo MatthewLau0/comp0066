@@ -6,7 +6,6 @@ import tkcalendar
 import tkinter.messagebox
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
-import Volunteer_Home
 import tkinter.ttk
 
 def create_family():
@@ -375,7 +374,7 @@ def create_family():
 
     def finish_message():
         global screen3
-        screen3 = tkinter.Tk(Volunteer_Home.refugee_home)
+        screen3 = tkinter.Tk()
         screen3.geometry("300x120")
         screen3.title("Success!")
         finish_message_text = tkinter.Label(screen3, text="Successfully added new refugee!", fg='green')
