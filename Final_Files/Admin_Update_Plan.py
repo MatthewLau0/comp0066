@@ -261,6 +261,7 @@ def updateexistingForm(screen):
         global emergency_description_label
         global status_label
         global area_affected
+        global start_date_label
 
         update_emergency_table_button.destroy()
 
@@ -284,8 +285,8 @@ def updateexistingForm(screen):
         emergency_type_frame = Frame(Update_Emergency_Entry_Screen)
         emergency_type_frame.pack()
 
-        emergency_type_label = Label(Update_Emergency_Entry_Screen, text="Select the type of emergency")
-        emergency_type_label.pack(side=TOP)
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label.pack()
         emergency_type_flood = IntVar()
         emergency_type_tsunami = IntVar()
         emergency_type_earthquake = IntVar()
@@ -604,10 +605,7 @@ def updateexistingForm(screen):
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
-        if camp_name.get() != updating_camp_list[1]:
-            if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
-                camp_name_label.config(text="Please enter a name for the new camp", fg='#f00')
-        elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() != 1)):
+        if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() != 1)):
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
@@ -725,6 +723,7 @@ def updateexistingForm(screen):
 
     def updatescreenClose():
         global Update_Emergency_Screen
+        global Update_Emergency_Close_Screen
 
         Update_Camp_Summary_Screen.destroy()
         Update_Camp_Close_Screen = Tk()
@@ -735,13 +734,12 @@ def updateexistingForm(screen):
                                                     text="Your updated emergency has been successfully saved.")
         Update_Emergency_Close_Screen_Label.pack()
 
-        update_another_emergency_button = Button(Update_Camp_Close_Screen, text="Update another emergency", command=UpdateEmergencyHomeScreen)
-        update_another_emergency_button.pack()
         return_to_home_screen_button = Button(Update_Camp_Close_Screen, text="Return to homescreen", command=returnHome)
         return_to_home_screen_button.pack()
 
     def returnHome():
-        import Admin_Home
+        global Update_Emergency_Close_Screen
+        Update_Emergency_Close_Screen.destroy()
 
 
     #Scroll bar creating
@@ -759,5 +757,3 @@ def updateexistingForm(screen):
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
-
-updateexistingForm(Tk())

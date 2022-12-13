@@ -5,7 +5,7 @@ def table():
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
-        x = line.split("#")
+        x = line.split("%")
         volunteer_database_list.append(x)
 
     def deleteTable():

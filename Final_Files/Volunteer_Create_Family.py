@@ -37,7 +37,7 @@ def create_family():
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
-        x = line.split("#")
+        x = line.split("%")
         volunteer_database_list.append(x)
     volunteer_list_file.close()
 
@@ -292,10 +292,7 @@ def create_family():
             if int(ration_database_list[i][0]) == int(volunteer_current_camp_id):
                 rations_specific_camp_list_test.append(ration_database_list[i])
 
-        print(accommodation_specific_camp_list_test)
-        print(medical_specific_camp_list_test)
-        print(toilet_specific_camp_list_test)
-        print(rations_specific_camp_list_test)
+
 
         total_lol = int(number) + 1
 
@@ -409,9 +406,9 @@ def create_family():
 
         # Finding index for new refugee
         if len(volunteer_database_list) == 0:
-            new_refugee[0] = "1"
+            new_refugee[1] = "1"
         elif len(volunteer_database_list) >= 1:
-            new_refugee[0] = str((int((volunteer_database_list[-1])[0]) + 1))
+            new_refugee[1] = str((int((volunteer_database_list[-1])[1]) + 1))
 
         # GET ALL VALUES
         name = refugee_name.get()
@@ -467,7 +464,7 @@ def create_family():
         rations_write_new.close()
 
         # STORE ALL VALUES INTO LIST
-        new_refugee[0] = str(current_refugee_id)
+        new_refugee[0] = str(return_list_for_database[4])
         new_refugee[2] = name
         new_refugee[3] = number
         new_refugee[4] = dob
@@ -476,13 +473,12 @@ def create_family():
         new_refugee[7] = address
         new_refugee[8] = str(conditions)
         new_refugee[9] = str(num_of_fam)
-        new_refugee[10] = str(return_list_for_database[4])
-        new_refugee[11] = str(return_list_for_database[5])
-        new_refugee[12] = str(return_list_for_database[6])
-        new_refugee[13] = str(return_list_for_database[7])
-        new_refugee[14] = str(return_list_for_database[8])
-        new_refugee[15] = str(return_list_for_database[9])
-        new_refugee[16] = str(return_list_for_database[10])
+        new_refugee[10] = str(return_list_for_database[5])
+        new_refugee[11] = str(return_list_for_database[6])
+        new_refugee[12] = str(return_list_for_database[7])
+        new_refugee[13] = str(return_list_for_database[8])
+        new_refugee[14] = str(return_list_for_database[9])
+        new_refugee[15] = str(return_list_for_database[10])
         new_refugee_string = "%".join(new_refugee)
         volunteer_list_file.close()
         volunteer_list_file_append = open("refugee_database.txt", "a")
@@ -501,7 +497,7 @@ def create_family():
         # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
         camp_name_list = []
         for i in range(len(camp_database_list)):
-            camp_name_list.append([camp_database_list[i][0], camp_database_list[i][0]])
+            camp_name_list.append([camp_database_list[i][0], camp_database_list[i][1]])
 
         # FUNCTION TO FIND WHICH THEIR CURRENT CAMP NAME IS
         # DO IT BY COMPARING CAMP ID IN EMERGENCY DATABASE TO CAMP ID IN VOLUNTEER FILE
@@ -1050,4 +1046,4 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
-
+create_family()
