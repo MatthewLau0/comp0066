@@ -64,6 +64,9 @@ def manageVolunteers(screen):
 
         view_volunteer_table.pack()
 
+        activestatusVolunteer_frame = Frame(manage_volunteer_home_screen)
+        activestatusVolunteer_frame.pack()
+
         def activestatusVolunteer():
             global current_volunteer_list
             global manage_volunteer_home_screen
@@ -84,14 +87,21 @@ def manageVolunteers(screen):
                 deactivated_volunteers_IDs.append(int(deactivated_volunteers[i][1]))
                 i += 1
 
+            for widget in activestatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
+            for widget in leadstatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
+
             deactivated_volunteer = IntVar()
-            deactivated_volunteer_activate_label = Label(manage_volunteer_home_screen, text="See activation status above for those volunteers who are deactivated. \nPlease select the index number of the volunteer that you would like to activate")
+            deactivated_volunteer_activate_label = Label(activestatusVolunteer_frame, text="See activation status above for those volunteers who are deactivated. Please select the index number of the volunteer that you would like to activate")
             deactivated_volunteer_activate_label.pack()
 
-            deactivated_volunteer_combobox = ttk.Combobox(manage_volunteer_home_screen, textvariable=deactivated_volunteer)
+            deactivated_volunteer_combobox = ttk.Combobox(activestatusVolunteer_frame, textvariable=deactivated_volunteer)
             deactivated_volunteer_combobox['values'] = deactivated_volunteers_IDs
             deactivated_volunteer_combobox.pack()
-            deactivated_volunteer_entry_button = Button(manage_volunteer_home_screen, text="Confirm", command=activatevolunteerVerify)
+            deactivated_volunteer_entry_button = Button(activestatusVolunteer_frame, text="Confirm", command=activatevolunteerVerify)
             deactivated_volunteer_entry_button.pack()
 
         def activatevolunteerVerify():
@@ -134,6 +144,9 @@ def manageVolunteers(screen):
                                                 deactivated_volunteer.get()))
             successful_update_label.pack()
 
+        leadstatusVolunteer_frame = Frame(manage_volunteer_home_screen)
+        leadstatusVolunteer_frame.pack()
+
         def leadstatusVolunteer():
             global current_volunteer_list
             global manage_volunteer_home_screen
@@ -152,43 +165,32 @@ def manageVolunteers(screen):
             for i in range(0, len(standard_volunteers)):
                 standard_volunteers_IDs.append(int(standard_volunteers[i][1]))
 
+            for widget in leadstatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
+            for widget in activestatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
             promote_volunteer = IntVar()
-            promote_volunteer_label = Label(manage_volunteer_home_screen, text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.")
+            promote_volunteer_label = Label(leadstatusVolunteer_frame, text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.")
             promote_volunteer_label.pack()
 
-            promote_volunteer_combobox = ttk.Combobox(manage_volunteer_home_screen, textvariable=promote_volunteer)
+            promote_volunteer_combobox = ttk.Combobox(leadstatusVolunteer_frame, textvariable=promote_volunteer)
             promote_volunteer_combobox['values'] = standard_volunteers_IDs
             promote_volunteer_combobox.pack()
-            promote_volunteer_entry_button = Button(manage_volunteer_home_screen, text="Confirm", command=promoteVolunteerVerify)
+            promote_volunteer_entry_button = Button(leadstatusVolunteer_frame, text="Confirm", command=promoteVolunteerVerify)
             promote_volunteer_entry_button.pack()
 
         def promoteVolunteerVerify():
             global promote_volunteer_label
             global promote_volunteer
             global standard_volunteers_IDs
-            global current_volunteer_list
-
-            promote_volunteer_label.config(
-                text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.",
-                fg="#000000")
-
-            promote_volunteer_camp = current_volunteer_list[(promote_volunteer.get())-1][0]
-            print(promote_volunteer_camp)
 
 
-            promote_volunteer_camp_list = []
-            for i in range(0, len(current_volunteer_list)):
-                if current_volunteer_list[i][0] == str(promote_volunteer_camp) and current_volunteer_list[i][-2] == "Lead":
-                    promote_volunteer_camp_list.append(current_volunteer_list[i])
-                    i += 1
-                else:
-                    i += 1
-            print(promote_volunteer_camp_list)
+            promote_volunteer_label.config(text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.", fg="#000000")
 
-            if len(promote_volunteer_camp_list) > 0:
-                promote_volunteer_label.config(text="This volunteer's camp already has a lead. Please select a volunteer whose camp does not yet have a lead.", fg="#f00")
-            elif promote_volunteer.get() not in standard_volunteers_IDs:
-                promote_volunteer_label.config(text="Invalid ID. Please enter the ID of a volunteer who is not yet lead (see above).", fg="#f00")
+            if promote_volunteer.get() not in standard_volunteers_IDs:
+                promote_volunteer_label.config(text="Invalid ID. Please enter hte ID of a volunteer who is not yet lead (see above).", fg="#f00")
             elif promote_volunteer.get() == ' ' or len(str(promote_volunteer.get())) == 0 or promote_volunteer.get() == 0:
                 promote_volunteer_label.config(text="Please entere a value.", fg="#f00")
             else:
@@ -232,5 +234,3 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
-
-manageVolunteers(Tk())
