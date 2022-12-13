@@ -1,7 +1,7 @@
 1%Camp 1%Tsunami%Tsunami in camp 1%Norge%2022-12-01%NA%Active
 2%CampGermany%Flood%Flood in Camp Germany%Deutschland%2022-11-14%2022-11-16%Closed
 3%CampSpain%Tsunami%Tsunami in Camp Spain%España%2022-10-11%2022-12-22%Closed
-4%CampRussia%Drought%Drought in Russia%Russia%2022-12-06%2022-12-15%Closed
+4%%Tsunami%Tsunami in Russia%Russia%2022-12-13%NA%Active
 5%CampEngland%Tsunami%Tsunami in Camp England%France%2022-12-05%NA%Active
 6%CampItaly%Tsunami%Tsunami in Italy%Italy%2022-12-05%2022-12-22%Closed
 7%CampChina%Earthquake%Earthquake in China%China%2022-11-15%NA%Active
