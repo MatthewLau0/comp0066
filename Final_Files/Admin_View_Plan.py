@@ -488,8 +488,14 @@ def viewexistingCamps():
         volunteer_file.close()
         refugee_file.close()
 
-        layout_summary_returnhome_button = Button(Layout_Screen, text="Close Screen", command=layoutReturnHome)
-        layout_summary_returnhome_button.pack()
+        def returnHome():
+            global Layout_Screen
+            Layout_Screen.destroy()
+
+        layout_return_home_frame = Frame(Layout_Screen)
+        layout_return_home_frame.pack()
+        layout_return_home_button = Button(layout_return_home_frame, text="Return to Homescreen", command=returnHome)
+        layout_return_home_button.pack()
 
     def layoutReturnHome():
         global Layout_Screen

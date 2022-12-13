@@ -214,12 +214,16 @@ def manageVolunteers(screen):
 
 
 
-
+        def returnHome():
+            global manage_volunteer_home_screen
+            manage_volunteer_home_screen.destroy()
 
         update_volunteer_button = Button(manage_volunteer_home_screen, text="Activate a Volunteer", command=activestatusVolunteer)
         update_volunteer_button.pack()
         promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer)
         promote_volunteer_button.pack()
+        return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome)
+        return_home_button.pack()
 
 
 

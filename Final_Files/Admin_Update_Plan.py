@@ -733,7 +733,7 @@ def updateexistingForm(screen):
 
     def updatescreenClose():
         global Update_Emergency_Screen
-        global Update_Emergency_Close_Screen
+        global Update_Camp_Close_Screen
 
         Update_Camp_Summary_Screen.destroy()
         Update_Camp_Close_Screen = Tk()
@@ -749,7 +749,7 @@ def updateexistingForm(screen):
 
     def returnHome():
         global Update_Emergency_Close_Screen
-        Update_Emergency_Close_Screen.destroy()
+        Update_Camp_Close_Screen.destroy()
 
 
     #Scroll bar creating
@@ -760,12 +760,10 @@ def updateexistingForm(screen):
         global Update_Emergency_Screen
         Update_Emergency_Screen = Toplevel(admin_home_screen)
         Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("650x600")
+        Update_Emergency_Screen.geometry("800x600")
         setupUpdate()
 
 
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
-
-updateexistingForm(Tk())
