@@ -9,7 +9,7 @@ def viewexistingCamps():
         global view_camp_screen
 
         view_camp_home_screen.destroy()
-        view_camp_screen = Tk()
+        view_camp_screen = Toplevel()
         view_camp_screen.title("View Existing Camps")
         view_camp_screen.geometry("500x650")
         view_camp_screen_label = Label(view_camp_screen,
@@ -80,7 +80,7 @@ def viewexistingCamps():
         global Layout_Screen
 
 
-        Layout_Screen = Tk()
+        Layout_Screen = Toplevel()
         Layout_Screen.title("View Camp Layout")
         Layout_Screen.geometry("500x600")
 
@@ -93,9 +93,9 @@ def viewexistingCamps():
 
         camp_ID_list = []
         for i in range(0, len(emergency_database_list)):
-            camp_ID_list.append(emergency_database_list[i][0])
+            camp_ID_list.append(int(emergency_database_list[i][0]))
 
-        selected_camp_id = StringVar()
+        selected_camp_id = IntVar()
         select_camp_id_label = Label(Layout_Screen, text="Please select the camp ID that you would like to view")
         select_camp_id_label.pack()
         selected_camp_id_entry = ttk.Combobox(Layout_Screen, textvariable=selected_camp_id)
@@ -240,7 +240,7 @@ def viewexistingCamps():
             list_occ_west.append(x)
         refugee_west = sum(list_occ_west)
 
-        camp_summary_window = Tk()
+        camp_summary_window = Toplevel(Layout_Screen)
         camp_summary_window.title("Camp Layout")
 
         screen_width = Layout_Screen.winfo_screenwidth()
@@ -504,7 +504,7 @@ def viewexistingCamps():
 
     def viewcampScreen():
         global view_camp_home_screen
-        view_camp_home_screen = Toplevel()
+        view_camp_home_screen = Tk()
         view_camp_home_screen.title("View Existing Camps")
         view_camp_home_screen.geometry("500x650")
         view_camp_home_screen_label = Label(view_camp_home_screen, text="Please select an option below")

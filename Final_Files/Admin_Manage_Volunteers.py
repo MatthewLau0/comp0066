@@ -79,10 +79,10 @@ def manageVolunteers():
 
             deactivated_volunteers_IDs = []
             for i in range(0, len(deactivated_volunteers)):
-                deactivated_volunteers_IDs.append(deactivated_volunteers[i][1])
+                deactivated_volunteers_IDs.append(int(deactivated_volunteers[i][1]))
                 i += 1
 
-            deactivated_volunteer = StringVar()
+            deactivated_volunteer = IntVar()
             deactivated_volunteer_activate_label = Label(manage_volunteer_home_screen, text="See activation status above for those volunteers who are deactivated. Please enter the index number of the volunteer that you would like to activate")
             deactivated_volunteer_activate_label.pack()
 
@@ -149,7 +149,7 @@ def manageVolunteers():
 
     def manageVolunteerScreen():
         global manage_volunteer_home_screen
-        manage_volunteer_home_screen = Tk()
+        manage_volunteer_home_screen = Toplevel()
         manage_volunteer_home_screen.title("Manage Volunteer Homescreen")
         manage_volunteer_home_screen.geometry("500x650")
         viewexistingvolunteersSetUp()
