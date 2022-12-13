@@ -1051,4 +1051,3 @@ def create_family():
 
     screen.mainloop()
 
-create_family()
