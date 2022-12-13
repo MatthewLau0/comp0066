@@ -4,4 +4,4 @@
 4%4%Test Test%TestTest%68f1927d51ddd7b49c381c7c7d006b813565e3b95f09136cdfc96f529a352a4e%test@test.com%444647384754%Male%2013-12-10%9%Active%Standard%Availability
 4%5%Test Test%volunteer123%68f1927d51ddd7b49c381c7c7d006b813565e3b95f09136cdfc96f529a352a4e%test@test.com%44#7857485748%Male%2021-08-11%1%Active%Standard%Availability
 1%6%s aa%sanchit%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#7855037367%m%2019-12-11%3%Active%Standard%Availability
-1%7%sa%san%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%4#12121212%male%2020-12-09%2%Deactivated%Standard%Availability
+1%7%sa%san%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%4#12121212%male%2020-12-09%2%Active%Standard%Availability

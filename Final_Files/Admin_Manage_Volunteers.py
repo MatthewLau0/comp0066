@@ -104,21 +104,14 @@ def manageVolunteers():
             deactivated_volunteer_activate_label.config(
                 text="Please enter the index number of the volunteer that you would like to activate", fg="#000000")
 
-            # if deactivated_volunteer.get() not in deactivated_volunteers_IDs:
-            #     deactivated_volunteer_activate_label.config(
-            #             text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
-            #             fg="#f00")
-            # elif deactivated_volunteer.get() == ' ' or len(deactivated_volunteer.get()) == 0:
-            #     deactivated_volunteer_activate_label.config(text="Please enter a value.", fg="#f00")
-            # else:
-            #     submitvolunteerStatus()
-
-            if str(deactivated_volunteer.get()) in deactivated_volunteers_IDs:
-                submitvolunteerStatus()
+            if deactivated_volunteer.get() not in deactivated_volunteers_IDs:
+                 deactivated_volunteer_activate_label.config(
+                         text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
+                         fg="#f00")
+            elif deactivated_volunteer.get() == ' ' or len(str(deactivated_volunteer.get())) == 0:
+                 deactivated_volunteer_activate_label.config(text="Please enter a value.", fg="#f00")
             else:
-                deactivated_volunteer_activate_label.config(
-                            text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
-                            fg="#f00")
+                 submitvolunteerStatus()
 
 
 
