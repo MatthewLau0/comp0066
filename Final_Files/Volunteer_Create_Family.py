@@ -175,8 +175,12 @@ def create_family():
 
         # CHECK THAT SEX ISN'T EMPTY
 
-        if sex == "":
+        if sex == "" or sex == "Select or type your sex...":
             tkinter.messagebox.showerror(title='Error!', message='Sex cannot be empty')
+            return
+
+        if sex != "Male" and sex != "Female" and sex != "Prefer not to say":
+            tkinter.messagebox.showerror(title='Error!', message='Sex must be "Male", "Female", or "Prefer not to say"')
             return
 
         # DOB CHECKS
@@ -232,6 +236,33 @@ def create_family():
                 if i.isalnum() != True and i != " ":
                     tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in postcode')
                     return
+
+        #CHECK FOR ERRORS IN COUNTRY
+        if country_address != "" and country_address != "Use dropdown or type to select country...":
+            if country_address.count(" ") > 3:
+                tkinter.messagebox.showerror(title='Error!', message='Country cannot have more than 3 words')
+                return
+
+            if country_address.isnumeric():
+                tkinter.messagebox.showerror(title='Error!', message='Country address cannot be numeric')
+                return
+
+            if any(i.isnumeric() for i in country_address):
+                tkinter.messagebox.showerror(title='Error!', message='Country cannot have numerical characters')
+                return
+
+
+            for i in country_address:
+                if i.isalnum() != True and i != " " and i != ".":
+                    tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in country')
+                    return
+
+            country_address = country_address.lower()
+            country_address = country_address.capitalize()
+
+            if country_address not in country_list:
+                tkinter.messagebox.showerror(title='Error!', message='Country not in list! Please use dropdown menu to select')
+                return
 
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
@@ -987,6 +1018,38 @@ def create_family():
 
 
     def clickYes():
+        number_click = refugee_number.get()
+        if number_click == "" or number_click == "Enter no. of family members...":
+            tkinter.messagebox.showerror(title='Error!', message='Please ensure no. of family members is not empty')
+            refugee_weight.set(0)
+            return
+
+        if any(i.isalpha() for i in number_click):
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members is non-alphabetic')
+            refugee_weight.set(0)
+            return
+
+        try:
+            int(number_click)
+        except ValueError:
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members does not have special characters')
+            refugee_weight.set(0)
+            return
+
+        if int(number_click) > 20:
+            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
+            refugee_weight.set(0)
+            return
+        if int(number_click) < 0:
+            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
+            refugee_weight.set(0)
+            return
+
+
+
+
         global refugee_height
         global refugee_height_entry
         global refugee_family_medical_no
@@ -1022,13 +1085,13 @@ def create_family():
                     refugee_family_num.append(i)
                 refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable= refugee_family_medical_no,
                                                                       values = refugee_family_num)
-                refugee_family_medical_no_option.place(x=300, y=650)
+                refugee_family_medical_no_option.place(x=300, y=650, width = 50)
 
             elif int(refugee_fam_num) == 0:
                 refugee_fam_num = 1
                 refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable = refugee_family_medical_no,
                                                                       values = int(refugee_fam_num))
-                refugee_family_medical_no_option.place(x=300, y=650)
+                refugee_family_medical_no_option.place(x=300, y=650, width = 50)
 
         else:
             refugee_height.set('Enter any medical conditions...')
@@ -1040,6 +1103,35 @@ def create_family():
 
     # FUNCTION TO ERASE ANY INFO/DO NOTHING IF NO IS CLICKED
     def clickNo():
+        number_click2 = refugee_number.get()
+        if number_click2 == "" or number_click2 == "Enter no. of family members...":
+            tkinter.messagebox.showerror(title='Error!', message='Please ensure no. of family members is not empty')
+            refugee_weight_2.set(0)
+            return
+
+        if any(i.isalpha() for i in number_click2):
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members is non-alphabetic')
+            refugee_weight_2.set(0)
+            return
+
+        try:
+            int(number_click2)
+        except ValueError:
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members does not have special characters')
+            refugee_weight_2.set(0)
+            return
+
+        if int(number_click2) > 20:
+            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
+            refugee_weight_2.set(0)
+            return
+        if int(number_click2) < 0:
+            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
+            refugee_weight_2.set(0)
+            return
+
         global refugee_height
         refugee_height = tkinter.StringVar()
         global refugee_family_medical_no
