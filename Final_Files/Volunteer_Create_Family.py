@@ -793,6 +793,17 @@ def create_family():
             refugee_number_entry.insert(0, 'Enter no. of family members...')
             refugee_number_entry.config(fg='grey')
 
+    def refugee_sex_on(self):
+        if refugee_sex_entry.get() == 'Select or type your sex...':
+            refugee_sex_entry.delete(0, "end")  # delete all the text in the entry
+            refugee_sex_entry.insert(0, '')  # Insert blank for user input
+            refugee_sex_entry.config(foreground='black')
+
+    def refugee_sex_off(self):
+        if refugee_sex_entry.get() == '':
+            refugee_sex_entry.insert(0, 'Select or type your sex...')
+            refugee_sex_entry.config(foreground='grey')
+
     def refugee_first_address_on(self):
         if refugee_first_address_entry.get() == 'Address Line 1':
             refugee_first_address_entry.delete(0, "end")  # delete all the text in the entry
@@ -825,6 +836,17 @@ def create_family():
         if refugee_postcode_address_entry.get() == '':
             refugee_postcode_address_entry.insert(0, 'Postcode')
             refugee_postcode_address_entry.config(fg='grey')
+
+    def refugee_country_address_on(self):
+        if refugee_country_address_entry.get() == 'Use dropdown or type to select country...':
+            refugee_country_address_entry.delete(0, "end")  # delete all the text in the entry
+            refugee_country_address_entry.insert(0, '')  # Insert blank for user input
+            refugee_country_address_entry.config(foreground='black')
+
+    def refugee_country_address_off(self):
+        if refugee_country_address_entry.get() == '':
+            refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
+            refugee_country_address_entry.config(foreground='grey')
 
     def refugee_weight_on(self):
         if refugee_weight_entry.get() == 'Enter weight in kg...':
@@ -900,6 +922,10 @@ def create_family():
     refugee_sex_entry = tkinter.Entry(textvariable=refugee_sex)
     refugee_sex_entry.place(x = 175, y = 170, width=300)
     drop = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
+    drop.insert(0, 'Select or type your sex...')
+    drop.bind('<FocusIn>', refugee_sex_on)
+    drop.bind('<FocusOut>', refugee_sex_off)
+    drop.config(foreground='grey')
     drop.place(x=175, y=170, width=300)
 
     # REFUGEE DOB STUFF
@@ -947,6 +973,10 @@ def create_family():
 
     refugee_country_address = tkinter.StringVar()
     refugee_country_address_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_country_address, values = country_list)
+    refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
+    refugee_country_address_entry.bind('<FocusIn>', refugee_country_address_on)
+    refugee_country_address_entry.bind('<FocusOut>', refugee_country_address_off)
+    refugee_country_address_entry.config(foreground='grey')
     refugee_country_address_entry.place(x=175, y=480, width=300)
 
     # FUNCTION TO DISPLAY INPUT BOX WHEN THEY CLICK YES TO MEDICAL CONDITIONS
@@ -1046,3 +1076,5 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
+
+create_family()

@@ -619,5 +619,3 @@ def add_calendar():
 
     initial_calendar_lol()
     availability_screen.mainloop()
-
-add_calendar()
