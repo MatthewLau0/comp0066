@@ -8,7 +8,8 @@ def viewexistingCamps():
         global emergency_database_list
         global view_camp_screen
 
-        view_camp_screen = Toplevel(view_camp_home_screen)
+        view_camp_home_screen.destroy()
+        view_camp_screen = Tk()
         view_camp_screen.title("View Existing Camps")
         view_camp_screen.geometry("500x650")
         view_camp_screen_label = Label(view_camp_screen,
@@ -72,13 +73,14 @@ def viewexistingCamps():
     def returnHomeViewTable():
         global view_camp_screen
         view_camp_screen.destroy()
+        viewcampScreen()
 
     def selectLayoutCamp():
         global selected_camp_id
         global Layout_Screen
 
 
-        Layout_Screen = Toplevel()
+        Layout_Screen = Tk()
         Layout_Screen.title("View Camp Layout")
         Layout_Screen.geometry("500x600")
 
@@ -96,8 +98,9 @@ def viewexistingCamps():
         selected_camp_id = StringVar()
         select_camp_id_label = Label(Layout_Screen, text="Please select the camp ID that you would like to view")
         select_camp_id_label.pack()
-        select_camp_id = OptionMenu(Layout_Screen, selected_camp_id, *camp_ID_list)
-        select_camp_id.pack()
+        selected_camp_id_entry = ttk.Combobox(Layout_Screen, textvariable=selected_camp_id)
+        selected_camp_id_entry['values'] = camp_ID_list
+        selected_camp_id_entry.pack()
         select_camp_button = Button(Layout_Screen, text="Submit", command=layoutSetUp)
         select_camp_button.pack()
 
@@ -106,9 +109,11 @@ def viewexistingCamps():
         global selected_camp_id
         global Layout_Screen
 
+        print(selected_camp_id.get())
+
         camp_id = selected_camp_id.get()
 
-        accommodation_file = open("accommodation_database.txt.txt", "r")
+        accommodation_file = open("accommodation_database.txt", "r")
         ration_file = open("ration_database.txt", "r")
         toilet_file = open("toilet_database.txt", "r")
         medical_file = open("medical_database.txt", "r")
@@ -235,7 +240,7 @@ def viewexistingCamps():
             list_occ_west.append(x)
         refugee_west = sum(list_occ_west)
 
-        camp_summary_window = Toplevel(Layout_Screen)
+        camp_summary_window = Tk()
         camp_summary_window.title("Camp Layout")
 
         screen_width = Layout_Screen.winfo_screenwidth()
@@ -515,3 +520,5 @@ def viewexistingCamps():
         view_camp_home_screen.mainloop()
 
     viewcampScreen()
+
+viewexistingCamps()
