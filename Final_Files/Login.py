@@ -2,7 +2,6 @@ import sys
 import subprocess
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'country_list'])
 from tkinter import *
 import hashlib
 import Register_Info
@@ -296,7 +295,7 @@ def main():
                     if login_entry_string in camp_lead_list:
                         volunteer_login_screen.destroy()
                         Camp_Lead.camp_id_generate()
-                        Camp_Lead.main()
+                        Camp_Lead.run_camp_lead()
                 else:
                     unknown_error_label_2 = Label(login_error_window, text="An unknown error has occurred. Please try again")
                     unknown_error_label_2.pack()
