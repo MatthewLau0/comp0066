@@ -8,7 +8,30 @@ import tkinter.messagebox
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 import tkinter.ttk
 
+
+
+current_refugee_id = ""
+current_refugee_name = ""
+
+def camp_id_generate():
+    global current_refugee_id
+    global current_refugee_name
+    logins_file = open("successful_login.txt", "r")
+
+    logins_list = []
+    for line in logins_file:
+        line_string = line.split("%")
+        logins_list.append(line_string)
+    if len(logins_list) > 0:
+        current_refugee_id = logins_list[-1][0]
+        current_refugee_name = logins_list[-1][2]
+    else:
+        pass
+
+
+
 def create_family():
+    camp_id_generate()
 
     # Opening current database and reading it into a list
     volunteer_list_file = open("refugee_database.txt", "r")
@@ -18,8 +41,6 @@ def create_family():
         volunteer_database_list.append(x)
     volunteer_list_file.close()
 
-    #CHECK THIS!!!!
-    current_refugee_id = 1
 
     open_volunteer_file = open("volunteer_database.txt", 'r')
     volunteer_actual_database_list = []
@@ -384,7 +405,7 @@ def create_family():
 
     def submit():
         # Creating new refugee
-        new_refugee = [""] * 16
+        new_refugee = [""] * 17
 
         # Finding index for new refugee
         if len(volunteer_database_list) == 0:
@@ -425,45 +446,46 @@ def create_family():
         new_rewritten_database_temp_toilet = return_list_for_database[2]
         new_rewritten_database_temp_ration = return_list_for_database[3]
 
-        accommodations_write_new = open("accommodationstestlol.txt", "w")
+        accommodations_write_new = open("accommodation_database.txt", "w")
         for i in range(len(new_rewritten_database_temp)):
             accommodations_write_new.write(new_rewritten_database_temp[i])
         accommodations_write_new.close()
 
-        medical_write_new = open("medical.txt", "w")
+        medical_write_new = open("medical_database.txt", "w")
         for i in range(len(new_rewritten_database_temp_medic)):
             medical_write_new.write(new_rewritten_database_temp_medic[i])
         medical_write_new.close()
 
-        toilets_write_new = open("toilets.txt", "w")
+        toilets_write_new = open("toilet_database.txt", "w")
         for i in range(len(new_rewritten_database_temp_toilet)):
             toilets_write_new.write(new_rewritten_database_temp_toilet[i])
         toilets_write_new.close()
 
-        rations_write_new = open("ration_stall.txt", "w")
+        rations_write_new = open("ration_database.txt", "w")
         for i in range(len(new_rewritten_database_temp_ration)):
             rations_write_new.write(new_rewritten_database_temp_ration[i])
         rations_write_new.close()
 
         # STORE ALL VALUES INTO LIST
-        new_refugee[1] = name
-        new_refugee[2] = number
-        new_refugee[3] = dob
-        new_refugee[4] = age
-        new_refugee[5] = sex
-        new_refugee[6] = address
-        new_refugee[7] = str(conditions)
-        new_refugee[8] = str(num_of_fam)
-        new_refugee[9] = str(return_list_for_database[4])
-        new_refugee[10] = str(return_list_for_database[5])
-        new_refugee[11] = str(return_list_for_database[6])
-        new_refugee[12] = str(return_list_for_database[7])
-        new_refugee[13] = str(return_list_for_database[8])
-        new_refugee[14] = str(return_list_for_database[9])
-        new_refugee[15] = str(return_list_for_database[10])
-        new_refugee_string = "#".join(new_refugee)
+        new_refugee[0] = str(current_refugee_id)
+        new_refugee[2] = name
+        new_refugee[3] = number
+        new_refugee[4] = dob
+        new_refugee[5] = age
+        new_refugee[6] = sex
+        new_refugee[7] = address
+        new_refugee[8] = str(conditions)
+        new_refugee[9] = str(num_of_fam)
+        new_refugee[10] = str(return_list_for_database[4])
+        new_refugee[11] = str(return_list_for_database[5])
+        new_refugee[12] = str(return_list_for_database[6])
+        new_refugee[13] = str(return_list_for_database[7])
+        new_refugee[14] = str(return_list_for_database[8])
+        new_refugee[15] = str(return_list_for_database[9])
+        new_refugee[16] = str(return_list_for_database[10])
+        new_refugee_string = "%".join(new_refugee)
         volunteer_list_file.close()
-        volunteer_list_file_append = open("Refugee_Database", "a")
+        volunteer_list_file_append = open("refugee_database.txt", "a")
         volunteer_list_file_append.write("\n%s" % (new_refugee_string))
         volunteer_list_file_append.close()
 
@@ -635,8 +657,7 @@ def create_family():
         # GET SPECIFIC LIST OF RATIONS IN SAME CAMP AND SAME WING
         ration_specific_camp_list = []
         for i in range(len(ration_database_list)):
-            if int(ration_database_list[i][0]) == int(volunteer_current_camp) and ration_database_list[i][
-                7] == refugee_assigned_block:
+            if int(ration_database_list[i][0]) == int(volunteer_current_camp) and ration_database_list[i][7] == refugee_assigned_block:
                 ration_specific_camp_list.append(ration_database_list[i])
 
         # ITERATE THROUGH LIST TO SEE WHICH ONES AVAILABLE
@@ -1030,3 +1051,4 @@ def create_family():
 
     screen.mainloop()
 
+create_family()
