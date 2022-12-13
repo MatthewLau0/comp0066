@@ -6,6 +6,8 @@ import tkcalendar
 import tkinter.messagebox
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
+import Volunteer_Home
+import tkinter.ttk
 
 def create_family():
 
@@ -373,7 +375,7 @@ def create_family():
 
     def finish_message():
         global screen3
-        screen3 = tkinter.Tk()
+        screen3 = tkinter.Tk(Volunteer_Home.refugee_home)
         screen3.geometry("300x120")
         screen3.title("Success!")
         finish_message_text = tkinter.Label(screen3, text="Successfully added new refugee!", fg='green')
@@ -881,7 +883,7 @@ def create_family():
     refugee_sex = tkinter.StringVar()
     refugee_sex_entry = tkinter.Entry(textvariable=refugee_sex)
     refugee_sex_entry.place(x = 175, y = 170, width=300)
-    drop = tkinter.OptionMenu(screen, refugee_sex, "Male", "Female", "Prefer not to say")
+    drop = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
     drop.place(x=175, y=170, width=300)
 
     # REFUGEE DOB STUFF
@@ -928,7 +930,7 @@ def create_family():
     refugee_postcode_address_entry.place(x=325, y=450, width=150)
 
     refugee_country_address = tkinter.StringVar()
-    refugee_country_address_entry = tkinter.OptionMenu(screen, refugee_country_address, *country_list)
+    refugee_country_address_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_country_address, values = country_list)
     refugee_country_address_entry.place(x=175, y=480, width=300)
 
     # FUNCTION TO DISPLAY INPUT BOX WHEN THEY CLICK YES TO MEDICAL CONDITIONS
@@ -972,14 +974,14 @@ def create_family():
             if int(refugee_fam_num) > 0:
                 for i in range(0, int(refugee_fam_num) + 1):
                     refugee_family_num.append(i)
-                refugee_family_medical_no_option = tkinter.OptionMenu(screen, refugee_family_medical_no,
-                                                                      *refugee_family_num)
+                refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable= refugee_family_medical_no,
+                                                                      values = refugee_family_num)
                 refugee_family_medical_no_option.place(x=300, y=650)
 
             elif int(refugee_fam_num) == 0:
                 refugee_fam_num = 1
-                refugee_family_medical_no_option = tkinter.OptionMenu(screen, refugee_family_medical_no,
-                                                                      int(refugee_fam_num))
+                refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable = refugee_family_medical_no,
+                                                                      values = int(refugee_fam_num))
                 refugee_family_medical_no_option.place(x=300, y=650)
 
         else:

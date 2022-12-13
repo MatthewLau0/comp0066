@@ -64,6 +64,7 @@ def volunteer_home_page():
         volunteer_actual_database_list.append(x)
 
     #Create main window of the application
+    global refugee_home
     refugee_home = Tk()
     refugee_home.minsize(320,435)
     refugee_home.maxsize(320,435)
