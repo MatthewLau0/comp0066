@@ -7,7 +7,9 @@ import tkintermapview
 from tkcalendar import Calendar
 from country_list import countries_for_language
 
-def updateexistingForm():
+def updateexistingForm(screen):
+    global admin_home_screen
+    admin_home_screen = screen
 
     def setupUpdate():
         global startDate
@@ -116,18 +118,20 @@ def updateexistingForm():
         global select_index_enter
         global select_index_select_button
 
-        select_index = StringVar()
+        select_index = IntVar()
 
         emergency_database_list_index = []
         for i in range(0, len(emergency_database_list)):
-            emergency_database_list_index.append((emergency_database_list[i])[0])
+            emergency_database_list_index.append(int((emergency_database_list[i])[0]))
             i += 1
+
 
         select_index_label = Label(Update_Emergency_Screen, text="Please enter the index number of the camp you would like to update")
         select_index_label.pack()
 
-        select_index_enter = Entry(Update_Emergency_Screen, textvariable=select_index)
-        select_index_enter.pack()
+        select_index_entry = ttk.Combobox(Update_Emergency_Screen, textvariable=select_index)
+        select_index_entry['values'] = emergency_database_list_index
+        select_index_entry.pack()
 
         select_index_select_button = Button(Update_Emergency_Screen, text="Submit", command=submitCampErrorCheck)
         select_index_select_button.pack()
@@ -145,9 +149,6 @@ def updateexistingForm():
             printupdatingCamp()
         else:
             select_index_label.config(text="Invalid entry.", fg='#f00')
-            select_index_enter.destroy()
-            select_index_select_button.destroy()
-            SelectIndex()
 
     def printupdatingCamp():
         global update_emergency_frame_two
@@ -171,7 +172,7 @@ def updateexistingForm():
             Update_Emergency_Entry_Screen.geometry("500x650")
 
             index_updating_camp_extract = select_index.get()
-            index_updating_camp = int(index_updating_camp_extract) - 1
+            index_updating_camp = (index_updating_camp_extract - 1)
 
             updating_camp_list = []
             for i in range(0, len(emergency_database_list[index_updating_camp])):
@@ -766,9 +767,9 @@ def updateexistingForm():
 
     def UpdateEmergencyHomeScreen():
         global Update_Emergency_Screen
-        Update_Emergency_Screen = Tk()
+        Update_Emergency_Screen = Toplevel(admin_home_screen)
         Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("500x600")
+        Update_Emergency_Screen.geometry("650x600")
         setupUpdate()
 
 
@@ -776,4 +777,3 @@ def updateexistingForm():
 
     UpdateEmergencyHomeScreen()
 
-updateexistingForm()

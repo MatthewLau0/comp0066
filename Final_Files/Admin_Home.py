@@ -13,7 +13,7 @@ def adminHome():
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm
-        updateexistingForm()
+        updateexistingForm(admin_home)
 
     def Manage_Volunteers():
         from Admin_Manage_Volunteers import manageVolunteers
@@ -25,7 +25,7 @@ def adminHome():
 
     #Create main window of the application
     admin_home = Tk()
-    admin_home.geometry("500x650")
+    admin_home.geometry("650x650")
     admin_home.title("Admin Home Page")
     admin_home_label = Label(admin_home, text="Welcome to the admin homepage.")
     admin_home_label.pack()
