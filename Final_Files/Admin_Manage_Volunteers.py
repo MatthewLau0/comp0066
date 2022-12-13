@@ -62,36 +62,13 @@ def manageVolunteers():
 
         view_volunteer_table.pack()
 
-        def activatevolunteerVerify():
-            global deactivated_volunteer_activate
-            global deactivated_volunteers
-            global deactivated_volunteer_activate_label
-
-            deactivated_volunteers_IDs = []
-            for i in range(0, len(deactivated_volunteers)):
-                deactivated_volunteers_IDs.append(deactivated_volunteers[i][1])
-                i += 1
-
-            update_volunteer_status_ID = deactivated_volunteer_activate.get()
-
-            deactivated_volunteer_activate_label.config(
-                text="Please enter the index number of the volunteer that you would like to activate", fg="#000000")
-
-            if update_volunteer_status_ID not in deactivated_volunteers_IDs:
-                deactivated_volunteer_activate_label.config(
-                        text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
-                        fg="#f00")
-            elif deactivated_volunteer_activate.get() == ' ' or len(deactivated_volunteer_activate.get()) == 0:
-                deactivated_volunteer_activate_label.config(text="Please enter a value.", fg="#f00")
-            else:
-                submitvolunteerStatus()
-
         def activestatusVolunteer():
             global current_volunteer_list
             global manage_volunteer_home_screen
-            global deactivated_volunteer_activate
+            global deactivated_volunteer
             global deactivated_volunteers
             global deactivated_volunteer_activate_label
+            global deactivated_volunteers_IDs
 
 
             deactivated_volunteers = []
@@ -100,25 +77,60 @@ def manageVolunteers():
                     deactivated_volunteers.append(current_volunteer_list[i])
                 i += 1
 
-            deactivated_volunteer_activate = StringVar()
+            deactivated_volunteers_IDs = []
+            for i in range(0, len(deactivated_volunteers)):
+                deactivated_volunteers_IDs.append(deactivated_volunteers[i][1])
+                i += 1
+
+            deactivated_volunteer = StringVar()
             deactivated_volunteer_activate_label = Label(manage_volunteer_home_screen, text="See activation status above for those volunteers who are deactivated. Please enter the index number of the volunteer that you would like to activate")
             deactivated_volunteer_activate_label.pack()
 
-
-            deactivated_volunteer_entry = Entry(manage_volunteer_home_screen, textvariable=deactivated_volunteer_activate)
-            deactivated_volunteer_entry.pack()
+            deactivated_volunteer_combobox = ttk.Combobox(manage_volunteer_home_screen, textvariable=deactivated_volunteer)
+            deactivated_volunteer_combobox['values'] = deactivated_volunteers_IDs
+            deactivated_volunteer_combobox.pack()
+            #deactivated_volunteer_entry = Entry(manage_volunteer_home_screen, textvariable=deactivated_volunteer_activate)
+            #deactivated_volunteer_entry.pack()
             deactivated_volunteer_entry_button = Button(manage_volunteer_home_screen, text="Confirm", command=activatevolunteerVerify)
             deactivated_volunteer_entry_button.pack()
+
+        def activatevolunteerVerify():
+            global deactivated_volunteer
+            global deactivated_volunteers
+            global deactivated_volunteer_activate_label
+            global deactivated_volunteers_IDs
+
+
+            deactivated_volunteer_activate_label.config(
+                text="Please enter the index number of the volunteer that you would like to activate", fg="#000000")
+
+            # if deactivated_volunteer.get() not in deactivated_volunteers_IDs:
+            #     deactivated_volunteer_activate_label.config(
+            #             text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
+            #             fg="#f00")
+            # elif deactivated_volunteer.get() == ' ' or len(deactivated_volunteer.get()) == 0:
+            #     deactivated_volunteer_activate_label.config(text="Please enter a value.", fg="#f00")
+            # else:
+            #     submitvolunteerStatus()
+
+            if str(deactivated_volunteer.get()) in deactivated_volunteers_IDs:
+                submitvolunteerStatus()
+            else:
+                deactivated_volunteer_activate_label.config(
+                            text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
+                            fg="#f00")
+
+
 
         def submitvolunteerStatus():
             volunteer_file_write = open("volunteer_database.txt", "r+")
             volunteer_file_write.truncate(0)
             for i in range(0, len(current_volunteer_list)):
-                if i == (int(deactivated_volunteer_activate.get())-1):
+                if i == (int(deactivated_volunteer.get())-1):
                     current_volunteer_list[i][-3] = "Active"
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
                     volunteer_file_write.write(current_volunteer_string)
-                elif i != deactivated_volunteer_activate.get():
+                elif i != deactivated_volunteer.get():
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
                     volunteer_file_write.write(current_volunteer_string)
 
@@ -126,7 +138,7 @@ def manageVolunteers():
 
             successful_update_label = Label(manage_volunteer_home_screen,
                                             text="You have successfully updated the activation status of volunteer %s" % (
-                                                deactivated_volunteer_activate.get()))
+                                                deactivated_volunteer.get()))
             successful_update_label.pack()
 
 
