@@ -37,7 +37,7 @@ def create_family():
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
-        x = line.split("#")
+        x = line.split("%")
         volunteer_database_list.append(x)
     volunteer_list_file.close()
 
@@ -1046,3 +1046,5 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
+
+create_family()
