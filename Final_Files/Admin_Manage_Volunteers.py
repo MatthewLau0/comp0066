@@ -64,6 +64,9 @@ def manageVolunteers(screen):
 
         view_volunteer_table.pack()
 
+        activestatusVolunteer_frame = Frame(manage_volunteer_home_screen)
+        activestatusVolunteer_frame.pack()
+
         def activestatusVolunteer():
             global current_volunteer_list
             global manage_volunteer_home_screen
@@ -84,14 +87,21 @@ def manageVolunteers(screen):
                 deactivated_volunteers_IDs.append(int(deactivated_volunteers[i][1]))
                 i += 1
 
+            for widget in activestatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
+            for widget in leadstatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
+
             deactivated_volunteer = IntVar()
-            deactivated_volunteer_activate_label = Label(manage_volunteer_home_screen, text="See activation status above for those volunteers who are deactivated. Please select the index number of the volunteer that you would like to activate")
+            deactivated_volunteer_activate_label = Label(activestatusVolunteer_frame, text="See activation status above for those volunteers who are deactivated. Please select the index number of the volunteer that you would like to activate")
             deactivated_volunteer_activate_label.pack()
 
-            deactivated_volunteer_combobox = ttk.Combobox(manage_volunteer_home_screen, textvariable=deactivated_volunteer)
+            deactivated_volunteer_combobox = ttk.Combobox(activestatusVolunteer_frame, textvariable=deactivated_volunteer)
             deactivated_volunteer_combobox['values'] = deactivated_volunteers_IDs
             deactivated_volunteer_combobox.pack()
-            deactivated_volunteer_entry_button = Button(manage_volunteer_home_screen, text="Confirm", command=activatevolunteerVerify)
+            deactivated_volunteer_entry_button = Button(activestatusVolunteer_frame, text="Confirm", command=activatevolunteerVerify)
             deactivated_volunteer_entry_button.pack()
 
         def activatevolunteerVerify():
@@ -134,6 +144,9 @@ def manageVolunteers(screen):
                                                 deactivated_volunteer.get()))
             successful_update_label.pack()
 
+        leadstatusVolunteer_frame = Frame(manage_volunteer_home_screen)
+        leadstatusVolunteer_frame.pack()
+
         def leadstatusVolunteer():
             global current_volunteer_list
             global manage_volunteer_home_screen
@@ -152,14 +165,20 @@ def manageVolunteers(screen):
             for i in range(0, len(standard_volunteers)):
                 standard_volunteers_IDs.append(int(standard_volunteers[i][1]))
 
+            for widget in leadstatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
+            for widget in activestatusVolunteer_frame.winfo_children():
+                widget.destroy()
+
             promote_volunteer = IntVar()
-            promote_volunteer_label = Label(manage_volunteer_home_screen, text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.")
+            promote_volunteer_label = Label(leadstatusVolunteer_frame, text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.")
             promote_volunteer_label.pack()
 
-            promote_volunteer_combobox = ttk.Combobox(manage_volunteer_home_screen, textvariable=promote_volunteer)
+            promote_volunteer_combobox = ttk.Combobox(leadstatusVolunteer_frame, textvariable=promote_volunteer)
             promote_volunteer_combobox['values'] = standard_volunteers_IDs
             promote_volunteer_combobox.pack()
-            promote_volunteer_entry_button = Button(manage_volunteer_home_screen, text="Confirm", command=promoteVolunteerVerify)
+            promote_volunteer_entry_button = Button(leadstatusVolunteer_frame, text="Confirm", command=promoteVolunteerVerify)
             promote_volunteer_entry_button.pack()
 
         def promoteVolunteerVerify():
