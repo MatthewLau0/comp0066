@@ -18,11 +18,39 @@ def main():
     master_window.title("Welcome")
 
 
+    screen_width = master_window.winfo_screenwidth()
+    screen_height = master_window.winfo_screenheight()
+    window_height = screen_height
+    window_width = 900
+
+    center_x = int(screen_width / 2 - window_width / 2)
+    center_y = int(screen_height / 2 - window_height / 2)
+    master_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+    Label(master_window, text="\nWelcome to", font=("Avenir", 22)).pack()
+    Label(master_window, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+    Label(master_window, text="A State of the Art", font=("Avenir", 18)).pack()
+    Label(master_window, text="Humanitarian Emergency Management System\n\n\n", font=("Avenir", 22, "bold")).pack()
+
+
     def main_signin_screen():
         master_window.destroy()
         main_window = Tk()
         main_window.title("Sign In")
-        main_window.geometry("300x100")
+
+        Label(main_window, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+
+        screen_width1 = main_window.winfo_screenwidth()
+        screen_height1 = main_window.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        main_window.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
+
+
+
 
         def register_volunteer():
             Clean_Database.clean_volunteer_database()
@@ -30,6 +58,17 @@ def main():
             main_window.destroy()
             register_screen = Tk()
             register_screen.title("Register")
+
+            Label(register_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+
+            screen_width2 = register_screen.winfo_screenwidth()
+            screen_height2 = register_screen.winfo_screenheight()
+            window_height2 = screen_height1
+            window_width2 = 900
+
+            center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+            center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+            register_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
 
             username = StringVar()
@@ -200,6 +239,17 @@ def main():
             volunteer_login_screen = Tk()
             volunteer_login_screen.title("Login")
 
+            Label(volunteer_login_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+
+            screen_width2 = volunteer_login_screen.winfo_screenwidth()
+            screen_height2 = volunteer_login_screen.winfo_screenheight()
+            window_height2 = screen_height1
+            window_width2 = 900
+
+            center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+            center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+            volunteer_login_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
+
             Label(volunteer_login_screen, text="Please enter details").pack()
 
             username_entry = StringVar()
@@ -314,6 +364,17 @@ def main():
             admin_login_screen = Tk()
             admin_login_screen.title("Admin Login")
 
+            Label(admin_login_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+
+            screen_width2 = admin_login_screen.winfo_screenwidth()
+            screen_height2 = admin_login_screen.winfo_screenheight()
+            window_height2 = screen_height1
+            window_width2 = 900
+
+            center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+            center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+            admin_login_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
+
             Label(admin_login_screen, text="Please enter details").pack()
 
             admin_username_entry = StringVar()
@@ -390,22 +451,33 @@ def main():
             choose_role_window = Tk()
             choose_role_window.title("Login")
 
-            volunteer_button = Button(choose_role_window, text="Volunteer Login", command=volunteer_login)
+            Label(choose_role_window, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+
+            screen_width2 = choose_role_window.winfo_screenwidth()
+            screen_height2 = choose_role_window.winfo_screenheight()
+            window_height2 = screen_height1
+            window_width2 = 900
+
+            center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+            center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+            choose_role_window.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
+
+            volunteer_button = Button(choose_role_window, text="Volunteer Login", command=volunteer_login, width=30, height=2)
             volunteer_button.pack()
-            admin_button = Button(choose_role_window, text="Admin Login", command=admin_login)
+            admin_button = Button(choose_role_window, text="Admin Login", command=admin_login, width=30, height=2)
             admin_button.pack()
-            back_button = Button(choose_role_window, text="Back", command=lambda: [choose_role_window.destroy(), main()])
+            back_button = Button(choose_role_window, text="Back", command=lambda: [choose_role_window.destroy(), main()], width=30, height=2)
             back_button.pack()
 
             choose_role_window.mainloop()
 
-        login_button = Button(main_window, text="Login", command=choose_role)
+        login_button = Button(main_window, text="Login", command=choose_role, width=30, height=2)
         login_button.pack()
 
-        register_button = Button(main_window, text="Register", command=register_volunteer)
+        register_button = Button(main_window, text="Register", command=register_volunteer, width=30, height=2)
         register_button.pack()
 
-        back_button = Button(main_window, text="Back", command=lambda:[main_window.destroy(), main()])
+        back_button = Button(main_window, text="Back", command=lambda:[main_window.destroy(), main()], width=30, height=2)
         back_button.pack()
 
         main_window.mainloop()
@@ -423,11 +495,11 @@ def main():
         app_info_screen.mainloop()
 
 
-    signin = Button(master_window, text="Sign In", command=main_signin_screen)
+    signin = Button(master_window, text="Sign In", command=main_signin_screen, width=30, height=2)
     signin.pack()
-    info = Button(master_window, text="How to use this Application", command=app_info)
+    info = Button(master_window, text="How to use this Application", command=app_info, width=30, height=2)
     info.pack()
-    exit_app = Button(master_window, text="Exit Application", command=exit)
+    exit_app = Button(master_window, text="Exit Application", command=exit, width=30, height=2)
     exit_app.pack()
 
     master_window.mainloop()
