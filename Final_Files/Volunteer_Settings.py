@@ -3,6 +3,8 @@ from tkinter import ttk
 from tkcalendar import Calendar
 import datetime
 import Login
+import Volunteer_Home
+
 
 user_camp_id = ""
 user_id = ""
@@ -89,28 +91,29 @@ def run():
 
         headings_frame = Frame(volunteer_entry_screen)
 
-        Label(headings_frame, text="Camp ID:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Camp ID:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_camp_id}").pack()
-        Label(headings_frame, text="Volunteer ID:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Volunteer ID:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_id}").pack()
-        Label(headings_frame, text="Full Name:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Full Name:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_name}").pack()
-        Label(headings_frame, text="Username:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Username:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_username}").pack()
-        Label(headings_frame, text="Email:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Email:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_email}").pack()
-        Label(headings_frame, text="Phone Number:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Phone Number:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"+{user_number_area} {user_number}").pack()
-        Label(headings_frame, text="Gender:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Gender:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_gender}").pack()
-        Label(headings_frame, text="Date of Birth:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Date of Birth:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_dob} (Age: {user_age})").pack()
-        Label(headings_frame, text="Account Status:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Account Status:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_status}").pack()
-        Label(headings_frame, text="Account Role:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Account Role:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_role}").pack()
-        Label(headings_frame, text="Your Availability:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text="Your Availability:", font=("Avenir", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_availability}").pack()
+        Label(headings_frame, text="To edit your availability, please go back to the home page and use Edit Availability Section").pack()
 
         headings_frame.pack()
 
@@ -122,8 +125,32 @@ def run():
 
             select_camp_table_button.destroy()
 
-            for widget in form_frame.winfo_children():
-                widget.destroy()
+            select_camp_table_label = Label(form_frame,
+                                            text="See below the respective locations of the available camps that you could volunteer at. \n Make note of the camp that is closest to your current location.")
+            select_camp_table_label.pack()
+
+            select_camp_table_frame = Frame(form_frame)
+            select_camp_table_frame.pack()
+
+            select_camp_table = ttk.Treeview(form_frame)
+            select_camp_table['columns'] = ("Camp ID", "Camp Name", "Location")
+
+            select_camp_table.column("#0", width=0, stretch=NO)
+            select_camp_table.column('Camp ID', anchor=CENTER, width=100)
+            select_camp_table.column("Camp Name", anchor=CENTER, width=100)
+            select_camp_table.column("Location", anchor=CENTER, width=100)
+
+            select_camp_table.heading('Camp ID', text="Camp ID", anchor=CENTER)
+            select_camp_table.heading("Camp Name", text="Camp Name", anchor=CENTER)
+            select_camp_table.heading("Location", text="Location", anchor=CENTER)
+
+            for i in range(0, len(emergency_database_list)):
+                select_camp_table.insert(parent='', index=i, iid=i, values=(
+                emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
+
+            select_camp_table.pack()
+
+
 
             select_camp = StringVar()
             full_name = StringVar()
@@ -214,11 +241,11 @@ def run():
                     phone_number_label.config(text="Phone Number is Valid!", fg="green")
                     gender_label.config(text="Gender is Valid!", fg="green")
                     new_volunteer_error_list.clear()
-                   # if str(volunteer_age) == str(0):
-                    #    DOB_calendar_label.config(
-                     #       text="Please enter your DOB",
-                      #      fg="#f00")
-                       # new_volunteer_error_list.append("d1")
+                    if str(volunteer_age) == str(0):
+                        DOB_calendar_label.config(
+                            text="Please enter your DOB",
+                            fg="#f00")
+                        new_volunteer_error_list.append("d1")
                     if select_camp.get() not in camp_ID_list:
                         select_camp_label.config(
                             text="Please enter a valid Camp ID",
@@ -296,34 +323,23 @@ def run():
                                 updated_user_string = "%".join(entry)
                                 volunteer_write.write(updated_user_string)
 
+                        volunteer_entry_screen.destroy()
 
-                        closeScreen()
 
                     createvolunteerSubmit()
+
+            log_out_info = Label(form_frame, text="Please log out and log back in to see updated details", font=("avenir", 16, 'bold'), fg='blue')
+            log_out_info.pack()
 
             emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
             emergency_submit_button.pack()
 
         select_camp_table_button = Button(volunteer_entry_screen, text="Edit Details", command=volunteerEntry)
         select_camp_table_button.pack()
-        back_button = Button(volunteer_entry_screen, text="Cancel",
-                             command=lambda: [volunteer_entry_screen.destroy(), Login.main()])
+        back_button = Button(volunteer_entry_screen, text="Cancel", command=volunteer_entry_screen.destroy)
         back_button.pack()
 
     campTable()
 
-    def closeScreen():
-        volunteer_entry_screen.destroy()
-        Create_Volunteer_Close_Screen = Tk()
-        Create_Volunteer_Close_Screen.title("Volunteer Request Successfully Submitted")
-        Create_Volunteer_Close_Screen.geometry("500x650")
-
-        close_label = Label(Create_Volunteer_Close_Screen,
-                            text="Thank you for submitting a request to become a volunteer. \n The admin will review your request, and once approved you will be able to access our services.")
-        close_label.pack()
-        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen",
-                                    command=lambda: [Create_Volunteer_Close_Screen.destroy(), Login.main()])
-        return_home_button.pack()
 
     volunteer_entry_screen.mainloop()
-
