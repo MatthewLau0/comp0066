@@ -5,3 +5,5 @@
 5%CampEngland%Flood%Flood in Camp England%France%2022-12-05%NA%Active
 6%CampItaly%Tsunami%Tsunami in Italy%Italy%2022-12-05%2022-12-22%Closed
 7%CampChina%Earthquake%Earthquake in China%NA%2022-11-15%NA%Active
+8%CampMexico%Earthquake%Earthquake in Mexico%Mexico%2022-10-11%NA%Active
+9%CampBrazil%Drought%Drought in Brazil%Brazil%2022-09-15%2022-10-20%Closed

@@ -96,11 +96,6 @@ def createnewemergencyPlan():
         global status_label
         global emergency_location_label
 
-        Create_New_Emergency_Home_Screen.destroy()
-        New_Camp_Screen = Tk()
-        New_Camp_Screen.title("Create a New Emergency")
-        New_Camp_Screen.geometry("500x600")
-
         index_number = StringVar()
         camp_name = StringVar()
         emergency_type = StringVar()
@@ -563,7 +558,7 @@ def createnewemergencyPlan():
         New_Emergency_Close_Screen_Label = Label(New_Emergency_Close_Screen, text="Your new emergency has been successfully saved. Would you like to submit another emergency, or return to homescreen.")
         New_Emergency_Close_Screen_Label.pack()
 
-        Submit_Another_Emergency_Button = Button(New_Emergency_Close_Screen, text="Submit Another Emergency", command=screenSetup)
+        Submit_Another_Emergency_Button = Button(New_Emergency_Close_Screen, text="Submit Another Emergency", command=Create_Emergency_Screen)
         Submit_Another_Emergency_Button.pack()
         Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen", command=returnHome)
         Return_To_HomeScreen_Button.pack()
@@ -584,20 +579,16 @@ def createnewemergencyPlan():
         else:
             generateEndDate()
 
-    def destroyScreen():
-        global Create_New_Emergency_Home_Screen
-        Create_New_Emergency_Home_Screen.destroy()
     def Create_Emergency_Screen():
-        global Create_New_Emergency_Home_Screen
-        Create_New_Emergency_Home_Screen = Tk()
-        Create_New_Emergency_Home_Screen.geometry("500x600")
-        Create_New_Emergency_Home_Screen.title("Create New Emergency Main Screen")
-        Create_New_Emergency_Button = Button(Create_New_Emergency_Home_Screen, text="Create a New Emergency", command=screenSetup)
-        Create_New_Emergency_Button.pack()
-        Return_HomeScreen_Button = Button(Create_New_Emergency_Home_Screen, text="Return to the Homescreen", command=destroyScreen)
-        Return_HomeScreen_Button.pack()
+        global New_Camp_Screen
+        New_Camp_Screen = Tk()
+        New_Camp_Screen.title("Create a New Emergency")
+        New_Camp_Screen.geometry("500x600")
+        screenSetup()
 
-        Create_New_Emergency_Home_Screen.mainloop()
+
+        New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
 
+createnewemergencyPlan()
