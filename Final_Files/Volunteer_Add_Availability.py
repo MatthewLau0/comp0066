@@ -581,7 +581,7 @@ def add_calendar():
                 break
 
         #USING ARBITRARY INDEX NUMBER RN
-        index_num_of_timings = 5
+        index_num_of_timings = 17
 
 
         #ADDING TIMINGS TO THE ARBITRARY INDEX IN LIST
@@ -617,3 +617,4 @@ def add_calendar():
     initial_calendar_lol()
     availability_screen.mainloop()
 
+add_calendar()
