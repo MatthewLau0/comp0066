@@ -4,6 +4,6 @@
 4%CampRussia%Drought%Drought in Russia%Russia%2022-12-06%2022-12-15%Closed
 5%CampEngland%Tsunami%Tsunami in Camp England%France%2022-12-05%NA%Active
 6%CampItaly%Tsunami%Tsunami in Italy%Italy%2022-12-05%2022-12-22%Closed
-7%CampChina%Earthquake%Earthquake in China%NA%2022-11-15%NA%Active
+7%CampChina%Earthquake%Earthquake in China%China%2022-11-15%NA%Active
 8%CampMexico%Earthquake%Earthquake in Mexico%Mexico%2022-10-11%NA%Active
 9%CampBrazil%Hurricane%Hurricane in Brazil%Brazil%2022-11-15%NA%Active

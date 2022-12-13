@@ -44,10 +44,6 @@ def updateexistingForm():
         global emergency_database_list
         global View_Table_Yes
 
-        Update_Emergency_Home_Screen.destroy()
-        Update_Emergency_Screen = Tk()
-        Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("500x600")
 
         Update_Emergency_Screen_Label = Label(Update_Emergency_Screen, text="You are going to update an existing emergency plan. Please follow the below instructions")
         Update_Emergency_Screen_Label.pack()
@@ -614,7 +610,7 @@ def updateexistingForm():
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
         elif area_affected.get() not in countries_list:
-            update_emergency_location_label(text="Please enter an area for the emergency and click confirm.", fg='f00')
+            update_emergency_location_label.config(text="Please enter an area for the emergency and click confirm.", fg='f00')
         elif status == "NA":
             if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
                 status_label.config(text="Please select an activation status for the emergency.", fg='#f00')
@@ -768,21 +764,15 @@ def updateexistingForm():
     #Create a main frame
 
 
-    def destroyScreen():
-        global Update_Emergency_Home_Screen
-        Update_Emergency_Home_Screen.destroy()
-
     def UpdateEmergencyHomeScreen():
-        global Update_Emergency_Home_Screen
-        Update_Emergency_Home_Screen = Tk()
-        Update_Emergency_Home_Screen.geometry("500x600")
-        Update_Emergency_Home_Screen.title("Update Existing Emergency Home screen")
-        Update_Emergency_Home_Screen_Button = Button(Update_Emergency_Home_Screen, text="Update Existing Emergency", command=setupUpdate)
-        Update_Emergency_Home_Screen_Button.pack()
-        Return_Homescreen_Button = Button(Update_Emergency_Home_Screen, text="Return to homepage", command=destroyScreen)
-        Return_Homescreen_Button.pack()
+        global Update_Emergency_Screen
+        Update_Emergency_Screen = Tk()
+        Update_Emergency_Screen.title("Update an existing emergency")
+        Update_Emergency_Screen.geometry("500x600")
+        setupUpdate()
 
-        Update_Emergency_Home_Screen.mainloop()
+
+        Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
 
