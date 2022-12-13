@@ -167,7 +167,7 @@ def updateexistingForm(screen):
             select_index_label.config(fg="#f00")
         else:
             Update_Emergency_Screen.destroy()
-            Update_Emergency_Entry_Screen = Tk()
+            Update_Emergency_Entry_Screen = Toplevel()
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
             Update_Emergency_Entry_Screen.geometry("500x650")
 
@@ -759,3 +759,5 @@ def updateexistingForm(screen):
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
+
+updateexistingForm(Tk())
