@@ -1046,4 +1046,3 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
-create_family()
