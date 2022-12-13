@@ -72,10 +72,12 @@ def manageVolunteers():
                 deactivated_volunteers_IDs.append(deactivated_volunteers[i][1])
                 i += 1
 
+            update_volunteer_status_ID = deactivated_volunteer_activate.get()
+
             deactivated_volunteer_activate_label.config(
                 text="Please enter the index number of the volunteer that you would like to activate", fg="#000000")
 
-            if deactivated_volunteer_activate.get() not in deactivated_volunteers_IDs:
+            if update_volunteer_status_ID not in deactivated_volunteers_IDs:
                 deactivated_volunteer_activate_label.config(
                         text="Invalid ID. Please enter the ID of a volunteer who has been deactivated (see above table).",
                         fg="#f00")
@@ -110,6 +112,7 @@ def manageVolunteers():
 
         def submitvolunteerStatus():
             volunteer_file_write = open("volunteer_database.txt", "r+")
+            volunteer_file_write.truncate(0)
             for i in range(0, len(current_volunteer_list)):
                 if i == (int(deactivated_volunteer_activate.get())-1):
                     current_volunteer_list[i][-3] = "Active"
@@ -143,3 +146,5 @@ def manageVolunteers():
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+
+manageVolunteers()
