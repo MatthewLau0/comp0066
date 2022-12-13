@@ -117,11 +117,11 @@ def createnewemergencyPlan(screen):
         camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
         camp_name_entry.pack()
 
-        emergency_type_label = Label(New_Camp_Screen, text="Select the type of emergency")
-        emergency_type_label.pack()
-
         emergency_type_frame = Frame(New_Camp_Screen)
         emergency_type_frame.pack()
+
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label.pack()
 
         emergency_type_flood = IntVar()
         emergency_type_tsunami = IntVar()

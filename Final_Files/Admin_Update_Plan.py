@@ -285,8 +285,8 @@ def updateexistingForm(screen):
         emergency_type_frame = Frame(Update_Emergency_Entry_Screen)
         emergency_type_frame.pack()
 
-        emergency_type_label = Label(Update_Emergency_Entry_Screen, text="Select the type of emergency")
-        emergency_type_label.pack(side=TOP)
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label.pack()
         emergency_type_flood = IntVar()
         emergency_type_tsunami = IntVar()
         emergency_type_earthquake = IntVar()
