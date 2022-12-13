@@ -46,7 +46,7 @@ def user_details_generate():
         user_id = logins_list[-1][1]
         user_name = logins_list[-1][2]
         user_username = logins_list[-1][3]
-        user_password = logins_list[-1][5]
+        user_password = logins_list[-1][4]
         user_email = logins_list[-1][5]
         if "#" in logins_list[-1][6]:
             number = []
@@ -65,11 +65,12 @@ def user_details_generate():
         user_availability = logins_list[-1][12]
     else:
         pass
+    logins_file.close()
 
 def run():
-    global camp_id_list
+    user_details_generate()
 
-    volunteer_entry_screen = Tk()
+    volunteer_entry_screen = Toplevel()
     volunteer_entry_screen.geometry("600x1000")
     volunteer_entry_screen.title("Volunteer Entry Screen")
 
@@ -80,50 +81,46 @@ def run():
         emergency_database_list.append(line_list)
     emergency_database_file.close()
 
-    camp_id_list = []
+    camp_ID_list = []
     for i in range(0, len(emergency_database_list)):
-        camp_id_list.append(emergency_database_list[i][0])
+        camp_ID_list.append(emergency_database_list[i][0])
 
     def campTable():
 
-        volunteer_number_print = Label(volunteer_entry_screen, text="Your volunteer numbers is %s" % (user_id))
-        volunteer_number_print.pack()
+        headings_frame = Frame(volunteer_entry_screen)
 
-        select_camp_table_label = Label(volunteer_entry_screen,
-                                        text="See below the respective locations of the available camps that you could volunteer at. \n Make note of the camp that is closest to your current location.")
-        select_camp_table_label.pack()
+        Label(headings_frame, text="Camp ID:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_camp_id}").pack()
+        Label(headings_frame, text="Volunteer ID:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_id}").pack()
+        Label(headings_frame, text="Full Name:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_name}").pack()
+        Label(headings_frame, text="Username:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_username}").pack()
+        Label(headings_frame, text="Email:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_email}").pack()
+        Label(headings_frame, text="Phone Number:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"+{user_number_area} {user_number}").pack()
+        Label(headings_frame, text="Gender:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_gender}").pack()
+        Label(headings_frame, text="Date of Birth:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_dob} (Age: {user_age})").pack()
+        Label(headings_frame, text="Account Status:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_status}").pack()
+        Label(headings_frame, text="Account Role:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_role}").pack()
+        Label(headings_frame, text="Your Availability:", font=("Avenis", 16, "bold")).pack()
+        Label(headings_frame, text=f"{user_availability}").pack()
 
-        select_camp_table_frame = Frame(volunteer_entry_screen)
-        select_camp_table_frame.pack()
-
-        select_camp_table = ttk.Treeview(volunteer_entry_screen)
-        select_camp_table['columns'] = ("Camp ID", "Camp Name", "Location")
-
-        select_camp_table.column("#0", width=0, stretch=NO)
-        select_camp_table.column('Camp ID', anchor=CENTER, width=100)
-        select_camp_table.column("Camp Name", anchor=CENTER, width=100)
-        select_camp_table.column("Location", anchor=CENTER, width=100)
-
-        select_camp_table.heading('Camp ID', text="Camp ID", anchor=CENTER)
-        select_camp_table.heading("Camp Name", text="Camp Name", anchor=CENTER)
-        select_camp_table.heading("Location", text="Location", anchor=CENTER)
-
-        for i in range(0, len(emergency_database_list)):
-            select_camp_table.insert(parent='', index=i, iid=i, values=(
-            emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
-
-        select_camp_table.pack()
+        headings_frame.pack()
 
         form_frame = Frame(volunteer_entry_screen)
         form_frame.pack()
 
         def volunteerEntry():
-            global select_camp
-            global full_name
-            global email
-            global phone_area_code
-            global phone_number
-            global gender
+            headings_frame.destroy()
+
+            select_camp_table_button.destroy()
 
             for widget in form_frame.winfo_children():
                 widget.destroy()
@@ -138,19 +135,19 @@ def run():
             select_camp_label = Label(form_frame, text="Please enter the Camp ID")
             select_camp_label.pack()
             select_camp_select = Entry(form_frame, textvariable=select_camp)
-            select_camp_select.insert(0, f"{user_camp_id}")
+            select_camp_select.insert(END, f"{user_camp_id}")
             select_camp_select.pack()
 
             full_name_label = Label(form_frame, text="Please enter your full name")
             full_name_label.pack()
             full_name_entry = Entry(form_frame, textvariable=full_name)
-            full_name_entry.insert(0, f"{user_name}")
+            full_name_entry.insert(END, f"{user_name}")
             full_name_entry.pack()
 
             email_label = Label(form_frame, text="Please enter an email address")
             email_label.pack()
             email_entry = Entry(form_frame, textvariable=email)
-            email_entry.insert(0, f"{user_email}")
+            email_entry.insert(END, f"{user_email}")
             email_entry.pack()
 
             phone_frame = Frame(form_frame)
@@ -161,32 +158,33 @@ def run():
             area_code_sign = Label(phone_frame, text="+")
             area_code_sign.pack(side=LEFT)
             phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
-            phone_number_area_code_entry.insert(0, f"{user_number_area}")
+            phone_number_area_code_entry.insert(END, f"{user_number_area}")
             phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
             phone_number_entry = Entry(phone_frame, textvariable=phone_number)
-            phone_number_entry.insert(0, f"{user_number}")
+            phone_number_entry.insert(END, f"{user_number}")
             phone_number_entry.pack(side=LEFT)
 
             gender_label = Label(form_frame, text="Please enter the gender you identify with")
             gender_label.pack()
             gender_entry = Entry(form_frame, textvariable=gender)
-            gender_entry.insert(0, f"{user_gender}")
+            gender_entry.insert(END, f"{user_gender}")
             gender_entry.pack()
 
             today = datetime.datetime.today()
+            user_day = user_dob[8:10]
+            int_day = int(user_day)
+            user_month = user_dob[5:7]
+            int_month = int(user_month)
+            user_year = user_dob[0:4]
+            int_year = int(user_year)
+
 
             DOB_calendar_label = Label(form_frame, text="Please enter your date of birth")
             DOB_calendar_label.pack()
-            DOB_calendar = Calendar(form_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
+            DOB_calendar = Calendar(form_frame, date_pattern="d/m/y", selectmode='day', maxdate=today, day=int_day, month=int_month, year=int_year)
             DOB_calendar.pack()
 
             def confirmAge():
-                select_camp = StringVar()
-                full_name = StringVar()
-                email = StringVar()
-                phone_area_code = StringVar()
-                phone_number = StringVar()
-                gender = StringVar()
 
                 DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
 
@@ -216,17 +214,16 @@ def run():
                     phone_number_label.config(text="Phone Number is Valid!", fg="green")
                     gender_label.config(text="Gender is Valid!", fg="green")
                     new_volunteer_error_list.clear()
-                    #if str(volunteer_age) == str(0):
-                     #   DOB_calendar_label.config(
-                      #      text="Please enter your DOB",
-                       #     fg="#f00")
+                   # if str(volunteer_age) == str(0):
+                    #    DOB_calendar_label.config(
+                     #       text="Please enter your DOB",
+                      #      fg="#f00")
                        # new_volunteer_error_list.append("d1")
-                    if select_camp.get() not in camp_id_list:
+                    if select_camp.get() not in camp_ID_list:
                         select_camp_label.config(
                             text="Please enter a valid Camp ID",
                             fg="#f00")
                         new_volunteer_error_list.append("e1")
-                    print("hello", full_name.get())
                     if len(full_name.get()) == 0 or full_name.get() == ' ':
                         full_name_label.config(
                             text="Please enter your full name.",
@@ -278,37 +275,37 @@ def run():
                         updated_user[11] = user_role
                         updated_user[12] = user_availability
 
-                        updated_user_string = "%".join(updated_user)
 
-                        volunteer_file = open("volunteer_database.txt", "r")
+                        volunteer_read = open("volunteer_database.txt", "r")
 
-                        current_volunteer_list = []
-                        for line in volunteer_file:
-                            line_list = line.split("%")
-                            current_volunteer_list.append(line_list)
-                        volunteer_file.close()
+                        volunteer_list = []
+                        for line in volunteer_read:
+                            line_string = line.split("%")
+                            volunteer_list.append(line_string)
 
-                        volunteer_file_write = open("volunteer_database.txt", "r+")
-                        for i in current_volunteer_list:
-                            if i[3] == user_username:
-                                volunteer_file_write.write(updated_user_string)
-                            elif i[3] != user_username:
-                                current_volunteer_string = '%'.join(i)
-                                volunteer_file_write.write(current_volunteer_string)
+                        for i in volunteer_list:
+                            if i[1] == str(user_id):
+                                volunteer_list.remove(i)
+                                volunteer_list.append(updated_user)
 
-                        volunteer_file_write.close()
+                        clear_file = open("volunteer_database.txt", "w")
+                        clear_file.close()
+
+                        for entry in volunteer_list:
+                            with open("volunteer_database.txt", "a") as volunteer_write:
+                                updated_user_string = "%".join(entry)
+                                volunteer_write.write(updated_user_string)
+
 
                         closeScreen()
 
                     createvolunteerSubmit()
 
-
-
             emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
             emergency_submit_button.pack()
 
-        volunteerEntry()
-
+        select_camp_table_button = Button(volunteer_entry_screen, text="Edit Details", command=volunteerEntry)
+        select_camp_table_button.pack()
         back_button = Button(volunteer_entry_screen, text="Cancel",
                              command=lambda: [volunteer_entry_screen.destroy(), Login.main()])
         back_button.pack()
@@ -329,3 +326,4 @@ def run():
         return_home_button.pack()
 
     volunteer_entry_screen.mainloop()
+
