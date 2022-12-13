@@ -7,3 +7,5 @@
 7%CampChina%Earthquake%Earthquake in China%China%2022-11-15%NA%Active
 8%CampMexico%Earthquake%Earthquake in Mexico%Mexico%2022-10-11%NA%Active
 9%CampBrazil%Hurricane%Hurricane in Brazil%Brazil%2022-11-15%NA%Active
+10%CampPortugal%Tsunami%Tsunami in Portugal%Portugal%2022-10-04%NA%Active
+11%CampAustria%Earthquake%Earthquake in Austria%Austria%2022-11-16%NA%Active

@@ -167,7 +167,7 @@ def updateexistingForm(screen):
             select_index_label.config(fg="#f00")
         else:
             Update_Emergency_Screen.destroy()
-            Update_Emergency_Entry_Screen = Tk()
+            Update_Emergency_Entry_Screen = Toplevel()
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
             Update_Emergency_Entry_Screen.geometry("500x650")
 
@@ -275,9 +275,9 @@ def updateexistingForm(screen):
         Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Entry_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
         Update_Emergency_Screen_Label_Index.pack()
 
-        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name * (Camp Names must have no spaces and must only contain letters)")
+        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name * (Camp Names must have no spaces and must only contain letters)", state=DISABLED)
         camp_name_label.pack()
-        camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name)
+        camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name, state=DISABLED)
         camp_name_entry.insert(0, f"{updating_camp_list[1]}")
         camp_name_entry.pack()
 
@@ -320,7 +320,6 @@ def updateexistingForm(screen):
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
         emergency_description_entry.insert(0, f"{updating_camp_list[3]}")
         emergency_description_entry.pack()
-        emergency_description_entry.setvar(str(updating_camp_list[3]))
 
         update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Please enter the country in whcih the emergency has occured")
         update_emergency_location_label.pack()
@@ -395,7 +394,7 @@ def updateexistingForm(screen):
         status_reset_button = Button(Update_Emergency_Entry_Screen, text="Reset Calendar", command=calendarReset)
         status_reset_button.pack()
 
-        submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=campnameVerify)
+        submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=generateEndDate)
         submit_updated_emergency_button.pack()
 
 
@@ -594,6 +593,7 @@ def updateexistingForm(screen):
         global close_date_label
         global status_label
         global update_emergency_location_label
+        global updating_camp_list
 
         camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
         emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
@@ -604,8 +604,9 @@ def updateexistingForm(screen):
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
-        if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
-            camp_name_label.config(text="Please enter a name for the new camp", fg='#f00')
+        if camp_name.get() != updating_camp_list[1]:
+            if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
+                camp_name_label.config(text="Please enter a name for the new camp", fg='#f00')
         elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() != 1)):
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
@@ -742,24 +743,6 @@ def updateexistingForm(screen):
     def returnHome():
         import Admin_Home
 
-    def campnameVerify():
-        global camp_name
-        global camp_name_list
-        global camp_name
-        global camp_name_verify
-        global updating_camp_list
-        global update_emergency_frame_two
-        global camp_name_label
-
-        camp_name_verify = camp_name.get()
-
-        if (camp_name_verify != updating_camp_list[1]):
-            if (camp_name_verify in camp_name_list):
-                camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
-            else:
-                UpdateCampVerify()
-        else:
-            generateEndDate()
 
     #Scroll bar creating
     #Create a main frame
@@ -777,3 +760,4 @@ def updateexistingForm(screen):
 
     UpdateEmergencyHomeScreen()
 
+updateexistingForm(Tk())

@@ -5,8 +5,10 @@ from tkcalendar import Calendar
 import datetime
 from country_list import countries_for_language
 
-def createnewemergencyPlan():
-    global admin_home_screen_create
+def createnewemergencyPlan(screen):
+    global admin_home_screen
+    admin_home_screen = screen
+
     def screenSetup():
         global new_emergency
         global emergency_database_list
@@ -535,6 +537,7 @@ def createnewemergencyPlan():
         global Create_New_Emergency_Home_Screen
         global emergency_marker_country
         global emergency_type_string
+        global New_Emergency_Close_Screen
 
         new_emergency[1] = camp_name.get()
         new_emergency[2] = emergency_type_string
@@ -581,7 +584,8 @@ def createnewemergencyPlan():
 
     def Create_Emergency_Screen():
         global New_Camp_Screen
-        New_Camp_Screen = Tk()
+
+        New_Camp_Screen = Toplevel(admin_home_screen)
         New_Camp_Screen.title("Create a New Emergency")
         New_Camp_Screen.geometry("500x600")
         screenSetup()
@@ -591,4 +595,4 @@ def createnewemergencyPlan():
 
     Create_Emergency_Screen()
 
-createnewemergencyPlan()
+createnewemergencyPlan(Tk())
