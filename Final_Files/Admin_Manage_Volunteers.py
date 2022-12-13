@@ -2,7 +2,9 @@ from tkinter import *
 from tkinter import ttk
 
 
-def manageVolunteers():
+def manageVolunteers(screen):
+    global admin_home_screen
+    admin_home_screen = screen
 
     def viewexistingvolunteersSetUp():
         global current_volunteer_list
@@ -117,18 +119,18 @@ def manageVolunteers():
             volunteer_file_write = open("volunteer_database.txt", "r+")
             volunteer_file_write.truncate(0)
             for i in range(0, len(current_volunteer_list)):
-                if i == (int(deactivated_volunteer.get())-1):
+                if i == (deactivated_volunteer.get()-1):
                     current_volunteer_list[i][-3] = "Active"
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
                     volunteer_file_write.write(current_volunteer_string)
-                elif i != deactivated_volunteer.get():
+                elif i != (deactivated_volunteer.get()-1):
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
                     volunteer_file_write.write(current_volunteer_string)
 
             volunteer_file_write.close()
 
             successful_update_label = Label(manage_volunteer_home_screen,
-                                            text="You have successfully updated the activation status of volunteer %s" % (
+                                            text="You have successfully updated the activation status of volunteer %d. To view an updated table, please refresh the screen." % (
                                                 deactivated_volunteer.get()))
             successful_update_label.pack()
 
@@ -188,7 +190,7 @@ def manageVolunteers():
                     volunteer_file_write.write(current_volunteer_string)
 
             volunteer_file_write.close()
-            successful_promotion_label = Label(manage_volunteer_home_screen, text="You have successfully promoted volunteer %d" %(promote_volunteer.get()))
+            successful_promotion_label = Label(manage_volunteer_home_screen, text="You have successfully promoted volunteer %d. To view an updated table, please refresh the screen." %(promote_volunteer.get()))
             successful_promotion_label.pack()
 
 
@@ -204,7 +206,7 @@ def manageVolunteers():
 
     def manageVolunteerScreen():
         global manage_volunteer_home_screen
-        manage_volunteer_home_screen = Toplevel()
+        manage_volunteer_home_screen = Toplevel(admin_home_screen)
         manage_volunteer_home_screen.title("Manage Volunteer Homescreen")
         manage_volunteer_home_screen.geometry("500x650")
         viewexistingvolunteersSetUp()
@@ -213,5 +215,3 @@ def manageVolunteers():
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
-
-manageVolunteers()

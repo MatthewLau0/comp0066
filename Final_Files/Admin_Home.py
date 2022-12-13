@@ -7,19 +7,17 @@ import Login
 def adminHome():
     global admin_home
     def Create_Emergency():
-        global admin_home
         from Admin_Create_Plan import createnewemergencyPlan
         admin_home.destroy()
         createnewemergencyPlan()
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm
-        updateexistingForm(admin_home)
+        updateexistingForm()
 
     def Manage_Volunteers():
         from Admin_Manage_Volunteers import manageVolunteers
-        admin_home.destroy()
-        manageVolunteers()
+        manageVolunteers(admin_home)
 
     def View_Camps():
         from Admin_View_Plan import viewexistingCamps
