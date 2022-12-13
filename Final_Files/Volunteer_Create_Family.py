@@ -103,7 +103,7 @@ def create_family():
 
     country_list = ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'The Democratic Republic of the Congo', 'Cook Islands', 'Costa Rica', "Côte d'Ivoire", 'Croatia', 'Cuba', 'Curaçao', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and McDonald Islands', 'Vatican City', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Republic of Korea', 'Kuwait', 'Kyrgyzstan', "Laos", 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macao', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Martinique', 'Mauritania', 'Mauritius', 'Mayotte', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Niue', 'Norfolk Island', 'Northern Mariana Islands', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestinian Territory', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Pitcairn', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Réunion', 'Romania', 'Russia', 'Rwanda', 'Saint Lucia', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'South Sudan', 'Svalbard', 'Swaziland', 'Sweden', 'Switzerland', 'Syrian Arab Republic', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tokelau', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks and Caicos Islands', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
     CAMP_COLUMN_NUM = 0
-    CURRENT_VOLUNTEER_INDEX = 1
+    CURRENT_VOLUNTEER_INDEX = 0
     print(volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][2])
     def save_to_file():
 
@@ -121,6 +121,7 @@ def create_family():
 
         conditions = refugee_height.get()
         no_fam_conditions = refugee_family_medical_no.get()
+
 
         # CHECKING FOR ERRORS IN NAME
         if name == "" or name == "Enter refugee name...":
@@ -292,6 +293,32 @@ def create_family():
                 tkinter.messagebox.showerror(title='Error!',
                                              message='Please specify how many family members have conditions')
                 return
+
+
+        #CHECK FOR ERRORS IN NUMBER INPUT FOR NUMBER OF FAM CONDITIONS
+        if no_fam_conditions == "":
+            tkinter.messagebox.showerror(title='Error!', message='Number of family members with conditions cannot be empty')
+            return
+
+        if any(i.isalpha() for i in no_fam_conditions):
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='No. of family members with conditions cannot have alphabetical characters')
+            return
+
+        try:
+            int(no_fam_conditions)
+        except ValueError:
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='No. of family members with conditions cannot have special characters!')
+            return
+
+        if int(no_fam_conditions) > int(number):
+            tkinter.messagebox.showerror(title='Error!', message='More family members with medical conditions than number of family members!')
+            return
+        if int(no_fam_conditions) < 1:
+            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 1!')
+            return
+
 
         # CHECK IF THERE IS ENOUGH SPACE IN THE CAMP
         # KINDA SEPARATE SECTION BUT STILL IN THE VALIDATION PART
@@ -950,14 +977,12 @@ def create_family():
     refugee_sex_text = tkinter.Label(screen, text="Sex*:")
     refugee_sex_text.place(x=20, y=170)
     refugee_sex = tkinter.StringVar()
-    refugee_sex_entry = tkinter.Entry(textvariable=refugee_sex)
-    refugee_sex_entry.place(x = 175, y = 170, width=300)
-    drop = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
-    drop.insert(0, 'Select or type your sex...')
-    drop.bind('<FocusIn>', refugee_sex_on)
-    drop.bind('<FocusOut>', refugee_sex_off)
-    drop.config(foreground='grey')
-    drop.place(x=175, y=170, width=300)
+    refugee_sex_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
+    refugee_sex_entry.insert(0, 'Select or type your sex...')
+    refugee_sex_entry.bind('<FocusIn>', refugee_sex_on)
+    refugee_sex_entry.bind('<FocusOut>', refugee_sex_off)
+    refugee_sex_entry.config(foreground='grey')
+    refugee_sex_entry.place(x=175, y=170, width=300)
 
     # REFUGEE DOB STUFF
     refugee_dob_text = tkinter.Label(screen, text="Date of Birth*: ")
