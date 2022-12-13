@@ -575,7 +575,7 @@ def createnewemergencyPlan():
 
         camp_name_verify = camp_name.get()
         if (camp_name_verify in camp_name_list):
-            camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name below.", fg='#f00')
+            camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name.", fg='#f00')
         else:
             generateEndDate()
 

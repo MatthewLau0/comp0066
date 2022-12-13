@@ -117,6 +117,8 @@ def updateexistingForm():
         global select_index
         global select_index_label
         global emergency_database_list_index
+        global select_index_enter
+        global select_index_select_button
 
         select_index = StringVar()
 
@@ -138,11 +140,18 @@ def updateexistingForm():
         global select_index
         global emergency_database_list_index
         global select_index_label
+        global select_index_enter
+        global select_index_select_button
 
-        if select_index.get() not in emergency_database_list_index:
-            select_index_label.config(text="Please enter an index number from the table above.", fg='#f00')
-        else:
+        select_index_label.config(text="Please enter the index number of the camp you would like to update.", fg='#000000')
+
+        if select_index.get() in emergency_database_list_index:
             printupdatingCamp()
+        else:
+            select_index_label.config(text="Invalid entry.", fg='#f00')
+            select_index_enter.destroy()
+            select_index_select_button.destroy()
+            SelectIndex()
 
     def printupdatingCamp():
         global update_emergency_frame_two
@@ -272,8 +281,8 @@ def updateexistingForm():
         camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name * (Camp Names must have no spaces and must only contain letters)")
         camp_name_label.pack()
         camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name)
+        camp_name_entry.insert(0, f"{updating_camp_list[1]}")
         camp_name_entry.pack()
-        camp_name_entry.setvar(str(updating_camp_list[1]))
 
         emergency_type_frame = Frame(Update_Emergency_Entry_Screen)
         emergency_type_frame.pack()
@@ -312,12 +321,14 @@ def updateexistingForm():
         emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency")
         emergency_description_label.pack()
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
+        emergency_description_entry.insert(0, f"{updating_camp_list[3]}")
         emergency_description_entry.pack()
         emergency_description_entry.setvar(str(updating_camp_list[3]))
 
         update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Please enter the country in whcih the emergency has occured")
         update_emergency_location_label.pack()
         update_emergency_location_entry = Entry(Update_Emergency_Entry_Screen, textvariable=area_affected)
+        update_emergency_location_entry.insert(0, f"{updating_camp_list[4]}")
         update_emergency_location_entry.pack()
 
         calendar_frame_label = Frame(Update_Emergency_Entry_Screen)
@@ -702,6 +713,7 @@ def updateexistingForm():
 
         emergency_database_list[(index_updating_camp)] = updating_camp_list
         emergency_database_file_write = open("emergency_database.txt", "r+")
+        emergency_database_file_write.truncate(0)
         for i in range(0, len(emergency_database_list)):
             emergency_database_string = '%'.join(emergency_database_list[i])
             if i == index_updating_camp:
@@ -725,7 +737,7 @@ def updateexistingForm():
                                                     text="Your updated emergency has been successfully saved.")
         Update_Emergency_Close_Screen_Label.pack()
 
-        update_another_emergency_button = Button(Update_Camp_Close_Screen, text="Update another emergency", command=setupUpdate)
+        update_another_emergency_button = Button(Update_Camp_Close_Screen, text="Update another emergency", command=UpdateEmergencyHomeScreen)
         update_another_emergency_button.pack()
         return_to_home_screen_button = Button(Update_Camp_Close_Screen, text="Return to homescreen", command=returnHome)
         return_to_home_screen_button.pack()
