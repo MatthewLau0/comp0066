@@ -158,11 +158,10 @@ def accommodation_portal():
         new_block_occupancy_entry = Entry(new_accommodation_screen, textvariable=block_occ)
         new_block_occupancy_entry.pack()
 
-        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
         block_location.set("Select Camp Area")
         new_block_location_label = Label(new_accommodation_screen, text="Block Location: ")
         new_block_location_label.pack()
-        new_block_location_entry = OptionMenu(new_accommodation_screen, block_location, *location_list)
+        new_block_location_entry = ttk.Combobox(new_accommodation_screen, textvariable=block_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
         new_block_location_entry.pack()
 
         def summary():
@@ -206,7 +205,7 @@ def accommodation_portal():
                 new_accommodation_screen.destroy()
                 accommodation_window.destroy()
                 main_window.destroy()
-                main()
+                run_camp_lead()
 
             edit_button = Button(accommodation_summary, text="Edit", command=edit_command)
             edit_button.pack()
@@ -372,7 +371,7 @@ def accommodation_portal():
         id_select_label = Label(update_block_screen_id, text="Please choose a block ID to update")
         id_select_label.pack()
         block_id.set("Select ID")
-        id_select_option = OptionMenu(update_block_screen_id, block_id, *id_list)
+        id_select_option = ttk.Combobox(update_block_screen_id, textvariable=block_id, values=id_list)
         id_select_option.pack()
 
         def update_run():
@@ -409,11 +408,10 @@ def accommodation_portal():
             new_block_occupancy_entry.insert(END, f"{blocks_list[x][4]}")
             new_block_occupancy_entry.pack()
 
-            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
             block_location.set(f"{blocks_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Block Location: ")
             new_block_location_label.pack()
-            new_block_location_entry = OptionMenu(update_block_screen, block_location, *location_list)
+            new_block_location_entry = ttk.Combobox(update_block_screen, textvariable=block_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
             new_block_location_entry.pack()
 
             def summary():
@@ -477,7 +475,7 @@ def accommodation_portal():
                     update_block_screen.destroy()
                     accommodation_window.destroy()
                     main_window.destroy()
-                    main()
+                    run_camp_lead()
 
                 edit_button = Button(accommodation_summary, text="Edit", command=edit_command)
                 edit_button.pack()
@@ -645,11 +643,10 @@ def ration_portal():
         new_block_occupancy_entry = Entry(new_ration_screen, textvariable=ration_use)
         new_block_occupancy_entry.pack()
 
-        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
         ration_location.set("Select Camp Area")
         new_block_location_label = Label(new_ration_screen, text="Stall Location: ")
         new_block_location_label.pack()
-        new_block_location_entry = OptionMenu(new_ration_screen, ration_location, *location_list)
+        new_block_location_entry = ttk.Combobox(new_ration_screen, textvariable=ration_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
         new_block_location_entry.pack()
 
         def summary():
@@ -693,7 +690,7 @@ def ration_portal():
                 new_ration_screen.destroy()
                 ration_window.destroy()
                 main_window.destroy()
-                main()
+                run_camp_lead()
 
             edit_button = Button(ration_summary, text="Edit", command=edit_command)
             edit_button.pack()
@@ -859,7 +856,7 @@ def ration_portal():
         id_select_label = Label(update_block_screen_id, text="Please choose a Stall ID to update")
         id_select_label.pack()
         ration_id.set("Select ID")
-        id_select_option = OptionMenu(update_block_screen_id, ration_id, *id_list)
+        id_select_option = ttk.Combobox(update_block_screen_id, textvariable=ration_id, values=id_list)
         id_select_option.pack()
 
         def update_run():
@@ -898,11 +895,10 @@ def ration_portal():
             new_block_occupancy_entry.insert(END, f"{ration_list[x][4]}")
             new_block_occupancy_entry.pack()
 
-            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
             ration_location.set(f"{ration_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Stall Location: ")
             new_block_location_label.pack()
-            new_block_location_entry = OptionMenu(update_block_screen, ration_location, *location_list)
+            new_block_location_entry = ttk.Combobox(update_block_screen, textvariable=ration_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
             new_block_location_entry.pack()
 
             def summary():
@@ -966,7 +962,7 @@ def ration_portal():
                     update_block_screen.destroy()
                     ration_window.destroy()
                     main_window.destroy()
-                    main()
+                    run_camp_lead()
 
                 edit_button = Button(ration_summary, text="Edit", command=edit_command)
                 edit_button.pack()
@@ -1139,11 +1135,10 @@ def toilets_portal():
         new_block_occupancy_entry = Entry(new_toilet_screen, textvariable=toilet_occ)
         new_block_occupancy_entry.pack()
 
-        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
         toilet_location.set("Select Camp Area")
         new_block_location_label = Label(new_toilet_screen, text="Toilet Block Location: ")
         new_block_location_label.pack()
-        new_block_location_entry = OptionMenu(new_toilet_screen, toilet_location, *location_list)
+        new_block_location_entry = ttk.Combobox(new_toilet_screen, textvariable=toilet_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
         new_block_location_entry.pack()
 
         def summary():
@@ -1187,7 +1182,7 @@ def toilets_portal():
                 new_toilet_screen.destroy()
                 toilet_window.destroy()
                 main_window.destroy()
-                main()
+                run_camp_lead()
 
             edit_button = Button(toilet_summary, text="Edit", command=edit_command)
             edit_button.pack()
@@ -1354,7 +1349,7 @@ def toilets_portal():
         id_select_label = Label(update_block_screen_id, text="Please choose a Block ID to update")
         id_select_label.pack()
         toilet_id.set("Select ID")
-        id_select_option = OptionMenu(update_block_screen_id, toilet_id, *id_list)
+        id_select_option = ttk.Combobox(update_block_screen_id, textvariable=toilet_id, values=id_list)
         id_select_option.pack()
 
         def update_run():
@@ -1393,11 +1388,10 @@ def toilets_portal():
             new_block_occupancy_entry.insert(END, f"{toilet_list[x][4]}")
             new_block_occupancy_entry.pack()
 
-            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
             toilet_location.set(f"{toilet_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Toilet Block Location: ")
             new_block_location_label.pack()
-            new_block_location_entry = OptionMenu(update_block_screen, toilet_location, *location_list)
+            new_block_location_entry = ttk.Combobox(update_block_screen, textvariable=toilet_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
             new_block_location_entry.pack()
 
             def summary():
@@ -1461,7 +1455,7 @@ def toilets_portal():
                     update_block_screen.destroy()
                     toilet_window.destroy()
                     main_window.destroy()
-                    main()
+                    run_camp_lead()
 
                 edit_button = Button(toilet_summary, text="Edit", command=edit_command)
                 edit_button.pack()
@@ -1634,11 +1628,10 @@ def medical_portal():
         new_block_occupancy_entry = Entry(new_medical_screen, textvariable=medical_occ)
         new_block_occupancy_entry.pack()
 
-        location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
         medical_location.set("Select Camp Area")
         new_block_location_label = Label(new_medical_screen, text="Medical Dispensary Location: ")
         new_block_location_label.pack()
-        new_block_location_entry = OptionMenu(new_medical_screen, medical_location, *location_list)
+        new_block_location_entry = ttk.Combobox(new_medical_screen, textvariable=medical_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
         new_block_location_entry.pack()
 
         def summary():
@@ -1682,7 +1675,7 @@ def medical_portal():
                 new_medical_screen.destroy()
                 medical_window.destroy()
                 main_window.destroy()
-                main()
+                run_camp_lead()
 
             edit_button = Button(medical_summary, text="Edit", command=edit_command)
             edit_button.pack()
@@ -1849,7 +1842,7 @@ def medical_portal():
         id_select_label = Label(update_block_screen_id, text="Please choose a Medical Dispensary ID to update")
         id_select_label.pack()
         medical_id.set("Select ID")
-        id_select_option = OptionMenu(update_block_screen_id, medical_id, *id_list)
+        id_select_option = ttk.Combobox(update_block_screen_id, textvariable=medical_id, values=id_list)
         id_select_option.pack()
 
         def update_run():
@@ -1888,11 +1881,10 @@ def medical_portal():
             new_block_occupancy_entry.insert(END, f"{medical_list[x][4]}")
             new_block_occupancy_entry.pack()
 
-            location_list = ["North Wing", "East Wing", "South Wing", "West Wing"]
             medical_location.set(f"{medical_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Medical Dispensary Location: ")
             new_block_location_label.pack()
-            new_block_location_entry = OptionMenu(update_block_screen, medical_location, *location_list)
+            new_block_location_entry = ttk.Combobox(update_block_screen, textvariable=medical_location, values=["North Wing", "East Wing", "South Wing", "West Wing"])
             new_block_location_entry.pack()
 
             def summary():
@@ -1956,7 +1948,7 @@ def medical_portal():
                     update_block_screen.destroy()
                     medical_window.destroy()
                     main_window.destroy()
-                    main()
+                    run_camp_lead()
 
                 edit_button = Button(medical_summary, text="Edit", command=edit_command)
                 edit_button.pack()
@@ -2456,7 +2448,7 @@ def settings():
 
 
 
-def main():
+def run_camp_lead():
     global main_window
 
 
@@ -2487,5 +2479,3 @@ def main():
 
     main_window.mainloop()
 
-if __name__ == '__main__':
-    main()
