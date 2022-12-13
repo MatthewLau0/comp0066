@@ -84,4 +84,3 @@ def table():
 
     ViewTable()
 
-table()
