@@ -1,3 +1,21 @@
+def camp_id_generate():
+    global current_refugee_id_update
+    global current_refugee_name_update
+    global logins_list_update
+    logins_file_update = open("successful_login.txt", "r")
+
+    logins_list_update = []
+    for line in logins_file_update:
+        line_string = line.split("%")
+        logins_list_update.append(line_string)
+    logins_file_update.close()
+    if len(logins_list_update) > 0:
+        current_refugee_id_update = logins_list_update[-1][0]
+        current_refugee_name_update = logins_list_update[-1][2]
+    else:
+        pass
+
+
 def modify_family():
     import Volunteer_View_Family
     import tkinter
@@ -6,10 +24,11 @@ def modify_family():
     import tkcalendar
     from tkinter import messagebox
 
+
+    camp_id_generate()
+
     # WILL REPLACE THIS VARIABLE WITH VARIABLE OF THEIR LOGIN FROM LOGIN PAGE
     # CURRENTLY SET TO A VALUE OF 1
-    current_volunteer_id = 1
-    CURRENT_VOLUNTEER_INDEX = current_volunteer_id
     CAMP_COLUMN_NUM = 0
 
     # OPENING CURRENT VOLUNTEER DATABASE AND READING IT INTO LIST
@@ -76,7 +95,15 @@ def modify_family():
 
     def confirm_update():
         if refugee_button.get() == '':
-            error_one()
+            tkinter.messagebox.showerror(title='Error!', message='Please input a volunteer ID')
+            return
+
+        volunteer_database_list_index_confirm = []
+        for i in range(0, len(volunteer_database_list)):
+            volunteer_database_list_index_confirm.append((volunteer_database_list[i])[1])
+            i += 1
+        if refugee_button.get() not in volunteer_database_list_index_confirm:
+            tkinter.messagebox.showerror(title= 'Error!', message= 'Please ensure volunteer ID is valid')
             return
         else:
             delete_update_screen()
@@ -96,7 +123,7 @@ def modify_family():
 
             update_refugee_table = tkinter.ttk.Treeview(update_current_refugee)
 
-            update_refugee_table['columns'] = ("ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "Medical Conditions", "No. family with condition", "CampID", "CampName", "Wing", "Accommodation", "Medical", "Toilet", "Ration")
+            update_refugee_table['columns'] = ("CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "Medical Conditions", "No. family with condition", "CampName", "Wing", "Accommodation", "Medical", "Toilet", "Ration")
 
             update_refugee_table.column("#0", width=0, stretch='NO')
             update_refugee_table.column("ID", anchor='center', width=30)
@@ -248,8 +275,13 @@ def modify_family():
 
                 # CHECK THAT SEX ISN'T EMPTY
 
-                if sex == "":
+                if sex == "" or sex == "Select or type your sex...":
                     tkinter.messagebox.showerror(title='Error!', message='Sex cannot be empty')
+                    return
+
+                if sex != "Male" and sex != "Female" and sex != "Prefer not to say":
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Sex must be "Male", "Female", or "Prefer not to say"')
                     return
 
                 # DOB CHECKS
@@ -258,7 +290,8 @@ def modify_family():
 
                 if today_checktime.year == dob_datetime.year and today_checktime.month == dob_datetime.month:
                     if int(today_checktime.day - dob_datetime.day) < 6:
-                        tkinter.messagebox.showerror(title='Error!', message='Refugee must be more than 5 days old!')
+                        tkinter.messagebox.showerror(title='Error!',
+                                                     message='Refugee must be more than 5 days old!')
                         return
 
                 # CHECKS ADDRESS LINE 1
@@ -266,7 +299,8 @@ def modify_family():
                     tkinter.messagebox.showerror(title='Error!', message='Address cannot be fully numeric')
                     return
                 if len(first_address) > 100:
-                    tkinter.messagebox.showerror(title='Error!', message='Address must be shorter than 100 characters')
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Address must be shorter than 100 characters')
                     return
 
                 if first_address != "" or first_address != "Address Line 1":
@@ -297,7 +331,8 @@ def modify_family():
 
                 # CHECKS FOR ERRORS IN POSTCODE
                 if len(postcode_address) > 10:
-                    tkinter.messagebox.showerror(title='Error!', message='Postcode cannot be longer than 10 characters')
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Postcode cannot be longer than 10 characters')
                     return
 
                 if postcode_address != "" or postcode_address != "Postcode":
@@ -305,6 +340,35 @@ def modify_family():
                         if i.isalnum() != True and i != " ":
                             tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in postcode')
                             return
+
+                # CHECK FOR ERRORS IN COUNTRY
+                if country_address != "" and country_address != "Use dropdown or type to select country...":
+                    if country_address.count(" ") > 3:
+                        tkinter.messagebox.showerror(title='Error!',
+                                                     message='Country cannot have more than 3 words')
+                        return
+
+                    if country_address.isnumeric():
+                        tkinter.messagebox.showerror(title='Error!', message='Country address cannot be numeric')
+                        return
+
+                    if any(i.isnumeric() for i in country_address):
+                        tkinter.messagebox.showerror(title='Error!',
+                                                     message='Country cannot have numerical characters')
+                        return
+
+                    for i in country_address:
+                        if i.isalnum() != True and i != " " and i != ".":
+                            tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in country')
+                            return
+
+                    country_address = country_address.lower()
+                    country_address = country_address.capitalize()
+
+                    if country_address not in country_list:
+                        tkinter.messagebox.showerror(title='Error!',
+                                                     message='Country not in list! Please use dropdown menu to select')
+                        return
 
                 address_list = [first_address, city_address, postcode_address, country_address]
                 address = ', '.join(address_list)
@@ -339,8 +403,7 @@ def modify_family():
                 # KINDA SEPARATE SECTION BUT STILL IN THE VALIDATION PART
 
                 # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-                volunteer_current_camp_id = int(
-                    volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][CAMP_COLUMN_NUM])
+                volunteer_current_camp_id = int(volunteer_actual_database_list[int(current_refugee_id_update) - 1][CAMP_COLUMN_NUM])
 
                 # ACCOMMODATION: GET SPECIFIC LIST WITH ONLY ACCOMMODATION IN VOLUNTEER CAMP
                 accommodation_specific_camp_list_test = []
@@ -568,7 +631,7 @@ def modify_family():
 
             def add_camp():
                 # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-                volunteer_current_camp = int(volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][0])
+                volunteer_current_camp = int(volunteer_actual_database_list[int(current_refugee_id_update) - 1][0])
 
                 # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
                 camp_name_list = []
@@ -859,6 +922,17 @@ def modify_family():
                     refugee_name_entry.insert(0, 'Enter refugee name...')
                     refugee_name_entry.config(fg='grey')
 
+            def refugee_sex_on(self):
+                if refugee_sex_entry.get() == 'Select or type your sex...':
+                    refugee_sex_entry.delete(0, "end")  # delete all the text in the entry
+                    refugee_sex_entry.insert(0, '')  # Insert blank for user input
+                    refugee_sex_entry.config(foreground='black')
+
+            def refugee_sex_off(self):
+                if refugee_sex_entry.get() == '':
+                    refugee_sex_entry.insert(0, 'Select or type your sex...')
+                    refugee_sex_entry.config(foreground='grey')
+
             def refugee_number_on(self):
                 if refugee_number_entry.get() == 'Enter no. of family members...':
                     refugee_number_entry.delete(0, "end")  # delete all the text in the entry
@@ -939,7 +1013,7 @@ def modify_family():
             refugee_name_entry.bind('<FocusIn>', refugee_text_on)
             refugee_name_entry.bind('<FocusOut>', refugee_text_off)
             #refugee_name_entry.config(fg='grey')
-            refugee_name.set(updating_refugee_list[1])
+            refugee_name.set(updating_refugee_list[2])
             refugee_name_entry.place(x=175, y=110, width=300)
 
             # REFUGEE NO. OF FAMILY MEMBERS STUFF
@@ -955,18 +1029,21 @@ def modify_family():
             refugee_number_entry.bind('<FocusIn>', refugee_number_on)
             refugee_number_entry.bind('<FocusOut>', refugee_number_off)
             #refugee_number_entry.config(fg='grey')
-            refugee_number.set(updating_refugee_list[2])
+            refugee_number.set(updating_refugee_list[3])
             refugee_number_entry.place(x=175, y=160, width=300)
 
             # REFUGEE SEX STUFF
             refugee_sex_text = tkinter.Label(update_current_refugee, text="Sex*:")
             refugee_sex_text.place(x=20, y=210)
             refugee_sex = tkinter.StringVar()
-            # refugee_sex_entry = Entry(textvariable=refugee_sex)
-            # refugee_sex_entry.place(x = 175, y = 150, width=300)
-            drop = tkinter.OptionMenu(update_current_refugee, refugee_sex, "Male", "Female", "Prefer not to say")
-            refugee_sex.set(updating_refugee_list[5])
-            drop.place(x=175, y=210, width=300)
+            refugee_sex_entry = tkinter.ttk.Combobox(update_current_refugee, textvariable=refugee_sex,
+                                                     values=["Male", "Female", "Prefer not to say"])
+            refugee_sex_entry.insert(0, 'Select or type your sex...')
+            refugee_sex_entry.bind('<FocusIn>', refugee_sex_on)
+            refugee_sex_entry.bind('<FocusOut>', refugee_sex_off)
+            #refugee_sex_entry.config(foreground='grey')
+            refugee_sex_entry.place(x=175, y=210, width=300)
+            refugee_sex.set(updating_refugee_list[6])
 
             # REFUGEE DOB STUFF
             refugee_dob_text = tkinter.Label(update_current_refugee, text="Date of Birth*: ")
@@ -974,18 +1051,21 @@ def modify_family():
             today = datetime.date.today()
             max = datetime.date(1904, 2, 11)
             # max is oldest person alive!
-            actual_dob = datetime.datetime.strptime(updating_refugee_list[3], "%d/%m/%Y")
+            actual_dob = datetime.datetime.strptime(updating_refugee_list[4], "%d/%m/%Y")
             #HTEARUYEOIUYREOIQUIOREIOUREQWUOIREWQU
+            days_birth = updating_refugee_list[4]
+            days_birth_list = days_birth.split('/')
             refugee_dob_calendar = tkcalendar.Calendar(update_current_refugee, date_pattern="d/m/y", selectmode='day',
                                                        font='Arial 12', foreground='black', maxdate=today,
-                                                       mindate=max)
+                                                       mindate=max, year = int(days_birth_list[2]), month= int(days_birth_list[1]), day = int(days_birth_list[0]))
+
             refugee_dob_calendar.place(x=190, y=250)
 
             # REFUGEE ADDRESS STUFF
             refugee_address_text = tkinter.Label(update_current_refugee, text="Address:")
             refugee_address_text.place(x=20, y=440)
 
-            refugee_edit_address_values = updating_refugee_list[6]
+            refugee_edit_address_values = updating_refugee_list[7]
             address_list_for_edit = refugee_edit_address_values.split(', ')
 
 
@@ -1034,15 +1114,51 @@ def modify_family():
 
 
             def clickYes():
+                number_click = refugee_number.get()
+                if number_click == "" or number_click == "Enter no. of family members...":
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Please ensure no. of family members is not empty')
+                    refugee_weight.set(0)
+                    return
+
+                if any(i.isalpha() for i in number_click):
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Please ensure no. of family members is non-alphabetic')
+                    refugee_weight.set(0)
+                    return
+
+                try:
+                    int(number_click)
+                except ValueError:
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Please ensure no. of family members does not have special characters')
+                    refugee_weight.set(0)
+                    return
+
+                if int(number_click) > 20:
+                    tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
+                    refugee_weight.set(0)
+                    return
+                if int(number_click) < 0:
+                    tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
+                    refugee_weight.set(0)
+                    return
                 global refugee_height
                 global refugee_height_entry
                 global refugee_family_medical_no
                 refugee_height = tkinter.StringVar()
                 refugee_family_medical_no = tkinter.StringVar()
-                refugee_fam_num = int(updating_refugee_list[8])
+                refugee_fam_num = refugee_number.get()
 
-                if refugee_fam_num == '' or refugee_fam_num == 'Enter no. of family members...':
+                if refugee_fam_num == '' or refugee_fam_num == 'Enter no. of family members...' or refugee_fam_num == 'None':
                     refugee_fam_num = 0
+                else:
+                    try:
+                        refugee_fam_num = int(refugee_fam_num)
+                    except:
+                        tkinter.messagebox.showerror(title='Error!',
+                                                     message='Please ensure no. of family members is positive')
+                        return
 
                 if refugee_weight.get() == 1:
                     refugee_weight_entry_2.config(state='disabled')
@@ -1053,7 +1169,7 @@ def modify_family():
                     refugee_height_entry.bind('<FocusIn>', refugee_height_on)
                     refugee_height_entry.bind('<FocusOut>', refugee_height_off)
                     #refugee_height_entry.config(fg='grey')
-                    refugee_height.set(updating_refugee_list[7])
+                    refugee_height.set(updating_refugee_list[8])
                     refugee_height_entry.place(x=175, y=600, width=300)
                     refugee_family_medical_no_label = tkinter.Label(update_current_refugee, text="How many family members\n have conditions (inc. yourself):*")
                     refugee_family_medical_no_label.place(x=20, y=640)
@@ -1062,16 +1178,19 @@ def modify_family():
                     if int(refugee_fam_num) > 0:
                         for i in range(0, int(refugee_fam_num) + 1):
                             refugee_family_num.append(i)
-                        refugee_family_medical_no_option = tkinter.OptionMenu(update_current_refugee, refugee_family_medical_no,
-                                                                              *refugee_family_num)
-                        refugee_family_medical_no.set(refugee_fam_num)
-                        refugee_family_medical_no_option.place(x=300, y=650)
+                        refugee_family_medical_no_option = tkinter.ttk.Combobox(update_current_refugee,
+                                                                                textvariable=refugee_family_medical_no,
+                                                                                values=refugee_family_num)
+                        refugee_family_medical_no_option.place(x=300, y=650, width=50)
+
+
 
                     elif int(refugee_fam_num) == 0:
-                        refugee_fam_num = 1
-                        refugee_family_medical_no_option = tkinter.OptionMenu(update_current_refugee, refugee_family_medical_no,
-                                                                              int(refugee_fam_num))
-                        refugee_family_medical_no_option.place(x=300, y=650)
+                            refugee_fam_num = 1
+                            refugee_family_medical_no_option = tkinter.OptionMenu(update_current_refugee, refugee_family_medical_no,
+                                                                                  int(refugee_fam_num))
+                            refugee_family_medical_no_option.place(x=300, y=650)
+                    refugee_family_medical_no.set(int(updating_refugee_list[9]))
 
                 else:
                     refugee_height.set('Enter any medical conditions...')
@@ -1083,6 +1202,35 @@ def modify_family():
 
             # FUNCTION TO ERASE ANY INFO/DO NOTHING IF NO IS CLICKED
             def clickNo():
+                number_click2 = refugee_number.get()
+                if number_click2 == "" or number_click2 == "Enter no. of family members..." or number_click2 == 'None':
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Please ensure no. of family members is not empty')
+                    refugee_weight_2.set(0)
+                    return
+
+                if any(i.isalpha() for i in number_click2):
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Please ensure no. of family members is non-alphabetic')
+                    refugee_weight_2.set(0)
+                    return
+
+                try:
+                    int(number_click2)
+                except ValueError:
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Please ensure no. of family members does not have special characters')
+                    refugee_weight_2.set(0)
+                    return
+
+                if int(number_click2) > 20:
+                    tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
+                    refugee_weight_2.set(0)
+                    return
+                if int(number_click2) < 0:
+                    tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
+                    refugee_weight_2.set(0)
+                    return
                 global refugee_height
                 refugee_height = tkinter.StringVar()
                 global refugee_family_medical_no
@@ -1110,7 +1258,7 @@ def modify_family():
             refugee_weight_entry_2 = tkinter.Checkbutton(update_current_refugee, variable=refugee_weight_2, onvalue=1, offvalue=2,
                                                          text="No", command=clickNo)
 
-            if updating_refugee_list[7] == 'None' and updating_refugee_list[8] == 'None':
+            if updating_refugee_list[8] == 'None' and updating_refugee_list[9] == 'None':
                 refugee_weight_2.set(1)
                 clickNo()
             else:
@@ -1129,12 +1277,12 @@ def modify_family():
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
-        x = line.split("#")
+        x = line.split("%")
         volunteer_database_list.append(x)
 
     volunteer_database_list_index = []
     for i in range(0, len(volunteer_database_list)):
-        volunteer_database_list_index.append((volunteer_database_list[i])[0])
+        volunteer_database_list_index.append((volunteer_database_list[i])[1])
         i += 1
 
     update_screen = tkinter.Toplevel()
@@ -1153,9 +1301,10 @@ def modify_family():
 
     emergency_database_table = tkinter.ttk.Treeview(update_screen)
 
-    emergency_database_table['columns'] = ("ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "Medical Conditions", "No. family with condition", "CampID", "CampName", "Wing", "Accommodation", "Medical", "Toilet", "Ration")
+    emergency_database_table['columns'] = ("CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "Medical Conditions", "No. family with condition", "CampName", "Wing", "Accommodation", "Medical", "Toilet", "Ration")
 
     emergency_database_table.column("#0", width=0, stretch=True)
+    emergency_database_table.column("CampID", anchor='center', width=50)
     emergency_database_table.column("ID", anchor='center', width=30)
     emergency_database_table.column("Name", anchor='center', width=80)
     emergency_database_table.column("Family size", anchor='center', width=60)
@@ -1165,7 +1314,6 @@ def modify_family():
     emergency_database_table.column("Address", anchor='center', width=200)
     emergency_database_table.column("Medical Conditions", anchor='center', width=210)
     emergency_database_table.column("No. family with condition", anchor='center', width=85)
-    emergency_database_table.column("CampID", anchor='center', width=50)
     emergency_database_table.column("CampName", anchor='center', width=100)
     emergency_database_table.column("Wing", anchor='center', width=85)
     emergency_database_table.column("Accommodation", anchor='center', width=80)
@@ -1173,6 +1321,7 @@ def modify_family():
     emergency_database_table.column("Toilet", anchor='center', width=70)
     emergency_database_table.column("Ration", anchor='center', width=70)
 
+    emergency_database_table.heading("CampID", text="Camp ID", anchor='center')
     emergency_database_table.heading("ID", text="ID", anchor='center')
     emergency_database_table.heading("Name", text="Name", anchor='center')
     emergency_database_table.heading("Family size", text="Family size", anchor='center')
@@ -1182,7 +1331,6 @@ def modify_family():
     emergency_database_table.heading("Address", text="Address", anchor='center')
     emergency_database_table.heading("Medical Conditions", text="Medical Conditions", anchor='center')
     emergency_database_table.heading("No. family with condition", text="No. conditions", anchor='center')
-    emergency_database_table.heading("CampID", text="Camp ID", anchor='center')
     emergency_database_table.heading("CampName", text="Camp Name", anchor='center')
     emergency_database_table.heading("Wing", text="Wing", anchor='center')
     emergency_database_table.heading("Accommodation", text="Accom.", anchor='center')
@@ -1193,7 +1341,7 @@ def modify_family():
     # https://pythonguides.com/python-tkinter-table-tutorial/
     for i in range(0, len(volunteer_database_list)):
         emergency_database_table.insert(parent='', index=i, iid=i, values=(
-        volunteer_database_list[i][0], str(volunteer_database_list[i][1]), str(int(volunteer_database_list[i][2]) + 1),
+        volunteer_database_list[i][0], str(volunteer_database_list[i][1]), volunteer_database_list[i][2],
         volunteer_database_list[i][3], volunteer_database_list[i][4], volunteer_database_list[i][5],
         volunteer_database_list[i][6], volunteer_database_list[i][7], volunteer_database_list[i][8],
         volunteer_database_list[i][9], volunteer_database_list[i][10], volunteer_database_list[i][11],
@@ -1208,7 +1356,7 @@ def modify_family():
     choose_refugee_label.pack(pady = 20)
 
     refugee_button = tkinter.StringVar()
-    choose_refugee_button = tkinter.OptionMenu(update_screen, refugee_button, *volunteer_database_list_index)
+    choose_refugee_button = tkinter.ttk.Combobox(update_screen, textvariable=refugee_button, values=volunteer_database_list_index)
     choose_refugee_button.pack()
 
     confirm_refugee_button = tkinter.Button(update_screen, text = "Submit", command = confirm_update)
@@ -1216,3 +1364,6 @@ def modify_family():
 
 
     update_screen.mainloop()
+
+
+modify_family()
