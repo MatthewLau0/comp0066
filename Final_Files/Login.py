@@ -1,6 +1,6 @@
-#import sys
-#import subprocess
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+import sys
+import subprocess
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkinter import *
 import hashlib
 import Register_Info
@@ -35,9 +35,9 @@ def main():
 
     def main_signin_screen():
         master_window.destroy()
-
         main_window = Tk()
         main_window.title("Sign In")
+
         Label(main_window, text="\n\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
         screen_width1 = main_window.winfo_screenwidth()
@@ -360,7 +360,7 @@ def main():
                     login_s.close()
                     if login_entry_string not in camp_lead_list:
                         volunteer_login_screen.destroy()
-                        Volunteer_Home.camp_id_generate()
+                        Volunteer_Home.user_details_generate()
                         Volunteer_Home.volunteer_home_page()
                     if login_entry_string in camp_lead_list:
                         volunteer_login_screen.destroy()
