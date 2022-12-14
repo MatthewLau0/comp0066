@@ -26,8 +26,8 @@ def adminHome():
     admin_home = Tk()
     admin_home.geometry("650x650")
     admin_home.title("Admin Home Page")
-    admin_home_label = Label(admin_home, text="Welcome to the admin homepage.")
-    admin_home_label.pack()
+    Label(admin_home, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+    Label(admin_home, text="Welcome to the Admin Home Page", font=("Avenir", 18)).pack()
 
     #Add buttons to the window
     create_new_emergency_frame = Frame(admin_home)
