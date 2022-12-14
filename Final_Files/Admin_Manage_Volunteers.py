@@ -9,10 +9,10 @@ def manageVolunteers(screen):
     def viewexistingvolunteersSetUp():
         global current_volunteer_list
         global manage_volunteer_home_screen
+        global current_volunteer_list_print
 
 
         volunteer_file = open("volunteer_database.txt", "r")
-
         volunteer_file_extract = []
 
         for line in volunteer_file:
@@ -20,13 +20,18 @@ def manageVolunteers(screen):
             volunteer_file_extract.append(line_list)
         volunteer_file.close()
 
-        current_volunteer_list = []
+        current_volunteer_list_print = []
         for i in range(0, (len(volunteer_file_extract)-1)):
             if volunteer_file_extract[i][-3] == "Deleted":
                 i += 1
             else:
-                current_volunteer_list.append(volunteer_file_extract[i])
+                current_volunteer_list_print.append(volunteer_file_extract[i])
                 i += 1
+
+        current_volunteer_list = []
+        for i in range(0, (len(volunteer_file_extract)-1)):
+            current_volunteer_list.append(volunteer_file_extract[i])
+
 
         viewexistingVolunteers()
 
@@ -69,8 +74,8 @@ def manageVolunteers(screen):
         view_volunteer_table.heading("Activation Status", text="Activation Status", anchor=CENTER)
         view_volunteer_table.heading("Volunteer Classification", text="Volunteer Classification", anchor=CENTER)
 
-        for i in range (0, len(current_volunteer_list)):
-            view_volunteer_table.insert(parent='', index=i, iid=i, values=(current_volunteer_list[i][0], current_volunteer_list[i][1], current_volunteer_list[i][2], current_volunteer_list[i][5], current_volunteer_list[i][6], current_volunteer_list[i][7], current_volunteer_list[i][8], current_volunteer_list[i][9], current_volunteer_list[i][10], current_volunteer_list[i][11]))
+        for i in range (0, len(current_volunteer_list_print)):
+            view_volunteer_table.insert(parent='', index=i, iid=i, values=(current_volunteer_list_print[i][0], current_volunteer_list_print[i][1], current_volunteer_list_print[i][2], current_volunteer_list_print[i][5], current_volunteer_list_print[i][6], current_volunteer_list_print[i][7], current_volunteer_list_print[i][8], current_volunteer_list_print[i][9], current_volunteer_list_print[i][10], current_volunteer_list_print[i][11]))
             i += 1
 
         view_volunteer_table.pack()

@@ -80,13 +80,17 @@ def volunteers_portal():
 
     volunteers_file.close()
 
-    volunteers_list = []
+    volunteers_list_print = []
 
     for i in volunteer_file_extract:
         if i[-3] == "Deleted":
             pass
         else:
-            volunteers_list.append(i)
+            volunteers_list_print.append(i)
+
+    volunteers_list = []
+    for i in range(0, len(volunteer_file_extract)):
+        volunteers_list.append(volunteer_file_extract[i])
 
     def view_volunteers_list():
 
@@ -138,16 +142,16 @@ def volunteers_portal():
 
         for i in range(0, len(volunteers_list)):
             my_game.insert(parent='', index=i, iid=i, values=(
-                volunteers_list[i][0],
-                volunteers_list[i][1],
-                volunteers_list[i][2],
-                volunteers_list[i][3],
-                volunteers_list[i][5],
-                volunteers_list[i][6],
-                volunteers_list[i][7],
-                volunteers_list[i][8],
-                volunteers_list[i][9],
-                volunteers_list[i][10]
+                volunteers_list_print[i][0],
+                volunteers_list_print[i][1],
+                volunteers_list_print[i][2],
+                volunteers_list_print[i][3],
+                volunteers_list_print[i][5],
+                volunteers_list_print[i][6],
+                volunteers_list_print[i][7],
+                volunteers_list_print[i][8],
+                volunteers_list_print[i][9],
+                volunteers_list_print[i][10]
             ))
 
         my_game.pack()
