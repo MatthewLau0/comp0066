@@ -72,6 +72,7 @@ def volunteerList():
         form_frame = Frame(volunteer_entry_screen)
         form_frame.pack()
 
+
         def volunteerEntry():
 
             select_camp_table_button.destroy()
@@ -85,9 +86,6 @@ def volunteerList():
             phone_area_code = StringVar()
             phone_number = StringVar()
             gender = StringVar()
-
-            drop_down_frame_register = Frame(form_frame)
-            drop_down_frame_register.pack()
 
             select_camp_label = Label(form_frame, text="Please enter the Camp ID")
             select_camp_label.pack()
