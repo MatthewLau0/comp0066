@@ -15,7 +15,7 @@ def main():
     Clean_Database.clean_login_database()
 
     master_window = Tk()
-    master_window.title("Welcome")
+    master_window.title("Home")
 
 
     screen_width = master_window.winfo_screenwidth()
@@ -106,7 +106,7 @@ def main():
                     confirm_password_entry.config(show='*')
                     password_visibility_btn.config(text='Show Passwords')
 
-            password_visibility_btn = Button(register_screen, text='Show Passwords', command=change_password_visibility)
+            password_visibility_btn = Button(register_screen, text='Show Passwords', command=change_password_visibility, width=30, height=2)
             password_visibility_btn.pack()
 
             requirements_label = Label(register_screen, text="Username and Password must not contain any spaces. \nUsername must not contain '%' \nPassword must be at least 3 characters long \nPassword must contain at least one number")
@@ -137,6 +137,8 @@ def main():
                 for line in volunteers_file:
                     line_split = line.split("%")
                     volunteer_list.append(line_split)
+
+                volunteers_file.close()
 
                 username_list = []
                 for i in volunteer_list:
@@ -170,7 +172,7 @@ def main():
                     password_error4.pack()
                     error_count.append("p4")
 
-                r_close_button1 = Button(register_errors, text="Close", command=register_errors.destroy)
+                r_close_button1 = Button(register_errors, text="Close", command=register_errors.destroy, width=30, height=2)
                 r_close_button1.pack()
 
 
@@ -199,6 +201,8 @@ def main():
                         line_list = line.split("%")
                         current_volunteer_list_1.append(line_list)
 
+                    file.close()
+
                     if len(current_volunteer_list_1) == 0:
                         new_user[1] = "1"
                     elif len(current_volunteer_list_1) >= 1:
@@ -222,9 +226,9 @@ def main():
                     register_screen.destroy()
                     Register_Info.volunteerList()
 
-            register_button1 = Button(register_screen, text="Register", command=register_check)
+            register_button1 = Button(register_screen, text="Register", command=register_check, width=30, height=2)
             register_button1.pack()
-            back_button = Button(register_screen, text="Back", command=lambda: [register_screen.destroy(), main()])
+            back_button = Button(register_screen, text="Home", command=lambda: [register_screen.destroy(), main()], width=30, height=2)
             back_button.pack()
 
             register_screen.mainloop()
@@ -250,7 +254,7 @@ def main():
             center_y2 = int(screen_height2 / 2 - window_height2 / 2)
             volunteer_login_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
-            Label(volunteer_login_screen, text="Please enter details").pack()
+            Label(volunteer_login_screen, text="Please enter your login details below\n").pack()
 
             username_entry = StringVar()
             password_entry = StringVar()
@@ -263,6 +267,8 @@ def main():
             password_entry = Entry(volunteer_login_screen, textvariable=password_entry, show='*')
             password_entry.pack()
 
+            Label(volunteer_login_screen, text="").pack()
+
             def change_password_visibility():
                 if password_entry.cget('show') == '*':
                     password_entry.config(show='')
@@ -271,7 +277,7 @@ def main():
                     password_entry.config(show='*')
                     password_visibility_btn.config(text='Show Password')
 
-            password_visibility_btn = Button(volunteer_login_screen, text='Show Password', command=change_password_visibility)
+            password_visibility_btn = Button(volunteer_login_screen, text='Show Password', command=change_password_visibility, width=30, height=2)
             password_visibility_btn.pack()
 
             def check_login_entry():
@@ -315,19 +321,19 @@ def main():
                 if (login_entry_string in logins_list) and (login_entry_status_string not in logins_status_list):
                     deactivated_label = Label(login_error_window, text="Your Account has been Deactivated\nPlease contact the admin for support")
                     deactivated_label.pack()
-                    close_button1 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button1 = Button(login_error_window, text="Close", command=login_error_window.destroy, width=30, height=2)
                     close_button1.pack()
                     login_error_window.mainloop()
                 elif (username_entry.get() not in usernames_list):
                     wrong_detail_label = Label(login_error_window, text="Username does not exist, or Account has been deleted. Please Register")
                     wrong_detail_label.pack()
-                    close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy, width=30, height=2)
                     close_button2.pack()
                     login_error_window.mainloop()
                 elif (username_entry.get() in usernames_list) and (login_entry_string not in logins_list):
                     wrong_password_label = Label(login_error_window, text="Username exists. Wrong Password entered.")
                     wrong_password_label.pack()
-                    close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy, width=30, height=2)
                     close_button2.pack()
                     login_error_window.mainloop()
                 elif (login_entry_string in logins_list) and (login_entry_status_string in logins_status_list):
@@ -348,13 +354,13 @@ def main():
                 else:
                     unknown_error_label_2 = Label(login_error_window, text="An unknown error has occurred. Please try again")
                     unknown_error_label_2.pack()
-                    close_button4 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button4 = Button(login_error_window, text="Close", command=login_error_window.destroy, width=30, height=2)
                     close_button4.pack()
                     login_error_window.mainloop()
 
-            done_button = Button(volunteer_login_screen, text="Login", command=check_login_entry)
+            done_button = Button(volunteer_login_screen, text="Login", command=check_login_entry, width=30, height=2)
             done_button.pack()
-            back_button = Button(volunteer_login_screen, text="Back", command=lambda: [volunteer_login_screen.destroy(), main()])
+            back_button = Button(volunteer_login_screen, text="Home", command=lambda: [volunteer_login_screen.destroy(), main()], width=30, height=2)
             back_button.pack()
 
             volunteer_login_screen.mainloop()
@@ -397,7 +403,7 @@ def main():
                     password_visibility_btn.config(text='Show Password')
 
             password_visibility_btn = Button(admin_login_screen, text='Show Password',
-                                             command=change_password_visibility)
+                                             command=change_password_visibility, width=30, height=2)
             password_visibility_btn.pack()
 
             def check_login_entry():
@@ -407,6 +413,8 @@ def main():
                 for line in file:
                     line_list = line.split("%")
                     admin_login_list.append(line_list)
+
+                file.close()
 
                 logins_list = []
                 for i in admin_login_list:
@@ -423,7 +431,7 @@ def main():
                 if (login_entry_string not in logins_list):
                     wrong_detail_label = Label(admin_login_error_window, text="Wrong details entered. Please try again")
                     wrong_detail_label.pack()
-                    close_button2 = Button(admin_login_error_window, text="Close", command=admin_login_error_window.destroy)
+                    close_button2 = Button(admin_login_error_window, text="Close", command=admin_login_error_window.destroy, width=30, height=2)
                     close_button2.pack()
                     admin_login_error_window.mainloop()
                 elif (login_entry_string in logins_list):
@@ -432,13 +440,13 @@ def main():
                 else:
                     unknown_error_label = Label(admin_login_error_window, text="An unknown error has occurred. Please try again")
                     unknown_error_label.pack()
-                    close_button3 = Button(admin_login_error_window, text="Close", command=admin_login_error_window.destroy)
+                    close_button3 = Button(admin_login_error_window, text="Close", command=admin_login_error_window.destroy, width=30, height=2)
                     close_button3.pack()
                     admin_login_error_window.mainloop()
 
-            done_button = Button(admin_login_screen, text="Login", command=check_login_entry)
+            done_button = Button(admin_login_screen, text="Login", command=check_login_entry, width=30, height=2)
             done_button.pack()
-            back_button = Button(admin_login_screen, text="Back", command=lambda: [admin_login_screen.destroy(), main()])
+            back_button = Button(admin_login_screen, text="Home", command=lambda: [admin_login_screen.destroy(), main()], width=30, height=2)
             back_button.pack()
 
             admin_login_screen.mainloop()
@@ -455,7 +463,7 @@ def main():
 
             screen_width2 = choose_role_window.winfo_screenwidth()
             screen_height2 = choose_role_window.winfo_screenheight()
-            window_height2 = screen_height1
+            window_height2 = screen_height2
             window_width2 = 900
 
             center_x2 = int(screen_width2 / 2 - window_width2 / 2)
@@ -466,7 +474,7 @@ def main():
             volunteer_button.pack()
             admin_button = Button(choose_role_window, text="Admin Login", command=admin_login, width=30, height=2)
             admin_button.pack()
-            back_button = Button(choose_role_window, text="Back", command=lambda: [choose_role_window.destroy(), main()], width=30, height=2)
+            back_button = Button(choose_role_window, text="Home", command=lambda: [choose_role_window.destroy(), main()], width=30, height=2)
             back_button.pack()
 
             choose_role_window.mainloop()
@@ -486,10 +494,30 @@ def main():
         app_info_screen = Toplevel(master_window)
         app_info_screen.title("How to Use")
 
-        how_to_use = Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n")
-        how_to_use.pack()
+        screen_width3 = app_info_screen.winfo_screenwidth()
+        screen_height3 = app_info_screen.winfo_screenheight()
+        window_height3 = screen_height3
+        window_width3 = 600
 
-        back_button = Button(app_info_screen, text="Close", command=app_info_screen.destroy)
+        center_x3 = int(screen_width3 / 2 - window_width3 / 2)
+        center_y3 = int(screen_height3 / 2 - window_height3 / 2)
+        app_info_screen.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
+
+        Label(app_info_screen, text="\nHow to Use LAMSA", font=("Avenir", 44)).pack()
+
+        Label(app_info_screen, text="\nAdmin", font=("Avenir", 24, "bold")).pack()
+
+        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
+
+        Label(app_info_screen, text="\nCamp Lead", font=("Avenir", 24, "bold")).pack()
+
+        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
+
+        Label(app_info_screen, text="\nVolunteer", font=("Avenir", 24, "bold")).pack()
+
+        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n\n\n").pack()
+
+        back_button = Button(app_info_screen, text="Close", command=app_info_screen.destroy, width=30, height=2)
         back_button.pack()
 
         app_info_screen.mainloop()
