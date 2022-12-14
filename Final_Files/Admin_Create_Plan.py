@@ -111,7 +111,7 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
         New_Camp_Screen_Label_Index.pack()
 
-        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ", font=("Calibri", "11", "bold"))
+        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
         camp_name_label.pack()
         camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters", font="italic")
         camp_name_label_instructions.pack()
@@ -549,6 +549,9 @@ def createnewemergencyPlan(screen):
         global emergency_type_string
         global New_Emergency_Close_Screen
         global New_Camp_Summary_Screen
+        global New_Emergency_Close_Screen
+
+        New_Camp_Summary_Screen.destroy()
 
         new_emergency[1] = camp_name.get()
         new_emergency[2] = emergency_type_string
@@ -564,15 +567,17 @@ def createnewemergencyPlan(screen):
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
-        New_Emergency_Close_Screen_Label = Label(New_Camp_Summary_Screen, text="Your new emergency has been successfully saved.")
+        New_Emergency_Close_Screen = Toplevel()
+        New_Emergency_Close_Screen.title("Successful Submission")
+
+        New_Emergency_Close_Screen_Label = Label(New_Emergency_Close_Screen, text="Your new emergency has been successfully saved.")
         New_Emergency_Close_Screen_Label.pack()
 
-        Return_To_HomeScreen_Button = Button(New_Camp_Summary_Screen, text="Return to Homescreen", command=returnHome)
+        Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen", command=returnHome)
         Return_To_HomeScreen_Button.pack()
 
     def returnHome():
-        global New_Camp_Summary_Screen
-        New_Camp_Summary_Screen.destroy()
+        New_Emergency_Close_Screen.destroy()
 
 
     def campnameVerify():
@@ -601,5 +606,3 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
-
-createnewemergencyPlan(Tk())
