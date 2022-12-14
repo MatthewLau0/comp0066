@@ -24,10 +24,20 @@ def adminHome():
 
     #Create main window of the application
     admin_home = Tk()
-    admin_home.geometry("650x650")
     admin_home.title("Admin Home Page")
-    admin_home_label = Label(admin_home, text="Welcome to the admin homepage.")
-    admin_home_label.pack()
+
+    screen_width = admin_home.winfo_screenwidth()
+    screen_height = admin_home.winfo_screenheight()
+    window_height = screen_height
+    window_width = 900
+
+    center_x = int(screen_width / 2 - window_width / 2)
+    center_y = int(screen_height / 2 - window_height / 2)
+    admin_home.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+    Label(admin_home, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+    Label(admin_home, text="Welcome to the Admin Portal.\n", font=("Avenir", 24)).pack()
+
 
     #Add buttons to the window
     create_new_emergency_frame = Frame(admin_home)
@@ -44,8 +54,10 @@ def adminHome():
     manage_volunteers_button.pack()
     view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps, width=30, height=2)
     view_camps_button.pack()
+    Label(admin_home, text="\n").pack()
     exit_button = Button(admin_home, text="Log Out", command=lambda: [admin_home.destroy(), Login.main()], width=30, height=2)
     exit_button.pack()
 
 
     admin_home.mainloop()
+

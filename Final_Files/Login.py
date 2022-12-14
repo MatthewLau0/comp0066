@@ -35,9 +35,9 @@ def main():
 
     def main_signin_screen():
         master_window.destroy()
+
         main_window = Tk()
         main_window.title("Sign In")
-
         Label(main_window, text="\n\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
         screen_width1 = main_window.winfo_screenwidth()

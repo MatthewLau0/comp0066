@@ -106,9 +106,9 @@ def createnewemergencyPlan(screen):
         area_affected = StringVar()
         emergency_status = StringVar()
 
-        New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency plan. Please follow the below instructions")
+        New_Camp_Screen_Label = Label(New_Camp_Screen, text="\nYou are creating a new LAMSA Emergency Plan", font=("Avenir", 22))
         New_Camp_Screen_Label.pack()
-        New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
+        New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The ID of this camp is %s\n" %(new_emergency[0]), font=("Avenir", 18, "bold"))
         New_Camp_Screen_Label_Index.pack()
 
         camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
@@ -145,7 +145,7 @@ def createnewemergencyPlan(screen):
         emergency_type_label_other.pack(anchor=CENTER)
         emergency_type_other_entry = Entry(emergency_type_frame, textvariable=emergency_type, state=DISABLED)
         emergency_type_other_entry.pack(anchor=CENTER)
-        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
+        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED, width=10, height=1)
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
 
@@ -591,10 +591,20 @@ def createnewemergencyPlan(screen):
 
         New_Camp_Screen = Toplevel(admin_home_screen)
         New_Camp_Screen.title("Create a New Emergency")
-        New_Camp_Screen.geometry("700x700")
-        screenSetup()
 
+        screen_width = New_Camp_Screen.winfo_screenwidth()
+        screen_height = New_Camp_Screen.winfo_screenheight()
+        window_height = screen_height
+        window_width = 900
+
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        New_Camp_Screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+
+        screenSetup()
 
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
+

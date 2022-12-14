@@ -9,8 +9,18 @@ import Login
 def volunteerList():
 
     volunteer_entry_screen = Tk()
-    volunteer_entry_screen.geometry("600x1000")
     volunteer_entry_screen.title("Volunteer Entry Screen")
+
+    screen_width = volunteer_entry_screen.winfo_screenwidth()
+    screen_height = volunteer_entry_screen.winfo_screenheight()
+    window_height = screen_height
+    window_width = 900
+
+    center_x = int(screen_width / 2 - window_width / 2)
+    center_y = int(screen_height / 2 - window_height / 2)
+    volunteer_entry_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+    Label(volunteer_entry_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
 
     current_volunteer_list = []
     volunteer_file = open("volunteer_database.txt", "r")
@@ -43,16 +53,16 @@ def volunteerList():
 
     def campTable():
 
-        volunteer_number_print = Label(volunteer_entry_screen, text="Your volunteer numbers is %s" %(new_volunteer[1]))
+        volunteer_number_print = Label(volunteer_entry_screen, text="Your Volunteer ID is %s" %(new_volunteer[1]), font=("Avenir", 20, "bold"))
         volunteer_number_print.pack()
 
-        select_camp_table_label = Label(volunteer_entry_screen, text="See below the respective locations of the available camps that you could volunteer at. \n Make note of the camp that is closest to your current location.")
+        select_camp_table_label = Label(volunteer_entry_screen, text="Scroll through the table below to see below the LAMSA Camps which you can volunteer at.\n")
         select_camp_table_label.pack()
 
         select_camp_table_frame = Frame(volunteer_entry_screen)
         select_camp_table_frame.pack()
 
-        select_camp_table = ttk.Treeview(volunteer_entry_screen)
+        select_camp_table = ttk.Treeview(volunteer_entry_screen, height=3)
         select_camp_table['columns'] = ("Camp ID", "Camp Name", "Location")
 
         select_camp_table.column("#0", width=0, stretch=NO)
@@ -76,6 +86,7 @@ def volunteerList():
         def volunteerEntry():
 
             select_camp_table_button.destroy()
+            empty_label.destroy()
 
             for widget in form_frame.winfo_children():
                 widget.destroy()
@@ -87,7 +98,7 @@ def volunteerList():
             phone_number = StringVar()
             gender = StringVar()
 
-            select_camp_label = Label(form_frame, text="Please enter the Camp ID")
+            select_camp_label = Label(form_frame, text="\nPlease enter the Camp ID")
             select_camp_label.pack()
             select_camp_select = Entry(form_frame, textvariable=select_camp)
             select_camp_select.pack()
@@ -164,7 +175,7 @@ def volunteerList():
                         new_volunteer_error_list.append("d1")
                     if select_camp.get() not in camp_ID_list:
                         select_camp_label.config(
-                            text="Please enter a valid Camp ID",
+                            text="\nPlease enter a valid Camp ID",
                             fg="#f00")
                         new_volunteer_error_list.append("e1")
                     if len(full_name.get()) == 0 or full_name.get() == ' ':
@@ -220,12 +231,15 @@ def volunteerList():
 
                     createvolunteerSubmit()
 
-            emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
+            emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge, width=30, height=2)
             emergency_submit_button.pack()
 
-        select_camp_table_button = Button(volunteer_entry_screen, text="Continue", command=volunteerEntry)
+
+        empty_label = Label(volunteer_entry_screen)
+        empty_label.pack()
+        select_camp_table_button = Button(volunteer_entry_screen, text="Continue", command=volunteerEntry, width=30, height=2)
         select_camp_table_button.pack()
-        back_button = Button(volunteer_entry_screen, text="Cancel", command=lambda: [volunteer_entry_screen.destroy(), Login.main()])
+        back_button = Button(volunteer_entry_screen, text="Cancel", command=lambda: [volunteer_entry_screen.destroy(), Login.main()], width=30, height=2)
         back_button.pack()
 
     campTable()
@@ -238,7 +252,8 @@ def volunteerList():
 
         close_label = Label(Create_Volunteer_Close_Screen, text="Thank you for submitting a request to become a volunteer. \n The admin will review your request, and once approved you will be able to access our services.")
         close_label.pack()
-        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=lambda: [Create_Volunteer_Close_Screen.destroy(), Login.main()])
+        return_home_button = Button(Create_Volunteer_Close_Screen, text="Return to Homescreen", command=lambda: [Create_Volunteer_Close_Screen.destroy(), Login.main()], width=30, height=2)
         return_home_button.pack()
 
     volunteer_entry_screen.mainloop()
+
