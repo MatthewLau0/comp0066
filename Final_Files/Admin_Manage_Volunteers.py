@@ -14,10 +14,21 @@ def manageVolunteers(screen):
         volunteer_file = open("volunteer_database.txt", "r")
 
         current_volunteer_list = []
+
         for line in volunteer_file:
             line_list = line.split("%")
             current_volunteer_list.append(line_list)
         volunteer_file.close()
+
+        print(current_volunteer_list)
+
+        for i in range(0, (len(current_volunteer_list )-1)):
+            if current_volunteer_list[i][-3] == "Deleted":
+                del current_volunteer_list[i]
+                i += 1
+            else:
+                i += 1
+
         viewexistingVolunteers()
 
     def viewexistingVolunteers():
@@ -209,9 +220,7 @@ def manageVolunteers(screen):
 
         def deactivevolunteerStatus():
 
-            activated_volunteer_entry_button.destroy()
-            activated_volunteer_combobox.destroy()
-            deactivate_volunteer_activate_label.destroy()
+
             volunteer_file_write = open("volunteer_database.txt", "r+")
             volunteer_file_write.truncate(0)
             for i in range(0, len(current_volunteer_list)):
@@ -256,7 +265,7 @@ def manageVolunteers(screen):
 
 
             promote_volunteer = IntVar()
-            promote_volunteer_label = Label(leadstatusVolunteer_frame, text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.")
+            promote_volunteer_label = Label(leadstatusVolunteer_frame, text="Please select the index number of the volunteer you wish to promote to lead.")
             promote_volunteer_label.pack()
 
             promote_volunteer_combobox = ttk.Combobox(leadstatusVolunteer_frame, textvariable=promote_volunteer)
@@ -274,7 +283,7 @@ def manageVolunteers(screen):
             promote_volunteer_label.config(text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.", fg="#000000")
 
             if promote_volunteer.get() not in standard_volunteers_IDs:
-                promote_volunteer_label.config(text="Invalid ID. Please enter hte ID of a volunteer who is not yet lead (see above).", fg="#f00")
+                promote_volunteer_label.config(text="Invalid ID. Please enter the ID of a volunteer who is not yet lead.", fg="#f00")
             elif promote_volunteer.get() == ' ' or len(str(promote_volunteer.get())) == 0 or promote_volunteer.get() == 0:
                 promote_volunteer_label.config(text="Please entere a value.", fg="#f00")
             else:
@@ -297,6 +306,70 @@ def manageVolunteers(screen):
             successful_promotion_label = Label(manage_volunteer_home_screen, text="You have successfully promoted volunteer %d. To view an updated table, please refresh the screen." %(promote_volunteer.get()))
             successful_promotion_label.pack()
 
+        def deleteVolunteer():
+            global current_volunteer_list
+            global delete_volunteer_screen
+            global delete_volunteer_screen_frame
+            global delete_volunteer
+            global delete_volunteer_label
+            global current_volunteer_list_IDs
+
+            current_volunteer_list_IDs = []
+            for i in range(0, len(current_volunteer_list)):
+                current_volunteer_list_IDs.append(current_volunteer_list[i][1])
+                i += 1
+
+            delete_volunteer_screen = Toplevel()
+            delete_volunteer_screen_frame = Frame(delete_volunteer_screen)
+            delete_volunteer_screen_frame.pack()
+
+            delete_volunteer = IntVar()
+            delete_volunteer_label = Label(delete_volunteer_screen_frame,
+                                            text="Please select the index number of the volunteer you wish to delete from the database.")
+            delete_volunteer_label.pack()
+
+            delete_volunteer_combobox = ttk.Combobox(delete_volunteer_screen_frame, textvariable=delete_volunteer)
+            delete_volunteer_combobox['values'] = current_volunteer_list_IDs
+            delete_volunteer_combobox.pack()
+            delete_volunteer_entry_button = Button(delete_volunteer_screen_frame, text="Confirm",
+                                                    command=delete_volunteer_verify, width=30, height=2)
+            delete_volunteer_entry_button.pack()
+
+        def delete_volunteer_verify():
+
+            delete_volunteer_label.config(text="Please select the index number of the volunteer you wish to delete from the database.")
+
+            print(current_volunteer_list_IDs)
+            if str(delete_volunteer.get()) not in current_volunteer_list_IDs:
+                delete_volunteer_label.config(text="Invalid ID. Please enter the ID of a current volunteer.", fg="#f00")
+            elif delete_volunteer.get() == ' ' or len(str(delete_volunteer.get())) == 0 or delete_volunteer.get() == 0:
+                delete_volunteer_label.config(text="Please entere a value.", fg="#f00")
+            else:
+                deletevolunteerSubmit()
+
+        def deletevolunteerSubmit():
+            volunteer_file_write = open("volunteer_database.txt", "r+")
+            volunteer_file_write.truncate(0)
+            for i in range(0, len(current_volunteer_list)):
+                if i == (delete_volunteer.get() - 1):
+                    current_volunteer_list[i][-3] = "Deleted"
+                    current_volunteer_string = '%'.join(current_volunteer_list[i])
+                    volunteer_file_write.write(current_volunteer_string)
+                elif i != (delete_volunteer.get() - 1):
+                    current_volunteer_string = '%'.join(current_volunteer_list[i])
+                    volunteer_file_write.write(current_volunteer_string)
+
+            volunteer_file_write.close()
+            delete_volunteer_screen.destroy()
+
+            successful_delete_update_label = Label(manage_volunteer_home_screen,
+                                                       text="You have successfully deleted the volunteer %d. To view an updated table, please refresh the screen." % (
+                                                           delete_volunteer.get()))
+            successful_delete_update_label.pack()
+
+
+
+
 
 
         def returnHome():
@@ -309,6 +382,8 @@ def manageVolunteers(screen):
         deactivate_volunteer_button.pack()
         promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer, width=30, height=2)
         promote_volunteer_button.pack()
+        delete_volunteer_button = Button(manage_volunteer_home_screen, text="Delete a volunteer", command=deleteVolunteer, width=30, height=2)
+        delete_volunteer_button.pack()
         return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome, width=30, height=2)
         return_home_button.pack()
 
@@ -325,3 +400,5 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+
+manageVolunteers(Tk())
