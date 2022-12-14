@@ -235,6 +235,7 @@ def createnewemergencyPlan(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_flood.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
             emergency_type_earthquake_check.config(state=DISABLED)
@@ -257,6 +258,7 @@ def createnewemergencyPlan(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_tsunami.get() == 1:
             emergency_type_flood_check.config(state=DISABLED)
             emergency_type_earthquake_check.config(state=DISABLED)
@@ -279,6 +281,7 @@ def createnewemergencyPlan(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_earthquake.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
             emergency_type_flood_check.config(state=DISABLED)
@@ -301,6 +304,7 @@ def createnewemergencyPlan(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_drought.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
             emergency_type_earthquake_check.config(state=DISABLED)
@@ -329,6 +333,8 @@ def createnewemergencyPlan(screen):
         global emergency_type_other_entry
         global emergency_type_other_button
 
+        emergency_type_string = "NA"
+
 
         if emergency_type_other.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
@@ -355,6 +361,7 @@ def createnewemergencyPlan(screen):
     def OtherConfirm():
         global emergency_type
         global emergency_type_string
+        global emergency_type
 
         emergency_type_string = emergency_type.get()
 
@@ -429,6 +436,7 @@ def createnewemergencyPlan(screen):
         global status_label
         global area_affected
         global emergency_location_label
+        global emergency_type_string
 
         camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
         emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
@@ -441,6 +449,8 @@ def createnewemergencyPlan(screen):
 
         if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
+        elif emergency_type_other.get() == 1 and emergency_type_string == "NA":
+            emergency_type_label.config(text="Please confirm your entry by pressing confirm.", fg="#f00")
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
         elif area_affected.get() not in countries_list:
@@ -588,5 +598,3 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
-
-createnewemergencyPlan(Tk())
