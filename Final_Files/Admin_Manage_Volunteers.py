@@ -101,7 +101,7 @@ def manageVolunteers(screen):
             deactivated_volunteer_combobox = ttk.Combobox(activestatusVolunteer_frame, textvariable=deactivated_volunteer)
             deactivated_volunteer_combobox['values'] = deactivated_volunteers_IDs
             deactivated_volunteer_combobox.pack()
-            deactivated_volunteer_entry_button = Button(activestatusVolunteer_frame, text="Confirm", command=activatevolunteerVerify)
+            deactivated_volunteer_entry_button = Button(activestatusVolunteer_frame, text="Confirm", command=activatevolunteerVerify, width=30, height=2)
             deactivated_volunteer_entry_button.pack()
 
         def activatevolunteerVerify():
@@ -178,7 +178,7 @@ def manageVolunteers(screen):
             promote_volunteer_combobox = ttk.Combobox(leadstatusVolunteer_frame, textvariable=promote_volunteer)
             promote_volunteer_combobox['values'] = standard_volunteers_IDs
             promote_volunteer_combobox.pack()
-            promote_volunteer_entry_button = Button(leadstatusVolunteer_frame, text="Confirm", command=promoteVolunteerVerify)
+            promote_volunteer_entry_button = Button(leadstatusVolunteer_frame, text="Confirm", command=promoteVolunteerVerify, width=30, height=2)
             promote_volunteer_entry_button.pack()
 
         def promoteVolunteerVerify():
@@ -218,11 +218,11 @@ def manageVolunteers(screen):
             global manage_volunteer_home_screen
             manage_volunteer_home_screen.destroy()
 
-        update_volunteer_button = Button(manage_volunteer_home_screen, text="Activate a Volunteer", command=activestatusVolunteer)
+        update_volunteer_button = Button(manage_volunteer_home_screen, text="Activate a Volunteer", command=activestatusVolunteer, width=30, height=2)
         update_volunteer_button.pack()
-        promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer)
+        promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer, width=30, height=2)
         promote_volunteer_button.pack()
-        return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome)
+        return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome, width=30, height=2)
         return_home_button.pack()
 
 
