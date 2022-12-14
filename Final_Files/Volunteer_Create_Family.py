@@ -20,6 +20,7 @@ def camp_id_generate():
     for line in logins_file:
         line_string = line.split("%")
         logins_list.append(line_string)
+    logins_file.close()
     if len(logins_list) > 0:
         current_refugee_id = logins_list[-1][0]
         current_refugee_name = logins_list[-1][2]
@@ -1196,6 +1197,3 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
-
-
-create_family()
