@@ -2,8 +2,6 @@
 from tkinter import *
 from tkinter import ttk
 import datetime
-
-import tkintermapview
 from tkcalendar import Calendar
 from country_list import countries_for_language
 
