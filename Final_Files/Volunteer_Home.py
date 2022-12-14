@@ -24,6 +24,8 @@ def camp_id_generate():
         current_refugee_name = logins_list[-1][2]
     else:
         pass
+
+    logins_file.close()
 camp_id_generate()
 
 def volunteer_home_page():
@@ -35,7 +37,7 @@ def volunteer_home_page():
     for line in open_volunteer_file:
         x = line.split("%")
         volunteer_actual_database_list.append(x)
-
+    open_volunteer_file.close()
     #Load Create new emergency
     def Edit_Refugee():
         Volunteer_Create_Family.create_family()
@@ -62,6 +64,7 @@ def volunteer_home_page():
     for line in open_volunteer_file:
         x = line.split("%")
         volunteer_actual_database_list.append(x)
+    open_volunteer_file.close()
 
     #Create main window of the application
     global refugee_home

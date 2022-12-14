@@ -10,8 +10,6 @@ import tkinter.ttk
 
 
 
-current_refugee_id = ""
-current_refugee_name = ""
 
 def camp_id_generate():
     global current_refugee_id
@@ -32,6 +30,8 @@ def camp_id_generate():
 
 def create_family():
     camp_id_generate()
+    print(current_refugee_id)
+    print(current_refugee_name)
 
     # Opening current database and reading it into a list
     volunteer_list_file = open("refugee_database.txt", "r")
@@ -103,8 +103,6 @@ def create_family():
 
     country_list = ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'The Democratic Republic of the Congo', 'Cook Islands', 'Costa Rica', "Côte d'Ivoire", 'Croatia', 'Cuba', 'Curaçao', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and McDonald Islands', 'Vatican City', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Republic of Korea', 'Kuwait', 'Kyrgyzstan', "Laos", 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macao', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Martinique', 'Mauritania', 'Mauritius', 'Mayotte', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Niue', 'Norfolk Island', 'Northern Mariana Islands', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestinian Territory', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Pitcairn', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Réunion', 'Romania', 'Russia', 'Rwanda', 'Saint Lucia', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'South Sudan', 'Svalbard', 'Swaziland', 'Sweden', 'Switzerland', 'Syrian Arab Republic', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tokelau', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks and Caicos Islands', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
     CAMP_COLUMN_NUM = 0
-    CURRENT_VOLUNTEER_INDEX = 0
-    print(volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][2])
     def save_to_file():
 
         # GET ALL THE VALUES ENTERED ON THE FORM
@@ -325,7 +323,7 @@ def create_family():
         # KINDA SEPARATE SECTION BUT STILL IN THE VALIDATION PART
 
         # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-        volunteer_current_camp_id = int(volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][CAMP_COLUMN_NUM])
+        volunteer_current_camp_id = int(volunteer_actual_database_list[int(current_refugee_id) - 1][CAMP_COLUMN_NUM])
 
         # ACCOMMODATION: GET SPECIFIC LIST WITH ONLY ACCOMMODATION IN VOLUNTEER CAMP
         accommodation_specific_camp_list_test = []
@@ -489,6 +487,8 @@ def create_family():
         if postcode_address == "Postcode":
             postcode_address = ''
         country_address = refugee_country_address.get()
+        if country_address == 'Use dropdown or type to select country...':
+            country_address = ''
 
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
@@ -551,7 +551,8 @@ def create_family():
 
     def add_camp():
         # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-        volunteer_current_camp = int(volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][0])
+        volunteer_current_camp = int(volunteer_actual_database_list[int(current_refugee_id) - 1][0])
+        print(volunteer_actual_database_list[int(current_refugee_id)-1])
 
         # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
         camp_name_list = []
@@ -795,7 +796,8 @@ def create_family():
         if postcode_address == "Postcode":
             postcode_address = ''
         country_address = refugee_country_address.get()
-
+        if country_address == "Use dropdown or type to select country...":
+            postcode_address = ''
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
 
@@ -1194,3 +1196,6 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
+
+
+create_family()
