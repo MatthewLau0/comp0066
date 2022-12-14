@@ -438,8 +438,6 @@ def createnewemergencyPlan(screen):
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
-
-
         if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
             camp_name_label.config(text="Please enter a name for the new camp.", fg='#f00')
         elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
@@ -594,5 +592,3 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
-
-createnewemergencyPlan(Tk())

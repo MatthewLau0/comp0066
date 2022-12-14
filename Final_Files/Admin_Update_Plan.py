@@ -19,6 +19,7 @@ def updateexistingForm(screen):
         global emergency_marker_country_update
         global emergency_database_list
         global camp_name_list
+        global select_index_frame
 
         emergency_database_file = open("emergency_database.txt", "r")
         emergency_database_list = []
@@ -38,7 +39,11 @@ def updateexistingForm(screen):
         for i in range(0, len(emergency_database_list)):
             camp_name_list.append((emergency_database_list[i])[1])
 
+        select_index_frame = Frame(Update_Emergency_Screen)
+        select_index_frame.pack()
+
         UpdateEmergencyScreen()
+
 
     def UpdateEmergencyScreen():
         global Update_Emergency_Home_Screen
@@ -117,6 +122,8 @@ def updateexistingForm(screen):
         global emergency_database_list_index
         global select_index_enter
         global select_index_select_button
+        global select_index_frame
+
 
         select_index = IntVar()
 
@@ -124,6 +131,9 @@ def updateexistingForm(screen):
         for i in range(0, len(emergency_database_list)):
             emergency_database_list_index.append(int((emergency_database_list[i])[0]))
             i += 1
+
+        for widget in select_index_frame.winfo_children():
+            widget.destroy()
 
 
         select_index_label = Label(Update_Emergency_Screen, text="Please enter the index number of the camp you would like to update")
@@ -723,7 +733,7 @@ def updateexistingForm(screen):
 
     def updatescreenClose():
         global Update_Emergency_Screen
-        global Update_Emergency_Close_Screen
+        global Update_Camp_Close_Screen
 
         Update_Camp_Summary_Screen.destroy()
         Update_Camp_Close_Screen = Tk()
@@ -739,7 +749,7 @@ def updateexistingForm(screen):
 
     def returnHome():
         global Update_Emergency_Close_Screen
-        Update_Emergency_Close_Screen.destroy()
+        Update_Camp_Close_Screen.destroy()
 
 
     #Scroll bar creating
@@ -750,7 +760,7 @@ def updateexistingForm(screen):
         global Update_Emergency_Screen
         Update_Emergency_Screen = Toplevel(admin_home_screen)
         Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("650x600")
+        Update_Emergency_Screen.geometry("800x600")
         setupUpdate()
 
 
