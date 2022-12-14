@@ -131,4 +131,4 @@
 9%8%Brazil Guy%newguy%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%brazil@guy.%44#7855037367%NA%2020-09-09%2%Active%Lead%Availability
 9%8%Brazil Guy%newguy%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%brazil@guy.%44#7855037367%NA%2020-09-09%2%Active%Standard%Availability
 5%8%Brazil Guy%newguy%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%brazil@guy.com%44#7855037367%Female%2020-09-09%2%Active%Standard%Availability
-5%3%Brazil Guy%newguy%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%brazil@guy.com%44#7855037367%Female%2020-09-09%2%Active%Standard%Availability
+3%3%Brazil Guy%newguy%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%brazil@guy.com%44#7855037367%Female%2020-09-09%2%Active%Standard%Availability

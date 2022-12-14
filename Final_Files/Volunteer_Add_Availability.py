@@ -5,9 +5,24 @@ import tkinter
 import datetime
 import tkinter.messagebox
 
+def camp_id_generate():
+    global logins_list_available
+    global current_refugee_id_available
+    global current_refugee_name_available
+    logins_file = open("successful_login.txt", "r")
 
+    logins_list_available = []
+    for line in logins_file:
+        line_string = line.split("%")
+        logins_list_available.append(line_string)
+    logins_file.close()
+    if len(logins_list_available) > 0:
+        current_refugee_id_available = logins_list_available[-1][0]
+        current_refugee_name_available = logins_list_available[-1][2]
+    else:
+        pass
 def add_calendar():
-
+    camp_id_generate()
     #SETTING UP THE DEFAULT SCREEN
     availability_screen = tkinter.Toplevel()
     availability_screen.geometry("500x1000")
@@ -21,7 +36,10 @@ def add_calendar():
         x = line.split("%")
         volunteer_database_list.append(x)
 
-    volunteerID = 5
+    volunteer_list_file.close()
+
+    volunteerID = current_refugee_id_available
+
 
     #LIST WITH THE TIMINGS
     times = ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45', '03:00', '03:15', '03:30', '03:45', '04:00', '04:15', '04:30', '04:45', '05:00', '05:15', '05:30', '05:45', '06:00', '06:15', '06:30' , '06:45' , '07:00', '07:15' , '07:30' , '07:45' , '08:00', '08:15' , '08:30' , '08:45' , '09:00', '09:15' , '09:30' , '09:45' , '10:00', '10:15' , '10:30' , '10:45' , '11:00', '11:15' , '11:30' , '11:45' , '12:00', '12:15' , '12:30' , '12:45' , '13:00', '13:15' , '13:30' , '13:45' , '14:00', '14:15' , '14:30' , '14:45' , '15:00', '15:15' , '15:30' , '15:45' , '16:00', '16:15' , '16:30' , '16:45' , '17:00', '17:15' , '17:30' , '17:45' , '18:00', '18:15' , '18:30' , '18:45' , '19:00', '19:15' , '19:30' , '19:45' , '20:00', '20:15' , '20:30' , '20:45' , '21:00', '21:15' , '21:30' , '21:45' , '22:00', '22:15' , '22:30' , '22:45' , '23:00', '23:15' , '23:30' , '23:45' ]
@@ -572,14 +590,12 @@ def add_calendar():
             sunday_summary_final = 'Not Available'
 
         #CURRENTLY JUST OUTPUTS THE TIMINGS INFO
-        timing_info = [volunteer_start_day, volunteer_end_day, monday_summary_initial, monday_summary_final, tuesday_summary_initial, tuesday_summary_final, wednesday_summary_initial, wednesday_summary_final, thursday_summary_initial, thursday_summary_final, friday_summary_initial, friday_summary_final, saturday_summary_initial, saturday_summary_final, sunday_summary_initial, sunday_summary_final]
+        timing_info = [volunteer_start_day, volunteer_end_day, monday_summary_initial, monday_summary_final, tuesday_summary_initial, tuesday_summary_final, wednesday_summary_initial, wednesday_summary_final, thursday_summary_initial, thursday_summary_final, friday_summary_initial, friday_summary_final, saturday_summary_initial, saturday_summary_final, sunday_summary_initial, sunday_summary_final,'\n']
 
         #COPYING THE OG VOLUNTEER INTO A TEMPORARY LIST
         for i in range(len(volunteer_database_list)):
             if int(volunteer_database_list[i][1]) == int(volunteerID):
                 temp_volunteer_list = volunteer_database_list[i]
-                print(temp_volunteer_list)
-                print(len(temp_volunteer_list))
                 break
 
 
@@ -600,12 +616,14 @@ def add_calendar():
         new_rewritten_volunteer_temp = []
         for k in volunteer_database_list:
             new_rewritten_volunteer_temp.append('%'.join(k))
-        print(new_rewritten_volunteer_temp)
+
+
 
         #WRITING TO THE FILE
         volunteer_write_new = open("volunteer_database.txt", 'w')
         for i in range(len(new_rewritten_volunteer_temp)):
             volunteer_write_new.write(new_rewritten_volunteer_temp[i])
+            print(new_rewritten_volunteer_temp[i])
         volunteer_write_new.close()
 
 
@@ -619,3 +637,6 @@ def add_calendar():
 
     initial_calendar_lol()
     availability_screen.mainloop()
+
+
+add_calendar()
