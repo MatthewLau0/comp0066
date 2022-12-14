@@ -1,21 +1,3 @@
-def camp_id_generate():
-    global current_refugee_id_update
-    global current_refugee_name_update
-    global logins_list_update
-    logins_file_update = open("successful_login.txt", "r")
-
-    logins_list_update = []
-    for line in logins_file_update:
-        line_string = line.split("%")
-        logins_list_update.append(line_string)
-    logins_file_update.close()
-    if len(logins_list_update) > 0:
-        current_refugee_id_update = logins_list_update[-1][0]
-        current_refugee_name_update = logins_list_update[-1][2]
-    else:
-        pass
-
-
 def modify_family():
     import Volunteer_View_Family
     import tkinter
@@ -23,9 +5,9 @@ def modify_family():
     import datetime
     import tkcalendar
     from tkinter import messagebox
+    import Volunteer_Home
 
 
-    camp_id_generate()
 
     # WILL REPLACE THIS VARIABLE WITH VARIABLE OF THEIR LOGIN FROM LOGIN PAGE
     # CURRENTLY SET TO A VALUE OF 1
@@ -403,7 +385,7 @@ def modify_family():
                 # KINDA SEPARATE SECTION BUT STILL IN THE VALIDATION PART
 
                 # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-                volunteer_current_camp_id = int(volunteer_actual_database_list[int(current_refugee_id_update) - 1][CAMP_COLUMN_NUM])
+                volunteer_current_camp_id = Volunteer_Home.user_camp_id
 
                 # ACCOMMODATION: GET SPECIFIC LIST WITH ONLY ACCOMMODATION IN VOLUNTEER CAMP
                 accommodation_specific_camp_list_test = []
@@ -631,7 +613,7 @@ def modify_family():
 
             def add_camp():
                 # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-                volunteer_current_camp = int(volunteer_actual_database_list[int(current_refugee_id_update) - 1][0])
+                volunteer_current_camp = Volunteer_Home.user_camp_id
 
                 # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
                 camp_name_list = []
@@ -660,33 +642,39 @@ def modify_family():
                 # ITERATE THROUGH LIST AND SEE WHICH ACCOMMODATION IS FREE
                 refugee_assigned_accommodation = ''
                 for i in range(len(accommodation_specific_camp_list)):
+
                     # ONCE FREE ACCOMMODATION IDENTIFIED, ADD IT TO A LIST "THAT_BLOCK_LIST"
-                    if int(accommodation_specific_camp_list[i][6]) >= (int(refugee_number.get()) + 1):
+                    #CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
+                    if int(refugee_number.get()) == updating_refugee_list[3]:
                         refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
                         refugee_assigned_block = accommodation_specific_camp_list[i][7]
                         that_block_list = accommodation_specific_camp_list[i]
-                        xhaha = str(int(that_block_list[4]) + (int(refugee_number.get()) + 1))
-                        yhaha = str(int(that_block_list[6]) - (int(refugee_number.get()) + 1))
-                        that_block_list[4] = xhaha
-                        that_block_list[6] = yhaha
-
-                        # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
-                        for j in range(len(accommodation_database_list)):
-                            if accommodation_database_list[j][0] == that_block_list[0] and \
-                                    accommodation_database_list[j][1] == that_block_list[1]:
-                                accommodation_database_list[j] = that_block_list
-
-                        # CREATE LIST OF STRINGS FROM LIST OF LISTS
-                        new_rewritten_database_temp = []
-                        for i in accommodation_database_list:
-                            new_rewritten_database_temp.append(','.join(i))
-
-                        # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
-
                         break
+
+                    #CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
+                    if int(refugee_number.get()) > updating_refugee_list[3]:
+                        if int(accommodation_specific_camp_list[i][6]) >= (int(refugee_number.get())-int(updating_refugee_list[3])):
+                            refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
+                            refugee_assigned_block = accommodation_specific_camp_list[i][7]
+                            that_block_list = accommodation_specific_camp_list[i]
+                            xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())-updating_refugee_list[3]))
+                            yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())-updating_refugee_list[3]))
+                            that_block_list[4] = xhaha
+                            that_block_list[6] = yhaha
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for j in range(len(accommodation_database_list)):
+                                if accommodation_database_list[j][0] == that_block_list[0] and accommodation_database_list[j][1] == that_block_list[1]:
+                                    accommodation_database_list[j] = that_block_list
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp = []
+                            for i in accommodation_database_list:
+                                new_rewritten_database_temp.append(','.join(i))
+                            break
+                    # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
+
+
                 volunteer_current_wing_label = tkinter.Label(screen2,
-                                                             text="Your refugee will be in the: %s" % that_block_list[
-                                                                 7])
+                                                             text="Your refugee will be in the: %s" % that_block_list[7])
                 volunteer_current_wing_label.pack()
                 # OUTPUT WHHICH BLOCK THEY ARE IN
                 refugee_assigned_accommodation_label = tkinter.Label(screen2,
@@ -1176,11 +1164,13 @@ def modify_family():
 
                     refugee_family_num = []
                     if int(refugee_fam_num) > 0:
-                        for i in range(0, int(refugee_fam_num) + 1):
+                        for i in range(1, int(refugee_fam_num) + 1):
                             refugee_family_num.append(i)
                         refugee_family_medical_no_option = tkinter.ttk.Combobox(update_current_refugee,
                                                                                 textvariable=refugee_family_medical_no,
                                                                                 values=refugee_family_num)
+                        no_of_conditions = updating_refugee_list[9]
+
                         refugee_family_medical_no_option.place(x=300, y=650, width=50)
 
 
@@ -1190,7 +1180,7 @@ def modify_family():
                             refugee_family_medical_no_option = tkinter.OptionMenu(update_current_refugee, refugee_family_medical_no,
                                                                                   int(refugee_fam_num))
                             refugee_family_medical_no_option.place(x=300, y=650)
-                    refugee_family_medical_no.set(int(updating_refugee_list[9]))
+                    refugee_family_medical_no.set(refugee_family_medical_no.get())
 
                 else:
                     refugee_height.set('Enter any medical conditions...')
@@ -1285,6 +1275,12 @@ def modify_family():
         volunteer_database_list_index.append((volunteer_database_list[i])[1])
         i += 1
 
+    volunteer_database_list_index_specific = []
+    for i in range(0, len(volunteer_database_list)):
+        if volunteer_database_list[i][0] == Volunteer_Home.user_camp_id:
+            volunteer_database_list_index_specific.append((volunteer_database_list[i])[1])
+        i += 1
+
     update_screen = tkinter.Toplevel()
     update_screen.geometry("1000x1000")
     update_screen.title("Update Refugee Information")
@@ -1340,13 +1336,14 @@ def modify_family():
 
     # https://pythonguides.com/python-tkinter-table-tutorial/
     for i in range(0, len(volunteer_database_list)):
-        emergency_database_table.insert(parent='', index=i, iid=i, values=(
-        volunteer_database_list[i][0], str(volunteer_database_list[i][1]), volunteer_database_list[i][2],
-        volunteer_database_list[i][3], volunteer_database_list[i][4], volunteer_database_list[i][5],
-        volunteer_database_list[i][6], volunteer_database_list[i][7], volunteer_database_list[i][8],
-        volunteer_database_list[i][9], volunteer_database_list[i][10], volunteer_database_list[i][11],
-        volunteer_database_list[i][12], volunteer_database_list[i][13], volunteer_database_list[i][14],
-        volunteer_database_list[i][15]))
+        if volunteer_database_list[i][0] == Volunteer_Home.user_camp_id:
+            emergency_database_table.insert(parent='', index=i, iid=i, values=(
+            volunteer_database_list[i][0], str(volunteer_database_list[i][1]), volunteer_database_list[i][2],
+            volunteer_database_list[i][3], volunteer_database_list[i][4], volunteer_database_list[i][5],
+            volunteer_database_list[i][6], volunteer_database_list[i][7], volunteer_database_list[i][8],
+            volunteer_database_list[i][9], volunteer_database_list[i][10], volunteer_database_list[i][11],
+            volunteer_database_list[i][12], volunteer_database_list[i][13], volunteer_database_list[i][14],
+            volunteer_database_list[i][15]))
         i += 1
 
     emergency_database_table.pack()
@@ -1356,7 +1353,7 @@ def modify_family():
     choose_refugee_label.pack(pady = 20)
 
     refugee_button = tkinter.StringVar()
-    choose_refugee_button = tkinter.ttk.Combobox(update_screen, textvariable=refugee_button, values=volunteer_database_list_index)
+    choose_refugee_button = tkinter.ttk.Combobox(update_screen, textvariable=refugee_button, values=volunteer_database_list_index_specific)
     choose_refugee_button.pack()
 
     confirm_refugee_button = tkinter.Button(update_screen, text = "Submit", command = confirm_update)
@@ -1366,4 +1363,3 @@ def modify_family():
     update_screen.mainloop()
 
 
-modify_family()

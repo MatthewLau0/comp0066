@@ -7,32 +7,14 @@ import tkinter.messagebox
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 # subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 import tkinter.ttk
+import Volunteer_Home
 
 
 
-
-def camp_id_generate():
-    global current_refugee_id
-    global current_refugee_name
-    logins_file = open("successful_login.txt", "r")
-
-    logins_list = []
-    for line in logins_file:
-        line_string = line.split("%")
-        logins_list.append(line_string)
-    logins_file.close()
-    if len(logins_list) > 0:
-        current_refugee_id = logins_list[-1][0]
-        current_refugee_name = logins_list[-1][2]
-    else:
-        pass
 
 
 
 def create_family():
-    camp_id_generate()
-    print(current_refugee_id)
-    print(current_refugee_name)
 
     # Opening current database and reading it into a list
     volunteer_list_file = open("refugee_database.txt", "r")
@@ -324,7 +306,7 @@ def create_family():
         # KINDA SEPARATE SECTION BUT STILL IN THE VALIDATION PART
 
         # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-        volunteer_current_camp_id = int(volunteer_actual_database_list[int(current_refugee_id) - 1][CAMP_COLUMN_NUM])
+        volunteer_current_camp_id = int(volunteer_actual_database_list[int(Volunteer_Home.user_id) - 1][CAMP_COLUMN_NUM])
 
         # ACCOMMODATION: GET SPECIFIC LIST WITH ONLY ACCOMMODATION IN VOLUNTEER CAMP
         accommodation_specific_camp_list_test = []
@@ -552,8 +534,8 @@ def create_family():
 
     def add_camp():
         # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-        volunteer_current_camp = int(volunteer_actual_database_list[int(current_refugee_id) - 1][0])
-        print(volunteer_actual_database_list[int(current_refugee_id)-1])
+        volunteer_current_camp = int(volunteer_actual_database_list[int(Volunteer_Home.user_id) - 1][0])
+        print(volunteer_actual_database_list[int(Volunteer_Home.user_id)-1])
 
         # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
         camp_name_list = []

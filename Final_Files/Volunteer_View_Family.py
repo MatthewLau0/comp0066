@@ -1,26 +1,10 @@
 
-def camp_id_generate():
-    global logins_list_view
-    global current_refugee_id_view
-    global current_refugee_name_view
-    logins_file = open("successful_login.txt", "r")
-
-    logins_list_view = []
-    for line in logins_file:
-        line_string = line.split("%")
-        logins_list_view.append(line_string)
-    logins_file.close()
-    if len(logins_list_view) > 0:
-        current_refugee_id_view = logins_list_view[-1][0]
-        current_refugee_name_view = logins_list_view[-1][2]
-    else:
-        pass
-
 
 def table():
     import tkinter
     import tkinter.ttk
-    camp_id_generate()
+    import Volunteer_Home
+
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
@@ -90,7 +74,7 @@ def table():
 
         #https://pythonguides.com/python-tkinter-table-tutorial/
         for i in range(0, len(volunteer_database_list)):
-            if volunteer_database_list[i][0] == logins_list_view[-1][1]:
+            if volunteer_database_list[i][0] == Volunteer_Home.user_camp_id:
                 emergency_database_table.insert(parent='', index=i, iid=i, values=(str(volunteer_database_list[i][0]), str(volunteer_database_list[i][1]), volunteer_database_list[i][2], volunteer_database_list[i][3], str(volunteer_database_list[i][4]), volunteer_database_list[i][5], volunteer_database_list[i][6], volunteer_database_list[i][7], volunteer_database_list[i][8], volunteer_database_list[i][9], volunteer_database_list[i][10], volunteer_database_list[i][11], volunteer_database_list[i][12], volunteer_database_list[i][13], volunteer_database_list[i][14], volunteer_database_list[i][15]))
             i += 1
 

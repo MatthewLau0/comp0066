@@ -4,25 +4,9 @@ from tkcalendar import *
 import tkinter
 import datetime
 import tkinter.messagebox
+import Volunteer_Home
 
-def camp_id_generate():
-    global logins_list_available
-    global current_refugee_id_available
-    global current_refugee_name_available
-    logins_file = open("successful_login.txt", "r")
-
-    logins_list_available = []
-    for line in logins_file:
-        line_string = line.split("%")
-        logins_list_available.append(line_string)
-    logins_file.close()
-    if len(logins_list_available) > 0:
-        current_refugee_id_available = logins_list_available[-1][0]
-        current_refugee_name_available = logins_list_available[-1][2]
-    else:
-        pass
 def add_calendar():
-    camp_id_generate()
     #SETTING UP THE DEFAULT SCREEN
     availability_screen = tkinter.Toplevel()
     availability_screen.geometry("500x1000")
@@ -38,7 +22,7 @@ def add_calendar():
 
     volunteer_list_file.close()
 
-    volunteerID = current_refugee_id_available
+    volunteerID = Volunteer_Home.user_id
 
 
     #LIST WITH THE TIMINGS

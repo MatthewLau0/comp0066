@@ -440,3 +440,6 @@ def volunteer_home_page():
     quit_button.pack(pady = 10)
 
     refugee_home.mainloop()
+
+
+volunteer_home_page()
