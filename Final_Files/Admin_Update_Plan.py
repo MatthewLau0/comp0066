@@ -179,7 +179,7 @@ def updateexistingForm(screen):
             Update_Emergency_Screen.destroy()
             Update_Emergency_Entry_Screen = Toplevel()
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
-            Update_Emergency_Entry_Screen.geometry("500x650")
+            Update_Emergency_Entry_Screen.geometry("1000x800")
 
             index_updating_camp_extract = select_index.get()
             index_updating_camp = (index_updating_camp_extract - 1)
@@ -418,6 +418,7 @@ def updateexistingForm(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_flood.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
             emergency_type_earthquake_check.config(state=DISABLED)
@@ -440,6 +441,7 @@ def updateexistingForm(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_tsunami.get() == 1:
             emergency_type_flood_check.config(state=DISABLED)
             emergency_type_earthquake_check.config(state=DISABLED)
@@ -462,6 +464,7 @@ def updateexistingForm(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_earthquake.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
             emergency_type_flood_check.config(state=DISABLED)
@@ -484,6 +487,7 @@ def updateexistingForm(screen):
         global emergency_type_tsunami_check
         global emergency_type_other_check
         global emergency_type_string
+        emergency_type_string = "NA"
         if emergency_type_drought.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
             emergency_type_earthquake_check.config(state=DISABLED)
@@ -511,6 +515,7 @@ def updateexistingForm(screen):
         global emergency_type_label_other
         global emergency_type_other_entry
         global emergency_type_other_button
+        emergency_type_string = "NA"
 
         if emergency_type_other.get() == 1:
             emergency_type_tsunami_check.config(state=DISABLED)
@@ -535,6 +540,7 @@ def updateexistingForm(screen):
     def OtherConfirm():
         global emergency_type
         global emergency_type_string
+        global emergency_type_other
 
         emergency_type_string = emergency_type.get()
 
@@ -605,6 +611,7 @@ def updateexistingForm(screen):
         global status_label
         global update_emergency_location_label
         global updating_camp_list
+        global emergency_type_string
 
         camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
         emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
@@ -616,9 +623,11 @@ def updateexistingForm(screen):
         countries_list = list(countries.values())
 
         if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() != 1)):
-            emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
+            emergency_type_label.config(text="Please enter an emergency type for the new camp.", fg='#f00')
+        elif emergency_type_other.get() == 1 and emergency_type_string == "NA":
+            emergency_type_label.config(text="Please confirm your entry by pressing confirm.", fg="#f00")
         elif len(emergency_description.get()) == 0:
-            emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
+            emergency_description_label.config(text="Please enter a description for the new emergency.", fg='#f00')
         elif area_affected.get() not in countries_list:
             update_emergency_location_label.config(text="Please enter an area for the emergency and click confirm.", fg='f00')
         elif status == "NA":
@@ -650,15 +659,12 @@ def updateexistingForm(screen):
 
         Update_Emergency_Entry_Screen.destroy()
 
-        Update_Camp_Summary_Screen = Tk()
+        Update_Camp_Summary_Screen = Toplevel()
         Update_Camp_Summary_Screen.title("Update an Emergency")
         Update_Camp_Summary_Screen.geometry("500x350")
 
         Update_Camp_Summary_Screen_label = Label(Update_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
         Update_Camp_Summary_Screen_label.pack()
-
-        Update_Camp_Name_Summary_label = Label(Update_Camp_Summary_Screen, text="The updated camp name is: %s"%(camp_name.get()))
-        Update_Camp_Name_Summary_label.pack()
 
         Update_Camp_Type_Summary_label = Label(Update_Camp_Summary_Screen,text="The type of emergency is: %s" % (emergency_type_string))
         Update_Camp_Type_Summary_label.pack()
@@ -709,7 +715,6 @@ def updateexistingForm(screen):
         global emergency_type_string
         global emergency_marker_country_update
 
-        updating_camp_list[1] = camp_name.get()
         updating_camp_list[2] = emergency_type_string
         updating_camp_list[3] = emergency_description.get()
         updating_camp_list[4] = area_affected.get()
@@ -736,7 +741,7 @@ def updateexistingForm(screen):
         global Update_Camp_Close_Screen
 
         Update_Camp_Summary_Screen.destroy()
-        Update_Camp_Close_Screen = Tk()
+        Update_Camp_Close_Screen = Toplevel()
         Update_Camp_Close_Screen.title("Emergency successfully saved")
         Update_Camp_Close_Screen.geometry("500x350")
 
@@ -760,10 +765,12 @@ def updateexistingForm(screen):
         global Update_Emergency_Screen
         Update_Emergency_Screen = Toplevel(admin_home_screen)
         Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("800x600")
+        Update_Emergency_Screen.geometry("1000x600")
         setupUpdate()
 
 
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
+
+updateexistingForm(Tk())

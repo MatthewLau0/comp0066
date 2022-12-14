@@ -1,11 +1,18 @@
-1%Camp 1%Tsunami%Tsunami in camp 1%Norge%2022-12-01%NA%Active
+1%CampNorway%Tsunami%Tsunami in camp 1%Norge%2022-12-01%NA%Active
 2%CampGermany%Flood%Flood in Camp Germany%Deutschland%2022-11-14%2022-11-16%Closed
-3%CampSpain%Tsunami%Tsunami in Camp Spain%España%2022-10-11%2022-12-22%Closed
-4%%Tsunami%Tsunami in Russia%Russia%2022-12-13%NA%Active
+3%CampSpain%NA%Famine in Camp Spain%Spain%2022-12-12%NA%Active
+4%CampRussia%Earthquake%Earthquake in Russia%Russia%2022-12-13%2022-12-15%Closed
 5%CampEngland%Tsunami%Tsunami in Camp England%France%2022-12-05%NA%Active
-6%CampItaly%Tsunami%Tsunami in Italy%Italy%2022-12-05%2022-12-22%Closed
-7%%Tsunami%Tsunami in China%China%2022-11-15%2023-01-19%Closed
+6%CampItaly%Tsunami%Famine in Italy%Italy%2022-11-15%NA%Active
+7%CampChina%Tsunami%Tsunami in China%China%2022-11-15%2023-01-19%Closed
 8%CampMexico%Earthquake%Earthquake in Mexico%Mexico%2022-10-11%NA%Active
 9%CampBrazil%Hurricane%Hurricane in Brazil%Brazil%2022-11-15%NA%Active
 10%CampPortugal%Tsunami%Tsunami in Portugal%Portugal%2022-10-04%NA%Active
 11%CampAustria%Earthquake%Earthquake in Austria%Austria%2022-11-16%NA%Active
+12%CampBelgium%Drought%Drought in Belgium%Belgium%2022-11-07%2023-01-18%Closed
+13%CampFinland%Tsunami%Tsunami in Finland%Finland%2022-11-14%NA%Active
+14%CampAustralia%Flood%Cyclone in Australia%Australia%2022-11-15%2022-12-15%Closed
+15%CampCanada%Earthquake%Earthquake in Canada%Canada%2022-11-15%NA%Active
+16%CampNewZealand%Earthquake%Earthquake in Spain%Spain%2022-10-11%2022-12-22%Closed
+17%CampArgentina%Drought%Hurricane in Argentina%Argentina%2022-12-12%NA%Active
+18%CampUganda%Famine%Famine in Uganda%Uganda%2022-12-13%NA%Active
