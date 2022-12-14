@@ -5,6 +5,7 @@ from tkcalendar import Calendar
 import datetime
 from country_list import countries_for_language
 
+
 def createnewemergencyPlan(screen):
     global admin_home_screen
     admin_home_screen = screen
@@ -112,7 +113,7 @@ def createnewemergencyPlan(screen):
 
         camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
         camp_name_label.pack()
-        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters")
+        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters", font="italic")
         camp_name_label_instructions.pack()
         camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
         camp_name_entry.pack()
@@ -438,9 +439,7 @@ def createnewemergencyPlan(screen):
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
-        if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
-            camp_name_label.config(text="Please enter a name for the new camp.", fg='#f00')
-        elif ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
+        if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() !=1)):
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
@@ -479,7 +478,7 @@ def createnewemergencyPlan(screen):
         global area_affected
 
         New_Camp_Screen.destroy()
-        New_Camp_Summary_Screen = Tk()
+        New_Camp_Summary_Screen = Toplevel()
         New_Camp_Summary_Screen.title("Submit New Emergency")
         New_Camp_Summary_Screen.geometry("500x350")
 
@@ -536,6 +535,7 @@ def createnewemergencyPlan(screen):
         global emergency_marker_country
         global emergency_type_string
         global New_Emergency_Close_Screen
+        global New_Camp_Summary_Screen
 
         new_emergency[1] = camp_name.get()
         new_emergency[2] = emergency_type_string
@@ -551,21 +551,16 @@ def createnewemergencyPlan(screen):
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
-        New_Camp_Summary_Screen.destroy()
-        New_Emergency_Close_Screen = Tk()
-        New_Emergency_Close_Screen.title("Emergency Successfully Submitted")
-        New_Emergency_Close_Screen.geometry("500x650")
-
-        New_Emergency_Close_Screen_Label = Label(New_Emergency_Close_Screen, text="Your new emergency has been successfully saved. Would you like to submit another emergency, or return to homescreen.")
+        New_Emergency_Close_Screen_Label = Label(New_Camp_Summary_Screen, text="Your new emergency has been successfully saved. Would you like to submit another emergency, or return to homescreen.")
         New_Emergency_Close_Screen_Label.pack()
 
-        Submit_Another_Emergency_Button = Button(New_Emergency_Close_Screen, text="Submit Another Emergency", command=Create_Emergency_Screen)
-        Submit_Another_Emergency_Button.pack()
-        Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen", command=returnHome)
+        Return_To_HomeScreen_Button = Button(New_Camp_Summary_Screen, text="Return to Homescreen", command=returnHome)
         Return_To_HomeScreen_Button.pack()
 
     def returnHome():
-        import Admin_Home
+        global New_Camp_Summary_Screen
+        New_Camp_Summary_Screen.destroy()
+
 
     def campnameVerify():
         global camp_name
@@ -574,8 +569,9 @@ def createnewemergencyPlan(screen):
         global camp_name_verify
         global camp_name_label
 
-        camp_name_verify = camp_name.get()
-        if (camp_name_verify in camp_name_list):
+        if len(camp_name.get()) == 0 or camp_name.get() == ' ' or camp_name.get().count(" ") > 3 or camp_name.get().isalpha() != True:
+            camp_name_label.config(text="Please enter a name for the new camp.", fg='#f00')
+        elif camp_name.get() in camp_name_list:
             camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name.", fg='#f00')
         else:
             generateEndDate()

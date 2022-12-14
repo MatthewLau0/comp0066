@@ -650,7 +650,7 @@ def updateexistingForm(screen):
 
         Update_Emergency_Entry_Screen.destroy()
 
-        Update_Camp_Summary_Screen = Tk()
+        Update_Camp_Summary_Screen = Toplevel()
         Update_Camp_Summary_Screen.title("Update an Emergency")
         Update_Camp_Summary_Screen.geometry("500x350")
 
@@ -736,7 +736,7 @@ def updateexistingForm(screen):
         global Update_Camp_Close_Screen
 
         Update_Camp_Summary_Screen.destroy()
-        Update_Camp_Close_Screen = Tk()
+        Update_Camp_Close_Screen = Toplevel()
         Update_Camp_Close_Screen.title("Emergency successfully saved")
         Update_Camp_Close_Screen.geometry("500x350")
 

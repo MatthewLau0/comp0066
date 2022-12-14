@@ -8,8 +8,7 @@ def adminHome():
     global admin_home
     def Create_Emergency():
         from Admin_Create_Plan import createnewemergencyPlan
-        admin_home.destroy()
-        createnewemergencyPlan()
+        createnewemergencyPlan(admin_home)
 
     def Update_Emergency():
         from Admin_Update_Plan import updateexistingForm
@@ -51,3 +50,4 @@ def adminHome():
 
     admin_home.mainloop()
 
+adminHome()
