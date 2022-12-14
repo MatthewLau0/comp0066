@@ -13,3 +13,6 @@
 13%CampFinland%Tsunami%Tsunami in Finland%Finland%2022-11-14%NA%Active
 14%CampAustralia%Flood%Cyclone in Australia%Australia%2022-11-15%2022-12-15%Closed
 15%CampCanada%Earthquake%Earthquake in Canada%Canada%2022-11-15%NA%Active
+16%CampNewZealand%Earthquake%Earthquake in Spain%Spain%2022-10-11%2022-12-22%Closed
+17%CampArgentina%Drought%Hurricane in Argentina%Argentina%2022-12-12%NA%Active
+18%CampUganda%Earthquake%Earthquake in Uganda%Uganda%2022-11-15%NA%Active

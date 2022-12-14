@@ -551,7 +551,7 @@ def createnewemergencyPlan(screen):
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
-        New_Emergency_Close_Screen_Label = Label(New_Camp_Summary_Screen, text="Your new emergency has been successfully saved. Would you like to submit another emergency, or return to homescreen.")
+        New_Emergency_Close_Screen_Label = Label(New_Camp_Summary_Screen, text="Your new emergency has been successfully saved.")
         New_Emergency_Close_Screen_Label.pack()
 
         Return_To_HomeScreen_Button = Button(New_Camp_Summary_Screen, text="Return to Homescreen", command=returnHome)
@@ -581,10 +581,12 @@ def createnewemergencyPlan(screen):
 
         New_Camp_Screen = Toplevel(admin_home_screen)
         New_Camp_Screen.title("Create a New Emergency")
-        New_Camp_Screen.geometry("500x600")
+        New_Camp_Screen.geometry("700x700")
         screenSetup()
 
 
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
+
+createnewemergencyPlan(Tk())
