@@ -1,5 +1,5 @@
-import sys
-import subprocess
+#import sys
+#import subprocess
 #subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkinter import *
 import hashlib
@@ -103,7 +103,7 @@ def main():
                     confirm_password_entry.config(show='*')
                     password_visibility_btn.config(text='Show Passwords')
 
-            requirements_label = Label(register_screen, text="\nUsername and Password must not contain any spaces. \nUsername must not contain '%' \nPassword must be at least 3 characters long \nPassword must contain at least one number\n")
+            requirements_label = Label(register_screen, text="\nUsername and Password must not contain any spaces. \nUsername and Password must not contain the '%' sign \nUsername and Password must be at least 3 characters long \nUsername must only contain letters\nPassword must contain at least one number\n")
             requirements_label.pack()
 
             password_visibility_btn = Button(register_screen, text='Show Passwords', command=change_password_visibility, width=30, height=2)
@@ -130,6 +130,11 @@ def main():
                     username_error2.pack()
                     error_count.append("u2")
 
+                if len(username.get()) <= 2:
+                    username_error4 = Label(register_errors, text="Username is too short. Minimum length is 3 characters")
+                    username_error4.pack()
+                    error_count.append("u4")
+
                 volunteers_file = open("volunteer_database.txt", "r")
 
                 volunteer_list = []
@@ -148,6 +153,14 @@ def main():
                     username_error3.pack()
                     error_count.append("u3")
 
+                def us_has_number(input_string):
+                    return all(char.isalpha() for char in input_string)
+
+                if us_has_number(username.get()) is False:
+                    username_error5 = Label(register_errors, text="Username can only contain letters")
+                    username_error5.pack()
+                    error_count.append("u5")
+
                 if password.get() == confirm_password.get():
                     if len(password.get()) <= 2:
                         password_error1 = Label(register_errors, text="Password is too short. Minimum length is 3 characters")
@@ -165,6 +178,11 @@ def main():
                         password_error3 = Label(register_errors, text="Please enter a password without any spaces")
                         password_error3.pack()
                         error_count.append("p3")
+
+                    if "%" in password.get():
+                        password_error5 = Label(register_errors, text="Please enter a password without the '%' sign")
+                        password_error5.pack()
+                        error_count.append("p5")
 
                 else:
                     password_error4 = Label(register_errors, text="Passwords do not match. Please try again")
@@ -212,8 +230,6 @@ def main():
                     new_user[10] = "Deactivated"
                     new_user[11] = "Standard"
                     new_user[12] = "Availability"
-
-                    file.close()
 
                     new_user_string = "%".join(new_user)
 
