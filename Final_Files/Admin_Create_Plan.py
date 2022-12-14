@@ -149,7 +149,7 @@ def createnewemergencyPlan(screen):
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
 
-        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
+        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the Emergency")
         emergency_description_label.pack()
         emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
         emergency_description_entry.pack()
