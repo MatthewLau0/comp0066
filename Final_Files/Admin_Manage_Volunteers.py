@@ -13,20 +13,19 @@ def manageVolunteers(screen):
 
         volunteer_file = open("volunteer_database.txt", "r")
 
-        current_volunteer_list = []
+        volunteer_file_extract = []
 
         for line in volunteer_file:
             line_list = line.split("%")
-            current_volunteer_list.append(line_list)
+            volunteer_file_extract.append(line_list)
         volunteer_file.close()
 
-        print(current_volunteer_list)
-
-        for i in range(0, (len(current_volunteer_list )-1)):
-            if current_volunteer_list[i][-3] == "Deleted":
-                del current_volunteer_list[i]
+        current_volunteer_list = []
+        for i in range(0, (len(volunteer_file_extract)-1)):
+            if volunteer_file_extract[i][-3] == "Deleted":
                 i += 1
             else:
+                current_volunteer_list.append(volunteer_file_extract[i])
                 i += 1
 
         viewexistingVolunteers()
