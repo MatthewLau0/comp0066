@@ -106,12 +106,12 @@ def createnewemergencyPlan(screen):
         area_affected = StringVar()
         emergency_status = StringVar()
 
-        New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency plan. Please follow the below instructions")
+        New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency camp. Please follow the below instructions")
         New_Camp_Screen_Label.pack()
         New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
         New_Camp_Screen_Label_Index.pack()
 
-        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
+        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ", font=("Calibri", "11", "bold"))
         camp_name_label.pack()
         camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters", font="italic")
         camp_name_label_instructions.pack()
@@ -177,6 +177,9 @@ def createnewemergencyPlan(screen):
         start_date_calendar.pack(side=LEFT)
         close_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', state=DISABLED)
         close_date_calendar.pack(side=RIGHT)
+
+        close_date_instructions_label = Label(New_Camp_Screen, text="To enter a close date, specify below that the emergency is no longer active")
+        close_date_instructions_label.pack()
 
         status_label = Label(New_Camp_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
         status_label.pack()
@@ -598,3 +601,5 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
+
+createnewemergencyPlan(Tk())
