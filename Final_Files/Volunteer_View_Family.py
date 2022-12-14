@@ -103,5 +103,3 @@ def table():
 
 
     ViewTable()
-
-table()
