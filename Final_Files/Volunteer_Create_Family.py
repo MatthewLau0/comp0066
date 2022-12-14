@@ -295,29 +295,30 @@ def create_family():
                 return
 
 
-        #CHECK FOR ERRORS IN NUMBER INPUT FOR NUMBER OF FAM CONDITIONS
-        if no_fam_conditions == "":
-            tkinter.messagebox.showerror(title='Error!', message='Number of family members with conditions cannot be empty')
-            return
+            #CHECK FOR ERRORS IN NUMBER INPUT FOR NUMBER OF FAM CONDITIONS
+            if no_fam_conditions == "":
+                tkinter.messagebox.showerror(title='Error!', message='Number of family members with conditions cannot be empty')
+                return
 
-        if any(i.isalpha() for i in no_fam_conditions):
-            tkinter.messagebox.showerror(title='Error!',
-                                         message='No. of family members with conditions cannot have alphabetical characters')
-            return
+            if any(i.isalpha() for i in no_fam_conditions):
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='No. of family members with conditions cannot have alphabetical characters')
+                return
 
-        try:
-            int(no_fam_conditions)
-        except ValueError:
-            tkinter.messagebox.showerror(title='Error!',
-                                         message='No. of family members with conditions cannot have special characters!')
-            return
+            try:
+                int(no_fam_conditions)
+            except ValueError:
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='No. of family members with conditions cannot have special characters!')
+                return
 
-        if int(no_fam_conditions) > int(number):
-            tkinter.messagebox.showerror(title='Error!', message='More family members with medical conditions than number of family members!')
-            return
-        if int(no_fam_conditions) < 1:
-            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 1!')
-            return
+
+            if (int(no_fam_conditions) - 1) > int(number):
+                tkinter.messagebox.showerror(title='Error!', message='More family members with medical conditions than number of family members!')
+                return
+            if int(no_fam_conditions) < 1:
+                tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 1!')
+                return
 
 
         # CHECK IF THERE IS ENOUGH SPACE IN THE CAMP
@@ -1106,7 +1107,7 @@ def create_family():
 
             refugee_family_num = []
             if int(refugee_fam_num) > 0:
-                for i in range(0, int(refugee_fam_num) + 1):
+                for i in range(1, int(refugee_fam_num) + 1):
                     refugee_family_num.append(i)
                 refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable= refugee_family_medical_no,
                                                                       values = refugee_family_num)
@@ -1193,5 +1194,3 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
-
-create_family()

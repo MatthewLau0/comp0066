@@ -37,7 +37,7 @@ def create_family():
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
-        x = line.split("#")
+        x = line.split("%")
         volunteer_database_list.append(x)
     volunteer_list_file.close()
 
@@ -103,7 +103,7 @@ def create_family():
 
     country_list = ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola', 'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Bouvet Island', 'Brazil', 'British Indian Ocean Territory', 'Brunei Darussalam', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Cayman Islands', 'Central African Republic', 'Chad', 'Chile', 'China', 'Christmas Island', 'Cocos (Keeling) Islands', 'Colombia', 'Comoros', 'Congo', 'The Democratic Republic of the Congo', 'Cook Islands', 'Costa Rica', "Côte d'Ivoire", 'Croatia', 'Cuba', 'Curaçao', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Guiana', 'French Polynesia', 'French Southern Territories', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guadeloupe', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Heard Island and McDonald Islands', 'Vatican City', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Republic of Korea', 'Kuwait', 'Kyrgyzstan', "Laos", 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macao', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Martinique', 'Mauritania', 'Mauritius', 'Mayotte', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Niue', 'Norfolk Island', 'Northern Mariana Islands', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestinian Territory', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Pitcairn', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Réunion', 'Romania', 'Russia', 'Rwanda', 'Saint Lucia', 'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'South Sudan', 'Svalbard', 'Swaziland', 'Sweden', 'Switzerland', 'Syrian Arab Republic', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tokelau', 'Tonga', 'Trinidad and Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks and Caicos Islands', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
     CAMP_COLUMN_NUM = 0
-    CURRENT_VOLUNTEER_INDEX = 1
+    CURRENT_VOLUNTEER_INDEX = 0
     print(volunteer_actual_database_list[CURRENT_VOLUNTEER_INDEX][2])
     def save_to_file():
 
@@ -121,6 +121,7 @@ def create_family():
 
         conditions = refugee_height.get()
         no_fam_conditions = refugee_family_medical_no.get()
+
 
         # CHECKING FOR ERRORS IN NAME
         if name == "" or name == "Enter refugee name...":
@@ -175,8 +176,12 @@ def create_family():
 
         # CHECK THAT SEX ISN'T EMPTY
 
-        if sex == "":
+        if sex == "" or sex == "Select or type your sex...":
             tkinter.messagebox.showerror(title='Error!', message='Sex cannot be empty')
+            return
+
+        if sex != "Male" and sex != "Female" and sex != "Prefer not to say":
+            tkinter.messagebox.showerror(title='Error!', message='Sex must be "Male", "Female", or "Prefer not to say"')
             return
 
         # DOB CHECKS
@@ -233,6 +238,33 @@ def create_family():
                     tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in postcode')
                     return
 
+        #CHECK FOR ERRORS IN COUNTRY
+        if country_address != "" and country_address != "Use dropdown or type to select country...":
+            if country_address.count(" ") > 3:
+                tkinter.messagebox.showerror(title='Error!', message='Country cannot have more than 3 words')
+                return
+
+            if country_address.isnumeric():
+                tkinter.messagebox.showerror(title='Error!', message='Country address cannot be numeric')
+                return
+
+            if any(i.isnumeric() for i in country_address):
+                tkinter.messagebox.showerror(title='Error!', message='Country cannot have numerical characters')
+                return
+
+
+            for i in country_address:
+                if i.isalnum() != True and i != " " and i != ".":
+                    tkinter.messagebox.showerror(title='Error!', message='Unrecognised symbol in country')
+                    return
+
+            country_address = country_address.lower()
+            country_address = country_address.capitalize()
+
+            if country_address not in country_list:
+                tkinter.messagebox.showerror(title='Error!', message='Country not in list! Please use dropdown menu to select')
+                return
+
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
 
@@ -261,6 +293,33 @@ def create_family():
                 tkinter.messagebox.showerror(title='Error!',
                                              message='Please specify how many family members have conditions')
                 return
+
+
+            #CHECK FOR ERRORS IN NUMBER INPUT FOR NUMBER OF FAM CONDITIONS
+            if no_fam_conditions == "":
+                tkinter.messagebox.showerror(title='Error!', message='Number of family members with conditions cannot be empty')
+                return
+
+            if any(i.isalpha() for i in no_fam_conditions):
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='No. of family members with conditions cannot have alphabetical characters')
+                return
+
+            try:
+                int(no_fam_conditions)
+            except ValueError:
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='No. of family members with conditions cannot have special characters!')
+                return
+
+
+            if (int(no_fam_conditions) - 1) > int(number):
+                tkinter.messagebox.showerror(title='Error!', message='More family members with medical conditions than number of family members!')
+                return
+            if int(no_fam_conditions) < 1:
+                tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 1!')
+                return
+
 
         # CHECK IF THERE IS ENOUGH SPACE IN THE CAMP
         # KINDA SEPARATE SECTION BUT STILL IN THE VALIDATION PART
@@ -292,10 +351,7 @@ def create_family():
             if int(ration_database_list[i][0]) == int(volunteer_current_camp_id):
                 rations_specific_camp_list_test.append(ration_database_list[i])
 
-        print(accommodation_specific_camp_list_test)
-        print(medical_specific_camp_list_test)
-        print(toilet_specific_camp_list_test)
-        print(rations_specific_camp_list_test)
+
 
         total_lol = int(number) + 1
 
@@ -409,9 +465,9 @@ def create_family():
 
         # Finding index for new refugee
         if len(volunteer_database_list) == 0:
-            new_refugee[0] = "1"
+            new_refugee[1] = "1"
         elif len(volunteer_database_list) >= 1:
-            new_refugee[0] = str((int((volunteer_database_list[-1])[0]) + 1))
+            new_refugee[1] = str((int((volunteer_database_list[-1])[1]) + 1))
 
         # GET ALL VALUES
         name = refugee_name.get()
@@ -467,7 +523,7 @@ def create_family():
         rations_write_new.close()
 
         # STORE ALL VALUES INTO LIST
-        new_refugee[0] = str(current_refugee_id)
+        new_refugee[0] = str(return_list_for_database[4])
         new_refugee[2] = name
         new_refugee[3] = number
         new_refugee[4] = dob
@@ -476,13 +532,12 @@ def create_family():
         new_refugee[7] = address
         new_refugee[8] = str(conditions)
         new_refugee[9] = str(num_of_fam)
-        new_refugee[10] = str(return_list_for_database[4])
-        new_refugee[11] = str(return_list_for_database[5])
-        new_refugee[12] = str(return_list_for_database[6])
-        new_refugee[13] = str(return_list_for_database[7])
-        new_refugee[14] = str(return_list_for_database[8])
-        new_refugee[15] = str(return_list_for_database[9])
-        new_refugee[16] = str(return_list_for_database[10])
+        new_refugee[10] = str(return_list_for_database[5])
+        new_refugee[11] = str(return_list_for_database[6])
+        new_refugee[12] = str(return_list_for_database[7])
+        new_refugee[13] = str(return_list_for_database[8])
+        new_refugee[14] = str(return_list_for_database[9])
+        new_refugee[15] = str(return_list_for_database[10])
         new_refugee_string = "%".join(new_refugee)
         volunteer_list_file.close()
         volunteer_list_file_append = open("refugee_database.txt", "a")
@@ -501,7 +556,7 @@ def create_family():
         # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
         camp_name_list = []
         for i in range(len(camp_database_list)):
-            camp_name_list.append([camp_database_list[i][0], camp_database_list[i][0]])
+            camp_name_list.append([camp_database_list[i][0], camp_database_list[i][1]])
 
         # FUNCTION TO FIND WHICH THEIR CURRENT CAMP NAME IS
         # DO IT BY COMPARING CAMP ID IN EMERGENCY DATABASE TO CAMP ID IN VOLUNTEER FILE
@@ -797,6 +852,17 @@ def create_family():
             refugee_number_entry.insert(0, 'Enter no. of family members...')
             refugee_number_entry.config(fg='grey')
 
+    def refugee_sex_on(self):
+        if refugee_sex_entry.get() == 'Select or type your sex...':
+            refugee_sex_entry.delete(0, "end")  # delete all the text in the entry
+            refugee_sex_entry.insert(0, '')  # Insert blank for user input
+            refugee_sex_entry.config(foreground='black')
+
+    def refugee_sex_off(self):
+        if refugee_sex_entry.get() == '':
+            refugee_sex_entry.insert(0, 'Select or type your sex...')
+            refugee_sex_entry.config(foreground='grey')
+
     def refugee_first_address_on(self):
         if refugee_first_address_entry.get() == 'Address Line 1':
             refugee_first_address_entry.delete(0, "end")  # delete all the text in the entry
@@ -829,6 +895,17 @@ def create_family():
         if refugee_postcode_address_entry.get() == '':
             refugee_postcode_address_entry.insert(0, 'Postcode')
             refugee_postcode_address_entry.config(fg='grey')
+
+    def refugee_country_address_on(self):
+        if refugee_country_address_entry.get() == 'Use dropdown or type to select country...':
+            refugee_country_address_entry.delete(0, "end")  # delete all the text in the entry
+            refugee_country_address_entry.insert(0, '')  # Insert blank for user input
+            refugee_country_address_entry.config(foreground='black')
+
+    def refugee_country_address_off(self):
+        if refugee_country_address_entry.get() == '':
+            refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
+            refugee_country_address_entry.config(foreground='grey')
 
     def refugee_weight_on(self):
         if refugee_weight_entry.get() == 'Enter weight in kg...':
@@ -901,10 +978,12 @@ def create_family():
     refugee_sex_text = tkinter.Label(screen, text="Sex*:")
     refugee_sex_text.place(x=20, y=170)
     refugee_sex = tkinter.StringVar()
-    refugee_sex_entry = tkinter.Entry(textvariable=refugee_sex)
-    refugee_sex_entry.place(x = 175, y = 170, width=300)
-    drop = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
-    drop.place(x=175, y=170, width=300)
+    refugee_sex_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
+    refugee_sex_entry.insert(0, 'Select or type your sex...')
+    refugee_sex_entry.bind('<FocusIn>', refugee_sex_on)
+    refugee_sex_entry.bind('<FocusOut>', refugee_sex_off)
+    refugee_sex_entry.config(foreground='grey')
+    refugee_sex_entry.place(x=175, y=170, width=300)
 
     # REFUGEE DOB STUFF
     refugee_dob_text = tkinter.Label(screen, text="Date of Birth*: ")
@@ -951,6 +1030,10 @@ def create_family():
 
     refugee_country_address = tkinter.StringVar()
     refugee_country_address_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_country_address, values = country_list)
+    refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
+    refugee_country_address_entry.bind('<FocusIn>', refugee_country_address_on)
+    refugee_country_address_entry.bind('<FocusOut>', refugee_country_address_off)
+    refugee_country_address_entry.config(foreground='grey')
     refugee_country_address_entry.place(x=175, y=480, width=300)
 
     # FUNCTION TO DISPLAY INPUT BOX WHEN THEY CLICK YES TO MEDICAL CONDITIONS
@@ -961,6 +1044,38 @@ def create_family():
 
 
     def clickYes():
+        number_click = refugee_number.get()
+        if number_click == "" or number_click == "Enter no. of family members...":
+            tkinter.messagebox.showerror(title='Error!', message='Please ensure no. of family members is not empty')
+            refugee_weight.set(0)
+            return
+
+        if any(i.isalpha() for i in number_click):
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members is non-alphabetic')
+            refugee_weight.set(0)
+            return
+
+        try:
+            int(number_click)
+        except ValueError:
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members does not have special characters')
+            refugee_weight.set(0)
+            return
+
+        if int(number_click) > 20:
+            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
+            refugee_weight.set(0)
+            return
+        if int(number_click) < 0:
+            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
+            refugee_weight.set(0)
+            return
+
+
+
+
         global refugee_height
         global refugee_height_entry
         global refugee_family_medical_no
@@ -992,17 +1107,17 @@ def create_family():
 
             refugee_family_num = []
             if int(refugee_fam_num) > 0:
-                for i in range(0, int(refugee_fam_num) + 1):
+                for i in range(1, int(refugee_fam_num) + 1):
                     refugee_family_num.append(i)
                 refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable= refugee_family_medical_no,
                                                                       values = refugee_family_num)
-                refugee_family_medical_no_option.place(x=300, y=650)
+                refugee_family_medical_no_option.place(x=300, y=650, width = 50)
 
             elif int(refugee_fam_num) == 0:
                 refugee_fam_num = 1
                 refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable = refugee_family_medical_no,
                                                                       values = int(refugee_fam_num))
-                refugee_family_medical_no_option.place(x=300, y=650)
+                refugee_family_medical_no_option.place(x=300, y=650, width = 50)
 
         else:
             refugee_height.set('Enter any medical conditions...')
@@ -1014,6 +1129,35 @@ def create_family():
 
     # FUNCTION TO ERASE ANY INFO/DO NOTHING IF NO IS CLICKED
     def clickNo():
+        number_click2 = refugee_number.get()
+        if number_click2 == "" or number_click2 == "Enter no. of family members...":
+            tkinter.messagebox.showerror(title='Error!', message='Please ensure no. of family members is not empty')
+            refugee_weight_2.set(0)
+            return
+
+        if any(i.isalpha() for i in number_click2):
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members is non-alphabetic')
+            refugee_weight_2.set(0)
+            return
+
+        try:
+            int(number_click2)
+        except ValueError:
+            tkinter.messagebox.showerror(title='Error!',
+                                         message='Please ensure no. of family members does not have special characters')
+            refugee_weight_2.set(0)
+            return
+
+        if int(number_click2) > 20:
+            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
+            refugee_weight_2.set(0)
+            return
+        if int(number_click2) < 0:
+            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
+            refugee_weight_2.set(0)
+            return
+
         global refugee_height
         refugee_height = tkinter.StringVar()
         global refugee_family_medical_no
@@ -1050,4 +1194,3 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
-
