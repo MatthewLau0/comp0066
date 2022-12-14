@@ -52,7 +52,7 @@ def updateexistingForm(screen):
         global View_Table_Yes
 
 
-        Update_Emergency_Screen_Label = Label(Update_Emergency_Screen, text="You are going to update an existing emergency plan. Please follow the below instructions")
+        Update_Emergency_Screen_Label = Label(Update_Emergency_Screen, text="You are going to update an existing emergency camp. Please follow the below instructions")
         Update_Emergency_Screen_Label.pack()
 
         View_Table_Label = Label(Update_Emergency_Screen, text="Would you like to view a summary of all of the projects currently in the database?")
