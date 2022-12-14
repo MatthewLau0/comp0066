@@ -38,7 +38,7 @@ def main():
         main_window = Tk()
         main_window.title("Sign In")
 
-        Label(main_window, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+        Label(main_window, text="\n\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
         screen_width1 = main_window.winfo_screenwidth()
         screen_height1 = main_window.winfo_screenheight()
@@ -49,9 +49,6 @@ def main():
         center_y1 = int(screen_height1 / 2 - window_height1 / 2)
         main_window.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
-
-
-
         def register_volunteer():
             Clean_Database.clean_volunteer_database()
             Clean_Database.clean_login_database()
@@ -59,7 +56,7 @@ def main():
             register_screen = Tk()
             register_screen.title("Register")
 
-            Label(register_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+            Label(register_screen, text="\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
             screen_width2 = register_screen.winfo_screenwidth()
             screen_height2 = register_screen.winfo_screenheight()
@@ -78,19 +75,19 @@ def main():
             register_label = Label(register_screen, text="Please enter a username and password below")
             register_label.pack()
 
-            username_label = Label(register_screen, text="Username")
+            username_label = Label(register_screen, text="Username*")
             username_label.pack()
 
             username_entry = Entry(register_screen, textvariable=username)
             username_entry.pack()
 
-            password_label = Label(register_screen, text="Password")
+            password_label = Label(register_screen, text="Password*")
             password_label.pack()
 
             password_entry = Entry(register_screen, textvariable=password, show="*")
             password_entry.pack()
 
-            confirm_password_label = Label(register_screen, text="Confirm Password")
+            confirm_password_label = Label(register_screen, text="Confirm Password*")
             confirm_password_label.pack()
 
             confirm_password_entry = Entry(register_screen, textvariable=confirm_password, show="*")
@@ -106,11 +103,13 @@ def main():
                     confirm_password_entry.config(show='*')
                     password_visibility_btn.config(text='Show Passwords')
 
+            requirements_label = Label(register_screen, text="\nUsername and Password must not contain any spaces. \nUsername must not contain '%' \nPassword must be at least 3 characters long \nPassword must contain at least one number\n")
+            requirements_label.pack()
+
             password_visibility_btn = Button(register_screen, text='Show Passwords', command=change_password_visibility, width=30, height=2)
             password_visibility_btn.pack()
 
-            requirements_label = Label(register_screen, text="Username and Password must not contain any spaces. \nUsername must not contain '%' \nPassword must be at least 3 characters long \nPassword must contain at least one number")
-            requirements_label.pack()
+
 
             error_count = []
 
@@ -243,7 +242,7 @@ def main():
             volunteer_login_screen = Tk()
             volunteer_login_screen.title("Login")
 
-            Label(volunteer_login_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+            Label(volunteer_login_screen, text="\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
             screen_width2 = volunteer_login_screen.winfo_screenwidth()
             screen_height2 = volunteer_login_screen.winfo_screenheight()
@@ -259,11 +258,11 @@ def main():
             username_entry = StringVar()
             password_entry = StringVar()
 
-            Label(volunteer_login_screen, text="Username * ").pack()
+            Label(volunteer_login_screen, text="Username* ").pack()
             username_login_entry = Entry(volunteer_login_screen, textvariable=username_entry)
             username_login_entry.pack()
 
-            Label(volunteer_login_screen, text="Password * ").pack()
+            Label(volunteer_login_screen, text="Password* ").pack()
             password_entry = Entry(volunteer_login_screen, textvariable=password_entry, show='*')
             password_entry.pack()
 
@@ -370,7 +369,7 @@ def main():
             admin_login_screen = Tk()
             admin_login_screen.title("Admin Login")
 
-            Label(admin_login_screen, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+            Label(admin_login_screen, text="\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
             screen_width2 = admin_login_screen.winfo_screenwidth()
             screen_height2 = admin_login_screen.winfo_screenheight()
@@ -381,18 +380,20 @@ def main():
             center_y2 = int(screen_height2 / 2 - window_height2 / 2)
             admin_login_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
-            Label(admin_login_screen, text="Please enter details").pack()
+            Label(admin_login_screen, text="Please enter your login details below\n").pack()
 
             admin_username_entry = StringVar()
             admin_password_entry = StringVar()
 
-            Label(admin_login_screen, text="Username * ").pack()
+            Label(admin_login_screen, text="Username* ").pack()
             username_login_entry = Entry(admin_login_screen, textvariable=admin_username_entry)
             username_login_entry.pack()
 
-            Label(admin_login_screen, text="Password * ").pack()
+            Label(admin_login_screen, text="Password* ").pack()
             password_entry = Entry(admin_login_screen, textvariable=admin_password_entry, show='*')
             password_entry.pack()
+
+            Label(admin_login_screen, text="").pack()
 
             def change_password_visibility():
                 if password_entry.cget('show') == '*':
@@ -459,7 +460,7 @@ def main():
             choose_role_window = Tk()
             choose_role_window.title("Login")
 
-            Label(choose_role_window, text="LAMSA", font=("Avenir", 80, "bold")).pack()
+            Label(choose_role_window, text="\n\nLAMSA", font=("Avenir", 80, "bold")).pack()
 
             screen_width2 = choose_role_window.winfo_screenwidth()
             screen_height2 = choose_role_window.winfo_screenheight()
