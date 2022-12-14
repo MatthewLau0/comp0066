@@ -23,6 +23,7 @@ def manageVolunteers(screen):
     def viewexistingVolunteers():
         global manage_volunteer_home_screen
         global current_volunteer_list
+        global deactivatedVolunteer_frame
 
 
         view_volunteers_screen_label = Label(manage_volunteer_home_screen, text="Please see below a list of the current volunteers and the camps they are associated with.")
@@ -64,8 +65,6 @@ def manageVolunteers(screen):
 
         view_volunteer_table.pack()
 
-        activestatusVolunteer_frame = Frame(manage_volunteer_home_screen)
-        activestatusVolunteer_frame.pack()
 
         def activestatusVolunteer():
             global current_volunteer_list
@@ -74,6 +73,13 @@ def manageVolunteers(screen):
             global deactivated_volunteers
             global deactivated_volunteer_activate_label
             global deactivated_volunteers_IDs
+            global active_status_volunteer
+
+
+            active_status_volunteer = Toplevel()
+            active_status_volunteer.title("Activate a volunteer")
+            activestatusVolunteer_frame = Frame(active_status_volunteer)
+            activestatusVolunteer_frame.pack()
 
 
             deactivated_volunteers = []
@@ -86,12 +92,6 @@ def manageVolunteers(screen):
             for i in range(0, len(deactivated_volunteers)):
                 deactivated_volunteers_IDs.append(int(deactivated_volunteers[i][1]))
                 i += 1
-
-            for widget in activestatusVolunteer_frame.winfo_children():
-                widget.destroy()
-
-            for widget in leadstatusVolunteer_frame.winfo_children():
-                widget.destroy()
 
 
             deactivated_volunteer = IntVar()
@@ -126,6 +126,7 @@ def manageVolunteers(screen):
 
 
         def submitvolunteerStatus():
+            active_status_volunteer.destroy()
             volunteer_file_write = open("volunteer_database.txt", "r+")
             volunteer_file_write.truncate(0)
             for i in range(0, len(current_volunteer_list)):
@@ -144,8 +145,91 @@ def manageVolunteers(screen):
                                                 deactivated_volunteer.get()))
             successful_update_label.pack()
 
-        leadstatusVolunteer_frame = Frame(manage_volunteer_home_screen)
-        leadstatusVolunteer_frame.pack()
+
+        def deactivateVolunteer():
+            global current_volunteer_list
+            global manage_volunteer_home_screen
+            global activated_volunteer
+            global activated_volunteers
+            global deactivate_volunteer_activate_label
+            global activated_volunteers_IDs
+            global activated_volunteer_entry_button
+            global activated_volunteer_combobox
+            global deactivate_volunteer_screen
+
+            deactivate_volunteer_screen = Toplevel()
+            deactivatedVolunteer_frame = Frame(deactivate_volunteer_screen)
+            deactivatedVolunteer_frame.pack()
+
+
+            activated_volunteers = []
+            for i in range(0, len(current_volunteer_list)):
+                if current_volunteer_list[i][-3] == "Active":
+                    activated_volunteers.append(current_volunteer_list[i])
+                i += 1
+
+            activated_volunteers_IDs = []
+            for i in range(0, len(activated_volunteers)):
+                activated_volunteers_IDs.append(int(activated_volunteers[i][1]))
+                i += 1
+
+
+            activated_volunteer = IntVar()
+            deactivate_volunteer_activate_label = Label(deactivatedVolunteer_frame,
+                                                         text="See activation status above for those volunteers who are active. Please select the index number of the volunteer that you would like to deactivate")
+            deactivate_volunteer_activate_label.pack()
+
+            activated_volunteer_combobox = ttk.Combobox(deactivatedVolunteer_frame,
+                                                          textvariable=activated_volunteer)
+            activated_volunteer_combobox['values'] = activated_volunteers_IDs
+            activated_volunteer_combobox.pack()
+            activated_volunteer_entry_button = Button(deactivatedVolunteer_frame, text="Confirm",
+                                                        command=deactivatevolunteerVerify, width=30, height=2)
+            activated_volunteer_entry_button.pack()
+
+        def deactivatevolunteerVerify():
+            global activated_volunteer
+            global activated_volunteers
+            global deactivate_volunteer_activate_label
+            global activated_volunteers_IDs
+
+            deactivate_volunteer_activate_label.config(
+                text="See activation status above for those volunteers who are deactivated. Please select the index number of the volunteer that you would like to activate",
+                fg="#000000")
+
+            if activated_volunteer.get() not in activated_volunteers_IDs:
+                deactivate_volunteer_activate_label.config(
+                    text="Invalid ID. Please enter the ID of a volunteer who is active (see above table).",
+                    fg="#f00")
+            elif activated_volunteer.get() == ' ' or len(
+                    str(activated_volunteer.get())) == 0 or activated_volunteer.get() == 0:
+                deactivate_volunteer_activate_label.config(text="Please select a value.", fg="#f00")
+            else:
+                deactivevolunteerStatus()
+
+        def deactivevolunteerStatus():
+
+            activated_volunteer_entry_button.destroy()
+            activated_volunteer_combobox.destroy()
+            deactivate_volunteer_activate_label.destroy()
+            volunteer_file_write = open("volunteer_database.txt", "r+")
+            volunteer_file_write.truncate(0)
+            for i in range(0, len(current_volunteer_list)):
+                if i == (activated_volunteer.get() - 1):
+                    current_volunteer_list[i][-3] = "Deactivated"
+                    current_volunteer_string = '%'.join(current_volunteer_list[i])
+                    volunteer_file_write.write(current_volunteer_string)
+                elif i != (activated_volunteer.get() - 1):
+                    current_volunteer_string = '%'.join(current_volunteer_list[i])
+                    volunteer_file_write.write(current_volunteer_string)
+
+            volunteer_file_write.close()
+            deactivate_volunteer_screen.destroy()
+
+            successful_deactivate_update_label = Label(manage_volunteer_home_screen,
+                                            text="You have successfully updated the activation status of volunteer %d. To view an updated table, please refresh the screen." % (
+                                                activated_volunteer.get()))
+            successful_deactivate_update_label.pack()
 
         def leadstatusVolunteer():
             global current_volunteer_list
@@ -154,6 +238,11 @@ def manageVolunteers(screen):
             global promote_volunteer_label
             global promote_volunteer
             global standard_volunteers
+            global leadstatusVolunteer_screen
+
+            leadstatusVolunteer_screen = Toplevel
+            leadstatusVolunteer_frame = Frame(leadstatusVolunteer_screen)
+            leadstatusVolunteer_frame.pack()
 
             standard_volunteers = []
             for i in range(0, len(current_volunteer_list)):
@@ -165,11 +254,6 @@ def manageVolunteers(screen):
             for i in range(0, len(standard_volunteers)):
                 standard_volunteers_IDs.append(int(standard_volunteers[i][1]))
 
-            for widget in leadstatusVolunteer_frame.winfo_children():
-                widget.destroy()
-
-            for widget in activestatusVolunteer_frame.winfo_children():
-                widget.destroy()
 
             promote_volunteer = IntVar()
             promote_volunteer_label = Label(leadstatusVolunteer_frame, text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.")
@@ -208,6 +292,7 @@ def manageVolunteers(screen):
                     current_volunteer_string = '%'.join(current_volunteer_list[i])
                     volunteer_file_write.write(current_volunteer_string)
 
+            leadstatusVolunteer_screen.destroy()
             volunteer_file_write.close()
             successful_promotion_label = Label(manage_volunteer_home_screen, text="You have successfully promoted volunteer %d. To view an updated table, please refresh the screen." %(promote_volunteer.get()))
             successful_promotion_label.pack()
@@ -220,6 +305,8 @@ def manageVolunteers(screen):
 
         update_volunteer_button = Button(manage_volunteer_home_screen, text="Activate a Volunteer", command=activestatusVolunteer, width=30, height=2)
         update_volunteer_button.pack()
+        deactivate_volunteer_button = Button(manage_volunteer_home_screen, text="Deactivate a Volunteer", command=deactivateVolunteer, width=30, height=2)
+        deactivate_volunteer_button.pack()
         promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer, width=30, height=2)
         promote_volunteer_button.pack()
         return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome, width=30, height=2)
@@ -231,10 +318,12 @@ def manageVolunteers(screen):
         global manage_volunteer_home_screen
         manage_volunteer_home_screen = Toplevel(admin_home_screen)
         manage_volunteer_home_screen.title("Manage Volunteer Homescreen")
-        manage_volunteer_home_screen.geometry("500x650")
+        manage_volunteer_home_screen.geometry("1200x650")
         viewexistingvolunteersSetUp()
 
 
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+
+manageVolunteers(Tk())
