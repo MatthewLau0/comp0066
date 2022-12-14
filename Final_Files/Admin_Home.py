@@ -44,6 +44,7 @@ def adminHome():
     manage_volunteers_button.pack()
     view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps, width=30, height=2)
     view_camps_button.pack()
+
     exit_button = Button(admin_home, text="Log Out", command=lambda: [admin_home.destroy(), Login.main()], width=30, height=2)
     exit_button.pack()
 
