@@ -70,24 +70,23 @@ def camp_id_generate():
 
 
 def volunteers_portal():
-    volunteer_file = open("volunteer_database.txt", "r")
+    volunteers_file = open("volunteer_database.txt", "r")
 
     volunteer_file_extract = []
+    for line in volunteers_file:
+        line_string = line.split("%")
+        if line_string[0] == str(camp_id):
+            volunteer_file_extract.append(line_string)
 
-    for line in volunteer_file:
-        line_list = line.split("%")
-        volunteer_file_extract.append(line_list)
-    volunteer_file.close()
+    volunteers_file.close()
 
     volunteers_list = []
-    for i in range(0, (len(volunteer_file_extract) - 1)):
-        if volunteer_file_extract[i][-3] == "Deleted":
-            i += 1
-        else:
-            volunteers_list.append(volunteer_file_extract[i])
-            i += 1
 
-    volunteer_file.close()
+    for i in volunteer_file_extract:
+        if i[-3] == "Deleted":
+            pass
+        else:
+            volunteers_list.append(i)
 
     def view_volunteers_list():
 
