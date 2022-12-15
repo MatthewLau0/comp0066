@@ -96,7 +96,7 @@ def manageVolunteers(screen):
 
 
             active_status_volunteer = Toplevel()
-            active_status_volunteer.title("Activate a volunteer")
+            active_status_volunteer.title("Activate a Volunteer")
             activestatusVolunteer_frame = Frame(active_status_volunteer)
             activestatusVolunteer_frame.pack()
 
@@ -177,6 +177,7 @@ def manageVolunteers(screen):
             global deactivate_volunteer_screen
 
             deactivate_volunteer_screen = Toplevel()
+            deactivate_volunteer_screen.title("Deactivate a Volunteer")
             deactivatedVolunteer_frame = Frame(deactivate_volunteer_screen)
             deactivatedVolunteer_frame.pack()
 
@@ -258,6 +259,7 @@ def manageVolunteers(screen):
             global leadstatusVolunteer_screen
 
             leadstatusVolunteer_screen = Toplevel()
+            leadstatusVolunteer_screen.title("Assign a Camp Lead")
             leadstatusVolunteer_frame = Frame(leadstatusVolunteer_screen)
             leadstatusVolunteer_frame.pack()
 
@@ -352,6 +354,7 @@ def manageVolunteers(screen):
                 i += 1
 
             delete_volunteer_screen = Toplevel()
+            delete_volunteer_screen.title("Delete a Volunteer")
             delete_volunteer_screen_frame = Frame(delete_volunteer_screen)
             delete_volunteer_screen_frame.pack()
 
@@ -410,9 +413,9 @@ def manageVolunteers(screen):
         update_volunteer_button.pack()
         deactivate_volunteer_button = Button(manage_volunteer_home_screen, text="Deactivate a Volunteer", command=deactivateVolunteer, width=30, height=2)
         deactivate_volunteer_button.pack()
-        promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer, width=30, height=2)
+        promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a Camp Lead", command=leadstatusVolunteer, width=30, height=2)
         promote_volunteer_button.pack()
-        delete_volunteer_button = Button(manage_volunteer_home_screen, text="Delete a volunteer", command=deleteVolunteer, width=30, height=2)
+        delete_volunteer_button = Button(manage_volunteer_home_screen, text="Delete a Volunteer", command=deleteVolunteer, width=30, height=2)
         delete_volunteer_button.pack()
         return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome, width=30, height=2)
         return_home_button.pack()
@@ -426,7 +429,7 @@ def manageVolunteers(screen):
         screen_width1 = manage_volunteer_home_screen.winfo_screenwidth()
         screen_height1 = manage_volunteer_home_screen.winfo_screenheight()
         window_height1 = screen_height1
-        window_width1 = 900
+        window_width1 = 1100
 
         center_x1 = int(screen_width1 / 2 - window_width1 / 2)
         center_y1 = int(screen_height1 / 2 - window_height1 / 2)
@@ -437,3 +440,4 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+

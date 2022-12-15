@@ -1,8 +1,5 @@
 #Import modules - is pip included in standard installers
-import tkinter.font
 from tkinter import *
-from tkinter import font
-import tkintermapview
 from tkcalendar import Calendar
 import datetime
 from country_list import countries_for_language
