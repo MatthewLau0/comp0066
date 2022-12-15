@@ -623,5 +623,3 @@ def viewexistingCamps():
         view_camp_home_screen.mainloop()
 
     viewcampScreen()
-
-viewexistingCamps()

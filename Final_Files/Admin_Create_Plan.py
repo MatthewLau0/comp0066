@@ -627,5 +627,3 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
-
-createnewemergencyPlan(Tk())
