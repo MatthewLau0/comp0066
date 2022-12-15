@@ -1,14 +1,12 @@
-from tkcalendar import calendar_
-from tkcalendar import *
-
-import tkinter
+from tkcalendar import Calendar
+from tkinter import *
 import datetime
 import tkinter.messagebox
 import Volunteer_Home
 
 def add_calendar():
     #SETTING UP THE DEFAULT SCREEN
-    availability_screen = tkinter.Toplevel()
+    availability_screen = Toplevel()
     availability_screen.geometry("500x1000")
     availability_screen.title("Manage availability")
     #screen.configure(background="#A1CDEC")
@@ -41,45 +39,45 @@ def add_calendar():
         global final_calendar
         today = datetime.date.today()
 
-        final_calendar_screen = tkinter.Toplevel()
+        final_calendar_screen = Toplevel()
         final_calendar_screen.geometry("500x1000")
         final_calendar_screen.title("Manage availability")
 
         #SETTING UP THE CALENDAR
         max = datetime.date(2024, today.month, today.day)
-        final_text = tkinter.Label(final_calendar_screen, text="Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg='Green', width=300)
+        final_text = Label(final_calendar_screen, text="Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg='Green', width=300)
         final_text.pack()
-        final_calendar_label = tkinter.Label(final_calendar_screen, text="Please enter the final date in the range:", font='Arial 18')
+        final_calendar_label = Label(final_calendar_screen, text="Please enter the final date in the range:", font='Arial 18')
         final_calendar_label.pack(pady=50)
         initial_calendar_date = initial_calendar.selection_get()
         final_calendar = Calendar(final_calendar_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= initial_calendar_date, maxdate= max)
         final_calendar.pack(pady = 50)
 
         #SUBMIT DATE RANGE
-        final_calendar_button = tkinter.Button(final_calendar_screen, text="Continue", width=30, command=choose_days)
+        final_calendar_button = Button(final_calendar_screen, text="Continue", width=30, command=choose_days)
         final_calendar_button.pack()
-        final_calendar_back_button = tkinter.Button(final_calendar_screen, text="Quit", width=30, command=delete2)
+        final_calendar_back_button = Button(final_calendar_screen, text="Quit", width=30, command=delete2)
         final_calendar_back_button.pack()
 
     #INITIAL SCREEN, ALLOWS USER TO SELECT THE START DATE OF THEIR VOLUNTEERING
     def initial_calendar_lol():
         global initial_calendar_date
         global initial_calendar
-        intro_text = tkinter.Label(availability_screen, text = "Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg = 'Green', width= 300)
+        intro_text = Label(availability_screen, text = "Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg = 'Green', width= 300)
         intro_text.pack()
         today = datetime.date.today()
         max = datetime.date(2024, today.month, today.day)
 
         #SETTING UP THE CALENDAR
-        initial_calendar_label = tkinter.Label(availability_screen, text = "Please enter the inital date in the range:", font = 'Arial 18')
+        initial_calendar_label = Label(availability_screen, text = "Please enter the inital date in the range:", font = 'Arial 18')
         initial_calendar_label.pack(pady = 50)
         initial_calendar = Calendar(availability_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= today, maxdate= max)
         initial_calendar.pack()
 
         #SETTING UP THE BUTTONS
-        initial_calendar_button = tkinter.Button(availability_screen, text = "Continue", width = 30, command = final_calendar_lol)
+        initial_calendar_button = Button(availability_screen, text = "Continue", width = 30, command = final_calendar_lol)
         initial_calendar_button.pack(pady = 20)
-        initial_calendar_quit_button = tkinter.Button(availability_screen, text="Quit", width=30, command=delete1)
+        initial_calendar_quit_button = Button(availability_screen, text="Quit", width=30, command=delete1)
         initial_calendar_quit_button.pack()
 
 
@@ -88,29 +86,29 @@ def add_calendar():
     def choose_days():
         global choose_days_screen
         final_calendar_screen.destroy()
-        choose_days_screen = tkinter.Toplevel()
+        choose_days_screen = Toplevel()
         choose_days_screen.geometry("500x1000")
         choose_days_screen.title("Manage availability")
 
         #DISPLAY THEIR START AND END DATE
-        range_confirmation_label = tkinter.Label(choose_days_screen, text = "Please check the summary below to ensure these are your dates of volunteering")
+        range_confirmation_label = Label(choose_days_screen, text = "Please check the summary below to ensure these are your dates of volunteering")
         range_confirmation_label.pack()
 
-        start_date_confirmation = tkinter.Label(choose_days_screen, text = "The start date of your volunteering is: %s" %initial_calendar.get_date())
+        start_date_confirmation = Label(choose_days_screen, text = "The start date of your volunteering is: %s" %initial_calendar.get_date())
         start_date_confirmation.pack(pady = 20)
 
-        end_date_confirmation = tkinter.Label(choose_days_screen, text = "The end date of your volunteering is: %s" %final_calendar.get_date())
+        end_date_confirmation = Label(choose_days_screen, text = "The end date of your volunteering is: %s" %final_calendar.get_date())
         end_date_confirmation.pack(pady = 20)
 
         x = str(final_calendar.selection_get() - initial_calendar.selection_get())
         y = x.split(',')
 
         #CALCULATES THE AMOUNT OF DAYS THEY WORK
-        diff_confirmation = tkinter.Label(choose_days_screen, text = "The total days you will be working is: %s" %str(y[0]))
+        diff_confirmation = Label(choose_days_screen, text = "The total days you will be working is: %s" %str(y[0]))
         diff_confirmation.pack(pady = 20)
 
         #THIS PART IS TO CREATE BUTTONS AND ALLOW THEM TO CHOOSE THE DAYS THEY ARE FREE
-        day_text = tkinter.Label(choose_days_screen, text="Please select which days of the week you are available\nand add the hours you are available: ")
+        day_text = Label(choose_days_screen, text="Please select which days of the week you are available\nand add the hours you are available: ")
         day_text.pack(pady = 20)
         global monday_text
         global tuesday_text
@@ -119,109 +117,109 @@ def add_calendar():
         global friday_text
         global saturday_text
         global sunday_text
-        monday_text = tkinter.IntVar()
-        tuesday_text = tkinter.IntVar()
-        wednesday_text = tkinter.IntVar()
-        thursday_text = tkinter.IntVar()
-        friday_text = tkinter.IntVar()
-        saturday_text = tkinter.IntVar()
-        sunday_text = tkinter.IntVar()
+        monday_text = IntVar()
+        tuesday_text = IntVar()
+        wednesday_text = IntVar()
+        thursday_text = IntVar()
+        friday_text = IntVar()
+        saturday_text = IntVar()
+        sunday_text = IntVar()
 
         #EACH INDIVIDUAL FUNCTION IS EACH DAY OF THE WEEK
         def mon():
             global monday_initial_time
             global monday_final_time
-            monday_initial_time = tkinter.StringVar()
-            monday_final_time = tkinter.StringVar()
+            monday_initial_time = StringVar()
+            monday_final_time = StringVar()
             if monday_text.get() == 1:
-                monday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, monday_initial_time, *times)
+                monday_initial_time_menu = OptionMenu(choose_days_screen, monday_initial_time, *times)
                 monday_initial_time_menu.place(x = 180, y = 280, width = 100)
 
-                monday_label = tkinter.Label(choose_days_screen, text= "to")
+                monday_label = Label(choose_days_screen, text= "to")
                 monday_label.place(x = 305, y = 280)
 
 
-                monday_final_time_menu = tkinter.OptionMenu(choose_days_screen, monday_final_time, *times)
+                monday_final_time_menu = OptionMenu(choose_days_screen, monday_final_time, *times)
                 monday_final_time_menu.place(x=350, y=280, width=100)
 
             if monday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=280, width=800, height=40)
 
         def tues():
             global tuesday_initial_time
             global tuesday_final_time
             if tuesday_text.get() == 2:
-                tuesday_initial_time = tkinter.StringVar()
-                tuesday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, tuesday_initial_time, *times)
+                tuesday_initial_time = StringVar()
+                tuesday_initial_time_menu = OptionMenu(choose_days_screen, tuesday_initial_time, *times)
                 tuesday_initial_time_menu.place(x = 180, y = 330, width = 100)
 
-                tuesday_label = tkinter.Label(choose_days_screen, text= "to")
+                tuesday_label = Label(choose_days_screen, text= "to")
                 tuesday_label.place(x = 305, y = 330)
 
-                tuesday_final_time = tkinter.StringVar()
-                tuesday_final_time_menu = tkinter.OptionMenu(choose_days_screen, tuesday_final_time, *times)
+                tuesday_final_time = StringVar()
+                tuesday_final_time_menu = OptionMenu(choose_days_screen, tuesday_final_time, *times)
                 tuesday_final_time_menu.place(x=350, y=330, width=100)
 
             if tuesday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=330, width=800, height=40)
 
         def wed():
             global wednesday_initial_time
             global wednesday_final_time
             if wednesday_text.get() == 3:
-                wednesday_initial_time = tkinter.StringVar()
-                wednesday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, wednesday_initial_time, *times)
+                wednesday_initial_time = StringVar()
+                wednesday_initial_time_menu = OptionMenu(choose_days_screen, wednesday_initial_time, *times)
                 wednesday_initial_time_menu.place(x = 180, y = 380, width = 100)
 
-                wednesday_label = tkinter.Label(choose_days_screen, text= "to")
+                wednesday_label = Label(choose_days_screen, text= "to")
                 wednesday_label.place(x = 305, y = 380)
 
-                wednesday_final_time = tkinter.StringVar()
-                wednesday_final_time_menu = tkinter.OptionMenu(choose_days_screen, wednesday_final_time, *times)
+                wednesday_final_time = StringVar()
+                wednesday_final_time_menu = OptionMenu(choose_days_screen, wednesday_final_time, *times)
                 wednesday_final_time_menu.place(x=350, y=380, width=100)
 
             if wednesday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=380, width=800, height=40)
 
         def thurs():
             global thursday_initial_time
             global thursday_final_time
             if thursday_text.get() == 4:
-                thursday_initial_time = tkinter.StringVar()
-                thursday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, thursday_initial_time, *times)
+                thursday_initial_time = StringVar()
+                thursday_initial_time_menu = OptionMenu(choose_days_screen, thursday_initial_time, *times)
                 thursday_initial_time_menu.place(x = 180, y = 430, width = 100)
 
-                thursday_label = tkinter.Label(choose_days_screen, text= "to")
+                thursday_label = Label(choose_days_screen, text= "to")
                 thursday_label.place(x = 305, y = 430)
 
-                thursday_final_time = tkinter.StringVar()
-                thursday_final_time_menu = tkinter.OptionMenu(choose_days_screen, thursday_final_time, *times)
+                thursday_final_time = StringVar()
+                thursday_final_time_menu = OptionMenu(choose_days_screen, thursday_final_time, *times)
                 thursday_final_time_menu.place(x=350, y=430, width=100)
 
             if thursday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=430, width=800, height=40)
 
         def fri():
             global friday_initial_time
             global friday_final_time
             if friday_text.get() == 5:
-                friday_initial_time = tkinter.StringVar()
-                friday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, friday_initial_time, *times)
+                friday_initial_time = StringVar()
+                friday_initial_time_menu = OptionMenu(choose_days_screen, friday_initial_time, *times)
                 friday_initial_time_menu.place(x = 180, y = 480, width = 100)
 
-                friday_label = tkinter.Label(choose_days_screen, text= "to")
+                friday_label = Label(choose_days_screen, text= "to")
                 friday_label.place(x = 305, y = 480)
 
-                friday_final_time = tkinter.StringVar()
-                friday_final_time_menu = tkinter.OptionMenu(choose_days_screen, friday_final_time, *times)
+                friday_final_time = StringVar()
+                friday_final_time_menu = OptionMenu(choose_days_screen, friday_final_time, *times)
                 friday_final_time_menu.place(x=350, y=480, width=100)
 
             if friday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=480, width=800, height=40)
 
 
@@ -229,19 +227,19 @@ def add_calendar():
             global saturday_initial_time
             global saturday_final_time
             if saturday_text.get() == 6:
-                saturday_initial_time = tkinter.StringVar()
-                saturday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, saturday_initial_time, *times)
+                saturday_initial_time = StringVar()
+                saturday_initial_time_menu = OptionMenu(choose_days_screen, saturday_initial_time, *times)
                 saturday_initial_time_menu.place(x = 180, y = 530, width = 100)
 
-                saturday_label = tkinter.Label(choose_days_screen, text= "to")
+                saturday_label = Label(choose_days_screen, text= "to")
                 saturday_label.place(x = 305, y = 530)
 
-                saturday_final_time = tkinter.StringVar()
-                saturday_final_time_menu = tkinter.OptionMenu(choose_days_screen, saturday_final_time, *times)
+                saturday_final_time = StringVar()
+                saturday_final_time_menu = OptionMenu(choose_days_screen, saturday_final_time, *times)
                 saturday_final_time_menu.place(x=350, y=530, width=100)
 
             if saturday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=530, width=800, height=40)
 
 
@@ -249,29 +247,29 @@ def add_calendar():
             global sunday_initial_time
             global sunday_final_time
             if sunday_text.get() == 7:
-                sunday_initial_time = tkinter.StringVar()
-                sunday_initial_time_menu = tkinter.OptionMenu(choose_days_screen, sunday_initial_time, *times)
+                sunday_initial_time = StringVar()
+                sunday_initial_time_menu = OptionMenu(choose_days_screen, sunday_initial_time, *times)
                 sunday_initial_time_menu.place(x = 180, y = 580, width = 100)
 
-                sunday_label = tkinter.Label(choose_days_screen, text= "to")
+                sunday_label = Label(choose_days_screen, text= "to")
                 sunday_label.place(x = 305, y = 580)
 
-                sunday_final_time = tkinter.StringVar()
-                sunday_final_time_menu = tkinter.OptionMenu(choose_days_screen, sunday_final_time, *times)
+                sunday_final_time = StringVar()
+                sunday_final_time_menu = OptionMenu(choose_days_screen, sunday_final_time, *times)
                 sunday_final_time_menu.place(x=350, y=580, width=100)
 
             if sunday_text.get() == 0:
-                lol_label = tkinter.Label(choose_days_screen, text='')
+                lol_label = Label(choose_days_screen, text='')
                 lol_label.place(x=160, y=580, width=800, height=40)
 
         #ALL THE CHECKBUTTON FUNCTIONALITY
-        monday_entry = tkinter.Checkbutton(choose_days_screen, variable=monday_text, onvalue=1, offvalue=0, text="Monday", command = mon)
-        tuesday_entry = tkinter.Checkbutton(choose_days_screen, variable=tuesday_text, onvalue=2, offvalue=0, text="Tuesday", command = tues)
-        wednesday_entry = tkinter.Checkbutton(choose_days_screen, variable=wednesday_text, onvalue=3, offvalue=0, text="Wednesday", command = wed)
-        thursday_entry = tkinter.Checkbutton(choose_days_screen, variable=thursday_text, onvalue=4, offvalue=0, text="Thursday", command = thurs)
-        friday_entry = tkinter.Checkbutton(choose_days_screen, variable=friday_text, onvalue=5, offvalue=0, text="Friday", command = fri)
-        saturday_entry = tkinter.Checkbutton(choose_days_screen, variable=saturday_text, onvalue=6, offvalue=0, text="Saturday", command = sat)
-        sunday_entry = tkinter.Checkbutton(choose_days_screen, variable=sunday_text, onvalue=7, offvalue=0, text="Sunday", command = sun)
+        monday_entry = Checkbutton(choose_days_screen, variable=monday_text, onvalue=1, offvalue=0, text="Monday", command = mon)
+        tuesday_entry = Checkbutton(choose_days_screen, variable=tuesday_text, onvalue=2, offvalue=0, text="Tuesday", command = tues)
+        wednesday_entry = Checkbutton(choose_days_screen, variable=wednesday_text, onvalue=3, offvalue=0, text="Wednesday", command = wed)
+        thursday_entry = Checkbutton(choose_days_screen, variable=thursday_text, onvalue=4, offvalue=0, text="Thursday", command = thurs)
+        friday_entry = Checkbutton(choose_days_screen, variable=friday_text, onvalue=5, offvalue=0, text="Friday", command = fri)
+        saturday_entry = Checkbutton(choose_days_screen, variable=saturday_text, onvalue=6, offvalue=0, text="Saturday", command = sat)
+        sunday_entry = Checkbutton(choose_days_screen, variable=sunday_text, onvalue=7, offvalue=0, text="Sunday", command = sun)
         monday_entry.place(x = 20, y = 280)
         tuesday_entry.place(x = 20, y = 330)
         wednesday_entry.place(x = 20, y = 380)
@@ -281,10 +279,10 @@ def add_calendar():
         sunday_entry.place(x = 20, y = 580)
 
         #PROMPTS USER TO GO TO NEXT STAGE WITH BUTTON
-        choose_days_button = tkinter.Button(choose_days_screen, text="Continue", width=30, command=save_to_file_volunteer)
+        choose_days_button = Button(choose_days_screen, text="Continue", width=30, command=save_to_file_volunteer)
         choose_days_button.place(x = 115, y = 650)
 
-        final_calendar_back_button = tkinter.Button(choose_days_screen, text="Quit", width=30, command=delete3)
+        final_calendar_back_button = Button(choose_days_screen, text="Quit", width=30, command=delete3)
         final_calendar_back_button.place(x = 115, y = 680)
 
     def delete3():
@@ -421,93 +419,93 @@ def add_calendar():
     #DISPLAYS A SUMMARY PAGE OF ALL THEIR INPUT
     def summary_page():
         global time_summary_page
-        time_summary_page = tkinter.Toplevel()
+        time_summary_page = Toplevel()
         time_summary_page.geometry("500x650")
         time_summary_page.title("Confirm hours submission")
 
-        timings_confirmation = tkinter.Label(time_summary_page, text = "Please check the summary of details below to add to the database")
+        timings_confirmation = Label(time_summary_page, text = "Please check the summary of details below to add to the database")
         timings_confirmation.pack()
 
-        start_confirmation = tkinter.Label(time_summary_page, text = "The start date of your volunteering is: %s" %initial_calendar.get_date())
+        start_confirmation = Label(time_summary_page, text = "The start date of your volunteering is: %s" %initial_calendar.get_date())
         start_confirmation.pack(pady = 30)
 
-        end_confirmation = tkinter.Label(time_summary_page, text = "The end date of your volunteering is: %s" %final_calendar.get_date())
+        end_confirmation = Label(time_summary_page, text = "The end date of your volunteering is: %s" %final_calendar.get_date())
         end_confirmation.pack(pady = 30)
 
         if monday_text.get() == 1:
             monday_summary_initial = monday_initial_time.get()
             monday_summary_final = monday_final_time.get()
-            monday_confirmation = tkinter.Label(time_summary_page, text = "On Monday: you are available from %s to %s" % (monday_summary_initial, monday_summary_final))
+            monday_confirmation = Label(time_summary_page, text = "On Monday: you are available from %s to %s" % (monday_summary_initial, monday_summary_final))
             monday_confirmation.pack(pady = 10)
 
         else:
-            monday_no_confirmation = tkinter.Label(time_summary_page, text = "On Monday: you are busy")
+            monday_no_confirmation = Label(time_summary_page, text = "On Monday: you are busy")
             monday_no_confirmation.pack(pady = 10)
 
         if tuesday_text.get() == 2:
             tuesday_summary_initial = tuesday_initial_time.get()
             tuesday_summary_final = tuesday_final_time.get()
-            tuesday_confirmation = tkinter.Label(time_summary_page, text = "On Tuesday: you are available from %s to %s" % (tuesday_summary_initial, tuesday_summary_final))
+            tuesday_confirmation = Label(time_summary_page, text = "On Tuesday: you are available from %s to %s" % (tuesday_summary_initial, tuesday_summary_final))
             tuesday_confirmation.pack(pady = 10)
 
         else:
-            tuesday_no_confirmation = tkinter.Label(time_summary_page, text = "On Tuesday: you are busy")
+            tuesday_no_confirmation = Label(time_summary_page, text = "On Tuesday: you are busy")
             tuesday_no_confirmation.pack(pady = 10)
 
         if wednesday_text.get() == 3:
             wednesday_summary_initial = wednesday_initial_time.get()
             wednesday_summary_final = wednesday_final_time.get()
-            wednesday_confirmation = tkinter.Label(time_summary_page, text = "On Wednesday: you are available from %s to %s" % (wednesday_summary_initial, wednesday_summary_final))
+            wednesday_confirmation = Label(time_summary_page, text = "On Wednesday: you are available from %s to %s" % (wednesday_summary_initial, wednesday_summary_final))
             wednesday_confirmation.pack(pady = 10)
 
         else:
-            wednesday_no_confirmation = tkinter.Label(time_summary_page, text = "On Wednesday: you are busy")
+            wednesday_no_confirmation = Label(time_summary_page, text = "On Wednesday: you are busy")
             wednesday_no_confirmation.pack(pady = 10)
 
         if thursday_text.get() == 4:
             thursday_summary_initial = thursday_initial_time.get()
             thursday_summary_final = thursday_final_time.get()
-            thursday_confirmation = tkinter.Label(time_summary_page, text = "On Thursday: you are available from %s to %s" % (thursday_summary_initial, thursday_summary_final))
+            thursday_confirmation = Label(time_summary_page, text = "On Thursday: you are available from %s to %s" % (thursday_summary_initial, thursday_summary_final))
             thursday_confirmation.pack(pady = 10)
 
         else:
-            thursday_no_confirmation = tkinter.Label(time_summary_page, text = "On Thursday: you are busy")
+            thursday_no_confirmation = Label(time_summary_page, text = "On Thursday: you are busy")
             thursday_no_confirmation.pack(pady = 10)
 
         if friday_text.get() == 5:
             friday_summary_initial = friday_initial_time.get()
             friday_summary_final = friday_final_time.get()
-            friday_confirmation = tkinter.Label(time_summary_page, text = "On Friday: you are available from %s to %s" % (friday_summary_initial, friday_summary_final))
+            friday_confirmation = Label(time_summary_page, text = "On Friday: you are available from %s to %s" % (friday_summary_initial, friday_summary_final))
             friday_confirmation.pack(pady = 10)
 
         else:
-            friday_no_confirmation = tkinter.Label(time_summary_page, text = "On Friday: you are busy")
+            friday_no_confirmation = Label(time_summary_page, text = "On Friday: you are busy")
             friday_no_confirmation.pack(pady = 10)
 
         if saturday_text.get() == 6:
             saturday_summary_initial = saturday_initial_time.get()
             saturday_summary_final = saturday_final_time.get()
-            saturday_confirmation = tkinter.Label(time_summary_page, text = "On Saturday: you are available from %s to %s" % (saturday_summary_initial, saturday_summary_final))
+            saturday_confirmation = Label(time_summary_page, text = "On Saturday: you are available from %s to %s" % (saturday_summary_initial, saturday_summary_final))
             saturday_confirmation.pack(pady = 10)
 
         else:
-            saturday_no_confirmation = tkinter.Label(time_summary_page, text = "On Saturday: you are busy")
+            saturday_no_confirmation = Label(time_summary_page, text = "On Saturday: you are busy")
             saturday_no_confirmation.pack(pady = 10)
 
         if sunday_text.get() == 7:
             sunday_summary_initial = sunday_initial_time.get()
             sunday_summary_final = sunday_final_time.get()
-            sunday_confirmation = tkinter.Label(time_summary_page, text = "On Sunday: you are available from %s to %s" % (sunday_summary_initial, sunday_summary_final))
+            sunday_confirmation = Label(time_summary_page, text = "On Sunday: you are available from %s to %s" % (sunday_summary_initial, sunday_summary_final))
             sunday_confirmation.pack(pady = 10)
 
         else:
-            sunday_no_confirmation = tkinter.Label(time_summary_page, text = "On Sunday: you are busy")
+            sunday_no_confirmation = Label(time_summary_page, text = "On Sunday: you are busy")
             sunday_no_confirmation.pack(pady = 10)
 
-        summary_button = tkinter.Button(time_summary_page, text="Submit", width=30, command=save_to_database)
+        summary_button = Button(time_summary_page, text="Submit", width=30, command=save_to_database)
         summary_button.pack(pady = 40)
 
-        summary_button_no = tkinter.Button(time_summary_page, text="Change details", width=30, command=no)
+        summary_button_no = Button(time_summary_page, text="Change details", width=30, command=no)
         summary_button_no.pack()
 
 

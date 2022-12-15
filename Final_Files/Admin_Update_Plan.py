@@ -177,7 +177,14 @@ def updateexistingForm(screen):
             Update_Emergency_Screen.destroy()
             Update_Emergency_Entry_Screen = Toplevel()
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
-            Update_Emergency_Entry_Screen.geometry("1000x800")
+            screen_width1 = Update_Emergency_Entry_Screen.winfo_screenwidth()
+            screen_height1 = Update_Emergency_Entry_Screen.winfo_screenheight()
+            window_height1 = screen_height1
+            window_width1 = 900
+
+            center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+            center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+            Update_Emergency_Entry_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
             index_updating_camp_extract = select_index.get()
             index_updating_camp = (index_updating_camp_extract - 1)
@@ -284,8 +291,10 @@ def updateexistingForm(screen):
         Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Entry_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
         Update_Emergency_Screen_Label_Index.pack()
 
-        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name * (Camp Names must have no spaces and must only contain letters)", state=DISABLED)
+        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name* ", font=('.AppleSystemUIFont', 13, 'bold'))
         camp_name_label.pack()
+        camp_name_instructions_label = Label(Update_Emergency_Entry_Screen, text="Camp Names must have no spaces and must only contain letters")
+        camp_name_instructions_label.pack()
         camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name, state=DISABLED)
         camp_name_entry.insert(0, f"{updating_camp_list[1]}")
         camp_name_entry.pack()
@@ -293,7 +302,7 @@ def updateexistingForm(screen):
         emergency_type_frame = Frame(Update_Emergency_Entry_Screen)
         emergency_type_frame.pack()
 
-        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_type_label.pack()
         emergency_type_flood = IntVar()
         emergency_type_tsunami = IntVar()
@@ -324,13 +333,13 @@ def updateexistingForm(screen):
         emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
-        emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency")
+        emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
         emergency_description_entry.insert(0, f"{updating_camp_list[3]}")
         emergency_description_entry.pack()
 
-        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Please enter the country in whcih the emergency has occured")
+        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Country Affected", font=('.AppleSystemUIFont', 13, 'bold'))
         update_emergency_location_label.pack()
         update_emergency_location_entry = Entry(Update_Emergency_Entry_Screen, textvariable=area_affected)
         update_emergency_location_entry.insert(0, f"{updating_camp_list[4]}")
@@ -346,19 +355,21 @@ def updateexistingForm(screen):
         today = date.today()
 
         start_date_label = Label(calendar_frame_label,
-                                 text="Please select a start date for the emergency from the below calendar")
+                                 text="Start Date")
         start_date_label.pack(side=LEFT)
         start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
         start_date_calendar.pack(side=LEFT)
         close_date_label = Label(calendar_frame_label,
-                                 text="Please select an end date for the emergency from the below calendar", state=DISABLED)
+                                 text="Close date", state=DISABLED, font=('.AppleSystemUIFont', 13, 'bold'))
         close_date_label.pack(side=RIGHT)
         close_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day',
                                        state=DISABLED)
         close_date_calendar.pack(side=RIGHT)
 
-        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency still active? Please confirm your answer using the button below.")
+        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency active?.", font=('.AppleSystemUIFont', 13, 'bold'))
         status_label.pack()
+        status_label_instructions = Label(Update_Emergency_Entry_Screen, text="Please confirm your answer using the button below")
+        status_label_instructions.pack()
 
         def clickYes():
             global startDate
@@ -611,11 +622,11 @@ def updateexistingForm(screen):
         global updating_camp_list
         global emergency_type_string
 
-        camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
-        emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
-        emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
-        update_emergency_location_label.config(text="Please enter the country in which the emergency occured.", fg='#000000')
-        status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
+        camp_name_label.config(text="Camp Name *", fg='#000000')
+        emergency_type_label.config(text="Select the type of emergency", fg='#000000')
+        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
+        update_emergency_location_label.config(text="Country Affected", fg='#000000')
+        status_label.config(text="Is the emergency active?", fg='#000000')
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
@@ -659,7 +670,14 @@ def updateexistingForm(screen):
 
         Update_Camp_Summary_Screen = Toplevel()
         Update_Camp_Summary_Screen.title("Update an Emergency")
-        Update_Camp_Summary_Screen.geometry("500x350")
+        screen_width1 = Update_Camp_Summary_Screen.winfo_screenwidth()
+        screen_height1 = Update_Camp_Summary_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Camp_Summary_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         Update_Camp_Summary_Screen_label = Label(Update_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
         Update_Camp_Summary_Screen_label.pack()
@@ -741,7 +759,14 @@ def updateexistingForm(screen):
         Update_Camp_Summary_Screen.destroy()
         Update_Camp_Close_Screen = Toplevel()
         Update_Camp_Close_Screen.title("Emergency successfully saved")
-        Update_Camp_Close_Screen.geometry("500x350")
+        screen_width1 = Update_Camp_Close_Screen.winfo_screenwidth()
+        screen_height1 = Update_Camp_Close_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Camp_Close_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         Update_Emergency_Close_Screen_Label = Label(Update_Camp_Close_Screen,
                                                     text="Your updated emergency has been successfully saved.")
@@ -763,7 +788,14 @@ def updateexistingForm(screen):
         global Update_Emergency_Screen
         Update_Emergency_Screen = Toplevel(admin_home_screen)
         Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("1000x600")
+        screen_width1 = Update_Emergency_Screen.winfo_screenwidth()
+        screen_height1 = Update_Emergency_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Emergency_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         setupUpdate()
 
 

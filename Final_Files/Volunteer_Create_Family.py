@@ -1,16 +1,9 @@
-import tkinter
+from tkinter import *
 import datetime
-import subprocess
-import sys
 import tkcalendar
 import tkinter.messagebox
-# subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-# subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkintermapview'])
 import tkinter.ttk
 import Volunteer_Home
-
-
-
 
 
 
@@ -432,12 +425,12 @@ def create_family():
 
     def finish_message():
         global screen3
-        screen3 = tkinter.Tk()
+        screen3 = Tk()
         screen3.geometry("300x120")
         screen3.title("Success!")
-        finish_message_text = tkinter.Label(screen3, text="Successfully added new refugee!", fg='green')
+        finish_message_text = Label(screen3, text="Successfully added new refugee!", fg='green')
         finish_message_text.place(x=40, y=40)
-        close_button = tkinter.Button(screen3, text="I understand", command=delete3)
+        close_button = Button(screen3, text="I understand", command=delete3)
         close_button.place(x=95, y=80)
 
     def submit():
@@ -523,7 +516,6 @@ def create_family():
         new_refugee[15] = str(return_list_for_database[10])
         new_refugee[16] = str(return_list_for_database[11])
         new_refugee_string = "%".join(new_refugee)
-        volunteer_list_file.close()
         volunteer_list_file_append = open("refugee_database.txt", "a")
         volunteer_list_file_append.write("\n%s" % (new_refugee_string))
         volunteer_list_file_append.close()
@@ -552,7 +544,7 @@ def create_family():
                 break
 
         # OUTPUTS WHICH CAMP THE REFUGEE IS PLACED IN
-        volunteer_current_camp_label = tkinter.Label(screen2,
+        volunteer_current_camp_label = Label(screen2,
                                                      text="Your refugee will be placed in your camp: %s" % current_camp_name)
         volunteer_current_camp_label.pack()
 
@@ -589,12 +581,12 @@ def create_family():
                 # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
 
                 break
-        volunteer_current_wing_label = tkinter.Label(screen2,
+        volunteer_current_wing_label = Label(screen2,
                                                      text="Your refugee will be in the: %s" % that_block_list[
                                                          7])
         volunteer_current_wing_label.pack()
         # OUTPUT WHHICH BLOCK THEY ARE IN
-        refugee_assigned_accommodation_label = tkinter.Label(screen2,
+        refugee_assigned_accommodation_label = Label(screen2,
                                                              text='Your refugee accommodation will be in: %s' % (
                                                                  refugee_assigned_accommodation))
         refugee_assigned_accommodation_label.pack()
@@ -647,7 +639,7 @@ def create_family():
                 break
 
         # OUTPUT WHICH MEDICAL STALL THEY WILL BE PUT INTO
-        refugee_assigned_medical_label = tkinter.Label(screen2,
+        refugee_assigned_medical_label = Label(screen2,
                                                        text='Your refugee medical stall will be in: %s' % refugee_assigned_medical)
         refugee_assigned_medical_label.pack()
 
@@ -689,7 +681,7 @@ def create_family():
                 break
 
         # PRINT WHAT TOILET STALL THEY WILL BE IN
-        refugee_assigned_toilet_label = tkinter.Label(screen2,
+        refugee_assigned_toilet_label = Label(screen2,
                                                       text='Your refugee toilet stall will be in: %s' % refugee_assigned_toilet)
         refugee_assigned_toilet_label.pack()
 
@@ -728,7 +720,7 @@ def create_family():
                 break
 
         # PRINT DESIGNATED LOCATION
-        refugee_assigned_ration_label = tkinter.Label(screen2,
+        refugee_assigned_ration_label = Label(screen2,
                                                       text='Your refugee ration stall will be in: %s' % refugee_assigned_ration)
         refugee_assigned_ration_label.pack()
 
@@ -746,27 +738,27 @@ def create_family():
         screen2.title("Confirm refugee submission")
 
         # DISPLAYS SUMMED UP INFO
-        refugee_confirmation = tkinter.Label(screen2,
+        refugee_confirmation = Label(screen2,
                                              text="Please check the summary of details below to add to the database:",
                                              font=('Avenir', 14, 'bold', 'underline'))
         refugee_confirmation.pack(pady=30)
 
-        name_confirmation = tkinter.Label(screen2,
+        name_confirmation = Label(screen2,
                                           text="The name you are entering is: %s" % (refugee_name.get()))
         name_confirmation.pack()
 
-        number_confirmation = tkinter.Label(screen2,
+        number_confirmation = Label(screen2,
                                             text="The number of family members is: %s" % refugee_number.get())
         number_confirmation.pack()
 
-        sex_confirmation = tkinter.Label(screen2, text="The sex you are entering is: %s" % refugee_sex.get())
+        sex_confirmation = Label(screen2, text="The sex you are entering is: %s" % refugee_sex.get())
         sex_confirmation.pack()
 
-        dob_confirmation = tkinter.Label(screen2,
+        dob_confirmation = Label(screen2,
                                          text="The date of birth you are entering is: %s" % refugee_dob_calendar.get_date())
         dob_confirmation.pack()
 
-        age_confirmation = tkinter.Label(screen2, text="This means their age is: %s" % str(
+        age_confirmation = Label(screen2, text="This means their age is: %s" % str(
             calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y"))))
         age_confirmation.pack()
 
@@ -785,24 +777,24 @@ def create_family():
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
 
-        address_confirmation = tkinter.Label(screen2, text="Their address is: %s" % address)
+        address_confirmation = Label(screen2, text="Their address is: %s" % address)
         address_confirmation.pack()
 
         conditions = refugee_height.get()
         if conditions == 'Enter all relevant medical conditions...' or conditions == 'Enter any medical conditions...':
             conditions = 'None'
 
-        weight_confirmation = tkinter.Label(screen2, text="Your conditions are: %s" % conditions)
+        weight_confirmation = Label(screen2, text="Your conditions are: %s" % conditions)
         weight_confirmation.pack()
 
         num_of_fam = refugee_family_medical_no.get()
         if int(num_of_fam) == 0:
             num_of_fam = 'None'
-        height_confirmation = tkinter.Label(screen2, text="Number of family members with conditions: %s" % str(
+        height_confirmation = Label(screen2, text="Number of family members with conditions: %s" % str(
             num_of_fam))
         height_confirmation.pack()
 
-        refugee_camp_confirmation = tkinter.Label(screen2,
+        refugee_camp_confirmation = Label(screen2,
                                                   text="Please check the allocations for the refugee below",
                                                   font=('Avenir', 14, 'bold', 'underline'))
         refugee_camp_confirmation.pack(pady=30)
@@ -811,9 +803,9 @@ def create_family():
         return_list_for_database = add_camp()
 
         # BUTTON TO SUBMIT
-        submit_button = tkinter.Button(screen2, text="Submit", command=submit)
+        submit_button = Button(screen2, text="Submit", command=submit)
         submit_button.pack(pady=30)
-        update_refugee_button = tkinter.Button(screen2, text="Change details", command=delete2)
+        update_refugee_button = Button(screen2, text="Change details", command=delete2)
         update_refugee_button.pack()
 
     def refugee_text_on(self):
@@ -921,21 +913,21 @@ def create_family():
     # screen.configure(background="#A1CDEC")
 
     # Title text
-    intro_text = tkinter.Label(screen, text="Use this section to create a refugee within this Database.", fg='Green',
+    intro_text = Label(screen, text="Use this section to create a refugee within this Database.", fg='Green',
                                width=300)
     intro_text.place(x=20, y=20)
 
     # Input from user
 
     # FORM THAT USER INPUTS
-    namestatus = tkinter.Label(screen, text="")
+    namestatus = Label(screen, text="")
     namestatus.place(x=20, y=50)
 
     # REFUGEE NAME STUFF
-    refugee_name_text = tkinter.Label(screen, text="Refugee name*: ")
+    refugee_name_text = Label(screen, text="Refugee name*: ")
     refugee_name_text.place(x=20, y=30)
-    refugee_name = tkinter.StringVar()
-    refugee_name_entry = tkinter.Entry(screen, validate='all', validatecommand=name_validate,
+    refugee_name = StringVar()
+    refugee_name_entry = Entry(screen, validate='all', validatecommand=name_validate,
                                        textvariable=refugee_name)
     refugee_name_entry.insert(0, 'Enter refugee name...')
     refugee_name_entry.bind('<FocusIn>', refugee_text_on)
@@ -945,15 +937,15 @@ def create_family():
     refugee_name_entry.place(x=175, y=30, width=300)
 
     # REFUGEE NO. OF FAMILY MEMBERS STUFF
-    numberstatus = tkinter.Label(screen, text="")
+    numberstatus = Label(screen, text="")
     numberstatus.place(x=20, y=120)
-    refugee_number_text = tkinter.Label(screen, text="No. of family members*:")
+    refugee_number_text = Label(screen, text="No. of family members*:")
     refugee_number_text.place(x=20, y=100)
-    refugee_number_text_2 = tkinter.Label(screen, text="(Not including you)", font='Arial 12',
+    refugee_number_text_2 = Label(screen, text="(Not including you)", font='Arial 12',
                                           fg='grey')
     refugee_number_text_2.place(x=20, y=120)
-    refugee_number = tkinter.StringVar(value='')
-    refugee_number_entry = tkinter.Spinbox(screen, textvariable=refugee_number)
+    refugee_number = StringVar(value='')
+    refugee_number_entry = Spinbox(screen, textvariable=refugee_number)
     refugee_number_entry.insert(0, 'Enter no. of family members...')
     refugee_number_entry.bind('<FocusIn>', refugee_number_on)
     refugee_number_entry.bind('<FocusOut>', refugee_number_off)
@@ -961,9 +953,9 @@ def create_family():
     refugee_number_entry.place(x=175, y=100, width=300)
 
     # REFUGEE SEX STUFF
-    refugee_sex_text = tkinter.Label(screen, text="Sex*:")
+    refugee_sex_text = Label(screen, text="Sex*:")
     refugee_sex_text.place(x=20, y=170)
-    refugee_sex = tkinter.StringVar()
+    refugee_sex = StringVar()
     refugee_sex_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_sex, values = ["Male", "Female", "Prefer not to say"])
     refugee_sex_entry.insert(0, 'Select or type your sex...')
     refugee_sex_entry.bind('<FocusIn>', refugee_sex_on)
@@ -972,7 +964,7 @@ def create_family():
     refugee_sex_entry.place(x=175, y=170, width=300)
 
     # REFUGEE DOB STUFF
-    refugee_dob_text = tkinter.Label(screen, text="Date of Birth*: ")
+    refugee_dob_text = Label(screen, text="Date of Birth*: ")
     refugee_dob_text.place(x=20, y=220)
     today = datetime.date.today()
     max = datetime.date(1904, 2, 11)
@@ -983,38 +975,38 @@ def create_family():
     refugee_dob_calendar.place(x=190, y=220)
 
     # REFUGEE ADDRESS STUFF
-    refugee_address_text = tkinter.Label(screen, text="Address:")
+    refugee_address_text = Label(screen, text="Address:")
     refugee_address_text.place(x=20, y=420)
-    refugee_address_text_2 = tkinter.Label(screen, text="(Not required)", font='Arial 12',
+    refugee_address_text_2 = Label(screen, text="(Not required)", font='Arial 12',
                                           fg='grey')
     refugee_address_text_2.place(x=20, y=440)
 
 
-    refugee_first_address = tkinter.StringVar()
-    refugee_first_address_entry = tkinter.Entry(screen, textvariable=refugee_first_address)
+    refugee_first_address = StringVar()
+    refugee_first_address_entry = Entry(screen, textvariable=refugee_first_address)
     refugee_first_address_entry.insert(0, 'Address Line 1')
     refugee_first_address_entry.bind('<FocusIn>', refugee_first_address_on)
     refugee_first_address_entry.bind('<FocusOut>', refugee_first_address_off)
     refugee_first_address_entry.config(fg='grey')
     refugee_first_address_entry.place(x=175, y=420, width=300)
 
-    refugee_city_address = tkinter.StringVar()
-    refugee_city_address_entry = tkinter.Entry(screen, textvariable=refugee_city_address)
+    refugee_city_address = StringVar()
+    refugee_city_address_entry = Entry(screen, textvariable=refugee_city_address)
     refugee_city_address_entry.insert(0, 'Town/City')
     refugee_city_address_entry.bind('<FocusIn>', refugee_city_address_on)
     refugee_city_address_entry.bind('<FocusOut>', refugee_city_address_off)
     refugee_city_address_entry.config(fg='grey')
     refugee_city_address_entry.place(x=175, y=450, width=150)
 
-    refugee_postcode_address = tkinter.StringVar()
-    refugee_postcode_address_entry = tkinter.Entry(screen, textvariable=refugee_postcode_address)
+    refugee_postcode_address = StringVar()
+    refugee_postcode_address_entry = Entry(screen, textvariable=refugee_postcode_address)
     refugee_postcode_address_entry.insert(0, 'Postcode')
     refugee_postcode_address_entry.bind('<FocusIn>', refugee_postcode_address_on)
     refugee_postcode_address_entry.bind('<FocusOut>', refugee_postcode_address_off)
     refugee_postcode_address_entry.config(fg='grey')
     refugee_postcode_address_entry.place(x=325, y=450, width=150)
 
-    refugee_country_address = tkinter.StringVar()
+    refugee_country_address = StringVar()
     refugee_country_address_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_country_address, values = country_list)
     refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
     refugee_country_address_entry.bind('<FocusIn>', refugee_country_address_on)
@@ -1024,9 +1016,9 @@ def create_family():
 
     # FUNCTION TO DISPLAY INPUT BOX WHEN THEY CLICK YES TO MEDICAL CONDITIONS
     global refugee_height
-    refugee_height = tkinter.StringVar(value=0)
+    refugee_height = StringVar(value=0)
     global refugee_family_medical_no
-    refugee_family_medical_no = tkinter.StringVar(value=0)
+    refugee_family_medical_no = StringVar(value=0)
 
 
     def clickYes():
@@ -1065,8 +1057,8 @@ def create_family():
         global refugee_height
         global refugee_height_entry
         global refugee_family_medical_no
-        refugee_height = tkinter.StringVar()
-        refugee_family_medical_no = tkinter.StringVar()
+        refugee_height = StringVar()
+        refugee_family_medical_no = StringVar()
         refugee_fam_num = refugee_number.get()
         if refugee_fam_num == '' or refugee_fam_num == 'Enter no. of family members...':
             refugee_fam_num = 0
@@ -1079,15 +1071,15 @@ def create_family():
 
         if refugee_weight.get() == 1:
             refugee_weight_entry_2.config(state='disabled')
-            refugee_height_text = tkinter.Label(screen, text="Conditions:*")
+            refugee_height_text = Label(screen, text="Conditions:*")
             refugee_height_text.place(x=60, y=600)
-            refugee_height_entry = tkinter.Entry(screen, textvariable=refugee_height)
+            refugee_height_entry = Entry(screen, textvariable=refugee_height)
             refugee_height_entry.insert(0, 'Enter all relevant medical conditions...')
             refugee_height_entry.bind('<FocusIn>', refugee_height_on)
             refugee_height_entry.bind('<FocusOut>', refugee_height_off)
             refugee_height_entry.config(fg='grey')
             refugee_height_entry.place(x=175, y=600, width=300)
-            refugee_family_medical_no_label = tkinter.Label(screen, text="How many family members\n have conditions (inc. yourself):*")
+            refugee_family_medical_no_label = Label(screen, text="How many family members\n have conditions (inc. yourself):*")
             refugee_family_medical_no_label.place(x=20, y=640)
 
 
@@ -1108,9 +1100,9 @@ def create_family():
         else:
             refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry_2.config(state='normal')
-            hehe_label = tkinter.Label(screen, text='')
+            hehe_label = Label(screen, text='')
             hehe_label.place(x=15, y=580, width=800, height=40)
-            hehe_label = tkinter.Label(screen, text='')
+            hehe_label = Label(screen, text='')
             hehe_label.place(x=15, y=620, width=800, height=100)
 
     # FUNCTION TO ERASE ANY INFO/DO NOTHING IF NO IS CLICKED
@@ -1145,29 +1137,29 @@ def create_family():
             return
 
         global refugee_height
-        refugee_height = tkinter.StringVar()
+        refugee_height = StringVar()
         global refugee_family_medical_no
-        refugee_family_medical_no = tkinter.StringVar(value=0)
+        refugee_family_medical_no = StringVar(value=0)
         if refugee_weight_2.get() == 1:
             refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry.config(state='disabled')
-            lol_label = tkinter.Label(screen, text='')
+            lol_label = Label(screen, text='')
             lol_label.place(x=15, y=580, width=800, height=40)
-            lol_label = tkinter.Label(screen, text='')
+            lol_label = Label(screen, text='')
             lol_label.place(x=15, y=620, width=800, height=100)
         else:
             refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry.config(state='normal')
 
     # MEDICAL CONDITIONS CHECKBOX
-    refugee_weight_text = tkinter.Label(screen, text="Do you or your family have\n any medical conditions?*")
+    refugee_weight_text = Label(screen, text="Do you or your family have\n any medical conditions?*")
     refugee_weight_text.place(x=20, y=540)
-    refugee_weight = tkinter.IntVar()
-    refugee_weight_2 = tkinter.IntVar()
+    refugee_weight = IntVar()
+    refugee_weight_2 = IntVar()
 
-    refugee_weight_entry = tkinter.Checkbutton(screen, variable=refugee_weight, onvalue=1, offvalue=2,
+    refugee_weight_entry = Checkbutton(screen, variable=refugee_weight, onvalue=1, offvalue=2,
                                                text="Yes", command=clickYes)
-    refugee_weight_entry_2 = tkinter.Checkbutton(screen, variable=refugee_weight_2, onvalue=1,
+    refugee_weight_entry_2 = Checkbutton(screen, variable=refugee_weight_2, onvalue=1,
                                                  offvalue=2,
                                                  text="No", command=clickNo)
 
@@ -1176,7 +1168,7 @@ def create_family():
     refugee_weight_entry_2.place(x=300, y=560)
 
     # BUTTON TO SUBMIT THE FORM
-    submit_button = tkinter.Button(screen, text="Submit the form", width=30, command=save_to_file)
+    submit_button = Button(screen, text="Submit the form", width=30, command=save_to_file)
     submit_button.place(x=100, y=720)
 
     screen.mainloop()

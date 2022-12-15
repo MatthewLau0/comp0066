@@ -1,9 +1,9 @@
 #Import modules - is pip included in standard installers
 from tkinter import *
-import tkintermapview
 from tkcalendar import Calendar
 import datetime
 from country_list import countries_for_language
+
 
 
 def createnewemergencyPlan(screen):
@@ -111,9 +111,9 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
         New_Camp_Screen_Label_Index.pack()
 
-        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
+        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ", font=('.AppleSystemUIFont', 13, 'bold'))
         camp_name_label.pack()
-        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters", font="italic")
+        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters")
         camp_name_label_instructions.pack()
         camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
         camp_name_entry.pack()
@@ -121,7 +121,7 @@ def createnewemergencyPlan(screen):
         emergency_type_frame = Frame(New_Camp_Screen)
         emergency_type_frame.pack()
 
-        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_type_label.pack()
 
         emergency_type_flood = IntVar()
@@ -149,13 +149,13 @@ def createnewemergencyPlan(screen):
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
 
-        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
+        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
         emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
         emergency_description_entry.pack()
 
         emergency_location_label = Label(New_Camp_Screen,
-                                         text="Please enter the country in which the emergency has occured")
+                                         text="Country Affected", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_location_label.pack()
         emergency_location_entry = Entry(New_Camp_Screen, textvariable=area_affected)
         emergency_location_entry.pack()
@@ -169,9 +169,9 @@ def createnewemergencyPlan(screen):
         calendar_frame = Frame(New_Camp_Screen)
         calendar_frame.pack()
 
-        start_date_label = Label(calendar_frame_label, text="Start Date")
+        start_date_label = Label(calendar_frame_label, text="Start Date", font=('.AppleSystemUIFont', 13, 'bold'))
         start_date_label.pack(side=LEFT)
-        close_date_label = Label(calendar_frame_label, text="Close Date", state=DISABLED)
+        close_date_label = Label(calendar_frame_label, text="Close Date", font=('.AppleSystemUIFont', 13, 'bold'), state=DISABLED)
         close_date_label.pack(side=RIGHT)
         start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
         start_date_calendar.pack(side=LEFT)
@@ -181,8 +181,11 @@ def createnewemergencyPlan(screen):
         close_date_instructions_label = Label(New_Camp_Screen, text="To enter a close date, specify below that the emergency is no longer active")
         close_date_instructions_label.pack()
 
-        status_label = Label(New_Camp_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
+        status_label = Label(New_Camp_Screen, text="Is the emergency active?", font=('.AppleSystemUIFont', 13, 'bold'))
         status_label.pack()
+        status_label_instructions = Label(New_Camp_Screen,
+                                          text="Please confirm your answer using the button below")
+        status_label_instructions.pack()
 
 
         def clickYes():
@@ -441,11 +444,11 @@ def createnewemergencyPlan(screen):
         global emergency_location_label
         global emergency_type_string
 
-        camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
-        emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
-        emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
-        emergency_location_label.config(text="Please enter the country in which the emergency occured.", fg='#000000')
-        status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
+        camp_name_label.config(text="Camp Name *", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_type_label.config(text="Select the type of emergency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_location_label.config(text="Country Affected", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        status_label.config(text="Is the emergency active?", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
@@ -493,7 +496,14 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.destroy()
         New_Camp_Summary_Screen = Toplevel()
         New_Camp_Summary_Screen.title("Submit New Emergency")
-        New_Camp_Summary_Screen.geometry("500x350")
+        screen_width1 = New_Camp_Summary_Screen.winfo_screenwidth()
+        screen_height1 = New_Camp_Summary_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        New_Camp_Summary_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         New_Camp_Summary_Screen_Label = Label(New_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
         New_Camp_Summary_Screen_Label.pack()
@@ -526,7 +536,8 @@ def createnewemergencyPlan(screen):
         Go_Back_Button.pack()
 
     def goBack():
-        screenSetup()
+        New_Camp_Summary_Screen.destroy()
+        Create_Emergency_Screen()
 
     def SubmitEmergency():
         global New_Camp_Screen
@@ -599,7 +610,14 @@ def createnewemergencyPlan(screen):
 
         New_Camp_Screen = Toplevel(admin_home_screen)
         New_Camp_Screen.title("Create a New Emergency")
-        New_Camp_Screen.geometry("700x700")
+        screen_width1 = New_Camp_Screen.winfo_screenwidth()
+        screen_height1 = New_Camp_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        New_Camp_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         screenSetup()
 
 

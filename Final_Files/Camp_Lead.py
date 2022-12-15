@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 from tkcalendar import Calendar
 import datetime
-
 import Login
 
 camp_id = ""
@@ -42,6 +41,7 @@ def camp_id_generate():
     for line in logins_file:
         line_string = line.split("%")
         logins_list.append(line_string)
+    logins_file.close()
     if len(logins_list) > 0:
         camp_id = logins_list[-1][0]
         user_id = logins_list[-1][1]
@@ -66,7 +66,7 @@ def camp_id_generate():
         user_availability = logins_list[-1][12]
     else:
         pass
-    logins_file.close()
+
 
 
 def volunteers_portal():
@@ -175,6 +175,8 @@ def accommodation_portal():
         if line_string[0] == str(camp_id):
             blocks_list.append(line_string)
 
+    accommodations.close()
+
     def add_new_block():
 
         new_accommodation = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
@@ -256,7 +258,6 @@ def accommodation_portal():
 
                 new_accommodation_string = ','.join(new_accommodation)
 
-                accommodations.close()
 
                 accommodations_append = open("accommodation_database.txt", "a")
                 accommodations_append.write(new_accommodation_string + ",\n")

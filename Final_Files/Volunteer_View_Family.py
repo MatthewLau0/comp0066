@@ -1,15 +1,15 @@
-
+from tkinter import *
+import tkinter.ttk
+import Volunteer_Home
 
 def table():
-    import tkinter
-    import tkinter.ttk
-    import Volunteer_Home
 
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
         x = line.split("%")
         volunteer_database_list.append(x)
+    volunteer_list_file.close()
 
     def deleteTable():
         Update_Emergency_Screen.destroy()
@@ -22,14 +22,14 @@ def table():
         global emergency_database_table
         global update_emergency_frame_two
 
-        Update_Emergency_Screen = tkinter.Tk()
+        Update_Emergency_Screen = Tk()
         Update_Emergency_Screen.geometry("1200x600")
         Update_Emergency_Screen.title("Table of Refugees")
 
-        emergency_database_label = tkinter.Label(Update_Emergency_Screen, text="Please use the below table to view a full list of refugees")
+        emergency_database_label = Label(Update_Emergency_Screen, text="Please use the below table to view a full list of refugees")
         emergency_database_label.pack()
 
-        emergency_database_frame = tkinter.Frame(Update_Emergency_Screen)
+        emergency_database_frame = Frame(Update_Emergency_Screen)
         emergency_database_frame.pack()
 
         emergency_database_table = tkinter.ttk.Treeview(Update_Emergency_Screen)
@@ -72,7 +72,6 @@ def table():
         emergency_database_table.heading("Ration", text="Rations", anchor='center')
 
 
-        #https://pythonguides.com/python-tkinter-table-tutorial/
         for i in range(0, len(volunteer_database_list)):
             if volunteer_database_list[i][0] == Volunteer_Home.user_camp_id:
                 emergency_database_table.insert(parent='', index=i, iid=i, values=(str(volunteer_database_list[i][0]), str(volunteer_database_list[i][1]), volunteer_database_list[i][2], volunteer_database_list[i][3], str(volunteer_database_list[i][4]), volunteer_database_list[i][5], volunteer_database_list[i][6], volunteer_database_list[i][7], volunteer_database_list[i][8], volunteer_database_list[i][9], volunteer_database_list[i][10], volunteer_database_list[i][11], volunteer_database_list[i][12], volunteer_database_list[i][13], volunteer_database_list[i][14], volunteer_database_list[i][15]))
@@ -80,7 +79,7 @@ def table():
 
         emergency_database_table.pack(fill='both')
 
-        emergency_database_table_button = tkinter.Button(Update_Emergency_Screen, text="Continue", command=deleteTable)
+        emergency_database_table_button = Button(Update_Emergency_Screen, text="Continue", command=deleteTable)
         emergency_database_table_button.pack()
 
         Update_Emergency_Screen.mainloop()

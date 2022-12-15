@@ -10,6 +10,7 @@ def manageVolunteers(screen):
         global current_volunteer_list
         global manage_volunteer_home_screen
         global current_volunteer_list_print
+        global volunteer_file_extract
 
 
         volunteer_file = open("volunteer_database.txt", "r")
@@ -20,17 +21,20 @@ def manageVolunteers(screen):
             volunteer_file_extract.append(line_list)
         volunteer_file.close()
 
+        current_volunteer_list = []
+
+        for i in range(0, len(volunteer_file_extract)):
+            current_volunteer_list.append(volunteer_file_extract[i])
+
+
         current_volunteer_list_print = []
-        for i in range(0, (len(volunteer_file_extract)-1)):
+        for i in range(0, len(volunteer_file_extract)):
             if volunteer_file_extract[i][-3] == "Deleted":
-                i += 1
+                pass
             else:
                 current_volunteer_list_print.append(volunteer_file_extract[i])
-                i += 1
 
-        current_volunteer_list = []
-        for i in range(0, (len(volunteer_file_extract)-1)):
-            current_volunteer_list.append(volunteer_file_extract[i])
+
 
 
         viewexistingVolunteers()
@@ -92,7 +96,7 @@ def manageVolunteers(screen):
 
 
             active_status_volunteer = Toplevel()
-            active_status_volunteer.title("Activate a volunteer")
+            active_status_volunteer.title("Activate a Volunteer")
             activestatusVolunteer_frame = Frame(active_status_volunteer)
             activestatusVolunteer_frame.pack()
 
@@ -173,6 +177,7 @@ def manageVolunteers(screen):
             global deactivate_volunteer_screen
 
             deactivate_volunteer_screen = Toplevel()
+            deactivate_volunteer_screen.title("Deactivate a Volunteer")
             deactivatedVolunteer_frame = Frame(deactivate_volunteer_screen)
             deactivatedVolunteer_frame.pack()
 
@@ -253,7 +258,8 @@ def manageVolunteers(screen):
             global standard_volunteers
             global leadstatusVolunteer_screen
 
-            leadstatusVolunteer_screen = Toplevel
+            leadstatusVolunteer_screen = Toplevel()
+            leadstatusVolunteer_screen.title("Assign a Camp Lead")
             leadstatusVolunteer_frame = Frame(leadstatusVolunteer_screen)
             leadstatusVolunteer_frame.pack()
 
@@ -286,7 +292,19 @@ def manageVolunteers(screen):
 
             promote_volunteer_label.config(text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.", fg="#000000")
 
-            if promote_volunteer.get() not in standard_volunteers_IDs:
+            promote_volunteer_camp = current_volunteer_list[(promote_volunteer.get()) - 1][0]
+
+            promote_volunteer_camp_list = []
+            for i in range(0, len(current_volunteer_list)):
+                if current_volunteer_list[i][0] == str(promote_volunteer_camp) and current_volunteer_list[i][-2] == "Lead":
+                    promote_volunteer_camp_list.append(current_volunteer_list[i])
+                    i += 1
+                else:
+                    i += 1
+
+            if len(promote_volunteer_camp_list) > 0:
+                promote_volunteer_label.config(text="This volunteer's camp already has a lead. Please select a volunteer whose camp does not yet have a lead.", fg="#f00")
+            elif promote_volunteer.get() not in standard_volunteers_IDs:
                 promote_volunteer_label.config(text="Invalid ID. Please enter the ID of a volunteer who is not yet lead.", fg="#f00")
             elif promote_volunteer.get() == ' ' or len(str(promote_volunteer.get())) == 0 or promote_volunteer.get() == 0:
                 promote_volunteer_label.config(text="Please entere a value.", fg="#f00")
@@ -316,14 +334,27 @@ def manageVolunteers(screen):
             global delete_volunteer_screen_frame
             global delete_volunteer
             global delete_volunteer_label
-            global current_volunteer_list_IDs
+            global current_volunteer_list_print_IDs
 
-            current_volunteer_list_IDs = []
-            for i in range(0, len(current_volunteer_list)):
-                current_volunteer_list_IDs.append(current_volunteer_list[i][1])
+            current_volunteer_list = []
+
+            for i in range(0, len(volunteer_file_extract)):
+                current_volunteer_list.append(volunteer_file_extract[i])
+
+            current_volunteer_list_print = []
+            for i in range(0, len(volunteer_file_extract)):
+                if volunteer_file_extract[i][-3] == "Deleted":
+                    pass
+                else:
+                    current_volunteer_list_print.append(volunteer_file_extract[i])
+
+            current_volunteer_list_print_IDs = []
+            for i in range(0, len(current_volunteer_list_print)):
+                current_volunteer_list_print_IDs.append(current_volunteer_list_print[i][1])
                 i += 1
 
             delete_volunteer_screen = Toplevel()
+            delete_volunteer_screen.title("Delete a Volunteer")
             delete_volunteer_screen_frame = Frame(delete_volunteer_screen)
             delete_volunteer_screen_frame.pack()
 
@@ -333,7 +364,7 @@ def manageVolunteers(screen):
             delete_volunteer_label.pack()
 
             delete_volunteer_combobox = ttk.Combobox(delete_volunteer_screen_frame, textvariable=delete_volunteer)
-            delete_volunteer_combobox['values'] = current_volunteer_list_IDs
+            delete_volunteer_combobox['values'] = current_volunteer_list_print_IDs
             delete_volunteer_combobox.pack()
             delete_volunteer_entry_button = Button(delete_volunteer_screen_frame, text="Confirm",
                                                     command=delete_volunteer_verify, width=30, height=2)
@@ -342,9 +373,7 @@ def manageVolunteers(screen):
         def delete_volunteer_verify():
 
             delete_volunteer_label.config(text="Please select the index number of the volunteer you wish to delete from the database.")
-
-            print(current_volunteer_list_IDs)
-            if str(delete_volunteer.get()) not in current_volunteer_list_IDs:
+            if str(delete_volunteer.get()) not in current_volunteer_list_print_IDs:
                 delete_volunteer_label.config(text="Invalid ID. Please enter the ID of a current volunteer.", fg="#f00")
             elif delete_volunteer.get() == ' ' or len(str(delete_volunteer.get())) == 0 or delete_volunteer.get() == 0:
                 delete_volunteer_label.config(text="Please entere a value.", fg="#f00")
@@ -384,9 +413,9 @@ def manageVolunteers(screen):
         update_volunteer_button.pack()
         deactivate_volunteer_button = Button(manage_volunteer_home_screen, text="Deactivate a Volunteer", command=deactivateVolunteer, width=30, height=2)
         deactivate_volunteer_button.pack()
-        promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a lead volunteer", command=leadstatusVolunteer, width=30, height=2)
+        promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a Camp Lead", command=leadstatusVolunteer, width=30, height=2)
         promote_volunteer_button.pack()
-        delete_volunteer_button = Button(manage_volunteer_home_screen, text="Delete a volunteer", command=deleteVolunteer, width=30, height=2)
+        delete_volunteer_button = Button(manage_volunteer_home_screen, text="Delete a Volunteer", command=deleteVolunteer, width=30, height=2)
         delete_volunteer_button.pack()
         return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=returnHome, width=30, height=2)
         return_home_button.pack()
@@ -397,7 +426,14 @@ def manageVolunteers(screen):
         global manage_volunteer_home_screen
         manage_volunteer_home_screen = Toplevel(admin_home_screen)
         manage_volunteer_home_screen.title("Manage Volunteer Homescreen")
-        manage_volunteer_home_screen.geometry("1200x650")
+        screen_width1 = manage_volunteer_home_screen.winfo_screenwidth()
+        screen_height1 = manage_volunteer_home_screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 1100
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        manage_volunteer_home_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         viewexistingvolunteersSetUp()
 
 
@@ -405,4 +441,3 @@ def manageVolunteers(screen):
 
     manageVolunteerScreen()
 
-manageVolunteers(Tk())

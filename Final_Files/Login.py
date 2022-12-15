@@ -1,6 +1,6 @@
 import sys
 import subprocess
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
 from tkinter import *
 import hashlib
 import Register_Info
@@ -146,7 +146,10 @@ def main():
 
                 username_list = []
                 for i in volunteer_list:
-                    username_list.append(i[3])
+                    if i[10] == "Deleted":
+                        pass
+                    else:
+                        username_list.append(i[3])
 
                 if username.get() in username_list:
                     username_error3 = Label(register_errors, text="Username is taken. Please try again")
@@ -320,7 +323,10 @@ def main():
                     string_user = i[3]
                     string_password = i[4]
                     string_status = i[10]
-                    usernames_list.append(string_user)
+                    if i[10] == "Deleted":
+                        pass
+                    else:
+                        usernames_list.append(string_user)
                     string_login = str(string_user + string_password)
                     string_login_status = str(string_user + string_password + string_status)
                     logins_list.append(string_login)
@@ -333,7 +339,7 @@ def main():
 
                 login_error_window = Toplevel()
 
-                if (login_entry_string in logins_list) and (login_entry_status_string not in logins_status_list):
+                if (login_entry_string in logins_list) and (login_entry_status_string not in logins_status_list) and (username_entry.get() in usernames_list):
                     deactivated_label = Label(login_error_window, text="Your Account has been Deactivated\nPlease contact the admin for support")
                     deactivated_label.pack()
                     close_button1 = Button(login_error_window, text="Close", command=login_error_window.destroy, width=30, height=2)

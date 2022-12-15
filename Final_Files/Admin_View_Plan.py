@@ -11,7 +11,14 @@ def viewexistingCamps():
         view_camp_home_screen.destroy()
         view_camp_screen = Toplevel()
         view_camp_screen.title("View Existing Camps")
-        view_camp_screen.geometry("500x650")
+        screen_width1 = view_camp_screen.winfo_screenwidth()
+        screen_height1 = view_camp_screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        view_camp_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         view_camp_screen_label = Label(view_camp_screen,
                                        text="Please see below a summary of all of the camps in the database")
         view_camp_screen_label.pack()
@@ -82,7 +89,14 @@ def viewexistingCamps():
 
         Layout_Screen = Toplevel()
         Layout_Screen.title("View Camp Layout")
-        Layout_Screen.geometry("500x600")
+        screen_width1 = Layout_Screen.winfo_screenwidth()
+        screen_height1 = Layout_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Layout_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         emergency_database_file = open("Emergency_Database.txt", "r")
         emergency_database_list = []
@@ -155,6 +169,13 @@ def viewexistingCamps():
             list6 = line6.split("#")
             if list6[0] == str(camp_id):
                 refugee_list.append(list6)
+
+        accommodation_file.close()
+        ration_file.close()
+        toilet_file.close()
+        medical_file.close()
+        volunteer_file.close()
+        refugee_file.close()
 
         accom_north = []
         ration_north = []
@@ -481,12 +502,7 @@ def viewexistingCamps():
 
         camp_summary_window.mainloop()
 
-        accommodation_file.close()
-        ration_file.close()
-        toilet_file.close()
-        medical_file.close()
-        volunteer_file.close()
-        refugee_file.close()
+
 
         def returnHome():
             global Layout_Screen
@@ -507,9 +523,17 @@ def viewexistingCamps():
         for line in volunteer_list_file:
             x = line.split("%")
             volunteer_database_list.append(x)
+        volunteer_list_file.close()
 
         Update_Emergency_Screen = tkinter.Tk()
-        Update_Emergency_Screen.geometry("1200x600")
+        screen_width1 = Update_Emergency_Screen.winfo_screenwidth()
+        screen_height1 = Update_Emergency_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Emergency_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         Update_Emergency_Screen.title("Table of Refugees")
 
         emergency_database_label = tkinter.Label(Update_Emergency_Screen,
@@ -581,7 +605,14 @@ def viewexistingCamps():
         global view_camp_home_screen
         view_camp_home_screen = Tk()
         view_camp_home_screen.title("View Existing Camps")
-        view_camp_home_screen.geometry("500x650")
+        screen_width1 = view_camp_home_screen.winfo_screenwidth()
+        screen_height1 = view_camp_home_screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        view_camp_home_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         view_camp_home_screen_label = Label(view_camp_home_screen, text="Please select an option below")
         view_camp_home_screen_label.pack()
         view_camp_button = Button(view_camp_home_screen, text="View Existing Camps", command=viewcampsetUp)
@@ -595,5 +626,3 @@ def viewexistingCamps():
         view_camp_home_screen.mainloop()
 
     viewcampScreen()
-
-viewexistingCamps()
