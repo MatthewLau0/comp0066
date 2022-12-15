@@ -1,4 +1,4 @@
-1%1%sanchit aapan%sanchit%a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67%@.%447855037367%male%2015-12-17%6%Active%Lead%Availability
+1%1%sanchit aapan%sanchit%a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67%@.%447855037367%male%2015-12-17%6%Deactivated%Lead%Availability
 2%2%luke%luke%a03ab19b866fc585b5cb1812a2f63ca861e7e7643ee5d43fd7106b623725fd67%@.%447855037367%mal%2017-12-20%4%Active%Lead%Availability
 2%3%Vol 2%vol%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%447855037367%male%2017-12-20%4%Active%Standard%Availability
 5%4%Vol 2%vol%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#7855037367%FEMALE%2022-12-13%0%Active%Standard%Availability
@@ -9,4 +9,4 @@
 1%9%Wow Wow%wow%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%s@.a456%44#42242424%None%2014-12-05%8%Deleted%Standard%Availability
 3%10%NAME%user%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%sanchit@a.%44#9898989%male%2021-03-11%1%Active%Standard%Availability
 3%11%Sanchit Aapan%san%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#7855037367%Male%2020-02-14%2%Active%Lead%Availability
-3%12%Wow New%wow%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#7855037367%Male%2016-10-12%6%Deactivated%Standard%Availability
+3%12%Wow New%wow%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#7855037367%Male%2016-10-12%6%Active%Standard%Availability
