@@ -10,6 +10,7 @@ def manageVolunteers(screen):
         global current_volunteer_list
         global manage_volunteer_home_screen
         global current_volunteer_list_print
+        global volunteer_file_extract
 
 
         volunteer_file = open("volunteer_database.txt", "r")
@@ -20,17 +21,20 @@ def manageVolunteers(screen):
             volunteer_file_extract.append(line_list)
         volunteer_file.close()
 
+        current_volunteer_list = []
+
+        for i in range(0, len(volunteer_file_extract)):
+            current_volunteer_list.append(volunteer_file_extract[i])
+
+
         current_volunteer_list_print = []
-        for i in range(0, (len(volunteer_file_extract)-1)):
+        for i in range(0, len(volunteer_file_extract)):
             if volunteer_file_extract[i][-3] == "Deleted":
-                i += 1
+                pass
             else:
                 current_volunteer_list_print.append(volunteer_file_extract[i])
-                i += 1
 
-        current_volunteer_list = []
-        for i in range(0, (len(volunteer_file_extract)-1)):
-            current_volunteer_list.append(volunteer_file_extract[i])
+
 
 
         viewexistingVolunteers()
@@ -316,11 +320,23 @@ def manageVolunteers(screen):
             global delete_volunteer_screen_frame
             global delete_volunteer
             global delete_volunteer_label
-            global current_volunteer_list_IDs
+            global current_volunteer_list_print_IDs
 
-            current_volunteer_list_IDs = []
-            for i in range(0, len(current_volunteer_list)):
-                current_volunteer_list_IDs.append(current_volunteer_list[i][1])
+            current_volunteer_list = []
+
+            for i in range(0, len(volunteer_file_extract)):
+                current_volunteer_list.append(volunteer_file_extract[i])
+
+            current_volunteer_list_print = []
+            for i in range(0, len(volunteer_file_extract)):
+                if volunteer_file_extract[i][-3] == "Deleted":
+                    pass
+                else:
+                    current_volunteer_list_print.append(volunteer_file_extract[i])
+
+            current_volunteer_list_print_IDs = []
+            for i in range(0, len(current_volunteer_list_print)):
+                current_volunteer_list_print_IDs.append(current_volunteer_list_print[i][1])
                 i += 1
 
             delete_volunteer_screen = Toplevel()
@@ -333,7 +349,7 @@ def manageVolunteers(screen):
             delete_volunteer_label.pack()
 
             delete_volunteer_combobox = ttk.Combobox(delete_volunteer_screen_frame, textvariable=delete_volunteer)
-            delete_volunteer_combobox['values'] = current_volunteer_list_IDs
+            delete_volunteer_combobox['values'] = current_volunteer_list_print_IDs
             delete_volunteer_combobox.pack()
             delete_volunteer_entry_button = Button(delete_volunteer_screen_frame, text="Confirm",
                                                     command=delete_volunteer_verify, width=30, height=2)
@@ -342,9 +358,7 @@ def manageVolunteers(screen):
         def delete_volunteer_verify():
 
             delete_volunteer_label.config(text="Please select the index number of the volunteer you wish to delete from the database.")
-
-            print(current_volunteer_list_IDs)
-            if str(delete_volunteer.get()) not in current_volunteer_list_IDs:
+            if str(delete_volunteer.get()) not in current_volunteer_list_print_IDs:
                 delete_volunteer_label.config(text="Invalid ID. Please enter the ID of a current volunteer.", fg="#f00")
             elif delete_volunteer.get() == ' ' or len(str(delete_volunteer.get())) == 0 or delete_volunteer.get() == 0:
                 delete_volunteer_label.config(text="Please entere a value.", fg="#f00")
@@ -404,5 +418,3 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
-
-manageVolunteers(Tk())
