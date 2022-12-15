@@ -446,5 +446,4 @@ def manageVolunteers(screen):
 
     manageVolunteerScreen()
 
-manageVolunteers(Tk())
 
