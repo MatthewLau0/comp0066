@@ -52,8 +52,16 @@ def adminHome():
         back_button.pack()
 
     admin_home = Tk()
-    admin_home.geometry("650x650")
     admin_home.title("Admin Home Page")
+
+    screen_width1 = admin_home.winfo_screenwidth()
+    screen_height1 = admin_home.winfo_screenheight()
+    window_height1 = screen_height1
+    window_width1 = 900
+
+    center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+    center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+    admin_home.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
     Label(admin_home, text="LAMSA", font=("Avenir", 80, "bold")).pack()
     Label(admin_home, text="Welcome to the Admin Home Page", font=("Avenir", 18)).pack()
 
@@ -79,3 +87,4 @@ def adminHome():
 
     admin_home.mainloop()
 
+adminHome()

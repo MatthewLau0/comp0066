@@ -423,7 +423,14 @@ def manageVolunteers(screen):
         global manage_volunteer_home_screen
         manage_volunteer_home_screen = Toplevel(admin_home_screen)
         manage_volunteer_home_screen.title("Manage Volunteer Homescreen")
-        manage_volunteer_home_screen.geometry("1200x650")
+        screen_width1 = manage_volunteer_home_screen.winfo_screenwidth()
+        screen_height1 = manage_volunteer_home_screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        manage_volunteer_home_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         viewexistingvolunteersSetUp()
 
 

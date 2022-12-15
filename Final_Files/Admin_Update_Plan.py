@@ -177,7 +177,14 @@ def updateexistingForm(screen):
             Update_Emergency_Screen.destroy()
             Update_Emergency_Entry_Screen = Toplevel()
             Update_Emergency_Entry_Screen.title("Update Existing Emergency")
-            Update_Emergency_Entry_Screen.geometry("1000x800")
+            screen_width1 = Update_Emergency_Entry_Screen.winfo_screenwidth()
+            screen_height1 = Update_Emergency_Entry_Screen.winfo_screenheight()
+            window_height1 = screen_height1
+            window_width1 = 900
+
+            center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+            center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+            Update_Emergency_Entry_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
             index_updating_camp_extract = select_index.get()
             index_updating_camp = (index_updating_camp_extract - 1)
@@ -659,7 +666,14 @@ def updateexistingForm(screen):
 
         Update_Camp_Summary_Screen = Toplevel()
         Update_Camp_Summary_Screen.title("Update an Emergency")
-        Update_Camp_Summary_Screen.geometry("500x350")
+        screen_width1 = Update_Camp_Summary_Screen.winfo_screenwidth()
+        screen_height1 = Update_Camp_Summary_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Camp_Summary_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         Update_Camp_Summary_Screen_label = Label(Update_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
         Update_Camp_Summary_Screen_label.pack()
@@ -741,7 +755,14 @@ def updateexistingForm(screen):
         Update_Camp_Summary_Screen.destroy()
         Update_Camp_Close_Screen = Toplevel()
         Update_Camp_Close_Screen.title("Emergency successfully saved")
-        Update_Camp_Close_Screen.geometry("500x350")
+        screen_width1 = Update_Camp_Close_Screen.winfo_screenwidth()
+        screen_height1 = Update_Camp_Close_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Camp_Close_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         Update_Emergency_Close_Screen_Label = Label(Update_Camp_Close_Screen,
                                                     text="Your updated emergency has been successfully saved.")
@@ -763,7 +784,14 @@ def updateexistingForm(screen):
         global Update_Emergency_Screen
         Update_Emergency_Screen = Toplevel(admin_home_screen)
         Update_Emergency_Screen.title("Update an existing emergency")
-        Update_Emergency_Screen.geometry("1000x600")
+        screen_width1 = Update_Emergency_Screen.winfo_screenwidth()
+        screen_height1 = Update_Emergency_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        Update_Emergency_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         setupUpdate()
 
 

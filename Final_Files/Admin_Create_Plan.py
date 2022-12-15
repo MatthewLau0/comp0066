@@ -493,7 +493,14 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.destroy()
         New_Camp_Summary_Screen = Toplevel()
         New_Camp_Summary_Screen.title("Submit New Emergency")
-        New_Camp_Summary_Screen.geometry("500x350")
+        screen_width1 = New_Camp_Summary_Screen.winfo_screenwidth()
+        screen_height1 = New_Camp_Summary_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        New_Camp_Summary_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         New_Camp_Summary_Screen_Label = Label(New_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
         New_Camp_Summary_Screen_Label.pack()
@@ -600,7 +607,14 @@ def createnewemergencyPlan(screen):
 
         New_Camp_Screen = Toplevel(admin_home_screen)
         New_Camp_Screen.title("Create a New Emergency")
-        New_Camp_Screen.geometry("700x700")
+        screen_width1 = New_Camp_Screen.winfo_screenwidth()
+        screen_height1 = New_Camp_Screen.winfo_screenheight()
+        window_height1 = screen_height1
+        window_width1 = 900
+
+        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
+        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
+        New_Camp_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
         screenSetup()
 
 
