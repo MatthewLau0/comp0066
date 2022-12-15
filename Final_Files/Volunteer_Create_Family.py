@@ -521,6 +521,7 @@ def create_family():
         new_refugee[13] = str(return_list_for_database[8])
         new_refugee[14] = str(return_list_for_database[9])
         new_refugee[15] = str(return_list_for_database[10])
+        new_refugee[16] = str(return_list_for_database[11])
         new_refugee_string = "%".join(new_refugee)
         volunteer_list_file.close()
         volunteer_list_file_append = open("refugee_database.txt", "a")
@@ -734,7 +735,7 @@ def create_family():
         return [new_rewritten_database_temp, new_rewritten_database_temp_medic,
                 new_rewritten_database_temp_toilet, new_rewritten_database_temp_ration, volunteer_current_camp,
                 current_camp_name, that_block_list[7], refugee_assigned_accommodation, refugee_assigned_medical,
-                refugee_assigned_toilet, refugee_assigned_ration]
+                refugee_assigned_toilet, refugee_assigned_ration, that_block_list[1]]
 
     def success():
         global return_list_for_database

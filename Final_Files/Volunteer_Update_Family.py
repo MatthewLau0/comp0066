@@ -411,10 +411,10 @@ def modify_family():
                     if int(ration_database_list[i][0]) == int(volunteer_current_camp_id):
                         rations_specific_camp_list_test.append(ration_database_list[i])
 
-                print(accommodation_specific_camp_list_test)
-                print(medical_specific_camp_list_test)
-                print(toilet_specific_camp_list_test)
-                print(rations_specific_camp_list_test)
+                #print(accommodation_specific_camp_list_test)
+                #print(medical_specific_camp_list_test)
+                #print(toilet_specific_camp_list_test)
+                #print(rations_specific_camp_list_test)
 
                 total_lol = int(number) + 1
 
@@ -629,8 +629,7 @@ def modify_family():
                         break
 
                 # OUTPUTS WHICH CAMP THE REFUGEE IS PLACED IN
-                volunteer_current_camp_label = tkinter.Label(screen2,
-                                                             text="Your refugee will be placed in your camp: %s" % current_camp_name)
+                volunteer_current_camp_label = tkinter.Label(screen2, text="Your refugee will be placed in your camp: %s" % current_camp_name)
                 volunteer_current_camp_label.pack()
 
                 # ACCOMMODATION: GET SPECIFIC LIST WITH ONLY ACCOMMODATION
@@ -643,33 +642,92 @@ def modify_family():
                 refugee_assigned_accommodation = ''
                 for i in range(len(accommodation_specific_camp_list)):
 
-                    # ONCE FREE ACCOMMODATION IDENTIFIED, ADD IT TO A LIST "THAT_BLOCK_LIST"
                     #CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
-                    if int(refugee_number.get()) == updating_refugee_list[3]:
-                        refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
-                        refugee_assigned_block = accommodation_specific_camp_list[i][7]
-                        that_block_list = accommodation_specific_camp_list[i]
-                        break
+                    if int(refugee_number.get()) == int(updating_refugee_list[3]):
+
+                        refugee_assigned_accommodation = updating_refugee_list[12]
+                        refugee_assigned_block = updating_refugee_list[11]
+
+
+
+                        if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[i][1]) and int(updating_refugee_list[0]) == int(accommodation_specific_camp_list[i][0]) and updating_refugee_list[12] == accommodation_specific_camp_list[i][2]:
+                            that_block_list = accommodation_specific_camp_list[i]
+                            #print(that_block_list)
+                            break
+
 
                     #CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
-                    if int(refugee_number.get()) > updating_refugee_list[3]:
-                        if int(accommodation_specific_camp_list[i][6]) >= (int(refugee_number.get())-int(updating_refugee_list[3])):
-                            refugee_assigned_accommodation = accommodation_specific_camp_list[i][2]
-                            refugee_assigned_block = accommodation_specific_camp_list[i][7]
-                            that_block_list = accommodation_specific_camp_list[i]
-                            xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())-updating_refugee_list[3]))
-                            yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())-updating_refugee_list[3]))
+                    if int(refugee_number.get()) > int(updating_refugee_list[3]):
+                        print("number bigger")
+                        #FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                        for j in range(len(accommodation_specific_camp_list)):
+                            if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
+                                    updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
+                                    updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
+                                that_block_list = accommodation_specific_camp_list[j]
+                        print(that_block_list)
+                        #IF THERE IS EXTRA SPACE IN ACCOM, ALLOCATE EXTRA FAM MEMBERS TO THAT ACCOM
+                        if int(that_block_list[6]) >= (int(refugee_number.get())-int(updating_refugee_list[3])):
+                            refugee_assigned_accommodation = that_block_list[2]
+                            refugee_assigned_block = that_block_list[7]
+                            xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())-int(updating_refugee_list[3])))
+                            yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())-int(updating_refugee_list[3])))
                             that_block_list[4] = xhaha
                             that_block_list[6] = yhaha
-                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
-                            for j in range(len(accommodation_database_list)):
-                                if accommodation_database_list[j][0] == that_block_list[0] and accommodation_database_list[j][1] == that_block_list[1]:
-                                    accommodation_database_list[j] = that_block_list
-                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
-                            new_rewritten_database_temp = []
-                            for i in accommodation_database_list:
-                                new_rewritten_database_temp.append(','.join(i))
-                            break
+
+                        #IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW ACCOM
+                        else:
+                            for l in range(len(accommodation_specific_camp_list)):
+                                if int(accommodation_specific_camp_list[l][6]) >= (int(refugee_number.get())+1):
+                                    refugee_assigned_accommodation = accommodation_specific_camp_list[l][2]
+                                    refugee_assigned_block = accommodation_specific_camp_list[l][7]
+                                    xhaha = str(int(that_block_list[4]) + (int(refugee_number.get()) + 1))
+                                    yhaha = str(int(that_block_list[6]) - (int(refugee_number.get()) + 1))
+                                    that_block_list[4] = xhaha
+                                    that_block_list[6] = yhaha
+
+                        # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                        for k in range(len(accommodation_database_list)):
+                            if int(accommodation_database_list[k][0]) == int(that_block_list[0]) and int(accommodation_database_list[k][1]) == int(that_block_list[1]) and accommodation_database_list[k][2] == that_block_list[2]:
+                                accommodation_database_list[k] = that_block_list
+
+                        # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                        new_rewritten_database_temp = []
+                        for m in accommodation_database_list:
+                            new_rewritten_database_temp.append(','.join(m))
+                        break
+
+
+                    #CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
+                    if int(refugee_number.get()) < int(updating_refugee_list[3]):
+
+
+                        # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                        for j in range(len(accommodation_specific_camp_list)):
+                            if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
+                                    updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
+                                    updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
+                                that_block_list = accommodation_specific_camp_list[j]
+
+                        refugee_assigned_accommodation = that_block_list[2]
+                        refugee_assigned_block = that_block_list[7]
+                        print(that_block_list)
+                        xhaha = str(int(that_block_list[4]) - (int(updating_refugee_list[3]) - int(refugee_number.get())))
+                        yhaha = str(int(that_block_list[6]) + (int(updating_refugee_list[3]) - int(refugee_number.get())))
+                        that_block_list[4] = xhaha
+                        that_block_list[6] = yhaha
+
+                        # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                        for k in range(len(accommodation_database_list)):
+                            if int(accommodation_database_list[k][0]) == int(that_block_list[0]) and int(
+                                    accommodation_database_list[k][1]) == int(that_block_list[1]) and \
+                                    accommodation_database_list[k][2] == that_block_list[2]:
+                                accommodation_database_list[k] = that_block_list
+                        # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                        new_rewritten_database_temp = []
+                        for m in accommodation_database_list:
+                            new_rewritten_database_temp.append(','.join(m))
+                        break
                     # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
 
 
@@ -754,7 +812,7 @@ def modify_family():
                         dhaha = str(int(that_toilet_list[6]) - (int(refugee_number.get()) + 1))
                         that_toilet_list[4] = chaha
                         that_toilet_list[6] = dhaha
-                        print("toilet", that_toilet_list)
+                        #print("toilet", that_toilet_list)
 
                         # FIND ORIGINAL LINE IN LIST AND UPDATE IT WITH THE NEW LIST
                         for j in range(len(toilet_database_list)):
@@ -795,7 +853,7 @@ def modify_family():
                         fhaha = str(int(that_ration_list[6]) - (int(refugee_number.get()) + 1))
                         that_ration_list[4] = ehaha
                         that_ration_list[6] = fhaha
-                        print("ration", that_ration_list)
+                        #print("ration", that_ration_list)
 
                         # FIND ORIGINAL LINE IN LIST AND UPDATE IT WITH THE NEW LIST
                         for j in range(len(ration_database_list)):
