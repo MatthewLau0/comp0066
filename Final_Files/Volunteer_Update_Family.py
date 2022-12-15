@@ -755,37 +755,115 @@ def modify_family():
 
                 check_box_1 = refugee_weight.get()
                 check_box_2 = refugee_weight_2.get()
+                if updating_refugee_list[9] == 'None':
+                    updating_refugee_list[9] = 0
                 if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
                     num_medical_check = 0
+
                 else:
-                    num_medical_check = (int(refugee_family_medical_no.get()))
-                for i in range(len(medical_specific_camp_list)):
+                    if refugee_family_medical_no.get() == 'None':
+                        num_medical_check = 0
+                    else:
+                        num_medical_check = (int(refugee_family_medical_no.get()))
 
-                    # FIND MEDICAL STALL THAT IS GREATER THAN NO. OF PEOPLE IN FAMILY WITH MEDICAL CONDITIONS
-                    if int(medical_specific_camp_list[i][6]) >= num_medical_check:
-                        refugee_assigned_medical = medical_specific_camp_list[i][2]
+                    # ITERATE THROUGH LIST AND SEE WHICH ACCOMMODATION IS FREE
+                    refugee_assigned_medical = ''
+                    for i in range(len(medical_specific_camp_list)):
 
-                        # CREATE NEW SPECIFIC LIST WITH NEW VALUES
-                        that_medic_list = medical_specific_camp_list[i]
-                        ahaha = str(int(that_medic_list[4]) + (int(refugee_family_medical_no.get())))
-                        bhaha = str(int(that_medic_list[6]) - (int(refugee_family_medical_no.get())))
-                        that_medic_list[4] = ahaha
-                        that_medic_list[6] = bhaha
+                        # CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
+                        if int(num_medical_check) == int(updating_refugee_list[9]):
+                            print(' the same!')
 
-                        # APPEND NEW LIST INTO THE LIST OF LISTS (OF MEDICAL STALLS)
-                        for j in range(len(medical_database_list)):
-                            if medical_database_list[j][0] == that_medic_list[0] and medical_database_list[j][1] == \
-                                    that_medic_list[1]:
-                                medical_database_list[j] = that_medic_list
+                            refugee_assigned_medical = updating_refugee_list[13]
 
-                        # TURN LIST OF LISTS INTO LIST OF STRINGS
-                        new_rewritten_database_temp_medic = []
-                        for i in medical_database_list:
-                            new_rewritten_database_temp_medic.append(','.join(i))
 
-                        # WRITE DATA INTO DATABASE
+                            if int(updating_refugee_list[16]) == int(medical_specific_camp_list[i][1]) and int(
+                                    updating_refugee_list[0]) == int(medical_specific_camp_list[i][0]) and \
+                                    updating_refugee_list[12] == medical_specific_camp_list[i][2]:
+                                that_medical_list = medical_specific_camp_list[i]
+                                # print(that_block_list)
+                                break
 
-                        break
+                        # CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
+                        if int(num_medical_check) > int(updating_refugee_list[9]):
+                            #print("number bigger")
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(medical_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(
+                                        medical_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(medical_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[12] == medical_specific_camp_list[j][2]:
+                                    that_medical_list = medical_specific_camp_list[j]
+                            #print(that_medical_list)
+                            # IF THERE IS EXTRA SPACE IN MED, ALLOCATE EXTRA FAM MEMBERS TO THAT MED
+                            if int(that_medical_list[6]) >= (int(num_medical_check) - int(updating_refugee_list[9])):
+                                refugee_assigned_medical = that_block_list[2]
+
+                                xhaha = str(int(that_medical_list[4]) + (
+                                            int(num_medical_check) - int(updating_refugee_list[9])))
+                                yhaha = str(int(that_medical_list[6]) - (
+                                            int(num_medical_check) - int(updating_refugee_list[9])))
+                                that_medical_list[4] = xhaha
+                                that_medical_list[6] = yhaha
+
+                            # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW ACCOM
+                            else:
+                                for l in range(len(medical_specific_camp_list)):
+                                    if int(medical_specific_camp_list[l][6]) >= (int(num_medical_check)):
+                                        refugee_assigned_medical = medical_specific_camp_list[l][2]
+
+                                        xhaha = str(int(that_medical_list[4]) + (int(num_medical_check)))
+                                        yhaha = str(int(that_medical_list[6]) - (int(num_medical_check)))
+                                        that_block_list[4] = xhaha
+                                        that_block_list[6] = yhaha
+
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(medical_database_list)):
+                                if int(medical_database_list[k][0]) == int(that_medical_list[0]) and int(
+                                        medical_database_list[k][1]) == int(that_medical_list[1]) and \
+                                        medical_database_list[k][2] == that_medical_list[2]:
+                                    medical_database_list[k] = that_medical_list
+
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp_medic = []
+                            for m in medical_database_list:
+                                new_rewritten_database_temp_medic.append(','.join(m))
+                            break
+
+                        # CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
+                        if int(num_medical_check) < int(updating_refugee_list[9]):
+
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(medical_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(
+                                        medical_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(medical_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[12] == medical_specific_camp_list[j][2]:
+                                    that_medical_list = medical_specific_camp_list[j]
+
+                            refugee_assigned_medical = that_medical_list[2]
+
+                            #print(that_block_list)
+                            xhaha = str(
+                                int(that_medical_list[4]) - (int(updating_refugee_list[9]) - int(num_medical_check)))
+                            yhaha = str(
+                                int(that_medical_list[6]) + (int(updating_refugee_list[9]) - int(num_medical_check)))
+                            that_block_list[4] = xhaha
+                            that_block_list[6] = yhaha
+
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(medical_database_list)):
+                                if int(medical_database_list[k][0]) == int(that_medical_list[0]) and int(
+                                        medical_database_list[k][1]) == int(that_medical_list[1]) and \
+                                        medical_database_list[k][2] == that_medical_list[2]:
+                                    medical_database_list[k] = that_medical_list
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp_medic = []
+                            for m in accommodation_database_list:
+                                new_rewritten_database_temp_medic.append(','.join(m))
+                            break
+                            # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
+
 
                 # OUTPUT WHICH MEDICAL STALL THEY WILL BE PUT INTO
                 refugee_assigned_medical_label = tkinter.Label(screen2,
