@@ -257,7 +257,7 @@ def manageVolunteers(screen):
             global standard_volunteers
             global leadstatusVolunteer_screen
 
-            leadstatusVolunteer_screen = Toplevel
+            leadstatusVolunteer_screen = Toplevel()
             leadstatusVolunteer_frame = Frame(leadstatusVolunteer_screen)
             leadstatusVolunteer_frame.pack()
 
@@ -290,7 +290,19 @@ def manageVolunteers(screen):
 
             promote_volunteer_label.config(text="See Volunteer Classification above for the volunteers who are not currently leads. Please select the index number of the volunteer you wish to promote to lead.", fg="#000000")
 
-            if promote_volunteer.get() not in standard_volunteers_IDs:
+            promote_volunteer_camp = current_volunteer_list[(promote_volunteer.get()) - 1][0]
+
+            promote_volunteer_camp_list = []
+            for i in range(0, len(current_volunteer_list)):
+                if current_volunteer_list[i][0] == str(promote_volunteer_camp) and current_volunteer_list[i][-2] == "Lead":
+                    promote_volunteer_camp_list.append(current_volunteer_list[i])
+                    i += 1
+                else:
+                    i += 1
+
+            if len(promote_volunteer_camp_list) > 0:
+                promote_volunteer_label.config(text="This volunteer's camp already has a lead. Please select a volunteer whose camp does not yet have a lead.", fg="#f00")
+            elif promote_volunteer.get() not in standard_volunteers_IDs:
                 promote_volunteer_label.config(text="Invalid ID. Please enter the ID of a volunteer who is not yet lead.", fg="#f00")
             elif promote_volunteer.get() == ' ' or len(str(promote_volunteer.get())) == 0 or promote_volunteer.get() == 0:
                 promote_volunteer_label.config(text="Please entere a value.", fg="#f00")
@@ -418,3 +430,5 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+
+manageVolunteers(Tk())

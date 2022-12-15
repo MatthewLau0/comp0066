@@ -79,4 +79,3 @@ def adminHome():
 
     admin_home.mainloop()
 
-adminHome()
