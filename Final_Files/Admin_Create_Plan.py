@@ -578,18 +578,6 @@ def createnewemergencyPlan(screen):
         emergency_database_file_append.write("\n%s" %(new_emergency_string))
         emergency_database_file_append.close()
 
-        New_Emergency_Close_Screen = Toplevel()
-        New_Emergency_Close_Screen.title("Successful Submission")
-
-        New_Emergency_Close_Screen_Label = Label(New_Emergency_Close_Screen, text="Your new emergency has been successfully saved.")
-        New_Emergency_Close_Screen_Label.pack()
-
-        Return_To_HomeScreen_Button = Button(New_Emergency_Close_Screen, text="Return to Homescreen", command=returnHome)
-        Return_To_HomeScreen_Button.pack()
-
-    def returnHome():
-        New_Emergency_Close_Screen.destroy()
-
 
     def campnameVerify():
         global camp_name
