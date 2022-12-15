@@ -291,8 +291,10 @@ def updateexistingForm(screen):
         Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Entry_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
         Update_Emergency_Screen_Label_Index.pack()
 
-        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name * (Camp Names must have no spaces and must only contain letters)", state=DISABLED)
+        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name* ", font=('.AppleSystemUIFont', 13, 'bold'))
         camp_name_label.pack()
+        camp_name_instructions_label = Label(Update_Emergency_Entry_Screen, text="Camp Names must have no spaces and must only contain letters")
+        camp_name_instructions_label.pack()
         camp_name_entry = Entry(Update_Emergency_Entry_Screen, textvariable=camp_name, state=DISABLED)
         camp_name_entry.insert(0, f"{updating_camp_list[1]}")
         camp_name_entry.pack()
@@ -300,7 +302,7 @@ def updateexistingForm(screen):
         emergency_type_frame = Frame(Update_Emergency_Entry_Screen)
         emergency_type_frame.pack()
 
-        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_type_label.pack()
         emergency_type_flood = IntVar()
         emergency_type_tsunami = IntVar()
@@ -331,13 +333,13 @@ def updateexistingForm(screen):
         emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
-        emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency")
+        emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
         emergency_description_entry.insert(0, f"{updating_camp_list[3]}")
         emergency_description_entry.pack()
 
-        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Country Affected")
+        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Country Affected", font=('.AppleSystemUIFont', 13, 'bold'))
         update_emergency_location_label.pack()
         update_emergency_location_entry = Entry(Update_Emergency_Entry_Screen, textvariable=area_affected)
         update_emergency_location_entry.insert(0, f"{updating_camp_list[4]}")
@@ -353,19 +355,21 @@ def updateexistingForm(screen):
         today = date.today()
 
         start_date_label = Label(calendar_frame_label,
-                                 text="Please select a start date for the emergency from the below calendar")
+                                 text="Start Date")
         start_date_label.pack(side=LEFT)
         start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
         start_date_calendar.pack(side=LEFT)
         close_date_label = Label(calendar_frame_label,
-                                 text="Please select an end date for the emergency from the below calendar", state=DISABLED)
+                                 text="Close date", state=DISABLED, font=('.AppleSystemUIFont', 13, 'bold'))
         close_date_label.pack(side=RIGHT)
         close_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day',
                                        state=DISABLED)
         close_date_calendar.pack(side=RIGHT)
 
-        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
+        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency active?.", font=('.AppleSystemUIFont', 13, 'bold'))
         status_label.pack()
+        status_label_instructions = Label(Update_Emergency_Entry_Screen, text="Please confirm your answer using the button below")
+        status_label_instructions.pack()
 
         def clickYes():
             global startDate
@@ -622,7 +626,7 @@ def updateexistingForm(screen):
         emergency_type_label.config(text="Select the type of emergency", fg='#000000')
         emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
         update_emergency_location_label.config(text="Country Affected", fg='#000000')
-        status_label.config(text="Is the emergency active? Please confirm your answer using the button below.", fg='#000000')
+        status_label.config(text="Is the emergency active?", fg='#000000')
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())

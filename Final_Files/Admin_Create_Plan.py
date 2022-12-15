@@ -1,9 +1,12 @@
 #Import modules - is pip included in standard installers
+import tkinter.font
 from tkinter import *
+from tkinter import font
 import tkintermapview
 from tkcalendar import Calendar
 import datetime
 from country_list import countries_for_language
+
 
 
 def createnewemergencyPlan(screen):
@@ -111,9 +114,9 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
         New_Camp_Screen_Label_Index.pack()
 
-        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
+        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ", font=('.AppleSystemUIFont', 13, 'bold'))
         camp_name_label.pack()
-        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters", font="italic")
+        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters")
         camp_name_label_instructions.pack()
         camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
         camp_name_entry.pack()
@@ -121,7 +124,7 @@ def createnewemergencyPlan(screen):
         emergency_type_frame = Frame(New_Camp_Screen)
         emergency_type_frame.pack()
 
-        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency")
+        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_type_label.pack()
 
         emergency_type_flood = IntVar()
@@ -149,13 +152,13 @@ def createnewemergencyPlan(screen):
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
 
-        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
+        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
         emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
         emergency_description_entry.pack()
 
         emergency_location_label = Label(New_Camp_Screen,
-                                         text="Country Affected")
+                                         text="Country Affected", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_location_label.pack()
         emergency_location_entry = Entry(New_Camp_Screen, textvariable=area_affected)
         emergency_location_entry.pack()
@@ -169,9 +172,9 @@ def createnewemergencyPlan(screen):
         calendar_frame = Frame(New_Camp_Screen)
         calendar_frame.pack()
 
-        start_date_label = Label(calendar_frame_label, text="Start Date")
+        start_date_label = Label(calendar_frame_label, text="Start Date", font=('.AppleSystemUIFont', 13, 'bold'))
         start_date_label.pack(side=LEFT)
-        close_date_label = Label(calendar_frame_label, text="Close Date", state=DISABLED)
+        close_date_label = Label(calendar_frame_label, text="Close Date", font=('.AppleSystemUIFont', 13, 'bold'), state=DISABLED)
         close_date_label.pack(side=RIGHT)
         start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
         start_date_calendar.pack(side=LEFT)
@@ -181,8 +184,11 @@ def createnewemergencyPlan(screen):
         close_date_instructions_label = Label(New_Camp_Screen, text="To enter a close date, specify below that the emergency is no longer active")
         close_date_instructions_label.pack()
 
-        status_label = Label(New_Camp_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
+        status_label = Label(New_Camp_Screen, text="Is the emergency active?", font=('.AppleSystemUIFont', 13, 'bold'))
         status_label.pack()
+        status_label_instructions = Label(New_Camp_Screen,
+                                          text="Please confirm your answer using the button below")
+        status_label_instructions.pack()
 
 
         def clickYes():
@@ -441,11 +447,11 @@ def createnewemergencyPlan(screen):
         global emergency_location_label
         global emergency_type_string
 
-        camp_name_label.config(text="Camp Name *", fg='#000000')
-        emergency_type_label.config(text="Select the type of emergency", fg='#000000')
-        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
-        emergency_location_label.config(text="Country Affected", fg='#000000')
-        status_label.config(text="Is the emergency active? Please confirm your answer using the button below.", fg='#000000')
+        camp_name_label.config(text="Camp Name *", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_type_label.config(text="Select the type of emergency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_location_label.config(text="Country Affected", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        status_label.config(text="Is the emergency active?", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
@@ -621,3 +627,5 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
+
+createnewemergencyPlan(Tk())
