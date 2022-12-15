@@ -430,5 +430,3 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
-
-manageVolunteers(Tk())

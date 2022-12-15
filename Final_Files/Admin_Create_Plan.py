@@ -155,7 +155,7 @@ def createnewemergencyPlan(screen):
         emergency_description_entry.pack()
 
         emergency_location_label = Label(New_Camp_Screen,
-                                         text="Please enter the country in which the emergency has occured")
+                                         text="Country Affected")
         emergency_location_label.pack()
         emergency_location_entry = Entry(New_Camp_Screen, textvariable=area_affected)
         emergency_location_entry.pack()
@@ -441,11 +441,11 @@ def createnewemergencyPlan(screen):
         global emergency_location_label
         global emergency_type_string
 
-        camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
-        emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
-        emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
-        emergency_location_label.config(text="Please enter the country in which the emergency occured.", fg='#000000')
-        status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
+        camp_name_label.config(text="Camp Name *", fg='#000000')
+        emergency_type_label.config(text="Select the type of emergency", fg='#000000')
+        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
+        emergency_location_label.config(text="Country Affected", fg='#000000')
+        status_label.config(text="Is the emergency active? Please confirm your answer using the button below.", fg='#000000')
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
@@ -526,7 +526,8 @@ def createnewemergencyPlan(screen):
         Go_Back_Button.pack()
 
     def goBack():
-        screenSetup()
+        New_Camp_Summary_Screen.destroy()
+        Create_Emergency_Screen()
 
     def SubmitEmergency():
         global New_Camp_Screen

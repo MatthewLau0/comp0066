@@ -330,7 +330,7 @@ def updateexistingForm(screen):
         emergency_description_entry.insert(0, f"{updating_camp_list[3]}")
         emergency_description_entry.pack()
 
-        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Please enter the country in whcih the emergency has occured")
+        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Country Affected")
         update_emergency_location_label.pack()
         update_emergency_location_entry = Entry(Update_Emergency_Entry_Screen, textvariable=area_affected)
         update_emergency_location_entry.insert(0, f"{updating_camp_list[4]}")
@@ -357,7 +357,7 @@ def updateexistingForm(screen):
                                        state=DISABLED)
         close_date_calendar.pack(side=RIGHT)
 
-        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency still active? Please confirm your answer using the button below.")
+        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency active? Please confirm your answer using the button below.")
         status_label.pack()
 
         def clickYes():
@@ -611,11 +611,11 @@ def updateexistingForm(screen):
         global updating_camp_list
         global emergency_type_string
 
-        camp_name_label.config(text="Please enter a name for the new camp.", fg='#000000')
-        emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#000000')
-        emergency_description_label.config(text="Please enter a description for the new emergency", fg='#000000')
-        update_emergency_location_label.config(text="Please enter the country in which the emergency occured.", fg='#000000')
-        status_label.config(text="Please select an activation status for the emergency.", fg='#000000')
+        camp_name_label.config(text="Camp Name *", fg='#000000')
+        emergency_type_label.config(text="Select the type of emergency", fg='#000000')
+        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
+        update_emergency_location_label.config(text="Country Affected", fg='#000000')
+        status_label.config(text="Is the emergency active? Please confirm your answer using the button below.", fg='#000000')
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
