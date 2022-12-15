@@ -1,6 +1,7 @@
 import sys
 import subprocess
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'country_list'])
 from tkinter import *
 import hashlib
 import Register_Info

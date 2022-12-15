@@ -11,6 +11,7 @@ def manageVolunteers(screen):
         global manage_volunteer_home_screen
         global current_volunteer_list_print
         global volunteer_file_extract
+        global current_volunteer_list_print_IDs
 
 
         volunteer_file = open("volunteer_database.txt", "r")
@@ -33,6 +34,11 @@ def manageVolunteers(screen):
                 pass
             else:
                 current_volunteer_list_print.append(volunteer_file_extract[i])
+
+        current_volunteer_list_print_IDs = []
+        for i in range(0, len(current_volunteer_list_print)):
+            current_volunteer_list_print_IDs.append(current_volunteer_list_print[i][1])
+            i += 1
 
 
 
@@ -269,9 +275,8 @@ def manageVolunteers(screen):
                     standard_volunteers.append(current_volunteer_list[i])
                 i += 1
 
-            standard_volunteers_IDs = []
-            for i in range(0, len(standard_volunteers)):
-                standard_volunteers_IDs.append(int(standard_volunteers[i][1]))
+
+
 
 
             promote_volunteer = IntVar()
@@ -279,7 +284,7 @@ def manageVolunteers(screen):
             promote_volunteer_label.pack()
 
             promote_volunteer_combobox = ttk.Combobox(leadstatusVolunteer_frame, textvariable=promote_volunteer)
-            promote_volunteer_combobox['values'] = standard_volunteers_IDs
+            promote_volunteer_combobox['values'] = current_volunteer_list_print_IDs
             promote_volunteer_combobox.pack()
             promote_volunteer_entry_button = Button(leadstatusVolunteer_frame, text="Confirm", command=promoteVolunteerVerify, width=30, height=2)
             promote_volunteer_entry_button.pack()
@@ -304,7 +309,7 @@ def manageVolunteers(screen):
 
             if len(promote_volunteer_camp_list) > 0:
                 promote_volunteer_label.config(text="This volunteer's camp already has a lead. Please select a volunteer whose camp does not yet have a lead.", fg="#f00")
-            elif promote_volunteer.get() not in standard_volunteers_IDs:
+            elif str(promote_volunteer.get()) not in current_volunteer_list_print_IDs:
                 promote_volunteer_label.config(text="Invalid ID. Please enter the ID of a volunteer who is not yet lead.", fg="#f00")
             elif promote_volunteer.get() == ' ' or len(str(promote_volunteer.get())) == 0 or promote_volunteer.get() == 0:
                 promote_volunteer_label.config(text="Please entere a value.", fg="#f00")
@@ -440,4 +445,5 @@ def manageVolunteers(screen):
         manage_volunteer_home_screen.mainloop()
 
     manageVolunteerScreen()
+
 

@@ -597,6 +597,9 @@ def viewexistingCamps():
 
         emergency_database_table.pack(fill='both')
 
+        view_refugee_return_home_button = Button(Update_Emergency_Screen, text="Return Home", command=Update_Emergency_Screen.destroy)
+        view_refugee_return_home_button.pack()
+
 
 
 

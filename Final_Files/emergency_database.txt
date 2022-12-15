@@ -6,3 +6,6 @@
 6%CampItaly%Tsunami%Famine in Italy%Italy%2022-11-15%NA%Active
 7%CampArgentina%Drought%Drought in Argentina%Argentina%2022-11-15%2022-12-13%Closed
 8%CampPortugal%Earthquake%Earthquake in Portugal%Portugal%2022-12-13%NA%Active
+9%CampDenmark%Earthquake%Earthquake in Denmark%Denmark%2022-11-14%2022-12-21%Closed
+10%CampFinland%Earthquake%Earthquake in Finland%Finland%2022-09-20%2023-01-12%Closed
+11%CampJapan%Drought%Drought in Japan%Japan%2022-11-07%NA%Active
