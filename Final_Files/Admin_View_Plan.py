@@ -170,6 +170,13 @@ def viewexistingCamps():
             if list6[0] == str(camp_id):
                 refugee_list.append(list6)
 
+        accommodation_file.close()
+        ration_file.close()
+        toilet_file.close()
+        medical_file.close()
+        volunteer_file.close()
+        refugee_file.close()
+
         accom_north = []
         ration_north = []
         toilet_north = []
@@ -495,12 +502,7 @@ def viewexistingCamps():
 
         camp_summary_window.mainloop()
 
-        accommodation_file.close()
-        ration_file.close()
-        toilet_file.close()
-        medical_file.close()
-        volunteer_file.close()
-        refugee_file.close()
+
 
         def returnHome():
             global Layout_Screen
@@ -521,6 +523,7 @@ def viewexistingCamps():
         for line in volunteer_list_file:
             x = line.split("%")
             volunteer_database_list.append(x)
+        volunteer_list_file.close()
 
         Update_Emergency_Screen = tkinter.Tk()
         screen_width1 = Update_Emergency_Screen.winfo_screenwidth()

@@ -43,6 +43,7 @@ def user_details_generate():
     for line in logins_file:
         line_string = line.split("%")
         logins_list.append(line_string)
+    logins_file.close()
     if len(logins_list) > 0:
         user_camp_id = logins_list[-1][0]
         user_id = logins_list[-1][1]
@@ -67,7 +68,7 @@ def user_details_generate():
         user_availability = logins_list[-1][12]
     else:
         pass
-    logins_file.close()
+
 
 def run():
     user_details_generate()
@@ -309,6 +310,7 @@ def run():
                         for line in volunteer_read:
                             line_string = line.split("%")
                             volunteer_list.append(line_string)
+                        volunteer_read.close()
 
                         for i in volunteer_list:
                             if i[1] == str(user_id):
@@ -322,6 +324,7 @@ def run():
                             with open("volunteer_database.txt", "a") as volunteer_write:
                                 updated_user_string = "%".join(entry)
                                 volunteer_write.write(updated_user_string)
+                        volunteer_write.close()
 
                         volunteer_entry_screen.destroy()
 

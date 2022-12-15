@@ -10,6 +10,7 @@ def table():
     for line in volunteer_list_file:
         x = line.split("%")
         volunteer_database_list.append(x)
+    volunteer_list_file.close()
 
     def deleteTable():
         Update_Emergency_Screen.destroy()

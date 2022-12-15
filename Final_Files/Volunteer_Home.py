@@ -47,6 +47,7 @@ def user_details_generate():
     for line in logins_file:
         line_string = line.split("%")
         logins_list.append(line_string)
+    logins_file.close()
     if len(logins_list) > 0:
         user_camp_id = logins_list[-1][0]
         user_id = logins_list[-1][1]
@@ -71,7 +72,7 @@ def user_details_generate():
         user_availability = logins_list[-1][12]
     else:
         pass
-    logins_file.close()
+
 
 def volunteer_home_page():
     user_details_generate()
@@ -83,6 +84,7 @@ def volunteer_home_page():
     for line in open_volunteer_file:
         x = line.split("%")
         volunteer_actual_database_list.append(x)
+    open_volunteer_file.close()
 
     #Load Create new emergency
     def Edit_Refugee():
@@ -355,6 +357,8 @@ def volunteer_home_page():
                                     line_string = line.split("%")
                                     volunteer_list.append(line_string)
 
+                                volunteer_read.close()
+
                                 volunteer_list = [updated_user if i[1] == str(user_id) else i for i in
                                                   volunteer_list]
 
@@ -365,6 +369,7 @@ def volunteer_home_page():
                                     with open("volunteer_database.txt", "a") as volunteer_write:
                                         updated_user_string = "%".join(entry)
                                         volunteer_write.write(updated_user_string)
+                                volunteer_write.close()
 
                                 update_details_toplevel.destroy()
                                 volunteer_entry_screen.destroy()
@@ -409,6 +414,7 @@ def volunteer_home_page():
     for line in open_volunteer_file:
         x = line.split("%")
         volunteer_actual_database_list.append(x)
+    open_volunteer_file.close()
 
     #Create main window of the application
     refugee_home = Tk()
