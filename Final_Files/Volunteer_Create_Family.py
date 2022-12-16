@@ -543,8 +543,7 @@ def create_family():
 
     def add_camp():
         # SEES WHICH CAMP THE VOLUNTEER IS CURRENTLY ASSIGNED TO
-        volunteer_current_camp = int(volunteer_actual_database_list[int(Volunteer_Home.user_id) - 1][0])
-        print(volunteer_actual_database_list[int(Volunteer_Home.user_id)-1])
+        volunteer_current_camp = int(Volunteer_Home.user_camp_id)
 
         # GET LIST OF ONLY CAMP NAMES FROM EMERGENCY DATABASE
         camp_name_list = []
