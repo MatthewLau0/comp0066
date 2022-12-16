@@ -1,10 +1,6 @@
 import sys
 import subprocess
 from tkinter import *
-try:
-    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-except Exception:
-    pass
 
 try:
     subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'country_list'])
