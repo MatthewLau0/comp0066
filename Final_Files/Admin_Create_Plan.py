@@ -232,6 +232,8 @@ def createnewemergencyPlan(screen):
         submit_new_emergency_button = Button(New_Camp_Screen, text="Submit New Emergency", command=campnameVerify)
         submit_new_emergency_button.pack()
 
+        Button(New_Camp_Screen, text="Return Home", command=New_Camp_Screen.destroy).pack()
+
     def clickFlood():
         global emergency_type
         global emergency_type_flood

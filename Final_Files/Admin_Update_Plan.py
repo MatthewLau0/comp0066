@@ -3,7 +3,6 @@ from tkinter import *
 from tkinter import ttk
 import datetime
 from tkcalendar import Calendar
-from tkcalendar import DateEntry
 from country_list import countries_for_language
 
 def updateexistingForm(screen):
@@ -393,7 +392,7 @@ def updateexistingForm(screen):
 
         def clickYes():
             global startDate
-            startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
+            startDate = datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
             if status_check_yes.get() == 1:
                 status_check_button_no.config(state=DISABLED)
             else:
@@ -401,7 +400,7 @@ def updateexistingForm(screen):
 
         def clickNo():
             global startDate
-            startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
+            startDate = datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
             if status_check_no.get() == 1:
                 status_check_button_yes.config(state=DISABLED)
             else:
@@ -436,6 +435,8 @@ def updateexistingForm(screen):
 
         submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=generateEndDate)
         submit_updated_emergency_button.pack()
+
+        Button(Update_Emergency_Entry_Screen, text="Return Home", command=Update_Emergency_Entry_Screen.destroy)
 
     def presetOther():
         emergency_type_label_other.config(state=NORMAL)
