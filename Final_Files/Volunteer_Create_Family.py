@@ -789,7 +789,7 @@ def create_family():
             postcode_address = ''
         country_address = refugee_country_address.get()
         if country_address == "Use dropdown or type to select country...":
-            postcode_address = ''
+            country_address = ''
         address_list = [first_address, city_address, postcode_address, country_address]
         address = ', '.join(address_list)
 
