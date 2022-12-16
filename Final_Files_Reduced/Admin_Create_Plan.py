@@ -1,6 +1,6 @@
 #Import modules - is pip included in standard installers
 from tkinter import *
-from tkcalendar import Calendar
+from tkinter import ttk
 import datetime
 from country_list import countries_for_language
 
@@ -18,6 +18,9 @@ def createnewemergencyPlan(screen):
         global endDate
         global status
         global emergency_type_string
+        global day_list
+        global month_list
+        global year_list
 
         emergency_database_file = open("emergency_database.txt", "r")
 
@@ -39,10 +42,11 @@ def createnewemergencyPlan(screen):
         for i in range(0, len(emergency_database_list)):
             camp_name_list.append((emergency_database_list[i])[1])
 
-        startDate = "NA"
-        endDate = "NA"
-        status = "NA"
-        emergency_type_string = "NA"
+        day_list = [i for i in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [i for i in range(1900, 2024)]
+
 
         CreateNewCampScreen()
 
@@ -105,36 +109,11 @@ def createnewemergencyPlan(screen):
         camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
         camp_name_entry.pack()
 
-        emergency_type_frame = Frame(New_Camp_Screen)
-        emergency_type_frame.pack()
 
-        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_type_label = Label(New_Camp_Screen, text="Enter the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_type_label.pack()
-
-        emergency_type_flood = IntVar()
-        emergency_type_tsunami = IntVar()
-        emergency_type_earthquake = IntVar()
-        emergency_type_drought = IntVar()
-        emergency_type_other = IntVar()
-
-        emergency_type_flood_check = Checkbutton(emergency_type_frame, variable=emergency_type_flood, onvalue=1, offvalue=0, text="Flood", command=clickFlood)
-        emergency_type_flood_check.pack(side=LEFT)
-        emergency_type_tsunami_check = Checkbutton(emergency_type_frame, variable=emergency_type_tsunami, onvalue=1, offvalue=0, text="Tsunami", command=clickTsunami)
-        emergency_type_tsunami_check.pack(side=LEFT)
-        emergency_type_earthquake_check = Checkbutton(emergency_type_frame, variable=emergency_type_earthquake, onvalue=1, offvalue=0, text="Earthquake", command=clickEarthquake)
-        emergency_type_earthquake_check.pack(side=LEFT)
-        emergency_type_drought_check = Checkbutton(emergency_type_frame, variable=emergency_type_drought, onvalue=1, offvalue=0, text="Drought", command=clickDrought)
-        emergency_type_drought_check.pack(side=LEFT)
-        emergency_type_other_check = Checkbutton(emergency_type_frame, variable=emergency_type_other, onvalue=1, offvalue=0, text="Other", command=clickOther)
-        emergency_type_other_check.pack(side=LEFT)
-
-        emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency", state=DISABLED)
-        emergency_type_label_other.pack(anchor=CENTER)
-        emergency_type_other_entry = Entry(emergency_type_frame, textvariable=emergency_type, state=DISABLED)
-        emergency_type_other_entry.pack(anchor=CENTER)
-        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
-        emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
-
+        emergency_type_entry = Entry(New_Camp_Screen, textvariable=emergency_type)
+        emergency_type_entry.pack()
 
         emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
@@ -147,26 +126,34 @@ def createnewemergencyPlan(screen):
         emergency_location_entry = Entry(New_Camp_Screen, textvariable=area_affected)
         emergency_location_entry.pack()
 
-        from datetime import date
-        today = date.today()
+        start_date_frame = Frame(New_Camp_Screen)
+        start_date_frame.pack()
+        start_date_day = IntVar()
+        start_date_month = StringVar()
+        start_date_year = IntVar()
 
-        calendar_frame_label = Frame(New_Camp_Screen)
-        calendar_frame_label.pack()
+        start_date_label = Label(New_Camp_Screen, text="Enter the start date for the emergency")
+        start_date_label.pack()
+        start_date_day_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_day)
+        start_date_day_combobox['values'] = day_list
+        start_date_day_combobox.pack(side=LEFT)
 
-        calendar_frame = Frame(New_Camp_Screen)
-        calendar_frame.pack()
+        start_date_month_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_month)
+        start_date_month_combobox['values'] = month_list
+        start_date_month_combobox.pack(side=LEFT)
 
-        start_date_label = Label(calendar_frame_label, text="Start Date", font=('.AppleSystemUIFont', 13, 'bold'))
-        start_date_label.pack(side=LEFT)
-        close_date_label = Label(calendar_frame_label, text="Close Date", font=('.AppleSystemUIFont', 13, 'bold'), state=DISABLED)
-        close_date_label.pack(side=RIGHT)
-        start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
-        start_date_calendar.pack(side=LEFT)
-        close_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', state=DISABLED)
-        close_date_calendar.pack(side=RIGHT)
+        start_date_year_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_year)
+        start_date_year_combobox['values'] = year_list
+        start_date_year_combobox.pack(side=LEFT)
 
-        close_date_instructions_label = Label(New_Camp_Screen, text="To enter a close date, specify below that the emergency is no longer active")
-        close_date_instructions_label.pack()
+        en
+
+
+
+
+
+
+
 
         status_label = Label(New_Camp_Screen, text="Is the emergency active?", font=('.AppleSystemUIFont', 13, 'bold'))
         status_label.pack()
@@ -174,22 +161,6 @@ def createnewemergencyPlan(screen):
                                           text="Please confirm your answer using the button below")
         status_label_instructions.pack()
 
-
-        def clickYes():
-            global startDate
-            startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
-            if status_check_yes.get() == 1:
-                status_check_button_no.config(state=DISABLED)
-            else:
-                status_check_button_no.config(state=NORMAL)
-
-        def clickNo():
-            global startDate
-            startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
-            if status_check_no.get() == 1:
-                status_check_button_yes.config(state=DISABLED)
-            else:
-                status_check_button_yes.config(state=NORMAL)
 
         status_check_yes = IntVar()
         status_check_button_yes = Checkbutton(New_Camp_Screen, variable=status_check_yes, onvalue=1, offvalue=2, text="Yes", command=clickYes)
