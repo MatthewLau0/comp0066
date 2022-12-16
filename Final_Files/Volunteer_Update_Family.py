@@ -430,6 +430,46 @@ def modify_family():
 
                 # ITERATE THROUGH LIST AND SEE IF WE CAN ADD FAMILY TO CAMP
                 # IF NOT, ERROR MESSAGE WILL POP UP AND SAY TO REDUCE FAM SIZE OR CONTACT ADMIN
+                len_accom = len(accommodation_specific_camp_list_test)
+                len_var_accom = 0
+                for p in range(len(accommodation_specific_camp_list_test)):
+                    if int(total_lol) > int(accommodation_specific_camp_list_test[p][6]):
+                        len_var_accom = len_var_accom + 1
+                if len_var_accom == int(len_accom):
+                    tkinter.messagebox.showerror(title='Error!', message='Not enough space in this camp for accommodation! Change number of family members or contact the admin')
+                    return
+
+                len_medical = len(medical_specific_camp_list_test)
+                len_var_medical = 0
+                for p in range(len(medical_specific_camp_list_test)):
+                    if int(total_lol) > int(medical_specific_camp_list_test[p][6]):
+                        len_var_medical = len_var_medical + 1
+                if len_var_medical == int(len_medical):
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Not enough space in this camp for medical! Change number of family members or contact the admin')
+                    return
+
+                len_ration = len(rations_specific_camp_list_test)
+                len_var_ration = 0
+                for p in range(len(rations_specific_camp_list_test)):
+                    if int(total_lol) > int(rations_specific_camp_list_test[p][6]):
+                        len_var_ration = len_var_ration + 1
+                if len_var_ration == int(len_ration):
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Not enough space in this camp for rations! Change number of family members or contact the admin')
+                    return
+
+                len_toilet = len(toilet_specific_camp_list_test)
+                len_var_toilet = 0
+                for p in range(len(toilet_specific_camp_list_test)):
+                    if int(total_lol) > int(toilet_specific_camp_list_test[p][6]):
+                        len_var_toilet = len_var_toilet + 1
+                if len_var_toilet == int(len_toilet):
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='Not enough space in this camp for toilets! Change number of family members or contact the admin')
+                    return
+
+
                 '''
                 if len(accommodation_specific_camp_list_test) > 0:
                     for i in range(len(accommodation_specific_camp_list_test)):
@@ -527,13 +567,11 @@ def modify_family():
 
             def submit():
                 # Creating new refugee
-                new_refugee = [""] * 16
+                new_refugee = [""] * 18
 
                 # Finding index for new refugee
-                if len(volunteer_database_list) == 0:
-                    new_refugee[0] = "1"
-                elif len(volunteer_database_list) >= 1:
-                    new_refugee[0] = str((int((volunteer_database_list[-1])[0]) + 1))
+                new_refugee[1] = refugee_button.get()
+
 
                 # GET ALL VALUES
                 name = refugee_name.get()
@@ -555,6 +593,8 @@ def modify_family():
                 if postcode_address == "Postcode":
                     postcode_address = ''
                 country_address = refugee_country_address.get()
+                if country_address == 'Use dropdown or type to select country...':
+                    country_address = ''
 
                 address_list = [first_address, city_address, postcode_address, country_address]
                 address = ', '.join(address_list)
@@ -567,47 +607,81 @@ def modify_family():
                 new_rewritten_database_temp_medic = return_list_for_database[1]
                 new_rewritten_database_temp_toilet = return_list_for_database[2]
                 new_rewritten_database_temp_ration = return_list_for_database[3]
+                try:
+                    accommodations_write_new = open("accommodation_database.txt", "w")
+                    for i in range(len(new_rewritten_database_temp)):
+                        accommodations_write_new.write(new_rewritten_database_temp[i])
+                    accommodations_write_new.close()
+                except:
+                    tkinter.messagebox.showerror(title='Error!', message='An error occured with accommodation, please contact admin for assistance')
+                    return
 
-                accommodations_write_new = open("accommodation_database.txt", "w")
-                for i in range(len(new_rewritten_database_temp)):
-                    accommodations_write_new.write(new_rewritten_database_temp[i])
-                accommodations_write_new.close()
+                try:
+                    medical_write_new = open("medical_database.txt", "w")
+                    for i in range(len(new_rewritten_database_temp_medic)):
+                        medical_write_new.write(new_rewritten_database_temp_medic[i])
+                    medical_write_new.close()
+                except:
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='An error occured with the medical stalls, please contact admin for assistance')
+                    return
 
-                medical_write_new = open("medical_database.txt", "w")
-                for i in range(len(new_rewritten_database_temp_medic)):
-                    medical_write_new.write(new_rewritten_database_temp_medic[i])
-                medical_write_new.close()
+                try:
+                    toilets_write_new = open("toilet_database.txt", "w")
+                    for i in range(len(new_rewritten_database_temp_toilet)):
+                        toilets_write_new.write(new_rewritten_database_temp_toilet[i])
+                    toilets_write_new.close()
+                except:
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='An error occured with the toilets, please contact admin for assistance')
+                    return
 
-                toilets_write_new = open("toilet_database.txt", "w")
-                for i in range(len(new_rewritten_database_temp_toilet)):
-                    toilets_write_new.write(new_rewritten_database_temp_toilet[i])
-                toilets_write_new.close()
-
-                rations_write_new = open("ration_database.txt", "w")
-                for i in range(len(new_rewritten_database_temp_ration)):
-                    rations_write_new.write(new_rewritten_database_temp_ration[i])
-                rations_write_new.close()
+                try:
+                    rations_write_new = open("ration_database.txt", "w")
+                    for i in range(len(new_rewritten_database_temp_ration)):
+                        rations_write_new.write(new_rewritten_database_temp_ration[i])
+                    rations_write_new.close()
+                except:
+                    tkinter.messagebox.showerror(title='Error!', message='An error occured with the rations, please contact admin for assistance')
+                    return
 
                 # STORE ALL VALUES INTO LIST
-                new_refugee[1] = name
-                new_refugee[2] = number
-                new_refugee[3] = dob
-                new_refugee[4] = age
-                new_refugee[5] = sex
-                new_refugee[6] = address
-                new_refugee[7] = str(conditions)
-                new_refugee[8] = str(num_of_fam)
-                new_refugee[9] = str(return_list_for_database[4])
+                new_refugee[0] = str(return_list_for_database[4])
+                new_refugee[2] = name
+                new_refugee[3] = number
+                new_refugee[4] = dob
+                new_refugee[5] = age
+                new_refugee[6] = sex
+                new_refugee[7] = address
+                new_refugee[8] = str(conditions)
+                new_refugee[9] = str(num_of_fam)
                 new_refugee[10] = str(return_list_for_database[5])
                 new_refugee[11] = str(return_list_for_database[6])
                 new_refugee[12] = str(return_list_for_database[7])
                 new_refugee[13] = str(return_list_for_database[8])
                 new_refugee[14] = str(return_list_for_database[9])
                 new_refugee[15] = str(return_list_for_database[10])
-                new_refugee_string = "#".join(new_refugee)
-                volunteer_list_file.close()
-                volunteer_list_file_append = open("refugee_database.txt", "a")
-                volunteer_list_file_append.write("\n%s" % (new_refugee_string))
+                new_refugee[16] = str(return_list_for_database[11])
+                new_refugee[17] = '\n'
+
+                volunteer_list_file_final = open("refugee_database.txt", "r")
+                volunteer_database_list_final = []
+                for lol in volunteer_list_file_final:
+                    y = lol.split('%')
+                    volunteer_database_list_final.append(y)
+                volunteer_list_file_final.close()
+                print(new_refugee)
+                for h in range(len(volunteer_database_list_final)):
+                    if int(new_refugee[1]) == int(volunteer_database_list_final[h][1]):
+                        volunteer_database_list_final[h] = new_refugee
+
+                volunteer_database_list_final_append = []
+                for y in range(len(volunteer_database_list_final)):
+                    volunteer_database_list_final_append.append('%'.join(volunteer_database_list_final[y]))
+
+                volunteer_list_file_append = open("refugee_database.txt", 'w')
+                for z in range(len(volunteer_database_list_final_append)):
+                    volunteer_list_file_append.write("%s" % volunteer_database_list_final_append[z])
                 volunteer_list_file_append.close()
 
                 # DISPLAY FINISH MESSAGE AND DELETE SCREENS
@@ -643,125 +717,138 @@ def modify_family():
                         accommodation_specific_camp_list.append(accommodation_database_list[i])
 
                 # ITERATE THROUGH LIST AND SEE WHICH ACCOMMODATION IS FREE
-                refugee_assigned_accommodation = ''
-                for i in range(len(accommodation_specific_camp_list)):
+                try:
+                    refugee_assigned_accommodation = ''
+                    for i in range(len(accommodation_specific_camp_list)):
 
-                    #CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
-                    if int(refugee_number.get()) == int(updating_refugee_list[3]):
-                        print('equal')
-                        refugee_assigned_accommodation = updating_refugee_list[12]
-                        refugee_assigned_block = updating_refugee_list[11]
-                        new_rewritten_database_temp = accommodation_database_list
-                        # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
-                        for j in range(len(accommodation_specific_camp_list)):
-                            if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
-                                    updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
-                                    updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
-                                that_block_list = accommodation_specific_camp_list[j]
-                        print(that_block_list)
+                        #CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
+                        if int(refugee_number.get()) == int(updating_refugee_list[3]):
+                            #print('accom equal')
+                            refugee_assigned_accommodation = updating_refugee_list[12]
+                            refugee_assigned_block = updating_refugee_list[11]
 
-                        break
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(accommodation_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
+                                    that_block_list = accommodation_specific_camp_list[j]
+
+                            new_rewritten_database_temp = []
+                            for m in accommodation_database_list:
+                                new_rewritten_database_temp.append(','.join(m))
+                            break
 
 
 
 
-                    #CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
-                    if int(refugee_number.get()) > int(updating_refugee_list[3]):
-                        print("number bigger")
-                        #FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
-                        for j in range(len(accommodation_specific_camp_list)):
-                            if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
-                                    updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
-                                    updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
-                                that_block_list = accommodation_specific_camp_list[j]
-                        print(that_block_list)
-                        #IF THERE IS EXTRA SPACE IN ACCOM, ALLOCATE EXTRA FAM MEMBERS TO THAT ACCOM
-                        if int(that_block_list[6]) >= (int(refugee_number.get())-int(updating_refugee_list[3])):
+
+                        #CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
+                        if int(refugee_number.get()) > int(updating_refugee_list[3]):
+                            #print("accom number bigger")
+                            #FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(accommodation_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
+                                    that_block_list = accommodation_specific_camp_list[j]
+                            #IF THERE IS EXTRA SPACE IN ACCOM, ALLOCATE EXTRA FAM MEMBERS TO THAT ACCOM
+                            if int(that_block_list[6]) >= (int(refugee_number.get())-int(updating_refugee_list[3])):
+                                refugee_assigned_accommodation = that_block_list[2]
+                                refugee_assigned_block = that_block_list[7]
+                                xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())-int(updating_refugee_list[3])))
+                                yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())-int(updating_refugee_list[3])))
+                                that_block_list[4] = xhaha
+                                that_block_list[6] = yhaha
+                                #print('accom extra space available', that_block_list)
+                                old_block_list = ''
+                            #IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW ACCOM
+                            else:
+                                for l in range(len(accommodation_specific_camp_list)):
+                                    if int(accommodation_specific_camp_list[l][6]) >= (int(refugee_number.get())+1):
+                                        refugee_assigned_accommodation = accommodation_specific_camp_list[l][2]
+                                        refugee_assigned_block = accommodation_specific_camp_list[l][7]
+                                        old_block_list = that_block_list
+                                        that_block_list = accommodation_specific_camp_list[l]
+                                        xhaha = str(int(that_block_list[4]) + (int(refugee_number.get()) + 1))
+                                        yhaha = str(int(that_block_list[6]) - (int(refugee_number.get()) + 1))
+                                        that_block_list[4] = xhaha
+                                        that_block_list[6] = yhaha
+
+                                        ahaha = str(int(old_block_list[4]) - (int(refugee_number.get()) + 1))
+                                        bhaha = str(int(old_block_list[6]) + (int(refugee_number.get()) + 1))
+                                        old_block_list[4] = ahaha
+                                        old_block_list[6] = bhaha
+                                        #print('no extra space availalblew', that_block_list, old_block_list)
+                                        break
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(accommodation_database_list)):
+                                if int(accommodation_database_list[k][0]) == int(that_block_list[0]) and int(accommodation_database_list[k][1]) == int(that_block_list[1]) and accommodation_database_list[k][2] == that_block_list[2]:
+                                    accommodation_database_list[k] = that_block_list
+                                if (int(refugee_number.get()) > int(updating_refugee_list[3])) and old_block_list != '':
+                                    if int(accommodation_database_list[k][0]) == int(old_block_list[0]) and int(accommodation_database_list[k][1]) == int(old_block_list[1]) and accommodation_database_list[k][2] == old_block_list[2]:
+                                        accommodation_database_list[k] = old_block_list
+
+
+
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp = []
+                            for m in accommodation_database_list:
+                                new_rewritten_database_temp.append(','.join(m))
+                            break
+
+
+                        #CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
+                        if int(refugee_number.get()) < int(updating_refugee_list[3]):
+                            #print('accom less than')
+
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(accommodation_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
+                                    that_block_list = accommodation_specific_camp_list[j]
+
                             refugee_assigned_accommodation = that_block_list[2]
                             refugee_assigned_block = that_block_list[7]
-                            xhaha = str(int(that_block_list[4]) + (int(refugee_number.get())-int(updating_refugee_list[3])))
-                            yhaha = str(int(that_block_list[6]) - (int(refugee_number.get())-int(updating_refugee_list[3])))
+                            #print('before accom update',that_block_list)
+                            xhaha = str(int(that_block_list[4]) - (int(updating_refugee_list[3]) - int(refugee_number.get())))
+                            yhaha = str(int(that_block_list[6]) + (int(updating_refugee_list[3]) - int(refugee_number.get())))
                             that_block_list[4] = xhaha
                             that_block_list[6] = yhaha
-                            print('extra space available', that_block_list)
-                        #IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW ACCOM
-                        else:
-                            for l in range(len(accommodation_specific_camp_list)):
-                                if int(accommodation_specific_camp_list[l][6]) >= (int(refugee_number.get())+1):
-                                    refugee_assigned_accommodation = accommodation_specific_camp_list[l][2]
-                                    refugee_assigned_block = accommodation_specific_camp_list[l][7]
-                                    old_block_list = that_block_list
-                                    that_block_list = accommodation_specific_camp_list[l]
-                                    xhaha = str(int(that_block_list[4]) + (int(refugee_number.get()) + 1))
-                                    yhaha = str(int(that_block_list[6]) - (int(refugee_number.get()) + 1))
-                                    that_block_list[4] = xhaha
-                                    that_block_list[6] = yhaha
 
-                                    ahaha = str(int(old_block_list[4]) - (int(refugee_number.get()) + 1))
-                                    bhaha = str(int(old_block_list[6]) + (int(refugee_number.get()) + 1))
-                                    old_block_list[4] = ahaha
-                                    old_block_list[6] = bhaha
-                                    print('no extra space availalblew new accom')
-                                    break
-                        # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
-                        for k in range(len(accommodation_database_list)):
-                            if int(accommodation_database_list[k][0]) == int(that_block_list[0]) and int(accommodation_database_list[k][1]) == int(that_block_list[1]) and accommodation_database_list[k][2] == that_block_list[2]:
-                                accommodation_database_list[k] = that_block_list
-                            if int(accommodation_database_list[k][0]) == int(old_block_list[0]) and int(accommodation_database_list[k][1]) == int(old_block_list[1]) and accommodation_database_list[k][2] == old_block_list[2]:
-                                accommodation_database_list[k] = old_block_list
+                            #print('after accom update', that_block_list)
 
-                        print(accommodation_database_list)
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(accommodation_database_list)):
+                                if int(accommodation_database_list[k][0]) == int(that_block_list[0]) and int(
+                                        accommodation_database_list[k][1]) == int(that_block_list[1]) and \
+                                        accommodation_database_list[k][2] == that_block_list[2]:
+                                    accommodation_database_list[k] = that_block_list
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp = []
+                            for m in accommodation_database_list:
+                                new_rewritten_database_temp.append(','.join(m))
+                            break
+                        # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
 
-                        # CREATE LIST OF STRINGS FROM LIST OF LISTS
-                        new_rewritten_database_temp = []
-                        for m in accommodation_database_list:
-                            new_rewritten_database_temp.append(','.join(m))
-                        break
+                    volunteer_current_wing_label = tkinter.Label(screen2,
+                                                                 text="Your refugee will be in the: %s" %
+                                                                      that_block_list[7])
+                    volunteer_current_wing_label.pack()
+                    # OUTPUT WHHICH BLOCK THEY ARE IN
+                    refugee_assigned_accommodation_label = tkinter.Label(screen2,
+                                                                         text='Your refugee accommodation will be in: %s' % (
+                                                                             refugee_assigned_accommodation))
+                    refugee_assigned_accommodation_label.pack()
+                except:
+                    tkinter.messagebox.showerror(title='Error!', message='An error occured with accommodation, it is likely due to the camp being full. Please contact admin for assistance!')
+
+                    return
 
 
-                    #CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
-                    if int(refugee_number.get()) < int(updating_refugee_list[3]):
-                        print('less than')
-
-                        # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
-                        for j in range(len(accommodation_specific_camp_list)):
-                            if int(updating_refugee_list[16]) == int(accommodation_specific_camp_list[j][1]) and int(
-                                    updating_refugee_list[0]) == int(accommodation_specific_camp_list[j][0]) and \
-                                    updating_refugee_list[12] == accommodation_specific_camp_list[j][2]:
-                                that_block_list = accommodation_specific_camp_list[j]
-
-                        refugee_assigned_accommodation = that_block_list[2]
-                        refugee_assigned_block = that_block_list[7]
-                        print(that_block_list)
-                        xhaha = str(int(that_block_list[4]) - (int(updating_refugee_list[3]) - int(refugee_number.get())))
-                        yhaha = str(int(that_block_list[6]) + (int(updating_refugee_list[3]) - int(refugee_number.get())))
-                        that_block_list[4] = xhaha
-                        that_block_list[6] = yhaha
-
-                        print(that_block_list)
-
-                        # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
-                        for k in range(len(accommodation_database_list)):
-                            if int(accommodation_database_list[k][0]) == int(that_block_list[0]) and int(
-                                    accommodation_database_list[k][1]) == int(that_block_list[1]) and \
-                                    accommodation_database_list[k][2] == that_block_list[2]:
-                                accommodation_database_list[k] = that_block_list
-                        # CREATE LIST OF STRINGS FROM LIST OF LISTS
-                        new_rewritten_database_temp = []
-                        for m in accommodation_database_list:
-                            new_rewritten_database_temp.append(','.join(m))
-                        break
-                    # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
 
 
-                volunteer_current_wing_label = tkinter.Label(screen2,
-                                                             text="Your refugee will be in the: %s" % that_block_list[7])
-                volunteer_current_wing_label.pack()
-                # OUTPUT WHHICH BLOCK THEY ARE IN
-                refugee_assigned_accommodation_label = tkinter.Label(screen2,
-                                                                     text='Your refugee accommodation will be in: %s' % (
-                                                                         refugee_assigned_accommodation))
-                refugee_assigned_accommodation_label.pack()
 
                 # MEDICAL
                 # CREATE LIST WITH MEDICAL STALLS THAT ARE IN THE SAME CAMP AND IN THE SAME WING
@@ -772,228 +859,448 @@ def modify_family():
 
                 # ITERATE THROUGH LIST TO SEE WHICH ONE IS FREE
                 # IF NONE, IT WILL SAY "NO BLOCKS AVAILABLE"
-                refugee_assigned_medical = 'No blocks available!'
 
-                check_box_1 = refugee_weight.get()
-                check_box_2 = refugee_weight_2.get()
-                if updating_refugee_list[9] == 'None':
-                    updating_refugee_list[9] = 0
-                if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
-                    num_medical_check = 0
-
-                else:
-                    if refugee_family_medical_no.get() == 'None':
+                try:
+                    check_box_1 = refugee_weight.get()
+                    check_box_2 = refugee_weight_2.get()
+                    if updating_refugee_list[9] == 'None':
+                        updating_refugee_list[9] = 0
+                    if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
                         num_medical_check = 0
+                        #print('medical no input')
+                        new_rewritten_database_temp_medic = []
+                        for m in medical_database_list:
+                            new_rewritten_database_temp_medic.append(','.join(m))
+
+
+                        refugee_assigned_medical = updating_refugee_list[13]
+
                     else:
-                        num_medical_check = (int(refugee_family_medical_no.get()))
+                        if refugee_family_medical_no.get() == 'None':
+                            num_medical_check = 0
+                        else:
+                            num_medical_check = (int(refugee_family_medical_no.get()))
 
-                    # ITERATE THROUGH LIST AND SEE WHICH ACCOMMODATION IS FREE
-                    for i in range(len(medical_specific_camp_list)):
+                        # ITERATE THROUGH LIST AND SEE WHICH ACCOMMODATION IS FREE
+                        for i in range(len(medical_specific_camp_list)):
 
-                        # CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
-                        if int(num_medical_check) == int(updating_refugee_list[9]):
-                            print('medical the same!')
+                            # CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
+                            if int(num_medical_check) == int(updating_refugee_list[9]):
+                                #print('medical the same!')
 
-                            refugee_assigned_medical = updating_refugee_list[13]
-                            new_rewritten_database_temp_medic = medical_database_list
+                                refugee_assigned_medical = updating_refugee_list[13]
 
+                                if int(updating_refugee_list[16]) == int(medical_specific_camp_list[i][1]) and int(
+                                        updating_refugee_list[0]) == int(medical_specific_camp_list[i][0]) and \
+                                        updating_refugee_list[13] == medical_specific_camp_list[i][2]:
+                                    that_medical_list = medical_specific_camp_list[i]
+                                new_rewritten_database_temp_medic = []
+                                for m in medical_database_list:
+                                    new_rewritten_database_temp_medic.append(','.join(m))
 
-                            if int(updating_refugee_list[16]) == int(medical_specific_camp_list[i][1]) and int(
-                                    updating_refugee_list[0]) == int(medical_specific_camp_list[i][0]) and \
-                                    updating_refugee_list[12] == medical_specific_camp_list[i][2]:
-                                that_medical_list = medical_specific_camp_list[i]
-                                print(that_medical_list)
+                                    break
+
+                            # CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
+                            if int(num_medical_check) > int(updating_refugee_list[9]):
+                                #print("medical bigger")
+                                # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                                for j in range(len(medical_specific_camp_list)):
+                                    if int(updating_refugee_list[16]) == int(
+                                            medical_specific_camp_list[j][1]) and int(
+                                            updating_refugee_list[0]) == int(medical_specific_camp_list[j][0]) and \
+                                            updating_refugee_list[13] == medical_specific_camp_list[j][2]:
+                                        that_medical_list = medical_specific_camp_list[j]
+
+                                # IF THERE IS EXTRA SPACE IN MED, ALLOCATE EXTRA FAM MEMBERS TO THAT MED
+                                if int(that_medical_list[6]) >= (int(num_medical_check) - int(updating_refugee_list[9])):
+                                    refugee_assigned_medical = that_medical_list[2]
+
+                                    xhaha = str(int(that_medical_list[4]) + (
+                                                int(num_medical_check) - int(updating_refugee_list[9])))
+                                    yhaha = str(int(that_medical_list[6]) - (
+                                                int(num_medical_check) - int(updating_refugee_list[9])))
+                                    that_medical_list[4] = xhaha
+                                    that_medical_list[6] = yhaha
+                                    #print("extra medic space available", that_medical_list)
+                                    old_medical_list = ''
+
+                                # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW MEDIC
+                                else:
+                                    for l in range(len(medical_specific_camp_list)):
+                                        if int(medical_specific_camp_list[l][6]) >= (int(num_medical_check)):
+                                            refugee_assigned_medical = medical_specific_camp_list[l][2]
+                                            old_medical_list = that_medical_list
+                                            that_medical_list = medical_specific_camp_list[l]
+                                            xhaha = str(int(that_medical_list[4]) + (int(num_medical_check)))
+                                            yhaha = str(int(that_medical_list[6]) - (int(num_medical_check)))
+                                            that_medical_list[4] = xhaha
+                                            that_medical_list[6] = yhaha
+                                            ahaha = str(int(old_medical_list[4]) - (int(num_medical_check)))
+                                            bhaha = str(int(old_medical_list[6]) + (int(num_medical_check)))
+                                            old_medical_list[4] = ahaha
+                                            old_medical_list[6] = bhaha
+                                            break
+                                    #print("no extra medical space available", that_medical_list)
+                                    #print('old list', old_medical_list)
+                                    # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW ACCOM
+
+                                # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                                for k in range(len(medical_database_list)):
+                                    if int(medical_database_list[k][0]) == int(that_medical_list[0]) and int(
+                                            medical_database_list[k][1]) == int(that_medical_list[1]) and \
+                                            medical_database_list[k][2] == that_medical_list[2]:
+                                        medical_database_list[k] = that_medical_list
+                                    if (int(num_medical_check) > int(updating_refugee_list[9])) and old_medical_list != '':
+                                        if int(medical_database_list[k][0]) == int(old_medical_list[0]) and int(
+                                                medical_database_list[k][1]) == int(old_medical_list[1]) and \
+                                                medical_database_list[k][2] == old_medical_list[2]:
+                                            medical_database_list[k] = old_medical_list
+
+                                # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                                new_rewritten_database_temp_medic = []
+                                for m in medical_database_list:
+                                    new_rewritten_database_temp_medic.append(','.join(m))
                                 break
 
-                        # CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
-                        if int(num_medical_check) > int(updating_refugee_list[9]):
-                            print("medical bigger")
-                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
-                            for j in range(len(medical_specific_camp_list)):
-                                if int(updating_refugee_list[16]) == int(
-                                        medical_specific_camp_list[j][1]) and int(
-                                        updating_refugee_list[0]) == int(medical_specific_camp_list[j][0]) and \
-                                        updating_refugee_list[13] == medical_specific_camp_list[j][2]:
-                                    that_medical_list = medical_specific_camp_list[j]
-                                    print(that_medical_list)
-                            # IF THERE IS EXTRA SPACE IN MED, ALLOCATE EXTRA FAM MEMBERS TO THAT MED
-                            if int(that_medical_list[6]) >= (int(num_medical_check) - int(updating_refugee_list[9])):
+                            # CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
+                            if int(num_medical_check) < int(updating_refugee_list[9]):
+                                #print('medical less than!')
+
+                                # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                                for j in range(len(medical_specific_camp_list)):
+                                    if int(updating_refugee_list[16]) == int(
+                                            medical_specific_camp_list[j][1]) and int(
+                                            updating_refugee_list[0]) == int(medical_specific_camp_list[j][0]) and \
+                                            updating_refugee_list[13] == medical_specific_camp_list[j][2]:
+                                        that_medical_list = medical_specific_camp_list[j]
+
                                 refugee_assigned_medical = that_medical_list[2]
 
-                                xhaha = str(int(that_medical_list[4]) + (
-                                            int(num_medical_check) - int(updating_refugee_list[9])))
-                                yhaha = str(int(that_medical_list[6]) - (
-                                            int(num_medical_check) - int(updating_refugee_list[9])))
+
+                                xhaha = str(
+                                    int(that_medical_list[4]) - (int(updating_refugee_list[9]) - int(num_medical_check)))
+                                yhaha = str(
+                                    int(that_medical_list[6]) + (int(updating_refugee_list[9]) - int(num_medical_check)))
                                 that_medical_list[4] = xhaha
                                 that_medical_list[6] = yhaha
-                                print("extra medic space available", that_medical_list)
+                                #print('medical new list',that_medical_list)
 
-                            # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW MEDIC
-                            else:
-                                for l in range(len(medical_specific_camp_list)):
-                                    if int(medical_specific_camp_list[l][6]) >= (int(num_medical_check)):
-                                        refugee_assigned_medical = medical_specific_camp_list[l][2]
-                                        old_medical_list = that_medical_list
-                                        that_medical_list = medical_specific_camp_list[l]
-                                        xhaha = str(int(that_medical_list[4]) + (int(num_medical_check)))
-                                        yhaha = str(int(that_medical_list[6]) - (int(num_medical_check)))
-                                        that_medical_list[4] = xhaha
-                                        that_medical_list[6] = yhaha
-                                        ahaha = str(int(old_medical_list[4]) - (int(num_medical_check)))
-                                        bhaha = str(int(old_medical_list[6]) + (int(num_medical_check)))
-                                        old_medical_list[4] = ahaha
-                                        old_medical_list[6] = bhaha
-                                        break
-                                print("no extra medical space available", that_medical_list)
-                                print(old_medical_list)
-                                # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW ACCOM
+                                # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                                for k in range(len(medical_database_list)):
+                                    if int(medical_database_list[k][0]) == int(that_medical_list[0]) and int(
+                                            medical_database_list[k][1]) == int(that_medical_list[1]) and \
+                                            medical_database_list[k][2] == that_medical_list[2]:
+                                        medical_database_list[k] = that_medical_list
 
-                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
-                            for k in range(len(medical_database_list)):
-                                if int(medical_database_list[k][0]) == int(that_medical_list[0]) and int(
-                                        medical_database_list[k][1]) == int(that_medical_list[1]) and \
-                                        medical_database_list[k][2] == that_medical_list[2]:
-                                    medical_database_list[k] = that_medical_list
-                                if int(medical_database_list[k][0]) == int(old_medical_list[0]) and int(
-                                        medical_database_list[k][1]) == int(old_medical_list[1]) and \
-                                        medical_database_list[k][2] == old_medical_list[2]:
-                                    medical_database_list[k] = old_medical_list
-                            print(medical_database_list)
-                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
-                            new_rewritten_database_temp_medic = []
-                            for m in medical_database_list:
-                                new_rewritten_database_temp_medic.append(','.join(m))
+                                # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                                new_rewritten_database_temp_medic = []
+                                for m in medical_database_list:
+                                    new_rewritten_database_temp_medic.append(','.join(m))
+                                break
+                                # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
+
+
+                    # OUTPUT WHICH MEDICAL STALL THEY WILL BE PUT INTO
+                    refugee_assigned_medical_label = tkinter.Label(screen2,
+                                                                   text='Your refugee medical stall will be in: %s' % refugee_assigned_medical)
+                    refugee_assigned_medical_label.pack()
+                except:
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='An error occured with the medical stalls, it is likely due to the camp being full. Please contact admin for assistance')
+                    return
+                # RATIONS
+                # CREATE LIST WITH TOILET STALLS SPECIFIC TO THE CAMP AND WING THEY ARE IN
+                ration_specific_camp_list = []
+                for i in range(len(ration_database_list)):
+                    if int(ration_database_list[i][0]) == int(Volunteer_Home.user_camp_id) and ration_database_list[i][
+                        7] == refugee_assigned_block:
+                        ration_specific_camp_list.append(ration_database_list[i])
+
+                # ITERATE THROUGH LIST TO SEE WHICH ONE IS FREE
+                # IF NONE, SAY "NO TOILETS AVAILABLE"
+                refugee_assigned_ration = 'No rations available!'
+                # ITERATE THROUGH LIST AND SEE WHICH ACCOMMODATION IS FREE
+                try:
+                    refugee_assigned_ration = ''
+                    for i in range(len(ration_specific_camp_list)):
+
+                        # CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
+                        if int(refugee_number.get()) == int(updating_refugee_list[3]):
+                            #print('ration equal')
+                            refugee_assigned_ration = updating_refugee_list[15]
+                            new_rewritten_database_temp_ration = []
+                            for m in ration_database_list:
+                                new_rewritten_database_temp_ration.append(','.join(m))
                             break
+
+
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR RATION
+                            for j in range(len(ration_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(ration_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(ration_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[14] == ration_specific_camp_list[j][2]:
+                                    that_ration_list = ration_specific_camp_list[j]
+
+
+
+                        # CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
+                        if int(refugee_number.get()) > int(updating_refugee_list[3]):
+                            #print("ration bigger")
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR RATION
+                            for j in range(len(ration_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(ration_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(ration_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[15] == ration_specific_camp_list[j][2]:
+                                    that_ration_list = ration_specific_camp_list[j]
+
+                            # IF THERE IS EXTRA SPACE IN RATION, ALLOCATE EXTRA FAM MEMBERS TO THAT RATION
+                            if int(that_ration_list[6]) >= (int(refugee_number.get()) - int(updating_refugee_list[3])):
+                                refugee_assigned_ration = that_ration_list[2]
+
+                                xhaha = str(
+                                    int(that_ration_list[4]) + (int(refugee_number.get()) - int(updating_refugee_list[3])))
+                                yhaha = str(
+                                    int(that_ration_list[6]) - (int(refugee_number.get()) - int(updating_refugee_list[3])))
+                                that_ration_list[4] = xhaha
+                                that_ration_list[6] = yhaha
+                                #print('extra ration space available', that_ration_list)
+                                old_ration_list = ''
+                            # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW TOILET
+                            else:
+                                for l in range(len(ration_specific_camp_list)):
+                                    if int(ration_specific_camp_list[l][6]) >= (int(refugee_number.get()) + 1):
+                                        refugee_assigned_ration = ration_specific_camp_list[l][2]
+
+                                        old_ration_list = that_ration_list
+                                        that_ration_list = ration_specific_camp_list[l]
+                                        xhaha = str(int(that_ration_list[4]) + (int(refugee_number.get()) + 1))
+                                        yhaha = str(int(that_ration_list[6]) - (int(refugee_number.get()) + 1))
+                                        that_ration_list[4] = xhaha
+                                        that_ration_list[6] = yhaha
+
+                                        ahaha = str(int(old_ration_list[4]) - (int(refugee_number.get()) + 1))
+                                        bhaha = str(int(old_ration_list[6]) + (int(refugee_number.get()) + 1))
+                                        old_ration_list[4] = ahaha
+                                        old_ration_list[6] = bhaha
+                                        #print('no extra space availalblew, new ration', that_ration_list, old_ration_list)
+                                        break
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(ration_database_list)):
+                                if int(ration_database_list[k][0]) == int(that_ration_list[0]) and int(
+                                        ration_database_list[k][1]) == int(that_ration_list[1]) and \
+                                        ration_database_list[k][2] == that_ration_list[2]:
+                                    ration_database_list[k] = that_ration_list
+                                if old_ration_list != '' and (int(refugee_number.get()) > int(updating_refugee_list[3])):
+                                    if int(ration_database_list[k][0]) == int(old_ration_list[0]) and int(
+                                            ration_database_list[k][1]) == int(old_ration_list[1]) and \
+                                            ration_database_list[k][2] == old_ration_list[2]:
+                                        ration_database_list[k] = old_ration_list
+
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp_ration = []
+                            for m in ration_database_list:
+                                new_rewritten_database_temp_ration.append(','.join(m))
+                            break
+                            #print('new ration database list', ration_database_list)
 
                         # CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
-                        if int(num_medical_check) < int(updating_refugee_list[9]):
-                            print('medical less than!')
+                        if int(refugee_number.get()) < int(updating_refugee_list[3]):
+                            #print('less than')
 
                             # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
-                            for j in range(len(medical_specific_camp_list)):
-                                if int(updating_refugee_list[16]) == int(
-                                        medical_specific_camp_list[j][1]) and int(
-                                        updating_refugee_list[0]) == int(medical_specific_camp_list[j][0]) and \
-                                        updating_refugee_list[12] == medical_specific_camp_list[j][2]:
-                                    that_medical_list = medical_specific_camp_list[j]
+                            for j in range(len(ration_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(ration_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(ration_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[15] == ration_specific_camp_list[j][2]:
+                                    that_ration_list = ration_specific_camp_list[j]
 
-                            refugee_assigned_medical = that_medical_list[2]
+                            refugee_assigned_ration = that_ration_list[2]
 
-                            #print(that_block_list)
+                            #print('ration before', that_ration_list)
                             xhaha = str(
-                                int(that_medical_list[4]) - (int(updating_refugee_list[9]) - int(num_medical_check)))
+                                int(that_ration_list[4]) - (int(updating_refugee_list[3]) - int(refugee_number.get())))
                             yhaha = str(
-                                int(that_medical_list[6]) + (int(updating_refugee_list[9]) - int(num_medical_check)))
-                            that_medical_list[4] = xhaha
-                            that_medical_list[6] = yhaha
-                            print('medical',that_medical_list)
+                                int(that_ration_list[6]) + (int(updating_refugee_list[3]) - int(refugee_number.get())))
+                            that_ration_list[4] = xhaha
+                            that_ration_list[6] = yhaha
+
+                            #print('ration after',that_ration_list)
 
                             # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
-                            for k in range(len(medical_database_list)):
-                                if int(medical_database_list[k][0]) == int(that_medical_list[0]) and int(
-                                        medical_database_list[k][1]) == int(that_medical_list[1]) and \
-                                        medical_database_list[k][2] == that_medical_list[2]:
-                                    medical_database_list[k] = that_medical_list
-
+                            for k in range(len(ration_database_list)):
+                                if int(ration_database_list[k][0]) == int(that_ration_list[0]) and int(
+                                        ration_database_list[k][1]) == int(that_ration_list[1]) and \
+                                        ration_database_list[k][2] == that_ration_list[2]:
+                                    ration_database_list[k] = that_ration_list
                             # CREATE LIST OF STRINGS FROM LIST OF LISTS
-                            new_rewritten_database_temp_medic = []
-                            for m in accommodation_database_list:
-                                new_rewritten_database_temp_medic.append(','.join(m))
+                            new_rewritten_database_temp_ration = []
+                            for m in ration_database_list:
+                                new_rewritten_database_temp_ration.append(','.join(m))
                             break
-                            # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
-
-
-                # OUTPUT WHICH MEDICAL STALL THEY WILL BE PUT INTO
-                refugee_assigned_medical_label = tkinter.Label(screen2,
-                                                               text='Your refugee medical stall will be in: %s' % refugee_assigned_medical)
-                refugee_assigned_medical_label.pack()
-
+                    refugee_assigned_ration_label = tkinter.Label(screen2,
+                                                                  text='Your refugee ration stall will be in: %s' % refugee_assigned_ration)
+                    refugee_assigned_ration_label.pack()
+                except:
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='An error occured with the ration stalls, it is likely due to the camp being full. Please contact admin for assistance')
+                    return
                 # TOILETS
                 # CREATE LIST WITH TOILET STALLS SPECIFIC TO THE CAMP AND WING THEY ARE IN
                 toilet_specific_camp_list = []
                 for i in range(len(toilet_database_list)):
-                    if int(toilet_database_list[i][0]) == int(volunteer_current_camp) and toilet_database_list[i][
-                        7] == refugee_assigned_block:
+                    if int(toilet_database_list[i][0]) == int(Volunteer_Home.user_camp_id) and \
+                            toilet_database_list[i][7] == refugee_assigned_block:
                         toilet_specific_camp_list.append(toilet_database_list[i])
 
                 # ITERATE THROUGH LIST TO SEE WHICH ONE IS FREE
                 # IF NONE, SAY "NO TOILETS AVAILABLE"
                 refugee_assigned_toilet = 'No toilets available!'
-                for i in range(len(toilet_specific_camp_list)):
-                    # CHECK IF TOILET SPACE IS GREATER THAN NO OF EXTRA FAMILY MEMBERS
-                    if int(toilet_specific_camp_list[i][6]) >= int(refugee_number.get()):
-                        refugee_assigned_toilet = toilet_specific_camp_list[i][2]
-                        that_toilet_list = toilet_specific_camp_list[i]
-                        chaha = str(int(that_toilet_list[4]) + (int(refugee_number.get()) + 1))
-                        dhaha = str(int(that_toilet_list[6]) - (int(refugee_number.get()) + 1))
-                        that_toilet_list[4] = chaha
-                        that_toilet_list[6] = dhaha
-                        #print("toilet", that_toilet_list)
+                try:
+                    refugee_assigned_toilet = ''
+                    print(len(toilet_specific_camp_list))
+                    for i in range(len(toilet_specific_camp_list)):
+                        # CONDITION 1: IF REFUGEE FAMILY NUMBER STAYS THE SAME
 
-                        # FIND ORIGINAL LINE IN LIST AND UPDATE IT WITH THE NEW LIST
-                        for j in range(len(toilet_database_list)):
-                            if toilet_database_list[j][0] == that_toilet_list[0] and toilet_database_list[j][1] == \
-                                    that_toilet_list[1]:
-                                toilet_database_list[j] = that_toilet_list
+                        if int(refugee_number.get()) == int(updating_refugee_list[3]):
+                            print('toilet equal')
+                            new_rewritten_database_temp_toilet = []
+                            for m in toilet_database_list:
+                                new_rewritten_database_temp_toilet.append(','.join(m))
+                            refugee_assigned_toilet = updating_refugee_list[14]
+                            print(new_rewritten_database_temp_toilet)
 
-                        # TURN LIST OF LISTS INTO LIST OF STRINGS
-                        new_rewritten_database_temp_toilet = []
-                        for i in toilet_database_list:
-                            new_rewritten_database_temp_toilet.append(','.join(i))
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(toilet_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(toilet_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(toilet_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[14] == toilet_specific_camp_list[j][2]:
+                                    that_toilet_list = toilet_specific_camp_list[j]
 
-                        # WRITE UPDATED TO DATABASE
 
-                        break
+                            break
 
-                # PRINT WHAT TOILET STALL THEY WILL BE IN
-                refugee_assigned_toilet_label = tkinter.Label(screen2,
-                                                              text='Your refugee toilet stall will be in: %s' % refugee_assigned_toilet)
-                refugee_assigned_toilet_label.pack()
 
-                # RATIONS
-                # GET SPECIFIC LIST OF RATIONS IN SAME CAMP AND SAME WING
-                ration_specific_camp_list = []
-                for i in range(len(ration_database_list)):
-                    if int(ration_database_list[i][0]) == int(volunteer_current_camp) and ration_database_list[i][
-                        7] == refugee_assigned_block:
-                        ration_specific_camp_list.append(ration_database_list[i])
+                        # CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
+                        if int(refugee_number.get()) > int(updating_refugee_list[3]):
+                            #print("toilet bigger")
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(toilet_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(toilet_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(toilet_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[14] == toilet_specific_camp_list[j][2]:
+                                    that_toilet_list = toilet_specific_camp_list[j]
 
-                # ITERATE THROUGH LIST TO SEE WHICH ONES AVAILABLE
-                # IF NONE AVAILABLE, SAY NO RATIONS AVAILABLE
-                refugee_assigned_ration = 'No rations available!'
-                for i in range(len(ration_specific_camp_list)):
-                    if int(ration_specific_camp_list[i][6]) >= int(refugee_number.get()):
-                        refugee_assigned_ration = ration_specific_camp_list[i][2]
-                        that_ration_list = ration_specific_camp_list[i]
-                        ehaha = str(int(that_ration_list[4]) + (int(refugee_number.get()) + 1))
-                        fhaha = str(int(that_ration_list[6]) - (int(refugee_number.get()) + 1))
-                        that_ration_list[4] = ehaha
-                        that_ration_list[6] = fhaha
-                        #print("ration", that_ration_list)
+                            # IF THERE IS EXTRA SPACE IN TOILET, ALLOCATE EXTRA FAM MEMBERS TO THAT TOILET
+                            if int(that_toilet_list[6]) >= (
+                                    int(refugee_number.get()) - int(updating_refugee_list[3])):
+                                refugee_assigned_toilet = that_toilet_list[2]
 
-                        # FIND ORIGINAL LINE IN LIST AND UPDATE IT WITH THE NEW LIST
-                        for j in range(len(ration_database_list)):
-                            if ration_database_list[j][0] == that_ration_list[0] and ration_database_list[j][1] == \
-                                    that_ration_list[1]:
-                                ration_database_list[j] = that_ration_list
+                                xhaha = str(
+                                    int(that_toilet_list[4]) + (
+                                                int(refugee_number.get()) - int(updating_refugee_list[3])))
+                                yhaha = str(
+                                    int(that_toilet_list[6]) - (
+                                                int(refugee_number.get()) - int(updating_refugee_list[3])))
+                                that_toilet_list[4] = xhaha
+                                that_toilet_list[6] = yhaha
+                                #print('extra toilet space available', that_toilet_list)
+                                old_toilet_list = ''
+                            # IF NO EXTRA SPACE, REALLOCATE EVERYONE TO NEW TOILET
+                            else:
+                                for l in range(len(toilet_specific_camp_list)):
+                                    if int(toilet_specific_camp_list[l][6]) >= (int(refugee_number.get()) + 1):
+                                        refugee_assigned_toilet = toilet_specific_camp_list[l][2]
 
-                        # TURN LIST OF LISTS INTO LIST OF STRINGS
-                        new_rewritten_database_temp_ration = []
-                        for i in ration_database_list:
-                            new_rewritten_database_temp_ration.append(','.join(i))
+                                        old_toilet_list = that_toilet_list
+                                        that_toilet_list = toilet_specific_camp_list[l]
+                                        xhaha = str(int(that_toilet_list[4]) + (int(refugee_number.get()) + 1))
+                                        yhaha = str(int(that_toilet_list[6]) - (int(refugee_number.get()) + 1))
+                                        that_toilet_list[4] = xhaha
+                                        that_toilet_list[6] = yhaha
 
-                        # WRITE UPDATED TO DATABASE
-                        break
+                                        ahaha = str(int(old_toilet_list[4]) - (int(refugee_number.get()) + 1))
+                                        bhaha = str(int(old_toilet_list[6]) + (int(refugee_number.get()) + 1))
+                                        old_toilet_list[4] = ahaha
+                                        old_toilet_list[6] = bhaha
+                                        #print('no extra space availalblew, new toilet', that_toilet_list,
 
-                # PRINT DESIGNATED LOCATION
-                refugee_assigned_ration_label = tkinter.Label(screen2,
-                                                              text='Your refugee ration stall will be in: %s' % refugee_assigned_ration)
-                refugee_assigned_ration_label.pack()
+                                        break
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(toilet_database_list)):
+                                if int(toilet_database_list[k][0]) == int(that_toilet_list[0]) and int(
+                                        toilet_database_list[k][1]) == int(that_toilet_list[1]) and \
+                                        toilet_database_list[k][2] == that_toilet_list[2]:
+                                    toilet_database_list[k] = that_toilet_list
+                                if old_toilet_list != '' and (
+                                        int(refugee_number.get()) > int(updating_refugee_list[3])):
+                                    if int(toilet_database_list[k][0]) == int(old_toilet_list[0]) and int(
+                                            toilet_database_list[k][1]) == int(old_toilet_list[1]) and \
+                                            toilet_database_list[k][2] == old_toilet_list[2]:
+                                        toilet_database_list[k] = old_toilet_list
 
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp_toilet = []
+                            for m in toilet_database_list:
+                                new_rewritten_database_temp_toilet.append(','.join(m))
+                            break
+                            #print('new toilet database list', toilet_database_list)
+
+                        # CONDITION 3: IF NEW REFUGEE NUMBER IS LESS THAN CURRENT
+                        if int(refugee_number.get()) < int(updating_refugee_list[3]):
+                            #print('less than')
+
+                            # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR ACCOMMODATION
+                            for j in range(len(toilet_specific_camp_list)):
+                                if int(updating_refugee_list[16]) == int(toilet_specific_camp_list[j][1]) and int(
+                                        updating_refugee_list[0]) == int(toilet_specific_camp_list[j][0]) and \
+                                        updating_refugee_list[14] == toilet_specific_camp_list[j][2]:
+                                    that_toilet_list = toilet_specific_camp_list[j]
+
+                            refugee_assigned_toilet = that_toilet_list[2]
+
+                            #print('toilet before', that_toilet_list)
+                            xhaha = str(
+                                int(that_toilet_list[4]) - (
+                                            int(updating_refugee_list[3]) - int(refugee_number.get())))
+                            yhaha = str(
+                                int(that_toilet_list[6]) + (
+                                            int(updating_refugee_list[3]) - int(refugee_number.get())))
+                            that_toilet_list[4] = xhaha
+                            that_toilet_list[6] = yhaha
+
+                            #print('toilet after', that_toilet_list)
+
+                            # FIND INDEX OF BLOCK IN ORIGINAL LIST AND UPDATE IT WITH NEW LIST WITH NEW VALUES
+                            for k in range(len(toilet_database_list)):
+                                if int(toilet_database_list[k][0]) == int(that_toilet_list[0]) and int(
+                                        toilet_database_list[k][1]) == int(that_toilet_list[1]) and \
+                                        toilet_database_list[k][2] == that_toilet_list[2]:
+                                    toilet_database_list[k] = that_toilet_list
+                            # CREATE LIST OF STRINGS FROM LIST OF LISTS
+                            new_rewritten_database_temp_toilet = []
+                            for m in toilet_database_list:
+                                new_rewritten_database_temp_toilet.append(','.join(m))
+                            break
+
+                    # PRINT DESIGNATED LOCATION
+                    refugee_assigned_toilet_label = tkinter.Label(screen2,
+                                                                  text='Your refugee toilet stall will be in: %s' % refugee_assigned_toilet)
+                    refugee_assigned_toilet_label.pack()
+
+                except:
+
+                    tkinter.messagebox.showerror(title='Error!',
+                                                 message='An error occured with the toilet stalls, it is likely due to the camp being full. Please contact admin for assistance')
+                    return
+                print('accom', new_rewritten_database_temp)
+                print('medic', new_rewritten_database_temp_medic)
+                print('toilet', new_rewritten_database_temp_toilet)
+                print('ration', new_rewritten_database_temp_ration)
                 return [new_rewritten_database_temp, new_rewritten_database_temp_medic,
                         new_rewritten_database_temp_toilet, new_rewritten_database_temp_ration, volunteer_current_camp,
                         current_camp_name, that_block_list[7], refugee_assigned_accommodation, refugee_assigned_medical,
-                        refugee_assigned_toilet, refugee_assigned_ration]
+                        refugee_assigned_toilet, refugee_assigned_ration, that_block_list[1]]
+
 
             def success():
                 global return_list_for_database

@@ -435,7 +435,7 @@ def create_family():
 
     def submit():
         # Creating new refugee
-        new_refugee = [""] * 17
+        new_refugee = [""] * 18
 
         # Finding index for new refugee
         if len(volunteer_database_list) == 0:
@@ -515,9 +515,10 @@ def create_family():
         new_refugee[14] = str(return_list_for_database[9])
         new_refugee[15] = str(return_list_for_database[10])
         new_refugee[16] = str(return_list_for_database[11])
+        new_refugee[17] = '\n'
         new_refugee_string = "%".join(new_refugee)
         volunteer_list_file_append = open("refugee_database.txt", "a")
-        volunteer_list_file_append.write("\n%s" % (new_refugee_string))
+        volunteer_list_file_append.write("%s" % (new_refugee_string))
         volunteer_list_file_append.close()
 
         # DISPLAY FINISH MESSAGE AND DELETE SCREENS
