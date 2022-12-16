@@ -1,14 +1,28 @@
 import sys
 import subprocess
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
-#subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'country_list'])
 from tkinter import *
+try:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'tkcalendar'])
+except Exception:
+    pass
+
+try:
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'country_list'])
+except Exception:
+    pass
+
+try:
+    subprocess.check_call([sys.executable, '-m', 'ensurepip', '--upgrade'])
+except Exception:
+    pass
+
 import hashlib
 import Register_Info
 import Volunteer_Home
 import Admin_Home
 import Camp_Lead
 import Clean_Database
+
 
 
 def main():

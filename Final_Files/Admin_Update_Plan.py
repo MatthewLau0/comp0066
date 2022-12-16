@@ -801,5 +801,3 @@ def updateexistingForm(screen):
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
-
-updateexistingForm(Tk())
