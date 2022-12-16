@@ -18,7 +18,6 @@ def createnewemergencyPlan(screen):
         global endDate
         global status
         global emergency_type_string
-        global emergency_marker_country
 
         emergency_database_file = open("emergency_database.txt", "r")
 
@@ -31,30 +30,25 @@ def createnewemergencyPlan(screen):
 
         emergency_database_file.close()
 
-        # Create the index number for the new emergency
         if len(emergency_database_list) == 0:
             new_emergency[0] = "1"
         elif len(emergency_database_list) >= 1:
             new_emergency[0] = str((int((emergency_database_list[-1])[0]) + 1))
 
-            # Create a list for the camp names already in existence
         camp_name_list = []
         for i in range(0, len(emergency_database_list)):
             camp_name_list.append((emergency_database_list[i])[1])
 
-        #Establish some variables
         startDate = "NA"
         endDate = "NA"
         status = "NA"
         emergency_type_string = "NA"
-        emergency_marker_country = "NA"
 
         CreateNewCampScreen()
 
 
     #New Camp
     def CreateNewCampScreen():
-        global New_Camp_Screen
         global camp_name
         global new_emergency
         global index_number
@@ -63,7 +57,6 @@ def createnewemergencyPlan(screen):
         global area_affected
         global startDate
         global endDate
-        global emergency_status
         global status_check_yes
         global status_check_no
         global start_date_calendar
@@ -78,10 +71,6 @@ def createnewemergencyPlan(screen):
         global emergency_type_earthquake_check
         global emergency_type_tsunami_check
         global emergency_type_other_check
-        global emergency_marker
-        global emergency_marker_country
-        global Create_New_Emergency_Home_Screen
-        global emergency_map
         global emergency_type_frame
         global calendar_frame
         global close_date_label
@@ -89,7 +78,6 @@ def createnewemergencyPlan(screen):
         global emergency_type_label_other
         global emergency_type_other_entry
         global emergency_type_other_button
-        global map_confirm
         global camp_name_label
         global emergency_type_label
         global emergency_description_label
@@ -104,7 +92,6 @@ def createnewemergencyPlan(screen):
         emergency_type = StringVar()
         emergency_description = StringVar()
         area_affected = StringVar()
-        emergency_status = StringVar()
 
         New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency camp. Please follow the below instructions")
         New_Camp_Screen_Label.pack()
@@ -557,7 +544,6 @@ def createnewemergencyPlan(screen):
         global startDate
         global endDate
         global status
-        global Create_New_Emergency_Home_Screen
         global emergency_marker_country
         global emergency_type_string
         global New_Emergency_Close_Screen
