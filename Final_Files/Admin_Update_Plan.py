@@ -14,7 +14,6 @@ def updateexistingForm(screen):
         global endDate
         global status
         global emergency_type_string
-        global emergency_marker_country_update
         global emergency_database_list
         global camp_name_list
         global select_index_frame
@@ -31,7 +30,6 @@ def updateexistingForm(screen):
         endDate = "NA"
         status = "NA"
         emergency_type_string = "NA"
-        emergency_marker_country_update = "NA"
 
         camp_name_list = []
         for i in range(0, len(emergency_database_list)):
