@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import datetime
 from tkcalendar import Calendar
+from tkcalendar import DateEntry
 from country_list import countries_for_language
 
 def updateexistingForm(screen):
@@ -310,6 +311,17 @@ def updateexistingForm(screen):
         emergency_type_drought = IntVar()
         emergency_type_other = IntVar()
 
+        if updating_camp_list[2] == "Flood":
+            emergency_type_flood = IntVar(value=1)
+        elif updating_camp_list[2] == "Tsunami":
+            emergency_type_tsunami = IntVar(value=1)
+        elif updating_camp_list[2] == "Earthquake":
+            emergency_type_earthquake = IntVar(value=1)
+        elif updating_camp_list[2] == "Drought":
+            emergency_type_drought = IntVar(value=1)
+        else:
+            emergency_type_other = IntVar(value=1)
+
         emergency_type_flood_check = Checkbutton(emergency_type_frame, variable=emergency_type_flood, onvalue=1, offvalue=0,
                                                  text="Flood", command=clickFlood)
         emergency_type_flood_check.pack(side=LEFT)
@@ -333,6 +345,11 @@ def updateexistingForm(screen):
         emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
         emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
 
+
+        if updating_camp_list[2] != "Flood" and updating_camp_list[2] != "Tsunami" and updating_camp_list[2] != "Earthquake" and updating_camp_list[2] != "Drought":
+            presetOther()
+            emergency_type_other_entry.insert(0, f"{updating_camp_list[2]}")
+
         emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
@@ -352,12 +369,15 @@ def updateexistingForm(screen):
         calendar_frame.pack()
 
         from datetime import date
+        from datetime import datetime
         today = date.today()
+        startdateOriginal = datetime.strptime(updating_camp_list[5], "%Y-%m-%d")
 
         start_date_label = Label(calendar_frame_label,
                                  text="Start Date")
         start_date_label.pack(side=LEFT)
         start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
+        start_date_calendar.selection_set(startdateOriginal)
         start_date_calendar.pack(side=LEFT)
         close_date_label = Label(calendar_frame_label,
                                  text="Close date", state=DISABLED, font=('.AppleSystemUIFont', 13, 'bold'))
@@ -416,6 +436,16 @@ def updateexistingForm(screen):
 
         submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=generateEndDate)
         submit_updated_emergency_button.pack()
+
+    def presetOther():
+        emergency_type_label_other.config(state=NORMAL)
+        emergency_type_other_entry.config(state=NORMAL)
+        emergency_type_other_button.config(state=NORMAL)
+        emergency_type_tsunami_check.config(state=DISABLED)
+        emergency_type_earthquake_check.config(state=DISABLED)
+        emergency_type_drought_check.config(state=DISABLED)
+        emergency_type_flood_check.config(state=DISABLED)
+
 
 
     def clickFlood():
@@ -772,3 +802,5 @@ def updateexistingForm(screen):
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
+
+updateexistingForm(Tk())
