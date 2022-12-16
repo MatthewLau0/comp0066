@@ -337,31 +337,48 @@ def create_family():
         # ITERATE THROUGH LIST AND SEE IF WE CAN ADD FAMILY TO CAMP
         # IF NOT, ERROR MESSAGE WILL POP UP AND SAY TO REDUCE FAM SIZE OR CONTACT ADMIN
 
+
+        var_accom_counter = 0
+        var_medical_counter = 0
+        var_toilet_counter = 0
+        var_ration_counter = 0
+
         if len(accommodation_specific_camp_list_test) > 0:
             for i in range(len(accommodation_specific_camp_list_test)):
                 if int(accommodation_specific_camp_list_test[i][6]) >= int(total_lol):
-                    if int(medical_specific_camp_list_test[i][6]) >= (num_medical_check):
-                        if int(toilet_specific_camp_list_test[i][6]) >= int(total_lol):
-                            if int(rations_specific_camp_list_test[i][6]) >= int(total_lol):
-                                break
-                            else:
-                                tkinter.messagebox.showerror(title='Error!',
-                                                             message='Not enough space in this camp for rations! Change number of family members or contact the admin')
-                                return
-                        else:
-                            tkinter.messagebox.showerror(title='Error!',
-                                                         message='Not enough space in this camp for toilets! Change number of family members or contact the admin')
-                            return
+                    var_accom_counter = var_accom_counter + 1
 
-                    else:
-                        tkinter.messagebox.showerror(title='Error!',
-                                                     message='Not enough space in this camp for medical! Change number of family members with conditions or contact the admin')
-                        return
+                if int(medical_specific_camp_list_test[i][6]) >= (num_medical_check):
+                    var_medical_counter = var_medical_counter + 1
 
-                else:
-                    tkinter.messagebox.showerror(title='Error!',
-                                                 message='Not enough space in this camp for accommodation! Change number of family members or contact the admin')
-                    return
+                if int(toilet_specific_camp_list_test[i][6]) >= int(total_lol):
+                    var_toilet_counter = var_toilet_counter + 1
+
+                if int(rations_specific_camp_list_test[i][6]) >= int(total_lol):
+                    var_ration_counter = var_ration_counter + 1
+
+            if var_accom_counter < 1:
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='Not enough space in this camp for accommodation! Change number of family members or contact the admin')
+                return
+
+            if var_medical_counter < 1:
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='Not enough space in this camp for medical! Change number of family members with conditions or contact the admin')
+                return
+
+            if var_toilet_counter < 1:
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='Not enough space in this camp for toilets! Change number of family members or contact the admin')
+                return
+
+            if var_ration_counter < 1:
+                tkinter.messagebox.showerror(title='Error!',
+                                             message='Not enough space in this camp for rations! Change number of family members or contact the admin')
+                return
+
+
+
         else:
             tkinter.messagebox.showerror(title='Error!',
                                          message='Not enough space in this camp for accommodation! Change number of family members or contact the admin')
@@ -807,62 +824,62 @@ def create_family():
         update_refugee_button = Button(screen2, text="Change details", command=delete2)
         update_refugee_button.pack()
 
-    def refugee_text_on():
+    def refugee_text_on(self):
         if refugee_name_entry.get() == 'Enter refugee name...':
             refugee_name_entry.delete(0, "end")  # delete all the text in the entry
             refugee_name_entry.insert(0, '')  # Insert blank for user input
             refugee_name_entry.config(fg='black')
 
-    def refugee_text_off():
+    def refugee_text_off(self):
         if refugee_name_entry.get() == '':
             refugee_name_entry.insert(0, 'Enter refugee name...')
             refugee_name_entry.config(fg='grey')
 
-    def refugee_number_on():
+    def refugee_number_on(self):
         if refugee_number_entry.get() == 'Enter no. of family members...':
             refugee_number_entry.delete(0, "end")  # delete all the text in the entry
             refugee_number_entry.insert(0, '')  # Insert blank for user input
             refugee_number_entry.config(fg='black')
 
-    def refugee_number_off():
+    def refugee_number_off(self):
         if refugee_number_entry.get() == '':
             refugee_number_entry.insert(0, 'Enter no. of family members...')
             refugee_number_entry.config(fg='grey')
 
-    def refugee_sex_on():
+    def refugee_sex_on(self):
         if refugee_sex_entry.get() == 'Select or type your sex...':
             refugee_sex_entry.delete(0, "end")  # delete all the text in the entry
             refugee_sex_entry.insert(0, '')  # Insert blank for user input
             refugee_sex_entry.config(foreground='black')
 
-    def refugee_sex_off():
+    def refugee_sex_off(self):
         if refugee_sex_entry.get() == '':
             refugee_sex_entry.insert(0, 'Select or type your sex...')
             refugee_sex_entry.config(foreground='grey')
 
-    def refugee_first_address_on():
+    def refugee_first_address_on(self):
         if refugee_first_address_entry.get() == 'Address Line 1':
             refugee_first_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_first_address_entry.insert(0, '')  # Insert blank for user input
             refugee_first_address_entry.config(fg='black')
 
-    def refugee_first_address_off():
+    def refugee_first_address_off(self):
         if refugee_first_address_entry.get() == '':
             refugee_first_address_entry.insert(0, 'Address Line 1')
             refugee_first_address_entry.config(fg='grey')
 
-    def refugee_city_address_on():
+    def refugee_city_address_on(self):
         if refugee_city_address_entry.get() == 'Town/City':
             refugee_city_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_city_address_entry.insert(0, '')  # Insert blank for user input
             refugee_city_address_entry.config(fg='black')
 
-    def refugee_city_address_off():
+    def refugee_city_address_off(self):
         if refugee_city_address_entry.get() == '':
             refugee_city_address_entry.insert(0, 'Town/City')
             refugee_city_address_entry.config(fg='grey')
 
-    def refugee_postcode_address_on():
+    def refugee_postcode_address_on(self):
         if refugee_postcode_address_entry.get() == 'Postcode':
             refugee_postcode_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_postcode_address_entry.insert(0, '')  # Insert blank for user input
@@ -873,24 +890,24 @@ def create_family():
             refugee_postcode_address_entry.insert(0, 'Postcode')
             refugee_postcode_address_entry.config(fg='grey')
 
-    def refugee_country_address_on():
+    def refugee_country_address_on(self):
         if refugee_country_address_entry.get() == 'Use dropdown or type to select country...':
             refugee_country_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_country_address_entry.insert(0, '')  # Insert blank for user input
             refugee_country_address_entry.config(foreground='black')
 
-    def refugee_country_address_off():
+    def refugee_country_address_off(self):
         if refugee_country_address_entry.get() == '':
             refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
             refugee_country_address_entry.config(foreground='grey')
 
-    def refugee_height_on():
+    def refugee_height_on(self):
         if refugee_height_entry.get() == 'Enter all relevant medical conditions...':
             refugee_height_entry.delete(0, "end")  # delete all the text in the entry
             refugee_height_entry.insert(0, '')  # Insert blank for user input
             refugee_height_entry.config(fg='black')
 
-    def refugee_height_off():
+    def refugee_height_off(self):
         if refugee_height_entry.get() == '':
             refugee_height_entry.insert(0, 'Enter all relevant medical conditions...')
             refugee_height_entry.config(fg='grey')
@@ -1160,3 +1177,4 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
+

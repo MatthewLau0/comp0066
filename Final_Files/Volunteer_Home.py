@@ -446,3 +446,4 @@ def volunteer_home_page():
 
     refugee_home.mainloop()
 
+volunteer_home_page()
