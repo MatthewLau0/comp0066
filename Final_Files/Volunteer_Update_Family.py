@@ -7,12 +7,6 @@ import Volunteer_Home
 
 def modify_family():
 
-
-
-    # WILL REPLACE THIS VARIABLE WITH VARIABLE OF THEIR LOGIN FROM LOGIN PAGE
-    # CURRENTLY SET TO A VALUE OF 1
-    CAMP_COLUMN_NUM = 0
-
     # OPENING CURRENT VOLUNTEER DATABASE AND READING IT INTO LIST
     open_volunteer_file = open("volunteer_database.txt", 'r')
     volunteer_actual_database_list = []
@@ -66,17 +60,7 @@ def modify_family():
 
     def delete_update_screen():
         update_screen.destroy()
-    def delete1():
-        screen1.destroy()
-    def error_one():
-        global screen1
-        screen1 = tkinter.Toplevel(update_screen)
-        screen1.geometry("300x120")
-        screen1.title("Warning!")
-        noinput_error_text = tkinter.Label(screen1, text="Please select an index!", fg='red')
-        noinput_error_text.place(x=80, y=30)
-        close_button = tkinter.Button(screen1, text="I understand", command=delete1)
-        close_button.place(x=95, y=80)
+
 
     def confirm_update():
         if refugee_button.get() == '':
@@ -84,9 +68,9 @@ def modify_family():
             return
 
         volunteer_database_list_index_confirm = []
-        for i in range(0, len(volunteer_database_list)):
-            volunteer_database_list_index_confirm.append((volunteer_database_list[i])[1])
-            i += 1
+        for d in range(0, len(volunteer_database_list)):
+            volunteer_database_list_index_confirm.append((volunteer_database_list[d])[1])
+            d += 1
         if refugee_button.get() not in volunteer_database_list_index_confirm:
             tkinter.messagebox.showerror(title= 'Error!', message= 'Please ensure volunteer ID is valid')
             return
@@ -195,8 +179,7 @@ def modify_family():
                 # GET ALL THE VALUES ENTERED ON THE FORM
                 name = refugee_name.get().strip()
                 number = refugee_number.get().strip()
-                dob = refugee_dob_calendar.selection_get()
-                age = str(calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y")))
+
                 sex = refugee_sex.get()
 
                 first_address = refugee_first_address.get().strip()
@@ -205,7 +188,7 @@ def modify_family():
                 country_address = refugee_country_address.get().strip()
 
                 conditions = refugee_height.get()
-                no_fam_conditions = refugee_family_medical_no.get()
+
 
                 # CHECKING FOR ERRORS IN NAME
                 if name == "" or name == "Enter refugee name...":
@@ -421,13 +404,6 @@ def modify_family():
 
                 total_lol = int(number) + 1
 
-                check_box_1 = refugee_weight.get()
-                check_box_2 = refugee_weight_2.get()
-                if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
-                    num_medical_check = 0
-                else:
-                    num_medical_check = (int(refugee_family_medical_no.get()))
-
                 # ITERATE THROUGH LIST AND SEE IF WE CAN ADD FAMILY TO CAMP
                 # IF NOT, ERROR MESSAGE WILL POP UP AND SAY TO REDUCE FAM SIZE OR CONTACT ADMIN
                 len_accom = len(accommodation_specific_camp_list_test)
@@ -503,8 +479,7 @@ def modify_family():
                 '''
                 success()
 
-            def delete1():
-                screen1.destroy()
+
             def delete2():
                 screen2.destroy()
             def delete0():
@@ -866,7 +841,6 @@ def modify_family():
                     if updating_refugee_list[9] == 'None':
                         updating_refugee_list[9] = 0
                     if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
-                        num_medical_check = 0
                         #print('medical no input')
                         new_rewritten_database_temp_medic = []
                         for m in medical_database_list:
@@ -1031,8 +1005,6 @@ def modify_family():
                             new_rewritten_database_temp_ration = []
                             for m in ration_database_list:
                                 new_rewritten_database_temp_ration.append(','.join(m))
-                            break
-
 
                             # FINDING SPECIFIC LIST THE CURRENT REFUGEE IS ASSIGNED TO FOR RATION
                             for j in range(len(ration_specific_camp_list)):
@@ -1040,7 +1012,7 @@ def modify_family():
                                         updating_refugee_list[0]) == int(ration_specific_camp_list[j][0]) and \
                                         updating_refugee_list[14] == ration_specific_camp_list[j][2]:
                                     that_ration_list = ration_specific_camp_list[j]
-
+                            break
 
 
                         # CONDITION 2: IF NEW REFUGEE NUMBER IS GREATER THAN CURRENT
@@ -1154,7 +1126,7 @@ def modify_family():
 
                 # ITERATE THROUGH LIST TO SEE WHICH ONE IS FREE
                 # IF NONE, SAY "NO TOILETS AVAILABLE"
-                refugee_assigned_toilet = 'No toilets available!'
+
                 try:
                     refugee_assigned_toilet = ''
                     print(len(toilet_specific_camp_list))
@@ -1446,16 +1418,6 @@ def modify_family():
                     refugee_postcode_address_entry.insert(0, 'Postcode')
                     refugee_postcode_address_entry.config(fg='grey')
 
-            def refugee_weight_on(self):
-                if refugee_weight_entry.get() == 'Enter weight in kg...':
-                    refugee_weight_entry.delete(0, "end")  # delete all the text in the entry
-                    refugee_weight_entry.insert(0, '')  # Insert blank for user input
-                    refugee_weight_entry.config(fg='black')
-
-            def refugee_weight_off(self):
-                if refugee_weight_entry.get() == '':
-                    refugee_weight_entry.insert(0, 'Enter weight in kg...')
-                    refugee_weight_entry.config(fg='grey')
 
             def refugee_height_on(self):
                 if refugee_height_entry.get() == 'Enter all relevant medical conditions...':
@@ -1519,9 +1481,7 @@ def modify_family():
             refugee_dob_text.place(x=20, y=250)
             today = datetime.date.today()
             max = datetime.date(1904, 2, 11)
-            # max is oldest person alive!
-            actual_dob = datetime.datetime.strptime(updating_refugee_list[4], "%d/%m/%Y")
-            #HTEARUYEOIUYREOIQUIOREIOUREQWUOIREWQU
+            # max is the oldest person alive!
             days_birth = updating_refugee_list[4]
             days_birth_list = days_birth.split('/')
             refugee_dob_calendar = tkcalendar.Calendar(update_current_refugee, date_pattern="d/m/y", selectmode='day',
@@ -1650,7 +1610,7 @@ def modify_family():
                         refugee_family_medical_no_option = tkinter.ttk.Combobox(update_current_refugee,
                                                                                 textvariable=refugee_family_medical_no,
                                                                                 values=refugee_family_num)
-                        no_of_conditions = updating_refugee_list[9]
+
 
                         refugee_family_medical_no_option.place(x=300, y=650, width=50)
 
@@ -1661,7 +1621,18 @@ def modify_family():
                             refugee_family_medical_no_option = tkinter.OptionMenu(update_current_refugee, refugee_family_medical_no,
                                                                                   int(refugee_fam_num))
                             refugee_family_medical_no_option.place(x=300, y=650)
-                    refugee_family_medical_no.set(refugee_family_medical_no.get())
+
+                    no_conditions_for_button = updating_refugee_list[9]
+                    if no_conditions_for_button == 'None':
+                        no_conditions_for_button = 0
+                        refugee_family_medical_no.set(int(no_conditions_for_button))
+                    else:
+                        try:
+                            no_conditions_for_button = int(no_conditions_for_button)
+                            refugee_family_medical_no.set(int(no_conditions_for_button))
+                        except:
+                            pass
+
 
                 else:
                     refugee_height.set('Enter any medical conditions...')

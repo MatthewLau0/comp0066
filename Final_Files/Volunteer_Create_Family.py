@@ -84,8 +84,6 @@ def create_family():
         # GET ALL THE VALUES ENTERED ON THE FORM
         name = refugee_name.get().strip()
         number = refugee_number.get().strip()
-        dob = refugee_dob_calendar.selection_get()
-        age = str(calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y")))
         sex = refugee_sex.get()
 
         first_address = refugee_first_address.get().strip()
@@ -240,7 +238,7 @@ def create_family():
                 return
 
         address_list = [first_address, city_address, postcode_address, country_address]
-        address = ', '.join(address_list)
+
 
         # CHECK FOR ERRORS IN CHECKBOX
         check_box_1 = refugee_weight.get()
@@ -576,8 +574,8 @@ def create_family():
 
                 # CREATE LIST OF STRINGS FROM LIST OF LISTS
                 new_rewritten_database_temp = []
-                for i in accommodation_database_list:
-                    new_rewritten_database_temp.append(','.join(i))
+                for s in accommodation_database_list:
+                    new_rewritten_database_temp.append(','.join(s))
 
                 # WRITE NEW LIST INTO ACCOMMODATION TEXT FILE
 
@@ -603,7 +601,7 @@ def create_family():
         # ITERATE THROUGH LIST TO SEE WHICH ONE IS FREE
         # IF NONE, IT WILL SAY "NO BLOCKS AVAILABLE"
         refugee_assigned_medical = 'No blocks available!'
-        total_lol = int(refugee_number.get()) + 1
+
 
         check_box_1 = refugee_weight.get()
         check_box_2 = refugee_weight_2.get()
@@ -809,62 +807,62 @@ def create_family():
         update_refugee_button = Button(screen2, text="Change details", command=delete2)
         update_refugee_button.pack()
 
-    def refugee_text_on(self):
+    def refugee_text_on():
         if refugee_name_entry.get() == 'Enter refugee name...':
             refugee_name_entry.delete(0, "end")  # delete all the text in the entry
             refugee_name_entry.insert(0, '')  # Insert blank for user input
             refugee_name_entry.config(fg='black')
 
-    def refugee_text_off(self):
+    def refugee_text_off():
         if refugee_name_entry.get() == '':
             refugee_name_entry.insert(0, 'Enter refugee name...')
             refugee_name_entry.config(fg='grey')
 
-    def refugee_number_on(self):
+    def refugee_number_on():
         if refugee_number_entry.get() == 'Enter no. of family members...':
             refugee_number_entry.delete(0, "end")  # delete all the text in the entry
             refugee_number_entry.insert(0, '')  # Insert blank for user input
             refugee_number_entry.config(fg='black')
 
-    def refugee_number_off(self):
+    def refugee_number_off():
         if refugee_number_entry.get() == '':
             refugee_number_entry.insert(0, 'Enter no. of family members...')
             refugee_number_entry.config(fg='grey')
 
-    def refugee_sex_on(self):
+    def refugee_sex_on():
         if refugee_sex_entry.get() == 'Select or type your sex...':
             refugee_sex_entry.delete(0, "end")  # delete all the text in the entry
             refugee_sex_entry.insert(0, '')  # Insert blank for user input
             refugee_sex_entry.config(foreground='black')
 
-    def refugee_sex_off(self):
+    def refugee_sex_off():
         if refugee_sex_entry.get() == '':
             refugee_sex_entry.insert(0, 'Select or type your sex...')
             refugee_sex_entry.config(foreground='grey')
 
-    def refugee_first_address_on(self):
+    def refugee_first_address_on():
         if refugee_first_address_entry.get() == 'Address Line 1':
             refugee_first_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_first_address_entry.insert(0, '')  # Insert blank for user input
             refugee_first_address_entry.config(fg='black')
 
-    def refugee_first_address_off(self):
+    def refugee_first_address_off():
         if refugee_first_address_entry.get() == '':
             refugee_first_address_entry.insert(0, 'Address Line 1')
             refugee_first_address_entry.config(fg='grey')
 
-    def refugee_city_address_on(self):
+    def refugee_city_address_on():
         if refugee_city_address_entry.get() == 'Town/City':
             refugee_city_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_city_address_entry.insert(0, '')  # Insert blank for user input
             refugee_city_address_entry.config(fg='black')
 
-    def refugee_city_address_off(self):
+    def refugee_city_address_off():
         if refugee_city_address_entry.get() == '':
             refugee_city_address_entry.insert(0, 'Town/City')
             refugee_city_address_entry.config(fg='grey')
 
-    def refugee_postcode_address_on(self):
+    def refugee_postcode_address_on():
         if refugee_postcode_address_entry.get() == 'Postcode':
             refugee_postcode_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_postcode_address_entry.insert(0, '')  # Insert blank for user input
@@ -875,35 +873,24 @@ def create_family():
             refugee_postcode_address_entry.insert(0, 'Postcode')
             refugee_postcode_address_entry.config(fg='grey')
 
-    def refugee_country_address_on(self):
+    def refugee_country_address_on():
         if refugee_country_address_entry.get() == 'Use dropdown or type to select country...':
             refugee_country_address_entry.delete(0, "end")  # delete all the text in the entry
             refugee_country_address_entry.insert(0, '')  # Insert blank for user input
             refugee_country_address_entry.config(foreground='black')
 
-    def refugee_country_address_off(self):
+    def refugee_country_address_off():
         if refugee_country_address_entry.get() == '':
             refugee_country_address_entry.insert(0, 'Use dropdown or type to select country...')
             refugee_country_address_entry.config(foreground='grey')
 
-    def refugee_weight_on(self):
-        if refugee_weight_entry.get() == 'Enter weight in kg...':
-            refugee_weight_entry.delete(0, "end")  # delete all the text in the entry
-            refugee_weight_entry.insert(0, '')  # Insert blank for user input
-            refugee_weight_entry.config(fg='black')
-
-    def refugee_weight_off(self):
-        if refugee_weight_entry.get() == '':
-            refugee_weight_entry.insert(0, 'Enter weight in kg...')
-            refugee_weight_entry.config(fg='grey')
-
-    def refugee_height_on(self):
+    def refugee_height_on():
         if refugee_height_entry.get() == 'Enter all relevant medical conditions...':
             refugee_height_entry.delete(0, "end")  # delete all the text in the entry
             refugee_height_entry.insert(0, '')  # Insert blank for user input
             refugee_height_entry.config(fg='black')
 
-    def refugee_height_off(self):
+    def refugee_height_off():
         if refugee_height_entry.get() == '':
             refugee_height_entry.insert(0, 'Enter all relevant medical conditions...')
             refugee_height_entry.config(fg='grey')
