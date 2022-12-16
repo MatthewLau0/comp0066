@@ -605,7 +605,6 @@ def add_calendar():
         volunteer_write_new = open("volunteer_database.txt", 'w')
         for i in range(len(new_rewritten_volunteer_temp)):
             volunteer_write_new.write(new_rewritten_volunteer_temp[i])
-            print(new_rewritten_volunteer_temp[i])
         volunteer_write_new.close()
 
 
