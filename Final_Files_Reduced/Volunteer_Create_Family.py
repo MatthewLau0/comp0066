@@ -86,6 +86,16 @@ def create_family():
         number = refugee_number.get().strip()
         sex = refugee_sex.get()
 
+        ref_year = refugee_year.get()
+        ref_month = refugee_month.get()
+        ref_day = refugee_day.get()
+
+        ref_year = int(ref_year)
+        ref_day = int(ref_day)
+
+        ref_dob_list = ','.join([str(ref_day), str(ref_month), str(ref_year)])
+        refugee_dob_calendar = datetime.datetime.strptime(ref_dob_list, '%d,%B,%Y')
+
         first_address = refugee_first_address.get().strip()
         city_address = refugee_city_address.get().strip()
         postcode_address = refugee_postcode_address.get().strip()
@@ -457,12 +467,26 @@ def create_family():
             new_refugee[1] = "1"
         elif len(volunteer_database_list) >= 1:
             new_refugee[1] = str((int((volunteer_database_list[-1])[1]) + 1))
+        name = refugee_name.get().strip()
+        number = refugee_number.get().strip()
+        sex = refugee_sex.get()
+
+        ref_year = refugee_year.get()
+        ref_month = refugee_month.get()
+        ref_day = refugee_day.get()
+
+        ref_year = int(ref_year)
+        ref_day = int(ref_day)
+
+        ref_dob_list = ','.join([str(ref_day), str(ref_month), str(ref_year)])
+        refugee_dob_calendar = datetime.datetime.strptime(ref_dob_list, '%d,%B,%Y')
+        refugee_dob_calendar_string = refugee_dob_calendar.strftime("%d,%m,%Y")
 
         # GET ALL VALUES
         name = refugee_name.get()
         number = refugee_number.get()
-        dob = refugee_dob_calendar.get_date()
-        age = str(calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y")))
+        dob = refugee_dob_calendar_string
+        age = str(calculate_age(refugee_dob_calendar))
         sex = refugee_sex.get()
         num_of_fam = refugee_family_medical_no.get()
         if int(num_of_fam) == 0:
@@ -752,6 +776,17 @@ def create_family():
         screen2.geometry("500x650")
         screen2.title("Confirm refugee submission")
 
+        ref_year = refugee_year.get()
+        ref_month = refugee_month.get()
+        ref_day = refugee_day.get()
+
+        ref_year = int(ref_year)
+        ref_day = int(ref_day)
+
+        ref_dob_list = ','.join([str(ref_day), str(ref_month), str(ref_year)])
+        refugee_dob_calendar = datetime.datetime.strptime(ref_dob_list, '%d,%B,%Y')
+        refugee_dob_calendar_string = refugee_dob_calendar.strftime("%d,%m,%Y")
+
         # DISPLAYS SUMMED UP INFO
         refugee_confirmation = Label(screen2,
                                              text="Please check the summary of details below to add to the database:",
@@ -770,11 +805,11 @@ def create_family():
         sex_confirmation.pack()
 
         dob_confirmation = Label(screen2,
-                                         text="The date of birth you are entering is: %s" % refugee_dob_calendar.get_date())
+                                         text="The date of birth you are entering is: %s" % refugee_dob_calendar_string)
         dob_confirmation.pack()
 
         age_confirmation = Label(screen2, text="This means their age is: %s" % str(
-            calculate_age(datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y"))))
+            calculate_age(refugee_dob_calendar)))
         age_confirmation.pack()
 
         first_address = refugee_first_address.get()
@@ -971,12 +1006,40 @@ def create_family():
     refugee_dob_text = Label(screen, text="Date of Birth*: ")
     refugee_dob_text.place(x=20, y=220)
     today = datetime.date.today()
+    '''
     max = datetime.date(1904, 2, 11)
+    
     # max is oldest person alive!
     refugee_dob_calendar = tkcalendar.Calendar(screen, date_pattern="d/m/y", selectmode='day',
                                                font='Arial 12', foreground='black', maxdate=today,
                                                mindate=max)
     refugee_dob_calendar.place(x=190, y=220)
+    '''
+    day_list = [d for d in range(1,32)]
+    month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    year_list = [m for m in range(1900, 2023)]
+    year_list.reverse()
+
+    refugee_year = StringVar()
+    refugee_month = StringVar()
+    refugee_day = StringVar()
+
+    refugee_year_text = Label(screen, text='Year:')
+    refugee_year_text.place(x=175, y=220)
+    refugee_year_combo = tkinter.ttk.Combobox(screen, textvariable=refugee_year, values=year_list)
+    refugee_year_combo.place(x=300, y=220, width=100)
+
+    refugee_month_text = Label(screen, text='Month ')
+    refugee_month_text.place(x=175, y=280)
+    refugee_month_combo = tkinter.ttk.Combobox(screen, textvariable=refugee_month, values=month_list)
+    refugee_month_combo.place(x=300, y=280, width=100)
+
+    refugee_day_text = Label(screen, text='Day: ')
+    refugee_day_text.place(x=175, y=340)
+    refugee_day_combo = tkinter.ttk.Combobox(screen, textvariable=refugee_day, values=day_list)
+    refugee_day_combo.place(x=300, y=340, width=100)
+
+
 
     # REFUGEE ADDRESS STUFF
     refugee_address_text = Label(screen, text="Address:")
@@ -1177,3 +1240,4 @@ def create_family():
 
     screen.mainloop()
 
+create_family()
