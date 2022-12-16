@@ -1,12 +1,2 @@
 1%CampNorway%Tsunami%Tsunami in camp 1%Norge%2022-12-01%NA%Active
 2%CampGermany%Flood%Flood in Camp Germany%Deutschland%2022-11-14%2022-11-16%Closed
-3%CampSpain%Famine%Famine in Camp Spain%Spain%2022-12-12%NA%Active
-4%CampRussia%Tsunami%Tsunami in Russia%Russia%2022-12-13%NA%Active
-5%CampEngland%Tsunami%Tsunami in Camp England%France%2022-12-05%NA%Active
-6%CampItaly%Tsunami%Famine in Italy%Italy%2022-11-15%NA%Active
-7%CampArgentina%Drought%Drought in Argentina%Argentina%2022-11-15%2022-12-13%Closed
-8%CampPortugal%Drought%Drought in Portugal%Portugal%2022-12-13%2022-12-14%Closed
-9%CampDenmark%Earthquake%Earthquake in Denmark%Denmark%2022-11-14%2022-12-21%Closed
-10%CampFinland%Earthquake%Earthquake in Finland%Finland%2022-09-20%2023-01-12%Closed
-11%CampJapan%Drought%Drought in Japan%Japan%2022-11-07%NA%Active
-12%CampIceland%Drought%Drought in Iceland%Iceland%2022-11-16%NA%Active
