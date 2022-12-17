@@ -3,12 +3,10 @@ import datetime
 import tkcalendar
 import tkinter.messagebox
 import tkinter.ttk
-import Volunteer_Home
-
 
 
 def create_family():
-
+    import Volunteer_Home
     # Opening current database and reading it into a list
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
@@ -1217,22 +1215,50 @@ def create_family():
         else:
             refugee_height.set('Enter any medical conditions...')
             refugee_weight_entry.config(state='normal')
+    def medical_condition_validate():
+        condition = refugee_weight.get().capitalize()
 
+        if condition != 'Yes' and condition != 'No' and condition != '':
+            tkinter.messagebox.showerror(title='Error!', message= 'Please enter Yes or No')
+            return
+        else:
+            pass
+
+
+        return True
     # MEDICAL CONDITIONS CHECKBOX
     refugee_weight_text = Label(screen, text="Do you or your family have\n any medical conditions?*")
     refugee_weight_text.place(x=20, y=540)
-    refugee_weight = IntVar()
-    refugee_weight_2 = IntVar()
-
-    refugee_weight_entry = Checkbutton(screen, variable=refugee_weight, onvalue=1, offvalue=2,
-                                               text="Yes", command=clickYes)
-    refugee_weight_entry_2 = Checkbutton(screen, variable=refugee_weight_2, onvalue=1,
-                                                 offvalue=2,
-                                                 text="No", command=clickNo)
+    refugee_weight = StringVar()
 
 
-    refugee_weight_entry.place(x=300, y=540)
-    refugee_weight_entry_2.place(x=300, y=560)
+    refugee_weight_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_weight, values = ['Yes', 'No'], validate='all', validatecommand=medical_condition_validate)
+    refugee_weight_entry.place(x=300, y=540, width = 100)
+
+    refugee_height_text = Label(screen, text="Conditions:*")
+    refugee_height_text.place(x=60, y=600)
+    refugee_height_entry = Entry(screen, textvariable=refugee_height)
+    refugee_height_entry.insert(0, 'Enter all relevant medical conditions...')
+    refugee_height_entry.bind('<FocusIn>', refugee_height_on)
+    refugee_height_entry.bind('<FocusOut>', refugee_height_off)
+    refugee_height_entry.config(fg='grey')
+    refugee_height_entry.place(x=175, y=600, width=300)
+    refugee_family_medical_no_label = Label(screen,
+                                            text="How many family members\n have conditions (inc. yourself):*")
+    refugee_family_medical_no_label.place(x=20, y=640)
+
+    refugee_family_num = []
+    refugee_fam_num_temp = refugee_number.get()
+    refugee_fam_num = ''
+    refugee_family_medical_no = StringVar()
+    total_list = []
+    for m in range(1,21):
+        total_list.append(m)
+
+    refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable=refugee_family_medical_no,
+                                                            values= total_list)
+    refugee_family_medical_no_option.place(x=300, y=650, width=50)
+
 
     # BUTTON TO SUBMIT THE FORM
     submit_button = Button(screen, text="Submit the form", width=30, command=save_to_file)
