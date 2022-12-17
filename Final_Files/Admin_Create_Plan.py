@@ -5,7 +5,6 @@ import datetime
 from country_list import countries_for_language
 
 
-
 def createnewemergencyPlan(screen):
     global admin_home_screen
     admin_home_screen = screen
@@ -239,6 +238,7 @@ def createnewemergencyPlan(screen):
             emergency_type_string = "Flood"
         else:
             emergency_type_tsunami_check.config(state=NORMAL)
+            emergency_type_earthquake_check.config(state=NORMAL)
             emergency_type_earthquake_check.config(state=NORMAL)
             emergency_type_drought_check.config(state=NORMAL)
             emergency_type_other_check.config(state=NORMAL)

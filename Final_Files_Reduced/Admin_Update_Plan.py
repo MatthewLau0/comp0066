@@ -605,3 +605,5 @@ def updateexistingForm(screen):
     UpdateEmergencyHomeScreen()
 
 updateexistingForm(Tk())
+
+updateexistingForm(Tk())
