@@ -167,7 +167,7 @@ def create_family():
             return
 
         # DOB CHECKS
-        dob_datetime = datetime.datetime.strptime(refugee_dob_calendar.get_date(), "%d/%m/%Y")
+        dob_datetime = refugee_dob_calendar
         today_checktime = datetime.datetime.today()
 
         if today_checktime.year == dob_datetime.year and today_checktime.month == dob_datetime.month:
@@ -1240,4 +1240,3 @@ def create_family():
 
     screen.mainloop()
 
-create_family()
