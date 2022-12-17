@@ -129,7 +129,7 @@ def createnewemergencyPlan(screen):
         emergency_description_entry.pack()
 
         emergency_location_label = Label(New_Camp_Screen,
-                                         text="Country Affected", font=('.AppleSystemUIFont', 13, 'bold'))
+                                         text="Country Affected")
         emergency_location_label.pack()
         emergency_location_entry = Entry(New_Camp_Screen, textvariable=area_affected)
         emergency_location_entry.pack()
@@ -208,10 +208,13 @@ def createnewemergencyPlan(screen):
     def generatestartDate():
         global startDate
 
-        startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
-        startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
-        startDate = datetime.datetime.date(startDateTime)
-        campnameVerify()
+        if len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get())  == 0:
+            start_date_label.config(text="Please enter a value for the start date", fg='#f00')
+        else:
+            startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
+            startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
+            startDate = datetime.datetime.date(startDateTime)
+            campnameVerify()
 
     def generateendDate():
         global endDate
@@ -278,8 +281,6 @@ def createnewemergencyPlan(screen):
             start_date_label.config(text="Please enter a start date later than today.", fg='#f00')
         elif endDate != "NA" and endDate < startDate:
             end_date_label.config(text="Please enter an end date later than the start date.", fg='#f00')
-        elif len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get())  == 0:
-            start_date_label.config(text="Please enter a value for the start date", fg='#f00')
         else:
             CreateNewCampSummary()
 
@@ -425,5 +426,3 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen.mainloop()
 
     Create_Emergency_Screen()
-
-createnewemergencyPlan(Tk())
