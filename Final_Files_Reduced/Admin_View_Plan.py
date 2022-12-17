@@ -624,6 +624,7 @@ def viewexistingCamps():
         view_camp_layout_button.pack()
         view_refugees_summary_button = Button(view_camp_home_screen, text="View Refugees", command=viewRefugees)
         view_refugees_summary_button.pack()
+        Button(view_camp_home_screen, text="Return Home", command=view_camp_home_screen.destroy)
 
 
         view_camp_home_screen.mainloop()

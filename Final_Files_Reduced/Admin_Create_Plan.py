@@ -43,8 +43,7 @@ def createnewemergencyPlan(screen):
             camp_name_list.append((emergency_database_list[i])[1])
 
         day_list = [str(i) for i in range(1, 32)]
-        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                      "November", "December"]
+        month_list = [str(i) for i in range(1, 13)]
         year_list = [str(i) for i in range(2023, 1899, -1)]
 
 
@@ -196,11 +195,11 @@ def createnewemergencyPlan(screen):
         global endDate
 
         if len(end_date_day.get()) == 0 or len(end_date_month.get()) == 0 or len(end_date_year.get()) == 0:
-            status = "Closed"
+            status = "Active"
             endDate = "NA"
             generatestartDate()
         else:
-            status = "Active"
+            status = "Closed"
             generateendDate()
 
 
@@ -212,7 +211,7 @@ def createnewemergencyPlan(screen):
             start_date_label.config(text="Please enter a value for the start date", fg='#f00')
         else:
             startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
-            startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
+            startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%m-%d")
             startDate = datetime.datetime.date(startDateTime)
             campnameVerify()
 
@@ -220,7 +219,7 @@ def createnewemergencyPlan(screen):
         global endDate
 
         enddateComplete = ("%s-%s-%s" % (end_date_year.get(), end_date_month.get(), end_date_day.get()))
-        endDateTime = datetime.datetime.strptime(enddateComplete, "%Y-%B-%d")
+        endDateTime = datetime.datetime.strptime(enddateComplete, "%Y-%m-%d")
         endDate = datetime.datetime.date(endDateTime)
         generatestartDate()
 

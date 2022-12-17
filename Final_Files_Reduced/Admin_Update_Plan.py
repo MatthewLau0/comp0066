@@ -12,7 +12,6 @@ def updateexistingForm(screen):
         global startDate
         global endDate
         global status
-        global emergency_type_string
         global emergency_database_list
         global camp_name_list
         global select_index_frame
@@ -40,8 +39,7 @@ def updateexistingForm(screen):
         select_index_frame.pack()
 
         day_list = [str(i) for i in range(1, 32)]
-        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
-                      "November", "December"]
+        month_list = [str(i) for i in range(1, 13)]
         year_list = [str(i) for i in range(2023, 1899, -1)]
 
         UpdateEmergencyScreen()
@@ -253,7 +251,6 @@ def updateexistingForm(screen):
         global emergency_type_earthquake_check
         global emergency_type_tsunami_check
         global emergency_type_other_check
-        global emergency_type_string
         global updating_camp_list
         global camp_name
         global status_check_no
@@ -314,17 +311,20 @@ def updateexistingForm(screen):
         emergency_type_entry.insert(0, f"{updating_camp_list[2]}")
         emergency_type_entry.pack()
 
-        emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency")
         emergency_description_label.pack()
         emergency_description_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_description)
         emergency_description_entry.insert(0, f"{updating_camp_list[3]}")
         emergency_description_entry.pack()
 
-        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Country Affected", font=('.AppleSystemUIFont', 13, 'bold'))
+        update_emergency_location_label = Label(Update_Emergency_Entry_Screen, text="Country Affected")
         update_emergency_location_label.pack()
         update_emergency_location_entry = Entry(Update_Emergency_Entry_Screen, textvariable=area_affected)
         update_emergency_location_entry.insert(0, f"{updating_camp_list[4]}")
         update_emergency_location_entry.pack()
+
+        originalstartDate = updating_camp_list[5].split("-")
+
 
         start_date_day = StringVar()
         start_date_month = StringVar()
@@ -337,14 +337,17 @@ def updateexistingForm(screen):
         start_date_day_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_day)
         start_date_day_combobox['values'] = day_list
         start_date_day_combobox.pack(side=LEFT)
+        start_date_day_combobox.insert(0, f"{originalstartDate[2]}")
 
         start_date_month_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_month)
         start_date_month_combobox['values'] = month_list
         start_date_month_combobox.pack(side=LEFT)
+        start_date_month_combobox.insert(0, f"{originalstartDate[1]}")
 
         start_date_year_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_year)
         start_date_year_combobox['values'] = year_list
         start_date_year_combobox.pack(side=LEFT)
+        start_date_year_combobox.insert(0, f"{originalstartDate[0]}")
 
         end_date_day = StringVar()
         end_date_month = StringVar()
@@ -368,7 +371,13 @@ def updateexistingForm(screen):
         end_date_year_combobox['values'] = year_list
         end_date_year_combobox.pack(side=LEFT)
 
-        submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=setactiveStatus())
+        if updating_camp_list[6] != "NA":
+            originalendDate = updating_camp_list[6].split("-")
+            end_date_day_combobox.insert(0, f"{originalendDate[2]}")
+            end_date_month_combobox.insert(0, f"{originalendDate[1]}")
+            end_date_year_combobox.insert(0, f"{originalendDate[0]}")
+
+        submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=setactiveStatus)
         submit_updated_emergency_button.pack()
 
         Button(Update_Emergency_Entry_Screen, text="Return Home", command=Update_Emergency_Entry_Screen.destroy)
@@ -388,18 +397,18 @@ def updateexistingForm(screen):
         global startDate
 
         if len(end_date_day.get()) == 0 or len(end_date_month.get()) == 0 or len(end_date_year.get()) == 0:
-            status = "Closed"
+            status = "Active"
             endDate = "NA"
             generatestartDate()
         else:
-            status = "Active"
+            status = "Closed"
             generateendDate()
 
     def generatestartDate():
         global startDate
 
         startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
-        startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
+        startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%m-%d")
         startDate = datetime.datetime.date(startDateTime)
         UpdateCampVerify()
 
@@ -407,7 +416,7 @@ def updateexistingForm(screen):
         global endDate
 
         enddateComplete = ("%s-%s-%s" % (end_date_year.get(), end_date_month.get(), end_date_day.get()))
-        endDateTime = datetime.datetime.strptime(enddateComplete, "%Y-%B-%d")
+        endDateTime = datetime.datetime.strptime(enddateComplete, "%Y-%m-%d")
         endDate = datetime.datetime.date(endDateTime)
         generatestartDate()
     def UpdateCampVerify():
@@ -444,7 +453,6 @@ def updateexistingForm(screen):
         global status_label
         global update_emergency_location_label
         global updating_camp_list
-        global emergency_type_string
 
         camp_name_label.config(text="Camp Name *", fg='#000000')
         emergency_type_label.config(text="Select the type of emergency", fg='#000000')
@@ -488,7 +496,6 @@ def updateexistingForm(screen):
         global startDate
         global endDate
         global status
-        global emergency_type_string
         global Update_Camp_Summary_Screen
 
         Update_Emergency_Entry_Screen.destroy()
@@ -507,7 +514,7 @@ def updateexistingForm(screen):
         Update_Camp_Summary_Screen_label = Label(Update_Camp_Summary_Screen, text="Please view below a summary of the camp that you are adding to the database")
         Update_Camp_Summary_Screen_label.pack()
 
-        Update_Camp_Type_Summary_label = Label(Update_Camp_Summary_Screen,text="The type of emergency is: %s" % (emergency_type_string))
+        Update_Camp_Type_Summary_label = Label(Update_Camp_Summary_Screen,text="The type of emergency is: %s" % (emergency_type.get()))
         Update_Camp_Type_Summary_label.pack()
 
         Update_Camp_Description_Summary_label = Label(Update_Camp_Summary_Screen, text="Your description of the emergency is: %s" % (emergency_description.get()))
@@ -553,10 +560,9 @@ def updateexistingForm(screen):
         global status
         global emergency_database_list
         global index_updating_camp
-        global emergency_type_string
         global emergency_marker_country_update
 
-        updating_camp_list[2] = emergency_type_string
+        updating_camp_list[2] = emergency_type.get()
         updating_camp_list[3] = emergency_description.get()
         updating_camp_list[4] = area_affected.get()
         updating_camp_list[5] = str(startDate)
@@ -597,3 +603,5 @@ def updateexistingForm(screen):
         Update_Emergency_Screen.mainloop()
 
     UpdateEmergencyHomeScreen()
+
+updateexistingForm(Tk())
