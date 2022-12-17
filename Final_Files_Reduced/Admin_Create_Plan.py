@@ -379,7 +379,7 @@ def createnewemergencyPlan(screen):
         New_Camp_Summary_Screen.destroy()
 
         new_emergency[1] = camp_name.get()
-        new_emergency[2] = emergency_type_string
+        new_emergency[2] = emergency_type.get()
         new_emergency[3] = emergency_description.get()
         new_emergency[4] = area_affected.get()
         new_emergency[5] = str(startDate)
