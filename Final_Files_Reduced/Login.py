@@ -13,11 +13,8 @@ except Exception:
     pass
 
 import hashlib
-import Register_Info
-import Volunteer_Home
-import Admin_Home
-import Camp_Lead
 import Clean_Database
+
 
 
 
@@ -61,6 +58,7 @@ def main():
         main_window.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
         def register_volunteer():
+            import Register_Info
             Clean_Database.clean_volunteer_database()
             Clean_Database.clean_login_database()
             main_window.destroy()
@@ -265,6 +263,9 @@ def main():
 
 
         def volunteer_login():
+            import Volunteer_Home
+            import Camp_Lead
+
             Clean_Database.clean_volunteer_database()
             Clean_Database.clean_login_database()
 
@@ -398,6 +399,7 @@ def main():
             volunteer_login_screen.mainloop()
 
         def admin_login():
+            import Admin_Home
             choose_role_window.destroy()
             admin_login_screen = Tk()
             admin_login_screen.title("Admin Login")
