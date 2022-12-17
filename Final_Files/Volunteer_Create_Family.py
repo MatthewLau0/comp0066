@@ -6,7 +6,6 @@ import tkinter.ttk
 import Volunteer_Home
 
 
-
 def create_family():
 
     # Opening current database and reading it into a list
@@ -1176,4 +1175,4 @@ def create_family():
     submit_button.place(x=100, y=720)
 
     screen.mainloop()
-
+create_family()
