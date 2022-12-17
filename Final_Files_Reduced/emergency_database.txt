@@ -1,3 +1,5 @@
 1%CampNorway%Drought%Drought in Camp Norway%Norway%2022-11-16%NA%Active
 2%CampGermany%Flood%Flood in Camp Germany%Deutschland%2022-11-14%2022-11-16%Closed
 3%CampDenmark%Snow Storm%Snow in Denmark%Denmark%2022-04-04 00:00:00%NA%Closed
+4%CampFinland%Snow%Snow in Finland%Finland%2021-03-05 00:00:00%2021-04-04 00:00:00%Active
+5%CampIceland%Snow%Snow in Iceland%Iceland%2020-03-05 00:00:00%2020-03-06 00:00:00%Active

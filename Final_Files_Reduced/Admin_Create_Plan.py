@@ -274,11 +274,8 @@ def createnewemergencyPlan(screen):
             emergency_location_label.config(text="Please enter the country where the emergency has occurred", fg='#f00')
         elif startDate > today:
             start_date_label.config(text="Please enter a start date later than today.", fg='#f00')
-        elif endDate != "NA":
-            if endDate < startDate:
-                end_date_label.config(text="Please enter an end date later than the start date.", fg='#f00')
-            else:
-                pass
+        elif endDate != "NA" and endDate < startDate:
+            end_date_label.config(text="Please enter an end date later than the start date.", fg='#f00')
         elif len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get())  == 0:
             start_date_label.config(text="Please enter a value for the start date", fg='#f00')
         else:
