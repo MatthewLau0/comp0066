@@ -17,6 +17,9 @@ def updateexistingForm(screen):
         global emergency_database_list
         global camp_name_list
         global select_index_frame
+        global day_list
+        global month_list
+        global year_list
 
         emergency_database_file = open("emergency_database.txt", "r")
         emergency_database_list = []
@@ -29,7 +32,6 @@ def updateexistingForm(screen):
         startDate = "NA"
         endDate = "NA"
         status = "NA"
-        emergency_type_string = "NA"
 
         camp_name_list = []
         for i in range(0, len(emergency_database_list)):
@@ -37,6 +39,11 @@ def updateexistingForm(screen):
 
         select_index_frame = Frame(Update_Emergency_Screen)
         select_index_frame.pack()
+
+        day_list = [str(i) for i in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [str(i) for i in range(2023, 1899, -1)]
 
         UpdateEmergencyScreen()
 
@@ -275,6 +282,13 @@ def updateexistingForm(screen):
         global status_label
         global area_affected
         global start_date_label
+        global start_date_day
+        global start_date_month
+        global start_date_year
+        global end_date_day
+        global end_date_month
+        global end_date_year
+
 
         update_emergency_table_button.destroy()
 
@@ -282,14 +296,11 @@ def updateexistingForm(screen):
         emergency_type = StringVar()
         emergency_description = StringVar()
         area_affected = StringVar()
-        start_date = StringVar()
-        close_date = StringVar()
-        emergency_status = StringVar()
 
         Update_Emergency_Screen_Label_Index = Label(Update_Emergency_Entry_Screen, text="The index number for your camp is %s" %(updating_camp_list[0]))
         Update_Emergency_Screen_Label_Index.pack()
 
-        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name* ", font=('.AppleSystemUIFont', 13, 'bold'))
+        camp_name_label = Label(Update_Emergency_Entry_Screen, text="Camp Name* ")
         camp_name_label.pack()
         camp_name_instructions_label = Label(Update_Emergency_Entry_Screen, text="Camp Names must have no spaces and must only contain letters")
         camp_name_instructions_label.pack()
@@ -297,55 +308,11 @@ def updateexistingForm(screen):
         camp_name_entry.insert(0, f"{updating_camp_list[1]}")
         camp_name_entry.pack()
 
-        emergency_type_frame = Frame(Update_Emergency_Entry_Screen)
-        emergency_type_frame.pack()
-
-        emergency_type_label = Label(emergency_type_frame, text="Select the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_type_label = Label(Update_Emergency_Entry_Screen, text="Enter the type of emergency")
         emergency_type_label.pack()
-        emergency_type_flood = IntVar()
-        emergency_type_tsunami = IntVar()
-        emergency_type_earthquake = IntVar()
-        emergency_type_drought = IntVar()
-        emergency_type_other = IntVar()
-
-        if updating_camp_list[2] == "Flood":
-            emergency_type_flood = IntVar(value=1)
-        elif updating_camp_list[2] == "Tsunami":
-            emergency_type_tsunami = IntVar(value=1)
-        elif updating_camp_list[2] == "Earthquake":
-            emergency_type_earthquake = IntVar(value=1)
-        elif updating_camp_list[2] == "Drought":
-            emergency_type_drought = IntVar(value=1)
-        else:
-            emergency_type_other = IntVar(value=1)
-
-        emergency_type_flood_check = Checkbutton(emergency_type_frame, variable=emergency_type_flood, onvalue=1, offvalue=0,
-                                                 text="Flood", command=clickFlood)
-        emergency_type_flood_check.pack(side=LEFT)
-        emergency_type_tsunami_check = Checkbutton(emergency_type_frame, variable=emergency_type_tsunami, onvalue=1, offvalue=0,
-                                                   text="Tsunami", command=clickTsunami)
-        emergency_type_tsunami_check.pack(side=LEFT)
-        emergency_type_earthquake_check = Checkbutton(emergency_type_frame, variable=emergency_type_earthquake, onvalue=1,
-                                                      offvalue=0, text="Earthquake", command=clickEarthquake)
-        emergency_type_earthquake_check.pack(side=LEFT)
-        emergency_type_drought_check = Checkbutton(emergency_type_frame, variable=emergency_type_drought, onvalue=1, offvalue=0,
-                                                   text="Drought", command=clickDrought)
-        emergency_type_drought_check.pack(side=LEFT)
-        emergency_type_other_check = Checkbutton(emergency_type_frame, variable=emergency_type_other, onvalue=1, offvalue=0,
-                                                 text="Other", command=clickOther)
-        emergency_type_other_check.pack(side=LEFT)
-
-        emergency_type_label_other = Label(emergency_type_frame, text="Specify the type of emergency", state=DISABLED)
-        emergency_type_label_other.pack(anchor=CENTER)
-        emergency_type_other_entry = Entry(emergency_type_frame, textvariable=emergency_type, state=DISABLED)
-        emergency_type_other_entry.pack(anchor=CENTER)
-        emergency_type_other_button = Button(emergency_type_frame, text="Confirm", command=OtherConfirm, state=DISABLED)
-        emergency_type_other_button.pack(side=BOTTOM, anchor=CENTER)
-
-
-        if updating_camp_list[2] != "Flood" and updating_camp_list[2] != "Tsunami" and updating_camp_list[2] != "Earthquake" and updating_camp_list[2] != "Drought":
-            presetOther()
-            emergency_type_other_entry.insert(0, f"{updating_camp_list[2]}")
+        emergency_type_entry = Entry(Update_Emergency_Entry_Screen, textvariable=emergency_type)
+        emergency_type_entry.insert(0, f"{updating_camp_list[2]}")
+        emergency_type_entry.pack()
 
         emergency_description_label = Label(Update_Emergency_Entry_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
         emergency_description_label.pack()
@@ -359,228 +326,52 @@ def updateexistingForm(screen):
         update_emergency_location_entry.insert(0, f"{updating_camp_list[4]}")
         update_emergency_location_entry.pack()
 
-        calendar_frame_label = Frame(Update_Emergency_Entry_Screen)
-        calendar_frame_label.pack()
+        start_date_day = StringVar()
+        start_date_month = StringVar()
+        start_date_year = StringVar()
 
-        calendar_frame = Frame(Update_Emergency_Entry_Screen)
-        calendar_frame.pack()
+        start_date_label = Label(Update_Emergency_Entry_Screen, text="Enter the start date for the emergency")
+        start_date_label.pack()
+        start_date_frame = Frame(Update_Emergency_Entry_Screen)
+        start_date_frame.pack()
+        start_date_day_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_day)
+        start_date_day_combobox['values'] = day_list
+        start_date_day_combobox.pack(side=LEFT)
 
-        from datetime import date
-        from datetime import datetime
-        today = date.today()
-        startdateOriginal = datetime.strptime(updating_camp_list[5], "%Y-%m-%d")
+        start_date_month_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_month)
+        start_date_month_combobox['values'] = month_list
+        start_date_month_combobox.pack(side=LEFT)
 
-        start_date_label = Label(calendar_frame_label,
-                                 text="Start Date")
-        start_date_label.pack(side=LEFT)
-        start_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day', maxdate=today)
-        start_date_calendar.selection_set(startdateOriginal)
-        start_date_calendar.pack(side=LEFT)
-        close_date_label = Label(calendar_frame_label,
-                                 text="Close date", state=DISABLED, font=('.AppleSystemUIFont', 13, 'bold'))
-        close_date_label.pack(side=RIGHT)
-        close_date_calendar = Calendar(calendar_frame, date_pattern="d/m/y", selectmode='day',
-                                       state=DISABLED)
-        close_date_calendar.pack(side=RIGHT)
+        start_date_year_combobox = ttk.Combobox(start_date_frame, textvariable=start_date_year)
+        start_date_year_combobox['values'] = year_list
+        start_date_year_combobox.pack(side=LEFT)
 
-        status_label = Label(Update_Emergency_Entry_Screen, text="Is the emergency active?.", font=('.AppleSystemUIFont', 13, 'bold'))
-        status_label.pack()
-        status_label_instructions = Label(Update_Emergency_Entry_Screen, text="Please confirm your answer using the button below")
-        status_label_instructions.pack()
+        end_date_day = StringVar()
+        end_date_month = StringVar()
+        end_date_year = StringVar()
 
-        def clickYes():
-            global startDate
-            startDate = datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
-            if status_check_yes.get() == 1:
-                status_check_button_no.config(state=DISABLED)
-            else:
-                status_check_button_no.config(state=NORMAL)
+        end_date_label = Label(Update_Emergency_Entry_Screen, text="Enter the end date for the emergency")
+        end_date_label.pack()
+        Label(Update_Emergency_Entry_Screen, text="If the emergency has not finished yet, please leave the below boxes blank.",
+              font=('.AppleSystemUIFont', 13, 'italic'))
+        end_date_frame = Frame(Update_Emergency_Entry_Screen)
+        end_date_frame.pack()
+        end_date_day_combobox = ttk.Combobox(end_date_frame, textvariable=end_date_day)
+        end_date_day_combobox['values'] = day_list
+        end_date_day_combobox.pack(side=LEFT)
 
-        def clickNo():
-            global startDate
-            startDate = datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
-            if status_check_no.get() == 1:
-                status_check_button_yes.config(state=DISABLED)
-            else:
-                status_check_button_yes.config(state=NORMAL)
+        end_date_month_combobox = ttk.Combobox(end_date_frame, textvariable=end_date_month)
+        end_date_month_combobox['values'] = month_list
+        end_date_month_combobox.pack(side=LEFT)
 
-        status_check_yes = IntVar()
-        status_check_button_yes = Checkbutton(Update_Emergency_Entry_Screen, variable=status_check_yes, onvalue=1, offvalue=2, text="Yes",
-                                              command=clickYes)
-        status_check_button_yes.pack()
+        end_date_year_combobox = ttk.Combobox(end_date_frame, textvariable=end_date_year)
+        end_date_year_combobox['values'] = year_list
+        end_date_year_combobox.pack(side=LEFT)
 
-        status_check_no = IntVar()
-        status_check_button_no = Checkbutton(Update_Emergency_Entry_Screen, variable=status_check_no, onvalue=1, offvalue=2, text="No",
-                                             command=clickNo)
-        status_check_button_no.pack()
-
-        status_check_button = Button(Update_Emergency_Entry_Screen, text="Confirm", command=setactiveStatus)
-        status_check_button.pack()
-
-        def calendarReset():
-            global start_date_label
-            global start_date_calendar
-            global close_date_label
-            global close_date_calendar
-
-            start_date_label.configure(state=NORMAL)
-            start_date_calendar.configure(state=NORMAL)
-            close_date_label.configure(state=DISABLED)
-            close_date_calendar.configure(state=DISABLED)
-
-        status_reset_button = Button(Update_Emergency_Entry_Screen, text="Reset Calendar", command=calendarReset)
-        status_reset_button.pack()
-
-        submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=generateEndDate)
+        submit_updated_emergency_button = Button(Update_Emergency_Entry_Screen, text="Submit Updated Emergency", command=setactiveStatus())
         submit_updated_emergency_button.pack()
 
         Button(Update_Emergency_Entry_Screen, text="Return Home", command=Update_Emergency_Entry_Screen.destroy)
-
-    def presetOther():
-        emergency_type_label_other.config(state=NORMAL)
-        emergency_type_other_entry.config(state=NORMAL)
-        emergency_type_other_button.config(state=NORMAL)
-        emergency_type_tsunami_check.config(state=DISABLED)
-        emergency_type_earthquake_check.config(state=DISABLED)
-        emergency_type_drought_check.config(state=DISABLED)
-        emergency_type_flood_check.config(state=DISABLED)
-
-
-
-    def clickFlood():
-        global emergency_type
-        global emergency_type_flood
-        global emergency_type_flood_check
-        global emergency_type_drought_check
-        global emergency_type_earthquake_check
-        global emergency_type_tsunami_check
-        global emergency_type_other_check
-        global emergency_type_string
-        emergency_type_string = "NA"
-        if emergency_type_flood.get() == 1:
-            emergency_type_tsunami_check.config(state=DISABLED)
-            emergency_type_earthquake_check.config(state=DISABLED)
-            emergency_type_drought_check.config(state=DISABLED)
-            emergency_type_other_check.config(state=DISABLED)
-            emergency_type_string = "Flood"
-        else:
-            emergency_type_tsunami_check.config(state=NORMAL)
-            emergency_type_earthquake_check.config(state=NORMAL)
-            emergency_type_drought_check.config(state=NORMAL)
-            emergency_type_other_check.config(state=NORMAL)
-
-
-    def clickTsunami():
-        global emergency_type
-        global emergency_type_drought
-        global emergency_type_flood_check
-        global emergency_type_drought_check
-        global emergency_type_earthquake_check
-        global emergency_type_tsunami_check
-        global emergency_type_other_check
-        global emergency_type_string
-        emergency_type_string = "NA"
-        if emergency_type_tsunami.get() == 1:
-            emergency_type_flood_check.config(state=DISABLED)
-            emergency_type_earthquake_check.config(state=DISABLED)
-            emergency_type_drought_check.config(state=DISABLED)
-            emergency_type_other_check.config(state=DISABLED)
-            emergency_type_string = "Tsunami"
-        else:
-            emergency_type_flood_check.config(state=NORMAL)
-            emergency_type_earthquake_check.config(state=NORMAL)
-            emergency_type_drought_check.config(state=NORMAL)
-            emergency_type_other_check.config(state=NORMAL)
-
-
-    def clickEarthquake():
-        global emergency_type
-        global emergency_type_earthquake
-        global emergency_type_flood_check
-        global emergency_type_drought_check
-        global emergency_type_earthquake_check
-        global emergency_type_tsunami_check
-        global emergency_type_other_check
-        global emergency_type_string
-        emergency_type_string = "NA"
-        if emergency_type_earthquake.get() == 1:
-            emergency_type_tsunami_check.config(state=DISABLED)
-            emergency_type_flood_check.config(state=DISABLED)
-            emergency_type_drought_check.config(state=DISABLED)
-            emergency_type_other_check.config(state=DISABLED)
-            emergency_type_string = "Earthquake"
-        else:
-            emergency_type_tsunami_check.config(state=NORMAL)
-            emergency_type_flood_check.config(state=NORMAL)
-            emergency_type_drought_check.config(state=NORMAL)
-            emergency_type_other_check.config(state=NORMAL)
-
-
-    def clickDrought():
-        global emergency_type
-        global emergency_type_drought
-        global emergency_type_flood_check
-        global emergency_type_drought_check
-        global emergency_type_earthquake_check
-        global emergency_type_tsunami_check
-        global emergency_type_other_check
-        global emergency_type_string
-        emergency_type_string = "NA"
-        if emergency_type_drought.get() == 1:
-            emergency_type_tsunami_check.config(state=DISABLED)
-            emergency_type_earthquake_check.config(state=DISABLED)
-            emergency_type_flood_check.config(state=DISABLED)
-            emergency_type_other_check.config(state=DISABLED)
-            emergency_type_string = "Drought"
-        else:
-            emergency_type_tsunami_check.config(state=NORMAL)
-            emergency_type_earthquake_check.config(state=NORMAL)
-            emergency_type_flood_check.config(state=NORMAL)
-            emergency_type_other_check.config(state=NORMAL)
-
-
-    def clickOther():
-        global emergency_type
-        global emergency_type_other
-        global emergency_type_flood_check
-        global emergency_type_drought_check
-        global emergency_type_earthquake_check
-        global emergency_type_tsunami_check
-        global emergency_type_other_check
-        global emergency_type_string
-        global emergency_type_entry
-        global emergency_type_frame
-        global emergency_type_label_other
-        global emergency_type_other_entry
-        global emergency_type_other_button
-        emergency_type_string = "NA"
-
-        if emergency_type_other.get() == 1:
-            emergency_type_tsunami_check.config(state=DISABLED)
-            emergency_type_earthquake_check.config(state=DISABLED)
-            emergency_type_drought_check.config(state=DISABLED)
-            emergency_type_flood_check.config(state=DISABLED)
-
-            emergency_type_label_other.config(state=NORMAL)
-            emergency_type_other_entry.config(state=NORMAL)
-            emergency_type_other_button.config(state=NORMAL)
-
-
-        else:
-            emergency_type_label_other.config(state=DISABLED)
-            emergency_type_other_entry.config(state=DISABLED)
-            emergency_type_other_button.config(state=DISABLED)
-            emergency_type_tsunami_check.config(state=NORMAL)
-            emergency_type_earthquake_check.config(state=NORMAL)
-            emergency_type_drought_check.config(state=NORMAL)
-            emergency_type_flood_check.config(state=NORMAL)
-
-    def OtherConfirm():
-        global emergency_type
-        global emergency_type_string
-        global emergency_type_other
-
-        emergency_type_string = emergency_type.get()
 
     def setactiveStatus():
         global status_check_yes
@@ -596,25 +387,27 @@ def updateexistingForm(screen):
         global update_emergency_frame_two
         global startDate
 
-        startDate = datetime.datetime.strptime(start_date_calendar.get_date(), "%d/%m/%Y").date()
-
-        if status_check_no.get() == 1:
-            close_date_label.configure(state=NORMAL)
-            close_date_calendar.configure(state=NORMAL)
-            close_date_calendar.configure(mindate=startDate)
+        if len(end_date_day.get()) == 0 or len(end_date_month.get()) == 0 or len(end_date_year.get()) == 0:
             status = "Closed"
-
-        elif status_check_yes.get() == 1:
             endDate = "NA"
+            generatestartDate()
+        else:
             status = "Active"
+            generateendDate()
 
-    def generateEndDate():
+    def generatestartDate():
+        global startDate
+
+        startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
+        startDate = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
+        UpdateCampVerify()
+
+    def generateendDate():
         global endDate
 
-        if status_check_no.get() == 1:
-            endDate = datetime.datetime.strptime(close_date_calendar.get_date(), "%d/%m/%Y").date()
-
-        UpdateCampVerify()
+        enddateComplete = ("%s-%s-%s" % (end_date_year.get(), end_date_month.get(), end_date_day.get()))
+        endDate = datetime.datetime.strptime(enddateComplete, "%Y-%B-%d")
+        generatestartDate()
     def UpdateCampVerify():
         global New_Camp_Screen
         global camp_name
@@ -655,24 +448,26 @@ def updateexistingForm(screen):
         emergency_type_label.config(text="Select the type of emergency", fg='#000000')
         emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
         update_emergency_location_label.config(text="Country Affected", fg='#000000')
-        status_label.config(text="Is the emergency active?", fg='#000000')
+        start_date_label.config(text="Enter the start date for the emergency")
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
-        if ((emergency_type_flood.get() != 1) and (emergency_type_drought.get() != 1) and (emergency_type_earthquake.get() != 1) and (emergency_type_tsunami.get() != 1) and (emergency_type_other.get() != 1)):
-            emergency_type_label.config(text="Please enter an emergency type for the new camp.", fg='#f00')
-        elif emergency_type_other.get() == 1 and emergency_type_string == "NA":
-            emergency_type_label.config(text="Please confirm your entry by pressing confirm.", fg="#f00")
+        if len(emergency_type.get()) == 0 or emergency_type.get() == ' ':
+            emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
-            emergency_description_label.config(text="Please enter a description for the new emergency.", fg='#f00')
+            emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
         elif area_affected.get() not in countries_list:
-            update_emergency_location_label.config(text="Please enter an area for the emergency and click confirm.", fg='f00')
-        elif status == "NA":
-            if ((status_check_yes.get() != 1) and (status_check_no.get() != 1)):
-                status_label.config(text="Please select an activation status for the emergency.", fg='#f00')
+            emergency_location_label.config(text="Please enter the country where the emergency has occurred", fg='#f00')
+        elif startDate > today:
+            start_date_label.config(text="Please enter a start date later than today.", fg='#f00')
+        elif endDate != "NA":
+            if endDate < startDate:
+                end_date_label.config(text="Please enter an end date later than the start date.", fg='#f00')
             else:
-                status_label.config(text="Please tick confirm to commit your activation status answer",fg='#f00')
+                pass
+        elif len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get()) == 0:
+            start_date_label.config(text="Please enter a value for the start date", fg='#f00')
         else:
             UpdateCampSummary()
 

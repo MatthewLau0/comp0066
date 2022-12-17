@@ -110,20 +110,20 @@ def createnewemergencyPlan(screen):
         New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" %(new_emergency[0]))
         New_Camp_Screen_Label_Index.pack()
 
-        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ", font=('.AppleSystemUIFont', 13, 'bold'))
+        camp_name_label = Label(New_Camp_Screen, text="Camp Name * ")
         camp_name_label.pack()
-        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters")
+        camp_name_label_instructions = Label(New_Camp_Screen, text="Camp Names must have no spaces and must only contain letters", font=('.AppleSystemUIFont', 13, 'italic'))
         camp_name_label_instructions.pack()
         camp_name_entry = Entry(New_Camp_Screen, textvariable=camp_name)
         camp_name_entry.pack()
 
 
-        emergency_type_label = Label(New_Camp_Screen, text="Enter the type of emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_type_label = Label(New_Camp_Screen, text="Enter the type of emergency")
         emergency_type_label.pack()
         emergency_type_entry = Entry(New_Camp_Screen, textvariable=emergency_type)
         emergency_type_entry.pack()
 
-        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        emergency_description_label = Label(New_Camp_Screen, text="Briefly describe the emergency")
         emergency_description_label.pack()
         emergency_description_entry = Entry(New_Camp_Screen, textvariable=emergency_description)
         emergency_description_entry.pack()
@@ -139,7 +139,7 @@ def createnewemergencyPlan(screen):
         start_date_month = StringVar()
         start_date_year = StringVar()
 
-        start_date_label = Label(New_Camp_Screen, text="Enter the start date for the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        start_date_label = Label(New_Camp_Screen, text="Enter the start date for the emergency")
         start_date_label.pack()
         start_date_frame = Frame(New_Camp_Screen)
         start_date_frame.pack()
@@ -159,11 +159,11 @@ def createnewemergencyPlan(screen):
         end_date_month = StringVar()
         end_date_year = StringVar()
 
-        end_date_label = Label(New_Camp_Screen, text="Enter the end date for the emergency", font=('.AppleSystemUIFont', 13, 'bold'))
+        end_date_label = Label(New_Camp_Screen, text="Enter the end date for the emergency")
         end_date_label.pack()
         end_date_frame = Frame(New_Camp_Screen)
         end_date_frame.pack()
-        Label(New_Camp_Screen_Label, text="If the emergency has not finished yet, please leave the below boxes blank.")
+        Label(New_Camp_Screen_Label, text="If the emergency has not finished yet, please leave the below boxes blank.", font=('.AppleSystemUIFont', 13, 'italic'))
         end_date_day_combobox = ttk.Combobox(end_date_frame, textvariable=end_date_day)
         end_date_day_combobox['values'] = day_list
         end_date_day_combobox.pack(side=LEFT)
@@ -210,7 +210,7 @@ def createnewemergencyPlan(screen):
 
         startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
         startDate = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
-        NewCampVerify()
+        campnameVerify()
 
     def generateendDate():
         global endDate
@@ -255,11 +255,11 @@ def createnewemergencyPlan(screen):
         global emergency_type_string
 
 
-        camp_name_label.config(text="Camp Name *", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
-        emergency_type_label.config(text="Enter the type of emergency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
-        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
-        start_date_label.config(text="Enter the start date for the emenrgency", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
-        emergency_location_label.config(text="Country Affected", fg='#000000', font=('.AppleSystemUIFont', 13, 'bold'))
+        camp_name_label.config(text="Camp Name *", fg='#000000')
+        emergency_type_label.config(text="Enter the type of emergency", fg='#000000')
+        emergency_description_label.config(text="Briefly describe the emergency", fg='#000000')
+        start_date_label.config(text="Enter the start date for the emenrgency", fg='#000000')
+        emergency_location_label.config(text="Country Affected", fg='#000000')
 
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
@@ -277,6 +277,8 @@ def createnewemergencyPlan(screen):
         elif endDate != "NA":
             if endDate < startDate:
                 end_date_label.config(text="Please enter an end date later than the start date.", fg='#f00')
+            else:
+                pass
         elif len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get())  == 0:
             start_date_label.config(text="Please enter a value for the start date", fg='#f00')
         else:
@@ -403,7 +405,7 @@ def createnewemergencyPlan(screen):
         elif camp_name.get() in camp_name_list:
             camp_name_label.config(text="This camp name already exists in the database. Please re-enter another camp-name.", fg='#f00')
         else:
-            generateEndDate()
+            NewCampVerify()
 
     def Create_Emergency_Screen():
         global New_Camp_Screen
