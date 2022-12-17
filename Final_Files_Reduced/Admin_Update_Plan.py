@@ -2,7 +2,6 @@
 from tkinter import *
 from tkinter import ttk
 import datetime
-from tkcalendar import Calendar
 from country_list import countries_for_language
 
 def updateexistingForm(screen):
@@ -288,6 +287,7 @@ def updateexistingForm(screen):
         global end_date_day
         global end_date_month
         global end_date_year
+        global end_date_label
 
 
         update_emergency_table_button.destroy()
@@ -453,12 +453,14 @@ def updateexistingForm(screen):
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
+        today = datetime.datetime.today()
+
         if len(emergency_type.get()) == 0 or emergency_type.get() == ' ':
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
         elif len(emergency_description.get()) == 0:
             emergency_description_label.config(text="Please enter a description for the new emergency", fg='#f00')
         elif area_affected.get() not in countries_list:
-            emergency_location_label.config(text="Please enter the country where the emergency has occurred", fg='#f00')
+            update_emergency_location_label.config(text="Please enter the country where the emergency has occurred", fg='#f00')
         elif startDate > today:
             start_date_label.config(text="Please enter a start date later than today.", fg='#f00')
         elif endDate != "NA" and endDate < startDate:
