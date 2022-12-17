@@ -209,14 +209,16 @@ def createnewemergencyPlan(screen):
         global startDate
 
         startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
-        startDate = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
+        startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%B-%d")
+        startDate = datetime.datetime.date(startDateTime)
         campnameVerify()
 
     def generateendDate():
         global endDate
 
         enddateComplete = ("%s-%s-%s" % (end_date_year.get(), end_date_month.get(), end_date_day.get()))
-        endDate = datetime.datetime.strptime(enddateComplete, "%Y-%B-%d")
+        endDateTime = datetime.datetime.strptime(enddateComplete, "%Y-%B-%d")
+        endDate = datetime.datetime.date(endDateTime)
         generatestartDate()
 
 
@@ -264,7 +266,7 @@ def createnewemergencyPlan(screen):
         countries = dict(countries_for_language('en'))
         countries_list = list(countries.values())
 
-        today = datetime.datetime.today()
+        today = datetime.date.today()
 
         if len(emergency_type.get()) == 0 or emergency_type.get() == ' ':
             emergency_type_label.config(text="Please enter an emergency type for the new camp", fg='#f00')
