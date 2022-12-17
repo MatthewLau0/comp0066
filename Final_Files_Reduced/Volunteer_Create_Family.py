@@ -249,19 +249,13 @@ def create_family():
 
 
         # CHECK FOR ERRORS IN CHECKBOX
-        check_box_1 = refugee_weight.get()
-        check_box_2 = refugee_weight_2.get()
-        if (check_box_1 == 0 and check_box_2 == 0) or (check_box_1 == 0 and check_box_2 == 2) or (
-                check_box_1 == 2 and check_box_2 == 0) or (check_box_1 == 2 and check_box_2 == 2):
-            tkinter.messagebox.showerror(title='Error!', message='You must select a medical conditions box')
-            return
+
 
         # IF THEY TICK CONDITIONS
         # CHECKS FOR ERRORS IN CONDITIONS
-        if check_box_1 == 1:
-            if conditions == '' or conditions == 'Enter all relevant medical conditions...':
-                tkinter.messagebox.showerror(title='Error!', message='Please specify your condition(s)')
-                return
+
+        if conditions != '' and conditions != 'Enter all relevant medical conditions...':
+
             if len(conditions) < 2:
                 tkinter.messagebox.showerror(title='Error!', message='Too short, please add more detail')
                 return
@@ -275,10 +269,8 @@ def create_family():
                 return
 
 
-            #CHECK FOR ERRORS IN NUMBER INPUT FOR NUMBER OF FAM CONDITIONS
-            if no_fam_conditions == "":
-                tkinter.messagebox.showerror(title='Error!', message='Number of family members with conditions cannot be empty')
-                return
+
+        if no_fam_conditions == "":
 
             if any(i.isalpha() for i in no_fam_conditions):
                 tkinter.messagebox.showerror(title='Error!',
@@ -293,11 +285,12 @@ def create_family():
                 return
 
 
-            if (int(no_fam_conditions) - 1) > int(number):
-                tkinter.messagebox.showerror(title='Error!', message='More family members with medical conditions than number of family members!')
-                return
             if int(no_fam_conditions) < 1:
                 tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 1!')
+                return
+
+            if int(no_fam_conditions) > 20:
+                tkinter.messagebox.showerror(title='Error!', message='There is a maximum of value of 20!')
                 return
 
 
@@ -333,14 +326,11 @@ def create_family():
 
 
 
-        total_lol = int(number) + 1
-
-        check_box_1 = refugee_weight.get()
-        check_box_2 = refugee_weight_2.get()
-        if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
+        try:
+            int(refugee_family_medical_no.get())
+            num_medical_check = int(refugee_family_medical_no.get())
+        except:
             num_medical_check = 0
-        else:
-            num_medical_check = (int(refugee_family_medical_no.get()))
 
         # ITERATE THROUGH LIST AND SEE IF WE CAN ADD FAMILY TO CAMP
         # IF NOT, ERROR MESSAGE WILL POP UP AND SAY TO REDUCE FAM SIZE OR CONTACT ADMIN
@@ -350,6 +340,7 @@ def create_family():
         var_medical_counter = 0
         var_toilet_counter = 0
         var_ration_counter = 0
+        total_lol = int(refugee_number.get())+1
 
         if len(accommodation_specific_camp_list_test) > 0:
             for i in range(len(accommodation_specific_camp_list_test)):
@@ -486,7 +477,13 @@ def create_family():
         dob = refugee_dob_calendar_string
         age = str(calculate_age(refugee_dob_calendar))
         sex = refugee_sex.get()
-        num_of_fam = refugee_family_medical_no.get()
+
+        try:
+            num_of_fam = refugee_family_medical_no.get()
+            num_of_fam = int(num_of_fam)
+        except:
+            num_of_fam = 0
+
         if int(num_of_fam) == 0:
             num_of_fam = 'None'
 
@@ -641,12 +638,15 @@ def create_family():
         refugee_assigned_medical = 'No blocks available!'
 
 
-        check_box_1 = refugee_weight.get()
-        check_box_2 = refugee_weight_2.get()
-        if (check_box_1 == 0 and check_box_2 == 1) or (check_box_1 == 2 and check_box_2 == 1):
+
+        try:
+            if refugee_family_medical_no.get() == '':
+                num_medical_check = 0
+            else:
+                num_medical_check = int(refugee_family_medical_no.get())
+
+        except:
             num_medical_check = 0
-        else:
-            num_medical_check = (int(refugee_family_medical_no.get()))
         for i in range(len(medical_specific_camp_list)):
 
             # FIND MEDICAL STALL THAT IS GREATER THAN NO. OF PEOPLE IN FAMILY WITH MEDICAL CONDITIONS
@@ -1081,175 +1081,22 @@ def create_family():
 
     # FUNCTION TO DISPLAY INPUT BOX WHEN THEY CLICK YES TO MEDICAL CONDITIONS
     global refugee_height
-    refugee_height = StringVar(value=0)
+    refugee_height = StringVar()
     global refugee_family_medical_no
     refugee_family_medical_no = StringVar(value=0)
 
-
-    def clickYes():
-        number_click = refugee_number.get()
-        if number_click == "" or number_click == "Enter no. of family members...":
-            tkinter.messagebox.showerror(title='Error!', message='Please ensure no. of family members is not empty')
-            refugee_weight.set(0)
-            return
-
-        if any(i.isalpha() for i in number_click):
-            tkinter.messagebox.showerror(title='Error!',
-                                         message='Please ensure no. of family members is non-alphabetic')
-            refugee_weight.set(0)
-            return
-
-        try:
-            int(number_click)
-        except ValueError:
-            tkinter.messagebox.showerror(title='Error!',
-                                         message='Please ensure no. of family members does not have special characters')
-            refugee_weight.set(0)
-            return
-
-        if int(number_click) > 20:
-            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
-            refugee_weight.set(0)
-            return
-        if int(number_click) < 0:
-            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
-            refugee_weight.set(0)
-            return
-
-
-
-
-        global refugee_height
-        global refugee_height_entry
-        global refugee_family_medical_no
-        refugee_height = StringVar()
-        refugee_family_medical_no = StringVar()
-        refugee_fam_num = refugee_number.get()
-        if refugee_fam_num == '' or refugee_fam_num == 'Enter no. of family members...':
-            refugee_fam_num = 0
-        else:
-            try:
-                refugee_fam_num = int(refugee_fam_num)
-            except:
-                tkinter.messagebox.showerror(title = 'Error!', message='Please ensure no. of family members is positive')
-                return
-
-        if refugee_weight.get() == 1:
-            refugee_weight_entry_2.config(state='disabled')
-            refugee_height_text = Label(screen, text="Conditions:*")
-            refugee_height_text.place(x=60, y=600)
-            refugee_height_entry = Entry(screen, textvariable=refugee_height)
-            refugee_height_entry.insert(0, 'Enter all relevant medical conditions...')
-            refugee_height_entry.bind('<FocusIn>', refugee_height_on)
-            refugee_height_entry.bind('<FocusOut>', refugee_height_off)
-            refugee_height_entry.config(fg='grey')
-            refugee_height_entry.place(x=175, y=600, width=300)
-            refugee_family_medical_no_label = Label(screen, text="How many family members\n have conditions (inc. yourself):*")
-            refugee_family_medical_no_label.place(x=20, y=640)
-
-
-            refugee_family_num = []
-            if int(refugee_fam_num) > 0:
-                for i in range(1, int(refugee_fam_num) + 1):
-                    refugee_family_num.append(i)
-                refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable= refugee_family_medical_no,
-                                                                      values = refugee_family_num)
-                refugee_family_medical_no_option.place(x=300, y=650, width = 50)
-
-            elif int(refugee_fam_num) == 0:
-                refugee_fam_num = 1
-                refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable = refugee_family_medical_no,
-                                                                      values = int(refugee_fam_num))
-                refugee_family_medical_no_option.place(x=300, y=650, width = 50)
-
-        else:
-            refugee_height.set('Enter any medical conditions...')
-            refugee_weight_entry_2.config(state='normal')
-            hehe_label = Label(screen, text='')
-            hehe_label.place(x=15, y=580, width=800, height=40)
-            hehe_label = Label(screen, text='')
-            hehe_label.place(x=15, y=620, width=800, height=100)
-
-    # FUNCTION TO ERASE ANY INFO/DO NOTHING IF NO IS CLICKED
-    def clickNo():
-        number_click2 = refugee_number.get()
-        if number_click2 == "" or number_click2 == "Enter no. of family members...":
-            tkinter.messagebox.showerror(title='Error!', message='Please ensure no. of family members is not empty')
-            refugee_weight_2.set(0)
-            return
-
-        if any(i.isalpha() for i in number_click2):
-            tkinter.messagebox.showerror(title='Error!',
-                                         message='Please ensure no. of family members is non-alphabetic')
-            refugee_weight_2.set(0)
-            return
-
-        try:
-            int(number_click2)
-        except ValueError:
-            tkinter.messagebox.showerror(title='Error!',
-                                         message='Please ensure no. of family members does not have special characters')
-            refugee_weight_2.set(0)
-            return
-
-        if int(number_click2) > 20:
-            tkinter.messagebox.showerror(title='Error!', message='Maximum of 20 family members allowed')
-            refugee_weight_2.set(0)
-            return
-        if int(number_click2) < 0:
-            tkinter.messagebox.showerror(title='Error!', message='There is a minimum of value of 0')
-            refugee_weight_2.set(0)
-            return
-
-        global refugee_height
-        refugee_height = StringVar()
-        global refugee_family_medical_no
-        refugee_family_medical_no = StringVar(value=0)
-        if refugee_weight_2.get() == 1:
-            refugee_height.set('Enter any medical conditions...')
-            refugee_weight_entry.config(state='disabled')
-            lol_label = Label(screen, text='')
-            lol_label.place(x=15, y=580, width=800, height=40)
-            lol_label = Label(screen, text='')
-            lol_label.place(x=15, y=620, width=800, height=100)
-        else:
-            refugee_height.set('Enter any medical conditions...')
-            refugee_weight_entry.config(state='normal')
-    def medical_condition_validate():
-        condition = refugee_weight.get().capitalize()
-
-        if condition != 'Yes' and condition != 'No' and condition != '':
-            tkinter.messagebox.showerror(title='Error!', message= 'Please enter Yes or No')
-            return
-        else:
-            pass
-
-
-        return True
-    # MEDICAL CONDITIONS CHECKBOX
-    refugee_weight_text = Label(screen, text="Do you or your family have\n any medical conditions?*")
-    refugee_weight_text.place(x=20, y=540)
-    refugee_weight = StringVar()
-
-
-    refugee_weight_entry = tkinter.ttk.Combobox(screen, textvariable=refugee_weight, values = ['Yes', 'No'], validate='all', validatecommand=medical_condition_validate)
-    refugee_weight_entry.place(x=300, y=540, width = 100)
-
-    refugee_height_text = Label(screen, text="Conditions:*")
-    refugee_height_text.place(x=60, y=600)
+    refugee_height_text = Label(screen, text="Conditions:")
+    refugee_height_text.place(x=60, y=540)
     refugee_height_entry = Entry(screen, textvariable=refugee_height)
     refugee_height_entry.insert(0, 'Enter all relevant medical conditions...')
     refugee_height_entry.bind('<FocusIn>', refugee_height_on)
     refugee_height_entry.bind('<FocusOut>', refugee_height_off)
     refugee_height_entry.config(fg='grey')
-    refugee_height_entry.place(x=175, y=600, width=300)
+    refugee_height_entry.place(x=175, y=540, width=300)
     refugee_family_medical_no_label = Label(screen,
-                                            text="How many family members\n have conditions (inc. yourself):*")
-    refugee_family_medical_no_label.place(x=20, y=640)
+                                            text="How many family members\n have conditions (inc. yourself):")
+    refugee_family_medical_no_label.place(x=20, y=600)
 
-    refugee_family_num = []
-    refugee_fam_num_temp = refugee_number.get()
-    refugee_fam_num = ''
     refugee_family_medical_no = StringVar()
     total_list = []
     for m in range(1,21):
@@ -1257,12 +1104,12 @@ def create_family():
 
     refugee_family_medical_no_option = tkinter.ttk.Combobox(screen, textvariable=refugee_family_medical_no,
                                                             values= total_list)
-    refugee_family_medical_no_option.place(x=300, y=650, width=50)
+    refugee_family_medical_no_option.place(x=300, y=600, width=50)
 
 
     # BUTTON TO SUBMIT THE FORM
     submit_button = Button(screen, text="Submit the form", width=30, command=save_to_file)
-    submit_button.place(x=100, y=720)
+    submit_button.place(x=100, y=660)
 
     screen.mainloop()
 
