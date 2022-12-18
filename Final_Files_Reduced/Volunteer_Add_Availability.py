@@ -1,5 +1,6 @@
 from tkcalendar import Calendar
 from tkinter import *
+from tkinter import ttk
 import datetime
 import tkinter.messagebox
 import Volunteer_Home
@@ -24,7 +25,7 @@ def add_calendar():
 
 
     #LIST WITH THE TIMINGS
-    times = ['00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45', '03:00', '03:15', '03:30', '03:45', '04:00', '04:15', '04:30', '04:45', '05:00', '05:15', '05:30', '05:45', '06:00', '06:15', '06:30' , '06:45' , '07:00', '07:15' , '07:30' , '07:45' , '08:00', '08:15' , '08:30' , '08:45' , '09:00', '09:15' , '09:30' , '09:45' , '10:00', '10:15' , '10:30' , '10:45' , '11:00', '11:15' , '11:30' , '11:45' , '12:00', '12:15' , '12:30' , '12:45' , '13:00', '13:15' , '13:30' , '13:45' , '14:00', '14:15' , '14:30' , '14:45' , '15:00', '15:15' , '15:30' , '15:45' , '16:00', '16:15' , '16:30' , '16:45' , '17:00', '17:15' , '17:30' , '17:45' , '18:00', '18:15' , '18:30' , '18:45' , '19:00', '19:15' , '19:30' , '19:45' , '20:00', '20:15' , '20:30' , '20:45' , '21:00', '21:15' , '21:30' , '21:45' , '22:00', '22:15' , '22:30' , '22:45' , '23:00', '23:15' , '23:30' , '23:45' ]
+    times = ['', '00:00', '00:15', '00:30', '00:45', '01:00', '01:15', '01:30', '01:45', '02:00', '02:15', '02:30', '02:45', '03:00', '03:15', '03:30', '03:45', '04:00', '04:15', '04:30', '04:45', '05:00', '05:15', '05:30', '05:45', '06:00', '06:15', '06:30' , '06:45' , '07:00', '07:15' , '07:30' , '07:45' , '08:00', '08:15' , '08:30' , '08:45' , '09:00', '09:15' , '09:30' , '09:45' , '10:00', '10:15' , '10:30' , '10:45' , '11:00', '11:15' , '11:30' , '11:45' , '12:00', '12:15' , '12:30' , '12:45' , '13:00', '13:15' , '13:30' , '13:45' , '14:00', '14:15' , '14:30' , '14:45' , '15:00', '15:15' , '15:30' , '15:45' , '16:00', '16:15' , '16:30' , '16:45' , '17:00', '17:15' , '17:30' , '17:45' , '18:00', '18:15' , '18:30' , '18:45' , '19:00', '19:15' , '19:30' , '19:45' , '20:00', '20:15' , '20:30' , '20:45' , '21:00', '21:15' , '21:30' , '21:45' , '22:00', '22:15' , '22:30' , '22:45' , '23:00', '23:15' , '23:30' , '23:45' ]
 
     def delete1():
         availability_screen.destroy()
@@ -37,6 +38,9 @@ def add_calendar():
         availability_screen.destroy()
         global final_calendar_screen
         global final_calendar
+        global refugee_year_final
+        global refugee_month_final
+        global refugee_day_final
         today = datetime.date.today()
 
         final_calendar_screen = Toplevel()
@@ -49,18 +53,141 @@ def add_calendar():
         final_text.pack()
         final_calendar_label = Label(final_calendar_screen, text="Please enter the final date in the range:", font='Arial 18')
         final_calendar_label.pack(pady=50)
-        initial_calendar_date = initial_calendar.selection_get()
-        final_calendar = Calendar(final_calendar_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= initial_calendar_date, maxdate= max)
-        final_calendar.pack(pady = 50)
+
+        refugee_year_final = StringVar()
+        refugee_month_final = StringVar()
+        refugee_day_final = StringVar()
+        year_lolol = refugee_year.get()
+        month_lolol = refugee_month.get()
+        day_lolol = refugee_day.get()
+        refugee_year_final.set(year_lolol)
+        refugee_month_final.set(month_lolol)
+        refugee_day_final.set(day_lolol)
+
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(year_lolol), int(year_lolol) + 3)]
+
+
+
+
+
+        refugee_year_text = Label(final_calendar_screen, text='Year:')
+        refugee_year_text.pack()
+        refugee_year_combo = tkinter.ttk.Combobox(final_calendar_screen, textvariable=refugee_year_final, values=year_list)
+        refugee_year_combo.pack()
+
+
+        refugee_month_text = Label(final_calendar_screen, text='Month ')
+        refugee_month_text.pack()
+        refugee_month_combo = tkinter.ttk.Combobox(final_calendar_screen, textvariable=refugee_month_final, values=month_list)
+        refugee_month_combo.pack()
+
+
+        refugee_day_text = Label(final_calendar_screen, text='Day: ')
+        refugee_day_text.pack()
+        refugee_day_combo = tkinter.ttk.Combobox(final_calendar_screen, textvariable=refugee_day_final, values=day_list)
+        refugee_day_combo.pack()
+
 
         #SUBMIT DATE RANGE
-        final_calendar_button = Button(final_calendar_screen, text="Continue", width=30, command=choose_days)
-        final_calendar_button.pack()
+        final_calendar_button = Button(final_calendar_screen, text="Continue", width=30, command=validate_final)
+        final_calendar_button.pack(pady = 75)
         final_calendar_back_button = Button(final_calendar_screen, text="Quit", width=30, command=delete2)
         final_calendar_back_button.pack()
 
+
+    def validate_final():
+        today = datetime.datetime.today()
+        year = refugee_year_final.get()
+        month = refugee_month_final.get().capitalize()
+        day = refugee_day_final.get()
+
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(today.year), int(today.year) + 3)]
+
+        try:
+            year = int(year)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Year must be numeric!')
+            return
+
+        try:
+            day = int(day)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Day must be numeric!')
+            return
+
+        if year not in year_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid year from list')
+            return
+
+        if month not in month_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid month from list')
+            return
+
+        if day not in day_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid day from list')
+            return
+
+        if int(year) == int(refugee_year.get()) and month_list.index(month) < month_list.index(refugee_month.get()):
+            tkinter.messagebox.showerror(title='Error!', message='Final date must be after initial date!')
+            return
+
+        if int(year) == int(refugee_year.get()) and month_list.index(month) == month_list.index(refugee_month.get()) and int(day) < int(refugee_day.get()):
+            tkinter.messagebox.showerror(title='Error!', message='Final date must be after initial date!')
+            return
+
+
+
+
+        choose_days()
+    def validate_initial():
+        today = datetime.datetime.today()
+        year = refugee_year.get()
+        month = refugee_month.get().capitalize()
+        day = refugee_day.get()
+
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(today.year), int(today.year) + 3)]
+
+        try:
+            year = int(year)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Year must be numeric!')
+            return
+
+        try:
+            day = int(day)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Day must be numeric!')
+            return
+
+        if year not in year_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid year from list')
+            return
+
+        if month not in month_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid month from list')
+            return
+
+        if day not in day_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid day from list')
+            return
+
+
+        final_calendar_lol()
+
     #INITIAL SCREEN, ALLOWS USER TO SELECT THE START DATE OF THEIR VOLUNTEERING
     def initial_calendar_lol():
+        global refugee_year
+        global refugee_month
+        global refugee_day
         global initial_calendar_date
         global initial_calendar
         intro_text = Label(availability_screen, text = "Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg = 'Green', width= 300)
@@ -71,12 +198,34 @@ def add_calendar():
         #SETTING UP THE CALENDAR
         initial_calendar_label = Label(availability_screen, text = "Please enter the inital date in the range:", font = 'Arial 18')
         initial_calendar_label.pack(pady = 50)
-        initial_calendar = Calendar(availability_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= today, maxdate= max)
-        initial_calendar.pack()
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(today.year), int(today.year) + 3)]
+
+
+        refugee_year = StringVar()
+        refugee_month = StringVar()
+        refugee_day = StringVar()
+
+        refugee_year_text = Label(availability_screen, text='Year:')
+        refugee_year_text.pack()
+        refugee_year_combo = tkinter.ttk.Combobox(availability_screen, textvariable=refugee_year, values=year_list)
+        refugee_year_combo.pack()
+
+        refugee_month_text = Label(availability_screen, text='Month ')
+        refugee_month_text.pack()
+        refugee_month_combo = tkinter.ttk.Combobox(availability_screen, textvariable=refugee_month, values=month_list)
+        refugee_month_combo.pack()
+
+        refugee_day_text = Label(availability_screen, text='Day: ')
+        refugee_day_text.pack()
+        refugee_day_combo = tkinter.ttk.Combobox(availability_screen, textvariable=refugee_day, values=day_list)
+        refugee_day_combo.pack()
 
         #SETTING UP THE BUTTONS
-        initial_calendar_button = Button(availability_screen, text = "Continue", width = 30, command = final_calendar_lol)
-        initial_calendar_button.pack(pady = 20)
+        initial_calendar_button = Button(availability_screen, text = "Continue", width = 30, command = validate_initial)
+        initial_calendar_button.pack(pady = 75)
         initial_calendar_quit_button = Button(availability_screen, text="Quit", width=30, command=delete1)
         initial_calendar_quit_button.pack()
 
@@ -94,14 +243,22 @@ def add_calendar():
         range_confirmation_label = Label(choose_days_screen, text = "Please check the summary below to ensure these are your dates of volunteering")
         range_confirmation_label.pack()
 
-        start_date_confirmation = Label(choose_days_screen, text = "The start date of your volunteering is: %s" %initial_calendar.get_date())
+        initial_dates_list = [refugee_day.get(), refugee_month.get(), refugee_year.get()]
+        final_dates_list = [refugee_day_final.get(), refugee_month_final.get(), refugee_year_final.get()]
+        initial_dates_string = ', '.join(initial_dates_list)
+        final_dates_string = ', '.join(final_dates_list)
+
+        start_date_confirmation = Label(choose_days_screen, text = "The start date of your volunteering is: %s" %initial_dates_string)
         start_date_confirmation.pack(pady = 20)
 
-        end_date_confirmation = Label(choose_days_screen, text = "The end date of your volunteering is: %s" %final_calendar.get_date())
+        end_date_confirmation = Label(choose_days_screen, text = "The end date of your volunteering is: %s" %final_dates_string)
         end_date_confirmation.pack(pady = 20)
 
-        x = str(final_calendar.selection_get() - initial_calendar.selection_get())
+        refugee_init_datetime = datetime.datetime.strptime(initial_dates_string, '%d, %B, %Y')
+        refugee_final_datetime = datetime.datetime.strptime(final_dates_string, '%d, %B, %Y')
+        x = str(refugee_final_datetime - refugee_init_datetime)
         y = x.split(',')
+
 
         #CALCULATES THE AMOUNT OF DAYS THEY WORK
         diff_confirmation = Label(choose_days_screen, text = "The total days you will be working is: %s" %str(y[0]))
@@ -126,150 +283,127 @@ def add_calendar():
         sunday_text = IntVar()
 
         #EACH INDIVIDUAL FUNCTION IS EACH DAY OF THE WEEK
-        def mon():
-            global monday_initial_time
-            global monday_final_time
-            monday_initial_time = StringVar()
-            monday_final_time = StringVar()
-            if monday_text.get() == 1:
-                monday_initial_time_menu = OptionMenu(choose_days_screen, monday_initial_time, *times)
-                monday_initial_time_menu.place(x = 180, y = 280, width = 100)
+        
+            
+        monday_initial_time = StringVar()
+        monday_final_time = StringVar()
+            
+        monday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable = monday_initial_time, values = times)
+        monday_initial_time_menu.place(x = 180, y = 280, width = 100)
 
-                monday_label = Label(choose_days_screen, text= "to")
-                monday_label.place(x = 305, y = 280)
-
-
-                monday_final_time_menu = OptionMenu(choose_days_screen, monday_final_time, *times)
-                monday_final_time_menu.place(x=350, y=280, width=100)
-
-            if monday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=280, width=800, height=40)
-
-        def tues():
-            global tuesday_initial_time
-            global tuesday_final_time
-            if tuesday_text.get() == 2:
-                tuesday_initial_time = StringVar()
-                tuesday_initial_time_menu = OptionMenu(choose_days_screen, tuesday_initial_time, *times)
-                tuesday_initial_time_menu.place(x = 180, y = 330, width = 100)
-
-                tuesday_label = Label(choose_days_screen, text= "to")
-                tuesday_label.place(x = 305, y = 330)
-
-                tuesday_final_time = StringVar()
-                tuesday_final_time_menu = OptionMenu(choose_days_screen, tuesday_final_time, *times)
-                tuesday_final_time_menu.place(x=350, y=330, width=100)
-
-            if tuesday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=330, width=800, height=40)
-
-        def wed():
-            global wednesday_initial_time
-            global wednesday_final_time
-            if wednesday_text.get() == 3:
-                wednesday_initial_time = StringVar()
-                wednesday_initial_time_menu = OptionMenu(choose_days_screen, wednesday_initial_time, *times)
-                wednesday_initial_time_menu.place(x = 180, y = 380, width = 100)
-
-                wednesday_label = Label(choose_days_screen, text= "to")
-                wednesday_label.place(x = 305, y = 380)
-
-                wednesday_final_time = StringVar()
-                wednesday_final_time_menu = OptionMenu(choose_days_screen, wednesday_final_time, *times)
-                wednesday_final_time_menu.place(x=350, y=380, width=100)
-
-            if wednesday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=380, width=800, height=40)
-
-        def thurs():
-            global thursday_initial_time
-            global thursday_final_time
-            if thursday_text.get() == 4:
-                thursday_initial_time = StringVar()
-                thursday_initial_time_menu = OptionMenu(choose_days_screen, thursday_initial_time, *times)
-                thursday_initial_time_menu.place(x = 180, y = 430, width = 100)
-
-                thursday_label = Label(choose_days_screen, text= "to")
-                thursday_label.place(x = 305, y = 430)
-
-                thursday_final_time = StringVar()
-                thursday_final_time_menu = OptionMenu(choose_days_screen, thursday_final_time, *times)
-                thursday_final_time_menu.place(x=350, y=430, width=100)
-
-            if thursday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=430, width=800, height=40)
-
-        def fri():
-            global friday_initial_time
-            global friday_final_time
-            if friday_text.get() == 5:
-                friday_initial_time = StringVar()
-                friday_initial_time_menu = OptionMenu(choose_days_screen, friday_initial_time, *times)
-                friday_initial_time_menu.place(x = 180, y = 480, width = 100)
-
-                friday_label = Label(choose_days_screen, text= "to")
-                friday_label.place(x = 305, y = 480)
-
-                friday_final_time = StringVar()
-                friday_final_time_menu = OptionMenu(choose_days_screen, friday_final_time, *times)
-                friday_final_time_menu.place(x=350, y=480, width=100)
-
-            if friday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=480, width=800, height=40)
+        monday_label = Label(choose_days_screen, text= "to")
+        monday_label.place(x = 305, y = 280)
 
 
-        def sat():
-            global saturday_initial_time
-            global saturday_final_time
-            if saturday_text.get() == 6:
-                saturday_initial_time = StringVar()
-                saturday_initial_time_menu = OptionMenu(choose_days_screen, saturday_initial_time, *times)
-                saturday_initial_time_menu.place(x = 180, y = 530, width = 100)
+        monday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable= monday_final_time, values= times)
+        monday_final_time_menu.place(x=350, y=280, width=100)
 
-                saturday_label = Label(choose_days_screen, text= "to")
-                saturday_label.place(x = 305, y = 530)
+            
+        
+        global tuesday_initial_time
+        global tuesday_final_time
+       
+        tuesday_initial_time = StringVar()
+        tuesday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=tuesday_initial_time, values= times)
+        tuesday_initial_time_menu.place(x = 180, y = 330, width = 100)
 
-                saturday_final_time = StringVar()
-                saturday_final_time_menu = OptionMenu(choose_days_screen, saturday_final_time, *times)
-                saturday_final_time_menu.place(x=350, y=530, width=100)
+        tuesday_label = Label(choose_days_screen, text= "to")
+        tuesday_label.place(x = 305, y = 330)
 
-            if saturday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=530, width=800, height=40)
+        tuesday_final_time = StringVar()
+        tuesday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable = tuesday_final_time, values =times)
+        tuesday_final_time_menu.place(x=350, y=330, width=100)
+
+        
+        global wednesday_initial_time
+        global wednesday_final_time
+        
+        wednesday_initial_time = StringVar()
+        wednesday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=wednesday_initial_time, values =times)
+        wednesday_initial_time_menu.place(x = 180, y = 380, width = 100)
+
+        wednesday_label = Label(choose_days_screen, text= "to")
+        wednesday_label.place(x = 305, y = 380)
+
+        wednesday_final_time = StringVar()
+        wednesday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=wednesday_final_time, values =times)
+        wednesday_final_time_menu.place(x=350, y=380, width=100)
 
 
-        def sun():
-            global sunday_initial_time
-            global sunday_final_time
-            if sunday_text.get() == 7:
-                sunday_initial_time = StringVar()
-                sunday_initial_time_menu = OptionMenu(choose_days_screen, sunday_initial_time, *times)
-                sunday_initial_time_menu.place(x = 180, y = 580, width = 100)
+        
+        global thursday_initial_time
+        global thursday_final_time
+            
+        thursday_initial_time = StringVar()
+        thursday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable =thursday_initial_time, values=times)
+        thursday_initial_time_menu.place(x = 180, y = 430, width = 100)
 
-                sunday_label = Label(choose_days_screen, text= "to")
-                sunday_label.place(x = 305, y = 580)
+        thursday_label = Label(choose_days_screen, text= "to")
+        thursday_label.place(x = 305, y = 430)
 
-                sunday_final_time = StringVar()
-                sunday_final_time_menu = OptionMenu(choose_days_screen, sunday_final_time, *times)
-                sunday_final_time_menu.place(x=350, y=580, width=100)
+        thursday_final_time = StringVar()
+        thursday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=thursday_final_time, values=times)
+        thursday_final_time_menu.place(x=350, y=430, width=100)
 
-            if sunday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=580, width=800, height=40)
+     
+        
+        global friday_initial_time
+        global friday_final_time
+        
+        friday_initial_time = StringVar()
+        friday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=friday_initial_time, values=times)
+        friday_initial_time_menu.place(x = 180, y = 480, width = 100)
+
+        friday_label = Label(choose_days_screen, text= "to")
+        friday_label.place(x = 305, y = 480)
+
+        friday_final_time = StringVar()
+        friday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=friday_final_time, values=times)
+        friday_final_time_menu.place(x=350, y=480, width=100)
+
+            
+
+        
+        global saturday_initial_time
+        global saturday_final_time
+        
+        saturday_initial_time = StringVar()
+        saturday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable =saturday_initial_time, values=times)
+        saturday_initial_time_menu.place(x = 180, y = 530, width = 100)
+
+        saturday_label = Label(choose_days_screen, text= "to")
+        saturday_label.place(x = 305, y = 530)
+
+        saturday_final_time = StringVar()
+        saturday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=saturday_final_time, values=times)
+        saturday_final_time_menu.place(x=350, y=530, width=100)
+
+
+        
+        global sunday_initial_time
+        global sunday_final_time
+        
+        sunday_initial_time = StringVar()
+        sunday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=sunday_initial_time, values=times)
+        sunday_initial_time_menu.place(x = 180, y = 580, width = 100)
+
+        sunday_label = Label(choose_days_screen, text= "to")
+        sunday_label.place(x = 305, y = 580)
+
+        sunday_final_time = StringVar()
+        sunday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=sunday_final_time, values=times)
+        sunday_final_time_menu.place(x=350, y=580, width=100)
+
+            
 
         #ALL THE CHECKBUTTON FUNCTIONALITY
-        monday_entry = Checkbutton(choose_days_screen, variable=monday_text, onvalue=1, offvalue=0, text="Monday", command = mon)
-        tuesday_entry = Checkbutton(choose_days_screen, variable=tuesday_text, onvalue=2, offvalue=0, text="Tuesday", command = tues)
-        wednesday_entry = Checkbutton(choose_days_screen, variable=wednesday_text, onvalue=3, offvalue=0, text="Wednesday", command = wed)
-        thursday_entry = Checkbutton(choose_days_screen, variable=thursday_text, onvalue=4, offvalue=0, text="Thursday", command = thurs)
-        friday_entry = Checkbutton(choose_days_screen, variable=friday_text, onvalue=5, offvalue=0, text="Friday", command = fri)
-        saturday_entry = Checkbutton(choose_days_screen, variable=saturday_text, onvalue=6, offvalue=0, text="Saturday", command = sat)
-        sunday_entry = Checkbutton(choose_days_screen, variable=sunday_text, onvalue=7, offvalue=0, text="Sunday", command = sun)
+        monday_entry = Label(choose_days_screen, text= "Monday:")
+        tuesday_entry = Label(choose_days_screen, text= "Tuesday:")
+        wednesday_entry = Label(choose_days_screen, text= "Wednesday:")
+        thursday_entry = Label(choose_days_screen, text= "Thursday:")
+        friday_entry = Label(choose_days_screen, text= "Friday:")
+        saturday_entry = Label(choose_days_screen, text= "Saturday:")
+        sunday_entry = Label(choose_days_screen, text= "Sunday:")
         monday_entry.place(x = 20, y = 280)
         tuesday_entry.place(x = 20, y = 330)
         wednesday_entry.place(x = 20, y = 380)
