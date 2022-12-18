@@ -2,7 +2,7 @@ from tkinter import *
 import hashlib
 import Clean_Database
 
-
+print("Hello World")
 def main():
     Clean_Database.clean_volunteer_database()
     Clean_Database.clean_login_database()
