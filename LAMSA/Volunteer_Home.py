@@ -417,10 +417,8 @@ def volunteer_home_page():
     center_y = int(screen_height / 2 - window_height / 2)
     volunteer_home.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
-    volunteer_home_label = Label(volunteer_home, text="Welcome, %s" % user_name)
-    volunteer_home_label.pack()
-    refugee_camp_label = Label(volunteer_home, text="You are in camp %s" % user_camp_id)
-    refugee_camp_label.pack()
+    Label(volunteer_home, text="LAMSA", font=("TkDefaultFont", 80, "bold")).pack()
+    Label(volunteer_home, text=f"Welcome to Your Portal, {user_name}.\nYou are Volunteering in Camp {user_camp_id}\n", font=("TkDefaultFont", 22)).pack()
 
     create_new_refugee_button = Button(volunteer_home, text="Add Refugee", command=Volunteer_Create_Family.create_family)
     create_new_refugee_button.pack()
@@ -438,5 +436,3 @@ def volunteer_home_page():
     quit_button.pack()
 
     volunteer_home.mainloop()
-
-volunteer_home_page()

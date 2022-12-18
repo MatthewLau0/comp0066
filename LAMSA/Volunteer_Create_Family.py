@@ -66,6 +66,15 @@ def create_family():
     new_refugee_screen = Toplevel()
     new_refugee_screen.title("Add New Family")
 
+    screen_width3 = new_refugee_screen.winfo_screenwidth()
+    screen_height3 = new_refugee_screen.winfo_screenheight()
+    window_height3 = screen_height3
+    window_width3 = 900
+
+    center_x3 = int(screen_width3 / 2 - window_width3 / 2)
+    center_y3 = int(screen_height3 / 2 - window_height3 / 2)
+    new_refugee_screen.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
+
     refugee_camp_id = str(camp_id)
 
     refugee_id = ""
@@ -92,8 +101,7 @@ def create_family():
     refugee_family_health = StringVar()
 
     Label(new_refugee_screen, text="To create a new Refugee Family, please fill in the form below.").pack()
-    Label(new_refugee_screen, text=f"Your Refugee ID is {refugee_id}").pack()
-    Label(new_refugee_screen, text=f"You are in Camp {refugee_camp_id}").pack()
+    Label(new_refugee_screen, text=f"The ID of this Family will be {refugee_id}\n").pack()
 
     name_label = Label(new_refugee_screen, text="Full Name:")
     name_label.pack()
@@ -547,7 +555,8 @@ def create_family():
         else:
             allocate_blocks()
 
-    new_block_done = Button(new_refugee_screen, text="Done", command=check_block, width=30, height=2)
+    new_block_done = Button(new_refugee_screen, text="Done", command=check_block)
     new_block_done.pack()
+    Button(new_refugee_screen, text="Cancel", command=new_refugee_screen.destroy).pack()
 
     new_refugee_screen.mainloop()
