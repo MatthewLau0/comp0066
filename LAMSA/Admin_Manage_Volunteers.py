@@ -57,7 +57,8 @@ def manageVolunteers():
         "Volunteer Gender",
         "Volunteer DoB",
         "Volunteer Age",
-        "Volunteer Account Status"
+        "Volunteer Account Status",
+        "Volunteer Status"
     )
 
     my_game.column("#0", width=0, stretch=NO)
@@ -71,6 +72,7 @@ def manageVolunteers():
     my_game.column("Volunteer DoB", anchor=CENTER, width=85)
     my_game.column("Volunteer Age", anchor=CENTER, width=50)
     my_game.column("Volunteer Account Status", anchor=CENTER, width=80)
+    my_game.column("Volunteer Status", anchor=CENTER, width=80)
 
     my_game.heading("#0", text="", anchor=CENTER)
     my_game.heading("Camp ID", text="Camp ID", anchor=CENTER)
@@ -83,6 +85,7 @@ def manageVolunteers():
     my_game.heading("Volunteer DoB", text="DoB", anchor=CENTER)
     my_game.heading("Volunteer Age", text="Age", anchor=CENTER)
     my_game.heading("Volunteer Account Status", text="Account Status", anchor=CENTER)
+    my_game.heading("Volunteer Status", text="Volunteer Status", anchor=CENTER)
 
     for i in range(0, len(current_volunteer_list_print)):
         current_number = current_volunteer_list_print[i][6].split('#')
@@ -97,6 +100,7 @@ def manageVolunteers():
             current_volunteer_list_print[i][8],
             current_volunteer_list_print[i][9],
             current_volunteer_list_print[i][10],
+            current_volunteer_list_print[i][11]
         ))
 
     my_game.pack()
