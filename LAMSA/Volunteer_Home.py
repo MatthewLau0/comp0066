@@ -1,15 +1,10 @@
 from tkinter import *
 from tkinter import ttk
-from tkcalendar import Calendar
 import datetime
 import Login
 import Volunteer_Create_Family
 import Volunteer_View_Family
 import Volunteer_Add_Availability
-
-
-
-
 
 def volunteer_home_page():
     user_camp_id = ""
@@ -160,6 +155,9 @@ def volunteer_home_page():
                 phone_area_code = StringVar()
                 phone_number = StringVar()
                 gender = StringVar()
+                volunteer_date = StringVar()
+                volunteer_month = StringVar()
+                volunteer_year = StringVar()
 
                 select_camp_label = Label(form_frame, text="Please enter the Camp ID")
                 select_camp_label.pack()
@@ -193,94 +191,126 @@ def volunteer_home_page():
                 phone_number_entry.insert(END, f"{user_number}")
                 phone_number_entry.pack(side=LEFT)
 
-                gender_label = Label(form_frame, text="Please enter the gender you identify with")
+                gender_list = ["Male", "Female", "Other", "Prefer not to say"]
+
+                gender_label = Label(form_frame, text="Gender:")
                 gender_label.pack()
-                gender_entry = Entry(form_frame, textvariable=gender)
-                gender_entry.insert(END, f"{user_gender}")
+                gender_entry = ttk.Combobox(form_frame, textvariable=gender, values=gender_list)
+                gender_entry.insert(END, user_gender)
                 gender_entry.pack()
 
                 today = datetime.datetime.today()
-                user_day = user_dob[8:10]
-                int_day = int(user_day)
-                user_month = user_dob[5:7]
-                int_month = int(user_month)
-                user_year = user_dob[0:4]
-                int_year = int(user_year)
 
-                DOB_calendar_label = Label(form_frame, text="Please enter your date of birth")
-                DOB_calendar_label.pack()
-                DOB_calendar = Calendar(form_frame, date_pattern="d/m/y", selectmode='day', maxdate=today,
-                                        day=int_day, month=int_month, year=int_year)
-                DOB_calendar.pack()
+                day_list = [str(i) for i in range(1, 32)]
+                month_list = [str(i) for i in range(1, 13)]
+                year_list = [str(i) for i in range(2023, 1899, -1)]
 
-                def confirmAge():
+                dob_label = Label(form_frame, text="Enter your date of birth")
+                dob_label.pack()
+                dob_frame = Frame(form_frame)
+                dob_frame.pack()
+                date_day_combobox = ttk.Combobox(dob_frame, textvariable=volunteer_date, values=day_list)
+                date_day_combobox.insert(END, user_dob[8:10])
+                date_day_combobox.pack(side=LEFT)
+                date_month_combobox = ttk.Combobox(dob_frame, textvariable=volunteer_month, values=month_list)
+                date_month_combobox.insert(END, user_dob[5:7])
+                date_month_combobox.pack(side=LEFT)
+                date_year_combobox = ttk.Combobox(dob_frame, textvariable=volunteer_year, values=year_list)
+                date_year_combobox.insert(END, user_dob[0:4])
+                date_year_combobox.pack(side=LEFT)
 
-                    DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
+                def generate_dob():
+                    if len(volunteer_date.get()) == 0 or len(volunteer_month.get()) == 0 or len(
+                            volunteer_year.get()) == 0:
+                        return "empty"
+                    else:
+                        try:
+                            startdateComplete = ("%s-%s-%s" % (
+                            volunteer_year.get(), volunteer_month.get(), volunteer_date.get()))
+                            startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%m-%d")
+                            startDate = datetime.datetime.date(startDateTime)
+                            return startDate
+                        except ValueError:
+                            return "empty"
 
-                    volunteer_age = 0
+                def generate_age():
+                    x = generate_dob()
+                    if x == "empty":
+                        pass
+                    else:
+                        DOB = datetime.datetime.strptime(str(x), "%Y-%m-%d").date()
+                        volunteer_age = 0
 
-                    if DOB.month < today.month and today.year > DOB.year:
-                        volunteer_age = today.year - DOB.year
+                        if DOB.month < today.month and today.year > DOB.year:
+                            volunteer_age = today.year - DOB.year
 
-                    elif DOB.month > DOB.month and today.year > DOB.year:
-                        volunteer_age = today.year - DOB.year - 1
+                        elif DOB.month > DOB.month and today.year > DOB.year:
+                            volunteer_age = today.year - DOB.year - 1
 
-                    elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
-                        volunteer_age = today.year - DOB.year - 1
+                        elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
+                            volunteer_age = today.year - DOB.year - 1
 
-                    elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
-                        volunteer_age = today.year - DOB.year
+                        elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
+                            volunteer_age = today.year - DOB.year
+                        return volunteer_age
 
-                    volunteer_age = str(volunteer_age)
+                new_volunteer_error_list = []
 
-                    new_volunteer_error_list = []
+                def newvolunteerVerify():
+                    dob_label.config(text="DoB is Valid!", fg="green")
+                    select_camp_label.config(text="Camp ID is Valid!", fg="green")
+                    full_name_label.config(text="Name is Valid!", fg="green")
+                    email_label.config(text="Email is Valid!", fg="green")
+                    phone_number_label.config(text="Phone Number is Valid!", fg="green")
+                    gender_label.config(text="Gender is Valid!", fg="green")
+                    new_volunteer_error_list.clear()
+                    if generate_age() == 0:
+                        dob_label.config(
+                            text="Please enter your DOB",
+                            fg="#f00")
+                        new_volunteer_error_list.append("d1")
+                    if select_camp.get() not in camp_ID_list:
+                        select_camp_label.config(
+                            text="\nPlease enter a valid Camp ID",
+                            fg="#f00")
+                        new_volunteer_error_list.append("e1")
+                    if len(full_name.get()) == 0 or full_name.get() == ' ':
+                        full_name_label.config(
+                            text="Please enter your full name.",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e2")
+                    if all(char.isalpha() for char in full_name.get().replace(" ", "")) is False:
+                        full_name_label.config(text="Name can only contain alphabetical characters", fg='#f00')
+                        new_volunteer_error_list.append(1.1)
+                    if '@' not in email.get() or '.' not in email.get():
+                        email_label.config(
+                            text="Please enter a valid email address",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e3")
+                    if len(phone_area_code.get()) > 4:
+                        phone_number_label.config(
+                            text="Please enter a valid phone area code and a valid phone number",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e4")
+                    if len(phone_number.get()) > 15 or len(
+                            phone_number.get()) < 7 or phone_number.get().isalnum() is not True:
+                        phone_number_label.config(
+                            text="Please enter a valid phone area code and a valid phone number",
+                            fg='#f00')
+                        new_volunteer_error_list.append("e5")
+                    if gender.get() not in gender_list:
+                        gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
+                        new_volunteer_error_list.append("gender")
+                    today = datetime.datetime.today()
+                    if generate_dob() == "empty":
+                        dob_label.config(text="Please enter DoB", fg='#f00')
+                        new_volunteer_error_list.append(5)
+                    if generate_dob() != "empty":
+                        test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
+                        if test_start_date > today:
+                            dob_label.config(text="Please enter a valid DoB", fg='#f00')
 
-                    def newvolunteerVerify():
-                        DOB_calendar_label.config(text="DoB is Valid!", fg="green")
-                        select_camp_label.config(text="Camp ID is Valid!", fg="green")
-                        full_name_label.config(text="Name is Valid!", fg="green")
-                        email_label.config(text="Email is Valid!", fg="green")
-                        phone_number_label.config(text="Phone Number is Valid!", fg="green")
-                        gender_label.config(text="Gender is Valid!", fg="green")
-                        new_volunteer_error_list.clear()
-                        if str(volunteer_age) == str(0):
-                            DOB_calendar_label.config(
-                                text="Please enter your DOB",
-                                fg="#f00")
-                            new_volunteer_error_list.append("d1")
-                        if select_camp.get() not in camp_ID_list:
-                            select_camp_label.config(
-                                text="Please enter a valid Camp ID",
-                                fg="#f00")
-                            new_volunteer_error_list.append("e1")
-                        if len(full_name.get()) == 0 or full_name.get() == ' ':
-                            full_name_label.config(
-                                text="Please enter your full name.",
-                                fg='#f00')
-                            new_volunteer_error_list.append("e2")
-                        if '@' not in email.get() or '.' not in email.get():
-                            email_label.config(
-                                text="Please enter a valid email address",
-                                fg='#f00')
-                            new_volunteer_error_list.append("e3")
-                        if len(phone_area_code.get()) > 4:
-                            phone_number_label.config(
-                                text="Please enter a valid phone area code and a valid phone number",
-                                fg='#f00')
-                            new_volunteer_error_list.append("e4")
-                        if len(phone_number.get()) > 15 or len(
-                                phone_number.get()) < 7 or phone_number.get().isalnum() is not True:
-                            phone_number_label.config(
-                                text="Please enter a valid phone area code and a valid phone number",
-                                fg='#f00')
-                            new_volunteer_error_list.append("e5")
-                        if len(gender.get()) == 0 or gender.get() == ' ':
-                            gender_label.config(
-                                text="Please enter a gender. If you prefer not to specify a gender, enter n/a.",
-                                fg='#f00')
-                            new_volunteer_error_list.append("e6")
 
-                    newvolunteerVerify()
                     if len(new_volunteer_error_list) > 0:
                         pass
                     else:
@@ -288,8 +318,7 @@ def volunteer_home_page():
 
                             phone_number_complete = ("%s#%s" % (phone_area_code.get(), phone_number.get()))
 
-                            updated_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA",
-                                            "NA"]
+                            updated_user = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
 
                             updated_user[0] = select_camp.get()
                             updated_user[1] = user_id
@@ -299,8 +328,8 @@ def volunteer_home_page():
                             updated_user[5] = email.get()
                             updated_user[6] = phone_number_complete
                             updated_user[7] = gender.get()
-                            updated_user[8] = str(DOB)
-                            updated_user[9] = volunteer_age
+                            updated_user[8] = str(generate_dob())
+                            updated_user[9] = str(generate_age())
                             if select_camp.get() == user_camp_id:
                                 updated_user[10] = user_status
                             else:
@@ -308,7 +337,7 @@ def volunteer_home_page():
                             updated_user[11] = user_role
                             updated_user[12] = user_availability
 
-                            update_details_toplevel = Toplevel(volunteer_entry_screen)
+                            update_details_toplevel = Toplevel()
 
                             Label(update_details_toplevel,
                                   text="You will now be logged out. Please log back in to see your updated details").pack()
@@ -346,12 +375,10 @@ def volunteer_home_page():
                                 volunteer_home.destroy()
                                 Login.main()
 
-                            update_details_toplevel_button = Button(update_details_toplevel, text="Proceed",
-                                                                    command=logout_login)
+                            update_details_toplevel_button = Button(update_details_toplevel, text="Proceed", command=logout_login)
                             update_details_toplevel_button.pack()
 
-                            cancel_details_toplevel_button = Button(update_details_toplevel, text="Cancel",
-                                                                    command=update_details_toplevel.destroy)
+                            cancel_details_toplevel_button = Button(update_details_toplevel, text="Cancel", command=update_details_toplevel.destroy)
                             cancel_details_toplevel_button.pack()
 
                         createvolunteerSubmit()
@@ -359,7 +386,7 @@ def volunteer_home_page():
                 log_out_info = Label(form_frame, text="Please log out and log back in to see updated details")
                 log_out_info.pack()
 
-                emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
+                emergency_submit_button = Button(form_frame, text="Submit", command=newvolunteerVerify)
                 emergency_submit_button.pack()
 
             select_camp_table_button = Button(volunteer_entry_screen, text="Edit Details", command=volunteerEntry)

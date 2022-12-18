@@ -3,8 +3,6 @@ from tkinter import ttk
 import datetime
 
 
-
-
 def create_family():
     camp_id = ""
     logins_file = open("successful_login.txt", "r")
@@ -63,7 +61,7 @@ def create_family():
 
     refugee_file.close()
 
-    new_refugee = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    new_refugee = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     new_refugee_screen = Toplevel()
     new_refugee_screen.title("Add New Family")
@@ -83,6 +81,8 @@ def create_family():
     refugee_month = StringVar()
     refugee_year = StringVar()
     refugee_gender = StringVar()
+    phone_area_code = StringVar()
+    phone_number = StringVar()
     refugee_address1 = StringVar()
     refugee_address2 = StringVar()
     refugee_address_city = StringVar()
@@ -95,27 +95,21 @@ def create_family():
     Label(new_refugee_screen, text=f"Your Refugee ID is {refugee_id}").pack()
     Label(new_refugee_screen, text=f"You are in Camp {refugee_camp_id}").pack()
 
-    name_frame = Frame(new_refugee_screen)
-    name_frame.pack()
+    name_label = Label(new_refugee_screen, text="Full Name:")
+    name_label.pack()
+    name_entry = Entry(new_refugee_screen, textvariable=refugee_name)
+    name_entry.pack()
 
-    name_label = Label(name_frame, text="Full Name:                                ")
-    name_label.pack(side="left")
-    name_entry = Entry(name_frame, textvariable=refugee_name)
-    name_entry.pack(side="left")
-
-    size_frame = Frame(new_refugee_screen)
-    size_frame.pack()
-
-    size_label = Label(size_frame, text="No. of Total Family Members: ")
-    size_label.pack(side="left")
-    size_entry = Entry(size_frame, textvariable=refugee_family_size)
-    size_entry.pack(side="left")
+    size_label = Label(new_refugee_screen, text="No. of Total Family Members: ")
+    size_label.pack()
+    size_entry = Entry(new_refugee_screen, textvariable=refugee_family_size)
+    size_entry.pack()
 
     day_list = [str(i) for i in range(1, 32)]
     month_list = [str(i) for i in range(1, 13)]
     year_list = [str(i) for i in range(2023, 1899, -1)]
 
-    dob_label = Label(new_refugee_screen, text="Enter the start date for the emergency")
+    dob_label = Label(new_refugee_screen, text="Enter your date of birth")
     dob_label.pack()
     dob_frame = Frame(new_refugee_screen)
     dob_frame.pack()
@@ -139,73 +133,79 @@ def create_family():
                 return "empty"
 
     def generate_age():
-        refugee_age = 10
-        return refugee_age
+        today = datetime.datetime.today()
+        x = generate_dob()
+        if x == "empty":
+            pass
+        else:
+            DOB = datetime.datetime.strptime(str(x), "%Y-%m-%d").date()
+            refugee_age = 0
+
+            if DOB.month < today.month and today.year > DOB.year:
+                refugee_age = today.year - DOB.year
+
+            elif DOB.month > DOB.month and today.year > DOB.year:
+                refugee_age = today.year - DOB.year - 1
+
+            elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
+                refugee_age = today.year - DOB.year - 1
+
+            elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
+                refugee_age = today.year - DOB.year
+            return refugee_age
 
     gender_list = ["Male", "Female", "Other", "Prefer not to say"]
 
-    gender_frame = Frame(new_refugee_screen)
-    gender_frame.pack()
+    gender_label = Label(new_refugee_screen, text="Gender:")
+    gender_label.pack()
+    gender_entry = ttk.Combobox(new_refugee_screen, textvariable=refugee_gender, values=gender_list)
+    gender_entry.pack()
 
-    gender_label = Label(gender_frame, text="Gender:                                 ")
-    gender_label.pack(side="left")
-    gender_entry = ttk.Combobox(gender_frame, textvariable=refugee_gender, values=gender_list)
-    gender_entry.pack(side="left")
+    phone_frame = Frame(new_refugee_screen)
+    phone_frame.pack()
 
-    address_frame = Frame(new_refugee_screen)
-    address_frame.pack()
+    phone_number_label = Label(phone_frame, text="Please enter a phone number")
+    phone_number_label.pack()
+    area_code_sign = Label(phone_frame, text="+")
+    area_code_sign.pack(side=LEFT)
+    phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
+    phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
+    phone_number_entry = Entry(phone_frame, textvariable=phone_number)
+    phone_number_entry.pack(side=LEFT)
 
-    address1_label = Label(address_frame, text="Address Line 1:                         ")
-    address1_label.pack(side="left")
-    address1_entry = Entry(address_frame, textvariable=refugee_address1)
-    address1_entry.pack(side="left")
+    address1_label = Label(new_refugee_screen, text="Address Line 1:")
+    address1_label.pack()
+    address1_entry = Entry(new_refugee_screen, textvariable=refugee_address1)
+    address1_entry.pack()
 
-    address_frame2 = Frame(new_refugee_screen)
-    address_frame2.pack()
+    address2_label = Label(new_refugee_screen, text="Address Line 2:")
+    address2_label.pack()
+    address2_entry = Entry(new_refugee_screen, textvariable=refugee_address2)
+    address2_entry.pack()
 
-    address2_label = Label(address_frame2, text="Address Line 2:                         ")
-    address2_label.pack(side="left")
-    address2_entry = Entry(address_frame2, textvariable=refugee_address2)
-    address2_entry.pack(side="left")
+    address3_label = Label(new_refugee_screen, text="City:")
+    address3_label.pack()
+    address3_entry = Entry(new_refugee_screen, textvariable=refugee_address_city)
+    address3_entry.pack()
 
-    address_frame3 = Frame(new_refugee_screen)
-    address_frame3.pack()
+    address4_label = Label(new_refugee_screen, text="Postcode:")
+    address4_label.pack()
+    address4_entry = Entry(new_refugee_screen, textvariable=refugee_address_post)
+    address4_entry.pack()
 
-    address3_label = Label(address_frame3, text="City:                                           ")
-    address3_label.pack(side="left")
-    address3_entry = Entry(address_frame3, textvariable=refugee_address_city)
-    address3_entry.pack(side="left")
+    address5_label = Label(new_refugee_screen, text="Country:")
+    address5_label.pack()
+    address5_entry = ttk.Combobox(new_refugee_screen, textvariable=refugee_address_country, values=country_list)
+    address5_entry.pack()
 
-    address_frame4 = Frame(new_refugee_screen)
-    address_frame4.pack()
-
-    address4_label = Label(address_frame4, text="Postcode:                                 ")
-    address4_label.pack(side="left")
-    address4_entry = Entry(address_frame4, textvariable=refugee_address_post)
-    address4_entry.pack(side="left")
-
-    address_frame5 = Frame(new_refugee_screen)
-    address_frame5.pack()
-
-    address5_label = Label(address_frame5, text="Country:                               ")
-    address5_label.pack(side="left")
-    address5_entry = ttk.Combobox(address_frame5, textvariable=refugee_address_country, values=country_list)
-    address5_entry.pack(side="left")
-
-    health_frame1 = Frame(new_refugee_screen)
-    health_frame1.pack()
-
-    health_number = Label(health_frame1, text="Total number of family members with any health conditions")
+    health_number = Label(new_refugee_screen, text="Total number of family members with any health conditions")
     health_number.pack()
-    health_number_entry = Entry(health_frame1, textvariable=refugee_family_health_no, width=5)
+    health_number_entry = Entry(new_refugee_screen, textvariable=refugee_family_health_no, width=5)
     health_number_entry.pack()
 
-    health_frame2 = Frame(new_refugee_screen)
-    health_frame2.pack()
-
-    health_label = Label(health_frame2, text="Details of any health conditions within the family")
+    health_label = Label(new_refugee_screen, text="Details of any health conditions within the family")
     health_label.pack()
-    health_entry = Entry(health_frame2, textvariable=refugee_family_health, width=40)
+    health_entry = Entry(new_refugee_screen, textvariable=refugee_family_health, width=40)
     health_entry.pack()
 
 
@@ -263,13 +263,13 @@ def create_family():
                 medical_available.append(f"{i[7]}, Medical {i[1]}, {i[6]} Spaces")
 
         if len(accom_available) == 0:
-            accom_available.append("Accommodation Unavailable,")
+            accom_available.append("Accommodation Unavailable,,")
         if len(ration_available) == 0:
-            ration_available.append("Ration Unavailable,")
+            ration_available.append("Ration Unavailable,,")
         if len(toilet_available) == 0:
-            toilet_available.append("Toilet Unavailable,")
+            toilet_available.append("Toilet Unavailable,,")
         if len(medical_available) == 0:
-            medical_available.append("Medical Unavailable,")
+            medical_available.append("Medical Unavailable,,")
 
         amenity_window = Toplevel()
         amenity_window.title("Allocate Amenities")
@@ -331,6 +331,8 @@ def create_family():
             summary_label.pack()
 
             def submit_command():
+                phone_number_complete = ("%s#%s" % (phone_area_code.get(), phone_number.get()))
+                today = datetime.date.today()
                 new_refugee[0] = str(refugee_camp_id)
                 new_refugee[1] = str(refugee_id)
                 new_refugee[2] = refugee_name.get()
@@ -338,13 +340,15 @@ def create_family():
                 new_refugee[4] = f"{refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}"
                 new_refugee[5] = str(generate_age())
                 new_refugee[6] = refugee_gender.get()
-                new_refugee[7] = f"{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()}"
-                new_refugee[8] = str(refugee_family_health_no.get())
-                new_refugee[9] = refugee_family_health.get()
-                new_refugee[10] = refugee_accom_save[0] + refugee_accom_save[1]
-                new_refugee[11] = refugee_ration_save[0] + refugee_ration_save[1]
-                new_refugee[12] = refugee_toilet_save[0] + refugee_toilet_save[1]
-                new_refugee[13] = refugee_medical_save[0] + refugee_medical_save[1]
+                new_refugee[7] = phone_number_complete
+                new_refugee[8] = f"{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()}"
+                new_refugee[9] = str(refugee_family_health_no.get())
+                new_refugee[10] = refugee_family_health.get()
+                new_refugee[11] = refugee_accom_save[0] + refugee_accom_save[1]
+                new_refugee[12] = refugee_ration_save[0] + refugee_ration_save[1]
+                new_refugee[13] = refugee_toilet_save[0] + refugee_toilet_save[1]
+                new_refugee[14] = refugee_medical_save[0] + refugee_medical_save[1]
+                new_refugee[15] = str(today)
 
                 new_refugee_string = '%'.join(new_refugee)
 
@@ -352,66 +356,77 @@ def create_family():
                 refugee_append.write(new_refugee_string + "\n")
                 refugee_append.close()
 
-                accom_id = refugee_accom_save[1][-1]
-                ration_id = refugee_ration_save[1][-1]
-                toilet_id = refugee_toilet_save[1][-1]
-                medical_id = refugee_medical_save[1][-1]
+                if refugee_accom.get() == "Accommodation Unavailable,,":
+                    pass
+                else:
+                    accom_id = refugee_accom_save[1][-1]
+                    for acc in accommodation_database_list:
+                        if acc[1] == accom_id:
+                            acc[4] = str(int(acc[4]) + int(refugee_family_size.get()))
+                            acc[6] = str(int(acc[6]) - int(refugee_family_size.get()))
 
-                for acc in accommodation_database_list:
-                    if acc[1] == accom_id:
-                        acc[4] = str(int(acc[4]) + int(refugee_family_size.get()))
-                        acc[6] = str(int(acc[6]) - int(refugee_family_size.get()))
+                    clear_file = open("accommodation_database.txt", "w")
+                    clear_file.close()
 
-                clear_file = open("accommodation_database.txt", "w")
-                clear_file.close()
+                    for entry in accommodation_database_list:
+                        with open("accommodation_database.txt", "a") as accommodation_write:
+                            updated_accommodation_string = ",".join(entry)
+                            accommodation_write.write(updated_accommodation_string)
+                    accommodation_write.close()
 
-                for entry in accommodation_database_list:
-                    with open("accommodation_database.txt", "a") as accommodation_write:
-                        updated_accommodation_string = ",".join(entry)
-                        accommodation_write.write(updated_accommodation_string)
-                accommodation_write.close()
+                if refugee_ration.get() == "Ration Unavailable,,":
+                    pass
+                else:
+                    ration_id = refugee_ration_save[1][-1]
+                    for rat in ration_database_list:
+                        if rat[1] == ration_id:
+                            rat[4] = str(int(rat[4]) + int(refugee_family_size.get()))
+                            rat[6] = str(int(rat[6]) - int(refugee_family_size.get()))
 
-                for rat in ration_database_list:
-                    if rat[1] == ration_id:
-                        rat[4] = str(int(rat[4]) + int(refugee_family_size.get()))
-                        rat[6] = str(int(rat[6]) - int(refugee_family_size.get()))
+                    clear_file = open("ration_database.txt", "w")
+                    clear_file.close()
 
-                clear_file = open("ration_database.txt", "w")
-                clear_file.close()
+                    for entry in ration_database_list:
+                        with open("ration_database.txt", "a") as ration_write:
+                            updated_ration_string = ",".join(entry)
+                            ration_write.write(updated_ration_string)
+                    ration_write.close()
 
-                for entry in ration_database_list:
-                    with open("ration_database.txt", "a") as ration_write:
-                        updated_ration_string = ",".join(entry)
-                        ration_write.write(updated_ration_string)
-                ration_write.close()
+                if refugee_toilet.get() == "Toilet Unavailable,,":
+                    pass
+                else:
+                    toilet_id = refugee_toilet_save[1][-1]
+                    for toi in toilet_database_list:
+                        if toi[1] == toilet_id:
+                            toi[4] = str(int(toi[4]) + int(refugee_family_size.get()))
+                            toi[6] = str(int(toi[6]) - int(refugee_family_size.get()))
 
-                for toi in toilet_database_list:
-                    if toi[1] == toilet_id:
-                        toi[4] = str(int(toi[4]) + int(refugee_family_size.get()))
-                        toi[6] = str(int(toi[6]) - int(refugee_family_size.get()))
+                    clear_file = open("toilet_database.txt", "w")
+                    clear_file.close()
 
-                clear_file = open("toilet_database.txt", "w")
-                clear_file.close()
+                    for entry in toilet_database_list:
+                        with open("toilet_database.txt", "a") as toilet_write:
+                            updated_toilet_string = ",".join(entry)
+                            toilet_write.write(updated_toilet_string)
+                    toilet_write.close()
 
-                for entry in toilet_database_list:
-                    with open("toilet_database.txt", "a") as toilet_write:
-                        updated_toilet_string = ",".join(entry)
-                        toilet_write.write(updated_toilet_string)
-                toilet_write.close()
+                if refugee_medical.get() == "Medical Unavailable,,":
+                    pass
+                else:
+                    medical_id = refugee_medical_save[1][-1]
+                    for med in medical_database_list:
+                        if med[1] == medical_id:
+                            med[4] = str(int(med[4]) + int(refugee_family_health_no.get()))
+                            med[6] = str(int(med[6]) - int(refugee_family_health_no.get()))
 
-                for med in medical_database_list:
-                    if med[1] == toilet_id:
-                        med[4] = str(int(med[4]) + int(refugee_family_health_no.get()))
-                        med[6] = str(int(med[6]) - int(refugee_family_health_no.get()))
+                    clear_file = open("medical_database.txt", "w")
+                    clear_file.close()
 
-                clear_file = open("medical_database.txt", "w")
-                clear_file.close()
-
-                for entry in medical_database_list:
-                    with open("medical_database.txt", "a") as medical_write:
-                        updated_medical_string = ",".join(entry)
-                        medical_write.write(updated_medical_string)
-                medical_write.close()
+                    for entry in medical_database_list:
+                        with open("medical_database.txt", "a") as medical_write:
+                            updated_medical_string = ",".join(entry)
+                            medical_write.write(updated_medical_string)
+                    medical_write.close()
 
                 refugee_summary.destroy()
                 new_refugee_screen.destroy()
@@ -460,6 +475,7 @@ def create_family():
         size_label.config(text="Family size entered", fg='green')
         dob_label.config(text="DoB entered", fg='green')
         gender_label.config(text="Gender entered", fg='green')
+        phone_number_label.config(text="Phone Number is Valid!", fg="green")
         address1_label.config(text="Address Line 1 entered", fg='green')
         address2_label.config(text="Address Line 2 entered", fg='green')
         address3_label.config(text="City entered", fg='green')
@@ -504,7 +520,17 @@ def create_family():
             test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
             if test_start_date > today:
                 dob_label.config(text="Please enter a valid DoB", fg='#f00')
-
+        if len(phone_area_code.get()) > 4:
+            phone_number_label.config(
+                text="Please enter a valid phone area code and a valid phone number",
+                fg='#f00')
+            error_new_volunteer.append("e4")
+        if len(phone_number.get()) > 15 or len(
+                phone_number.get()) < 7 or phone_number.get().isalnum() != True:
+            phone_number_label.config(
+                text="Please enter a valid phone area code and a valid phone number",
+                fg='#f00')
+            error_new_volunteer.append("e5")
         if refugee_gender.get() not in gender_list:
             gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
         if refugee_address_country.get() not in country_list:
@@ -525,5 +551,3 @@ def create_family():
     new_block_done.pack()
 
     new_refugee_screen.mainloop()
-
-create_family()
