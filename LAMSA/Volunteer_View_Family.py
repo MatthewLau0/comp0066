@@ -75,9 +75,9 @@ def table():
     emergency_database_table.heading("No. family with condition", text="No. w/ conditions", anchor='center')
     emergency_database_table.heading("Medical Conditions", text="Medical Conditions", anchor='center')
     emergency_database_table.heading("Accommodation", text="Accom.", anchor='center')
-    emergency_database_table.heading("Ration", text="Medical", anchor='center')
+    emergency_database_table.heading("Ration", text="Rations", anchor='center')
     emergency_database_table.heading("Toilet", text="Toilet", anchor='center')
-    emergency_database_table.heading("Medical", text="Rations", anchor='center')
+    emergency_database_table.heading("Medical", text="Medical", anchor='center')
 
     for i in range(0, len(refugee_database_list)):
         emergency_database_table.insert(parent='', index=i, iid=i, values=(
@@ -322,5 +322,3 @@ def table():
     view_refugee_return_home_button.pack()
 
     view_refugee_table.mainloop()
-
-table()
