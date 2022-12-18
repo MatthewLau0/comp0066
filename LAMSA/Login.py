@@ -18,15 +18,17 @@ def main():
     center_y = int(screen_height / 2 - window_height / 2)
     master_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
-    Label(master_window, text="\nWelcome to LAMSA").pack()
-    Label(master_window, text="A State of the Art Humanitarian Emergency Management System\n\n\n").pack()
+    Label(master_window, text="\nWelcome to", font=("TkDefaultFont", 22)).pack()
+    Label(master_window, text="LAMSA", font=("TkDefaultFont", 80, "bold")).pack()
+    Label(master_window, text="A State of the Art", font=("TkDefaultFont", 18)).pack()
+    Label(master_window, text="Humanitarian Emergency Management System\n\n\n", font=("TkDefaultFont", 22, "bold")).pack()
 
     def main_signin_screen():
         master_window.destroy()
         main_window = Tk()
         main_window.title("Sign In")
 
-        Label(main_window, text="\n\nLAMSA").pack()
+        Label(main_window, text="\n\nLAMSA", font=("TkDefaultFont", 80, "bold")).pack()
 
         screen_width1 = main_window.winfo_screenwidth()
         screen_height1 = main_window.winfo_screenheight()
@@ -45,7 +47,7 @@ def main():
             register_screen = Tk()
             register_screen.title("Register")
 
-            Label(register_screen, text="\nLAMSA").pack()
+            Label(register_screen, text="\nLAMSA", font=("TkDefaultFont", 80, "bold")).pack()
 
             screen_width2 = register_screen.winfo_screenwidth()
             screen_height2 = register_screen.winfo_screenheight()
@@ -141,14 +143,6 @@ def main():
                     username_error3 = Label(register_errors, text="Username is taken. Please try again")
                     username_error3.pack()
                     error_count.append("u3")
-
-                def us_has_number(input_string):
-                    return all(char.isalpha() for char in input_string)
-
-                if us_has_number(username.get()) is False:
-                    username_error5 = Label(register_errors, text="Username can only contain letters")
-                    username_error5.pack()
-                    error_count.append("u5")
 
                 if password.get() == confirm_password.get():
                     if len(password.get()) <= 2:
@@ -247,7 +241,7 @@ def main():
             volunteer_login_screen = Tk()
             volunteer_login_screen.title("Login")
 
-            Label(volunteer_login_screen, text="\nLAMSA").pack()
+            Label(volunteer_login_screen, text="\nLAMSA", font=("TkDefaultFont", 80, "bold")).pack()
 
             screen_width2 = volunteer_login_screen.winfo_screenwidth()
             screen_height2 = volunteer_login_screen.winfo_screenheight()
@@ -378,7 +372,7 @@ def main():
             admin_login_screen = Tk()
             admin_login_screen.title("Admin Login")
 
-            Label(admin_login_screen, text="\nLAMSA").pack()
+            Label(admin_login_screen, text="\nLAMSA", font=("TkDefaultFont", 80, "bold")).pack()
 
             screen_width2 = admin_login_screen.winfo_screenwidth()
             screen_height2 = admin_login_screen.winfo_screenheight()
@@ -468,7 +462,7 @@ def main():
             choose_role_window = Tk()
             choose_role_window.title("Login")
 
-            Label(choose_role_window, text="\n\nLAMSA").pack()
+            Label(choose_role_window, text="\n\nLAMSA", font=("TkDefaultFont", 80, "bold")).pack()
 
             screen_width2 = choose_role_window.winfo_screenwidth()
             screen_height2 = choose_role_window.winfo_screenheight()
@@ -512,17 +506,17 @@ def main():
         center_y3 = int(screen_height3 / 2 - window_height3 / 2)
         app_info_screen.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
 
-        Label(app_info_screen, text="\nHow to Use LAMSA").pack()
+        Label(app_info_screen, text="\nHow to Use LAMSA", font=("TkDefaultFont", 44)).pack()
 
-        Label(app_info_screen, text="\nAdmin").pack()
-
-        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
-
-        Label(app_info_screen, text="\nCamp Lead").pack()
+        Label(app_info_screen, text="\nAdmin", font=("TkDefaultFont", 24, "bold")).pack()
 
         Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
 
-        Label(app_info_screen, text="\nVolunteer").pack()
+        Label(app_info_screen, text="\nCamp Lead", font=("TkDefaultFont", 24, "bold")).pack()
+
+        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
+
+        Label(app_info_screen, text="\nVolunteer", font=("TkDefaultFont", 24, "bold")).pack()
 
         Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n\n\n").pack()
 
