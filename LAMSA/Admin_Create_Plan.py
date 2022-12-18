@@ -51,9 +51,9 @@ def createnewemergencyPlan():
     end_date_month = StringVar()
     end_date_year = StringVar()
 
-    New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency camp. Please follow the below instructions")
+    New_Camp_Screen_Label = Label(New_Camp_Screen, text="You are going to make a new emergency camp. Please follow the below instructions\n")
     New_Camp_Screen_Label.pack()
-    New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s" % (new_emergency[0]))
+    New_Camp_Screen_Label_Index = Label(New_Camp_Screen, text="The index number for your camp is %s\n" % (new_emergency[0]))
     New_Camp_Screen_Label_Index.pack()
 
     camp_name_label = Label(New_Camp_Screen, text="Camp Name")
