@@ -93,7 +93,7 @@ def main():
                     confirm_password_entry.config(show='*')
                     password_visibility_btn.config(text='Show Passwords')
 
-            requirements_label = Label(register_screen, text="\nUsername and Password must not contain any spaces. \nUsername and Password must not contain the '%' sign \nUsername and Password must be at least 3 characters long \nUsername must only contain letters\nPassword must contain at least one number\n")
+            requirements_label = Label(register_screen, text="\nUsername and Password must not contain any spaces. \nUsername and Password must not contain the '%' sign \nUsername and Password must be at least 3 characters long \nPassword must contain at least one number\n")
             requirements_label.pack()
 
             password_visibility_btn = Button(register_screen, text='Show Passwords', command=change_password_visibility)
