@@ -174,9 +174,12 @@ def table():
 
             refugee_date = current_updating_refugee[0][4].split("/")
             number = current_updating_refugee[0][7].split("#")
-            address = current_updating_refugee[0][8].split(",")
+            address = current_updating_refugee[0][8].replace(" ", "").split(",")
 
+            updating_family_camp_id = current_updating_refugee[0][0]
+            updating_family_id = current_updating_refugee[0][1]
             update_refugee_name = current_updating_refugee[0][2]
+            updating_family_size = current_updating_refugee[0][3]
             update_refugee_date = refugee_date[0]
             update_refugee_month = refugee_date[1]
             update_refugee_year = refugee_date[2]
@@ -188,7 +191,13 @@ def table():
             update_refugee_address_city = address[2]
             update_refugee_address_post = address[3]
             update_refugee_address_country = address[4]
-            update_refugee_family_health = current_updating_refugee[0][9]
+            updating_family_health_no = current_updating_refugee[0][9]
+            update_refugee_family_health = current_updating_refugee[0][10]
+            updating_refugee_accom = current_updating_refugee[0][11]
+            updating_refugee_ration = current_updating_refugee[0][12]
+            updating_refugee_toilet = current_updating_refugee[0][13]
+            updating_refugee_medical = current_updating_refugee[0][14]
+            updating_date_created = current_updating_refugee[0][15]
 
             refugee_name = StringVar()
             refugee_date = StringVar()
@@ -243,8 +252,26 @@ def table():
                         return "empty"
 
             def generate_age():
-                refugee_age = 10
-                return refugee_age
+                today = datetime.datetime.today()
+                x = generate_dob()
+                if x == "empty":
+                    pass
+                else:
+                    DOB = datetime.datetime.strptime(str(x), "%Y-%m-%d").date()
+                    refugee_age = 0
+
+                    if DOB.month < today.month and today.year > DOB.year:
+                        refugee_age = today.year - DOB.year
+
+                    elif DOB.month > DOB.month and today.year > DOB.year:
+                        refugee_age = today.year - DOB.year - 1
+
+                    elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
+                        refugee_age = today.year - DOB.year - 1
+
+                    elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
+                        refugee_age = today.year - DOB.year
+                    return refugee_age
 
             gender_list = ["Male", "Female", "Other", "Prefer not to say"]
 
@@ -304,21 +331,152 @@ def table():
             health_entry.insert(END, update_refugee_family_health)
             health_entry.pack()
 
-        def run_the_update():
-            if selected_refugee_id.get() not in id_list:
-                id_select_label.config(fg="#f00")
-            else:
-                update_family_screen_id.destroy()
-                update_run()
+            def summary():
 
-        id_done = Button(update_family_screen_id, text="Done", command=run_the_update)
-        id_done.pack()
+                refugee_summary = Toplevel()
 
+                refugee_summary.title("Refugee Family Summary")
 
-    update_a_family_button = Button(view_refugee_table, text="Update a Family", command=modify_family)
-    update_a_family_button.pack()
+                label_1 = Label(refugee_summary, text="Please check that you are happy with the entry below:")
+                label_1.pack()
+
+                summary_label = Label(refugee_summary, text=f"""
+                Lead Member Name: {refugee_name.get()} \n 
+                Family Size: {updating_family_size} \n
+                Lead Member DoB: {refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}
+                Lead Member Age: {generate_age()} 
+                Lead Member Gender: {refugee_gender.get()} \n 
+                Address: {refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()} \n{refugee_address_post.get()}, {refugee_address_country.get()} \n
+                No. Members with Health Conditions: {updating_family_health_no}\n
+                Health Condition Details: {refugee_family_health.get()}
+                Accommodation: {updating_refugee_accom}
+                Ration Stall: {updating_refugee_ration}
+                Toilet Block: {updating_refugee_toilet}
+                Medical Dispensary: {updating_refugee_medical}""")
+                summary_label.pack()
+
+                def submit_command():
+                    phone_number_complete = ("%s#%s" % (phone_area_code.get(), phone_number.get()))
+
+                    updated_family = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
+
+                    updated_family[0] = str(updating_family_camp_id)
+                    updated_family[1] = str(updating_family_id)
+                    updated_family[2] = refugee_name.get()
+                    updated_family[3] = str(updating_family_size)
+                    updated_family[4] = f"{refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}"
+                    updated_family[5] = str(generate_age())
+                    updated_family[6] = refugee_gender.get()
+                    updated_family[7] = phone_number_complete
+                    updated_family[8] = f"{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()}"
+                    updated_family[9] = str(updating_family_health_no)
+                    updated_family[10] = refugee_family_health.get()
+                    updated_family[11] = updating_refugee_accom
+                    updated_family[12] = updating_refugee_ration
+                    updated_family[13] = updating_refugee_toilet
+                    updated_family[14] = updating_refugee_medical
+                    updated_family[15] = updating_date_created
+
+                    refugee_read = open("refugee_database.txt", "r")
+
+                    refugee_list = []
+                    for refugee_line in refugee_read:
+                        line_string_1 = refugee_line.split("%")
+                        refugee_list.append(line_string_1)
+
+                    refugee_read.close()
+
+                    refugee_list = [updated_family if num[1] == str(updating_family_id) else num for num in refugee_list]
+
+                    clear_file = open("refugee_database.txt", "w")
+                    clear_file.close()
+
+                    for entry in refugee_list:
+                        with open("refugee_database.txt", "a") as refugee_write:
+                            updated_refugee_string = "%".join(entry)
+                            refugee_write.write(updated_refugee_string)
+                    refugee_write.close()
+
+                    refugee_summary.destroy()
+                    update_refugee_screen.destroy()
+
+                edit_button = Button(refugee_summary, text="Cancel", command=refugee_summary.destroy, width=30, height=2)
+                edit_button.pack()
+                submit_button = Button(refugee_summary, text="Submit", command=submit_command, width=30, height=2)
+                submit_button.pack()
+
+                refugee_summary.mainloop()
+
+            error_new_volunteer = []
+
+            def check_block():
+
+                name_label.config(text="Name entered", fg='green')
+                dob_label.config(text="DoB entered", fg='green')
+                gender_label.config(text="Gender entered", fg='green')
+                phone_number_label.config(text="Phone Number is Valid!", fg="green")
+                address1_label.config(text="Address Line 1 entered", fg='green')
+                address2_label.config(text="Address Line 2 entered", fg='green')
+                address3_label.config(text="City entered", fg='green')
+                address4_label.config(text="Post Code entered", fg='green')
+                address5_label.config(text="Country entered", fg='green')
+                health_label.config(text="Health details entered", fg='green')
+
+                error_new_volunteer.clear()
+
+                if refugee_name.get().strip() == "":
+                    name_label.config(text="Please enter a name", fg='#f00')
+                    error_new_volunteer.append(1)
+                if all(char.isalpha() for char in refugee_name.get().replace(" ", "")) is False:
+                    name_label.config(text="Name can only contain alphabetical characters", fg='#f00')
+                    error_new_volunteer.append(1.1)
+                today = datetime.datetime.today()
+                if generate_dob() == "empty":
+                    dob_label.config(text="Please enter DoB", fg='#f00')
+                    error_new_volunteer.append(5)
+                if generate_dob() != "empty":
+                    test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
+                    if test_start_date > today:
+                        dob_label.config(text="Please enter a valid DoB", fg='#f00')
+                if len(phone_area_code.get()) > 4:
+                    phone_number_label.config(
+                        text="Please enter a valid phone area code and a valid phone number",
+                        fg='#f00')
+                    error_new_volunteer.append("e4")
+                if len(phone_number.get()) > 15 or len(
+                        phone_number.get()) < 7 or phone_number.get().isalnum() is not True:
+                    phone_number_label.config(
+                        text="Please enter a valid phone area code and a valid phone number",
+                        fg='#f00')
+                    error_new_volunteer.append("e5")
+                if refugee_gender.get() not in gender_list:
+                    gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
+                if refugee_address_country.get() not in country_list:
+                    address5_label.config(text="Please enter a country from the list provided", fg='#f00')
+                if refugee_address1.get().strip() == "":
+                    address1_label.config(text="Please enter a valid Address Line 1", fg='#f00')
+                if refugee_address_city.get().strip() == "":
+                    address3_label.config(text="Please enter a valid City", fg='#f00')
+                if refugee_address_post.get().strip() == "":
+                    address4_label.config(text="Please enter a valid Postcode", fg='#f00')
+
+                if len(error_new_volunteer) > 0:
+                    pass
+                else:
+                    summary()
+
+            button_block_done = Button(update_refugee_screen, text="Done", command=check_block)
+            button_block_done.pack()
+
+        new_block_done = Button(update_family_screen_id, text="Done", command=update_run)
+        new_block_done.pack()
+
+    update_family_button = Button(view_refugee_table, text="Update a Family", command=modify_family)
+    update_family_button.pack()
 
     view_refugee_return_home_button = Button(view_refugee_table, text="Return Home", command=view_refugee_table.destroy)
     view_refugee_return_home_button.pack()
 
     view_refugee_table.mainloop()
+
+table()
