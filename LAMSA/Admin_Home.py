@@ -55,8 +55,8 @@ def adminHome():
     center_x1 = int(screen_width1 / 2 - window_width1 / 2)
     center_y1 = int(screen_height1 / 2 - window_height1 / 2)
     admin_home.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
-    Label(admin_home, text="LAMSA").pack()
-    Label(admin_home, text="Welcome to the Admin Home Page", ).pack()
+    Label(admin_home, text="LAMSA", font=("TkDefaultFont", 80, "bold")).pack()
+    Label(admin_home, text="Welcome to the Admin Home Page\n", font=("TkDefaultFont", 24)).pack()
 
     create_new_emergency_frame = Frame(admin_home)
     create_new_emergency_frame.pack()
