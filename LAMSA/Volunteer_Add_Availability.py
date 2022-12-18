@@ -165,19 +165,25 @@ def add_calendar():
         if len(volunteering_start_day.get()) == 0 or len(volunteering_start_month.get()) == 0 or len(volunteering_start_year.get()) == 0:
             return "empty"
         else:
-            volunteer_from_date_string = f"{volunteering_start_day.get()}-{volunteering_start_month.get()}-{volunteering_start_year.get()}"
-            volunteer_from_date_int = datetime.datetime.strptime(volunteer_from_date_string, "%d-%m-%Y")
-            volunteer_from_date = datetime.datetime.date(volunteer_from_date_int)
-            return volunteer_from_date
+            try:
+                volunteer_from_date_string = f"{volunteering_start_day.get()}-{volunteering_start_month.get()}-{volunteering_start_year.get()}"
+                volunteer_from_date_int = datetime.datetime.strptime(volunteer_from_date_string, "%d-%m-%Y")
+                volunteer_from_date = datetime.datetime.date(volunteer_from_date_int)
+                return volunteer_from_date
+            except ValueError:
+                return "empty"
 
     def generate_end_date():
         if len(volunteering_end_day.get()) == 0 or len(volunteering_end_month.get()) == 0 or len(volunteering_end_year.get()) == 0:
             return "empty"
         else:
-            volunteer_to_date_string = f"{volunteering_end_day.get()}-{volunteering_end_month.get()}-{volunteering_end_year.get()}"
-            volunteer_to_date_int = datetime.datetime.strptime(volunteer_to_date_string, "%d-%m-%Y")
-            volunteer_to_date = datetime.datetime.date(volunteer_to_date_int)
-            return volunteer_to_date
+            try:
+                volunteer_to_date_string = f"{volunteering_end_day.get()}-{volunteering_end_month.get()}-{volunteering_end_year.get()}"
+                volunteer_to_date_int = datetime.datetime.strptime(volunteer_to_date_string, "%d-%m-%Y")
+                volunteer_to_date = datetime.datetime.date(volunteer_to_date_int)
+                return volunteer_to_date
+            except ValueError:
+                return "empty"
 
     def availability_summary():
 
@@ -262,8 +268,11 @@ def add_calendar():
 
         today = datetime.datetime.today()
 
-        days_chosen_list = [volunteer_monday.get(), volunteer_tuesday.get(), volunteer_wednesday.get(), volunteer_thursday.get(), volunteer_friday.get(), volunteer_saturday.get(), volunteer_sunday.get().replace("\n", ""), mo, tu, we, th, fr, sa, su.replace("\n", "")]
-        print(days_chosen_list)
+        days_chosen_list = [volunteer_monday.get(), volunteer_tuesday.get(), volunteer_wednesday.get(), volunteer_thursday.get(), volunteer_friday.get(), volunteer_saturday.get(), volunteer_sunday.get().replace("\n", "")]
+        days_to_add = [mo, tu, we, th, fr, sa, su.replace("\n", "")]
+        for day in days_to_add:
+            if day.strip() != "":
+                days_chosen_list.append(day)
 
         if generate_start_date() == "empty":
             start_date_label.config(text="Please enter a start date", fg='#f00')
@@ -294,3 +303,5 @@ def add_calendar():
     done_button.pack()
 
     availability_screen.mainloop()
+
+add_calendar()

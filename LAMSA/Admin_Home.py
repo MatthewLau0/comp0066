@@ -8,10 +8,6 @@ def adminHome():
         from Admin_Create_Plan import createnewemergencyPlan
         createnewemergencyPlan()
 
-    def Update_Emergency():
-        from Admin_Update_Plan import updateexistingForm
-        updateexistingForm()
-
     def Manage_Volunteers():
         from Admin_Manage_Volunteers import manageVolunteers
         manageVolunteers()
@@ -60,12 +56,10 @@ def adminHome():
 
     create_new_emergency_button = Button(admin_home, text="Create New Emergency Camp", command=Create_Emergency)
     create_new_emergency_button.pack()
-    update_emergency_button = Button(admin_home, text="Update Existing Emergency Camp", command=Update_Emergency)
-    update_emergency_button.pack()
-    manage_volunteers_button = Button(admin_home, text="Manage Volunteers", command=Manage_Volunteers)
-    manage_volunteers_button.pack()
     view_camps_button = Button(admin_home, text="Summary of Existing Camps", command=View_Camps)
     view_camps_button.pack()
+    manage_volunteers_button = Button(admin_home, text="Manage Volunteers", command=Manage_Volunteers)
+    manage_volunteers_button.pack()
     user_guide_button = Button(admin_home, text="User Guide", command=userGuide)
     user_guide_button.pack()
 

@@ -1,7 +1,8 @@
 from tkinter import *
 from tkinter import ttk
-
-
+def Update_Emergency():
+    from Admin_Update_Plan import updateexistingForm
+    updateexistingForm()
 def viewexistingCamps():
 
     view_camp_home_screen = Tk()
@@ -573,5 +574,7 @@ def viewexistingCamps():
 
     view_refugees_summary_button = Button(view_camp_home_screen, text="View Refugees", command=viewRefugees)
     view_refugees_summary_button.pack()
+    update_emergency_button = Button(view_camp_home_screen, text="Update Existing Emergency Camp", command=Update_Emergency)
+    update_emergency_button.pack()
 
     view_camp_home_screen.mainloop()
