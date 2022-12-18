@@ -289,7 +289,6 @@ def createnewemergencyPlan():
         if area_affected.get() not in country_list:
             emergency_location_label.config(text="Please enter a valid country where the emergency has occurred", fg='#f00')
             errors_new_camp.append(9)
-
         if len(errors_new_camp) > 0:
             pass
         else:
