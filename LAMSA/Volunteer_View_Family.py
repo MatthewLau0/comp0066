@@ -1,11 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 
-camp_id_to_view = ""
 
-
-def camp_id_generate():
-    global camp_id_to_view
+def table():
+    camp_id_to_view = ""
     logins_file = open("successful_login.txt", "r")
 
     logins_list = []
@@ -15,11 +13,7 @@ def camp_id_generate():
     logins_file.close()
     if len(logins_list) > 0:
         camp_id_to_view = logins_list[-1][0]
-    else:
-        pass
 
-def table():
-    camp_id_generate()
     volunteer_list_file = open("refugee_database.txt", "r")
     volunteer_database_list = []
     for line in volunteer_list_file:
@@ -94,7 +88,30 @@ def table():
     emergency_database_table.pack(fill='both')
 
     def modify_family():
-        pass
+        update_family_screen_id = Toplevel()
+        update_family_screen_id.title("Update ID Select")
+
+        screen_width2 = update_family_screen_id.winfo_screenwidth()
+        screen_height2 = update_family_screen_id.winfo_screenheight()
+        window_height2 = 100
+        window_width2 = 300
+
+        center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+        center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+        update_family_screen_id.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
+
+        id_list = []
+
+        for i in volunteer_database_list:
+            id_list.append(i[1])
+
+        selected_camp_id = StringVar()
+
+        id_select_label = Label(update_family_screen_id, text="Please choose a block ID to update")
+        id_select_label.pack()
+        selected_camp_id.set("Select ID")
+        id_select_option = ttk.Combobox(update_family_screen_id, textvariable=selected_camp_id, values=id_list)
+        id_select_option.pack()
 
 
     update_a_family_button = Button(view_refugee_table, text="Update a Family", command=modify_family)

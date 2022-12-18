@@ -609,8 +609,7 @@ def create_family():
         # CREATE LIST WITH MEDICAL STALLS THAT ARE IN THE SAME CAMP AND IN THE SAME WING
         medical_specific_camp_list = []
         for i in range(len(medical_database_list)):
-            if int(medical_database_list[i][0]) == int(volunteer_current_camp) and medical_database_list[i][
-                7] == refugee_assigned_block:
+            if int(medical_database_list[i][0]) == int(volunteer_current_camp) and medical_database_list[i][7] == refugee_assigned_block:
                 medical_specific_camp_list.append(medical_database_list[i])
 
         # ITERATE THROUGH LIST TO SEE WHICH ONE IS FREE

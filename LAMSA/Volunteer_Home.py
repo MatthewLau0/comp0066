@@ -8,37 +8,25 @@ import Volunteer_View_Family
 import Volunteer_Add_Availability
 
 
-user_camp_id = ""
-user_id = ""
-user_name = ""
-user_username = ""
-user_password = ""
-user_email = ""
-user_number_area = ""
-user_number = ""
-user_gender = ""
-user_dob = ""
-user_age = ""
-user_status = ""
-user_role = ""
-user_availability = ""
 
 
-def user_details_generate():
-    global user_camp_id
-    global user_id
-    global user_name
-    global user_username
-    global user_password
-    global user_email
-    global user_number_area
-    global user_number
-    global user_gender
-    global user_dob
-    global user_age
-    global user_status
-    global user_role
-    global user_availability
+
+def volunteer_home_page():
+    user_camp_id = ""
+    user_id = ""
+    user_name = ""
+    user_username = ""
+    user_password = ""
+    user_email = ""
+    user_number_area = ""
+    user_number = ""
+    user_gender = ""
+    user_dob = ""
+    user_age = ""
+    user_status = ""
+    user_role = ""
+    user_availability = ""
+
     logins_file = open("successful_login.txt", "r")
 
     logins_list = []
@@ -68,12 +56,6 @@ def user_details_generate():
         user_status = logins_list[-1][10]
         user_role = logins_list[-1][11]
         user_availability = logins_list[-1][12]
-    else:
-        pass
-
-
-def volunteer_home_page():
-    user_details_generate()
 
     open_volunteer_file = open("volunteer_database.txt", 'r')
     volunteer_actual_database_list = []
@@ -83,7 +65,6 @@ def volunteer_home_page():
     open_volunteer_file.close()
 
     def Settings():
-        user_details_generate()
 
         volunteer_entry_screen = Toplevel()
         volunteer_entry_screen.title("Volunteer Entry Screen")

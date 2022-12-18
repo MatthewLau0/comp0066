@@ -2,11 +2,11 @@ from tkinter import *
 from tkinter import ttk
 import datetime
 
-camp_id = ""
 
 
-def camp_id_generate():
-    global camp_id
+
+def create_family():
+    camp_id = ""
     logins_file = open("successful_login.txt", "r")
 
     logins_list = []
@@ -16,12 +16,7 @@ def camp_id_generate():
     logins_file.close()
     if len(logins_list) > 0:
         camp_id = logins_list[-1][0]
-    else:
-        pass
 
-
-def create_family():
-    camp_id_generate()
 
     country_list = ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola',
                     'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia',
@@ -315,6 +310,11 @@ def create_family():
             label_1 = Label(refugee_summary, text="Please check that you are happy with the entry below:")
             label_1.pack()
 
+            refugee_accom_save = refugee_accom.get().split(",")
+            refugee_ration_save = refugee_ration.get().split(",")
+            refugee_toilet_save = refugee_toilet.get().split(",")
+            refugee_medical_save = refugee_medical.get().split(",")
+
             summary_label = Label(refugee_summary, text=f"""
             Lead Member Name: {refugee_name.get()} \n 
             Family Size: {refugee_family_size.get()} \n
@@ -323,14 +323,14 @@ def create_family():
             Lead Member Gender: {refugee_gender.get()} \n 
             Address: {refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()} \n{refugee_address_post.get()}, {refugee_address_country.get()} \n
             No. Members with Health Conditions: {refugee_family_health_no.get()}\n
-            Health Condition Details: {refugee_family_health.get()}""")
+            Health Condition Details: {refugee_family_health.get()}
+            Accommodation: {refugee_accom_save[0]}, {refugee_accom_save[1]}
+            Ration Stall: {refugee_ration_save[0]}, {refugee_ration_save[1]}
+            Toilet Block: {refugee_toilet_save[0]}, {refugee_toilet_save[1]}
+            Medical Dispensary: {refugee_medical_save[0]}, {refugee_medical_save[1]}""")
             summary_label.pack()
 
             def submit_command():
-                refugee_accom_save = refugee_accom.get().split(",")
-                refugee_ration_save = refugee_ration.get().split(",")
-                refugee_toilet_save = refugee_toilet.get().split(",")
-                refugee_medical_save = refugee_medical.get().split(",")
                 new_refugee[0] = str(refugee_camp_id)
                 new_refugee[1] = str(refugee_id)
                 new_refugee[2] = refugee_name.get()
@@ -526,3 +526,4 @@ def create_family():
 
     new_refugee_screen.mainloop()
 
+create_family()

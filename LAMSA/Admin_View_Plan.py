@@ -575,5 +575,3 @@ def viewexistingCamps():
     view_refugees_summary_button.pack()
 
     view_camp_home_screen.mainloop()
-
-viewexistingCamps()

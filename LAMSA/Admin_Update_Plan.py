@@ -389,5 +389,3 @@ def updateexistingForm():
     id_done.pack()
 
     update_block_screen_id.mainloop()
-
-updateexistingForm()

@@ -64,9 +64,6 @@ def camp_id_generate():
         user_status = logins_list[-1][10]
         user_role = logins_list[-1][11]
         user_availability = logins_list[-1][12]
-    else:
-        pass
-
 
 
 def volunteers_portal():

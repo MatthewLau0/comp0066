@@ -2,12 +2,21 @@ from tkinter import *
 from tkinter import ttk
 import datetime
 
-camp_id = ""
-user_id = ""
-
-def camp_id_generate():
-    global camp_id
-    global user_id
+def add_calendar():
+    user_id = ""
+    sd = ""
+    sm = ""
+    sy = ""
+    ed = ""
+    em = ""
+    ey = ""
+    mo = ""
+    tu = ""
+    we = ""
+    th = ""
+    fr = ""
+    sa = ""
+    su = ""
     logins_file = open("successful_login.txt", "r")
 
     logins_list = []
@@ -16,13 +25,21 @@ def camp_id_generate():
         logins_list.append(line_string)
     logins_file.close()
     if len(logins_list) > 0:
-        camp_id = logins_list[-1][0]
         user_id = logins_list[-1][1]
-    else:
-        pass
-
-def add_calendar():
-    camp_id_generate()
+        current_availability = logins_list[-1][-1].split("#")
+        sd = current_availability[0][8:10]
+        sm = current_availability[0][5:7]
+        sy = current_availability[0][0:4]
+        ed = current_availability[1][8:10]
+        em = current_availability[1][5:7]
+        ey = current_availability[1][0:4]
+        mo = current_availability[2]
+        tu = current_availability[3]
+        we = current_availability[4]
+        th = current_availability[5]
+        fr = current_availability[6]
+        sa = current_availability[7]
+        su = current_availability[8]
 
     availability_screen = Toplevel()
     availability_screen.title("Manage Availability")
@@ -67,10 +84,13 @@ def add_calendar():
     start_date_frame = Frame(availability_screen)
     start_date_frame.pack()
     start_date_day_combobox = ttk.Combobox(start_date_frame, textvariable=volunteering_start_day, values=day_list)
+    start_date_day_combobox.insert(END, sd)
     start_date_day_combobox.pack(side=LEFT)
     start_date_month_combobox = ttk.Combobox(start_date_frame, textvariable=volunteering_start_month, values=month_list)
+    start_date_month_combobox.insert(END, sm)
     start_date_month_combobox.pack(side=LEFT)
     start_date_year_combobox = ttk.Combobox(start_date_frame, textvariable=volunteering_start_year, values=year_list)
+    start_date_year_combobox.insert(END, sy)
     start_date_year_combobox.pack(side=LEFT)
 
     end_date_label = Label(availability_screen, text="Enter the end date for the emergency")
@@ -79,10 +99,13 @@ def add_calendar():
     end_date_frame = Frame(availability_screen)
     end_date_frame.pack()
     end_date_day_combobox = ttk.Combobox(end_date_frame, textvariable=volunteering_end_day, values=day_list)
+    end_date_day_combobox.insert(END, ed)
     end_date_day_combobox.pack(side=LEFT)
     end_date_month_combobox = ttk.Combobox(end_date_frame, textvariable=volunteering_end_month, values=month_list)
+    end_date_month_combobox.insert(END, em)
     end_date_month_combobox.pack(side=LEFT)
     end_date_year_combobox = ttk.Combobox(end_date_frame, textvariable=volunteering_end_year, values=year_list)
+    end_date_year_combobox.insert(END, ey)
     end_date_year_combobox.pack(side=LEFT)
 
     days_choosing = Label(availability_screen, text="Please choose which shifts you can work on each of the days")
@@ -92,37 +115,51 @@ def add_calendar():
     monday_frame = Frame(availability_screen)
     monday_frame.pack()
     Label(monday_frame, text="Monday: ").pack(side=LEFT)
-    ttk.Combobox(monday_frame, textvariable=volunteer_monday, values=times).pack(side=LEFT)
+    moncom = ttk.Combobox(monday_frame, textvariable=volunteer_monday, values=times)
+    moncom.insert(END, mo)
+    moncom.pack(side=LEFT)
 
     tuesday_frame = Frame(availability_screen)
     tuesday_frame.pack()
     Label(tuesday_frame, text="Tuesday: ").pack(side=LEFT)
-    ttk.Combobox(tuesday_frame, textvariable=volunteer_tuesday, values=times).pack(side=LEFT)
+    tuecom = ttk.Combobox(tuesday_frame, textvariable=volunteer_tuesday, values=times)
+    tuecom.insert(END, tu)
+    tuecom.pack(side=LEFT)
 
     wednesday_frame = Frame(availability_screen)
     wednesday_frame.pack()
     Label(wednesday_frame, text="Wednesday: ").pack(side=LEFT)
-    ttk.Combobox(wednesday_frame, textvariable=volunteer_wednesday, values=times).pack(side=LEFT)
+    wedcom = ttk.Combobox(wednesday_frame, textvariable=volunteer_wednesday, values=times)
+    wedcom.insert(END, we)
+    wedcom.pack(side=LEFT)
 
     thursday_frame = Frame(availability_screen)
     thursday_frame.pack()
     Label(thursday_frame, text="Thursday: ").pack(side=LEFT)
-    ttk.Combobox(thursday_frame, textvariable=volunteer_thursday, values=times).pack(side=LEFT)
+    thucom = ttk.Combobox(thursday_frame, textvariable=volunteer_thursday, values=times)
+    thucom.insert(END, th)
+    thucom.pack(side=LEFT)
 
     friday_frame = Frame(availability_screen)
     friday_frame.pack()
     Label(friday_frame, text="Friday: ").pack(side=LEFT)
-    ttk.Combobox(friday_frame, textvariable=volunteer_friday, values=times).pack(side=LEFT)
+    fricom = ttk.Combobox(friday_frame, textvariable=volunteer_friday, values=times)
+    fricom.insert(END, fr)
+    fricom.pack(side=LEFT)
 
     saturday_frame = Frame(availability_screen)
     saturday_frame.pack()
     Label(saturday_frame, text="Saturday: ").pack(side=LEFT)
-    ttk.Combobox(saturday_frame, textvariable=volunteer_saturday, values=times).pack(side=LEFT)
+    satcom = ttk.Combobox(saturday_frame, textvariable=volunteer_saturday, values=times)
+    satcom.insert(END, sa)
+    satcom.pack(side=LEFT)
 
     sunday_frame = Frame(availability_screen)
     sunday_frame.pack()
     Label(sunday_frame, text="Sunday: ").pack(side=LEFT)
-    ttk.Combobox(sunday_frame, textvariable=volunteer_sunday, values=times).pack(side=LEFT)
+    suncom = ttk.Combobox(sunday_frame, textvariable=volunteer_sunday, values=times)
+    suncom.insert(END, su)
+    suncom.pack(side=LEFT)
 
     def generate_start_date():
         if len(volunteering_start_day.get()) == 0 or len(volunteering_start_month.get()) == 0 or len(volunteering_start_year.get()) == 0:
@@ -225,7 +262,8 @@ def add_calendar():
 
         today = datetime.datetime.today()
 
-        days_chosen_list = [volunteer_monday.get(), volunteer_tuesday.get(), volunteer_wednesday.get(), volunteer_thursday.get(), volunteer_friday.get(), volunteer_saturday.get(), volunteer_sunday.get()]
+        days_chosen_list = [volunteer_monday.get(), volunteer_tuesday.get(), volunteer_wednesday.get(), volunteer_thursday.get(), volunteer_friday.get(), volunteer_saturday.get(), volunteer_sunday.get().replace("\n", ""), mo, tu, we, th, fr, sa, su.replace("\n", "")]
+        print(days_chosen_list)
 
         if generate_start_date() == "empty":
             start_date_label.config(text="Please enter a start date", fg='#f00')
