@@ -6,3 +6,4 @@
 1,6,Six Toilet,10,0,VACANCIES,10,North Wing,
 1,7,Seven Toilet,30,0,VACANCIES,30,East Wing,
 1,8,Eight Toilet,40,20,VACANCIES,20,West Wing,
+3,9,Toilet1,5,4,VACANCIES,1,East Wing,

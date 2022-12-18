@@ -6,3 +6,5 @@
 1,6,Six Ration,10,0,VACANCIES,10,North Wing,
 1,7,Seven Ration,30,0,VACANCIES,30,East Wing,
 1,8,Eight Ration,40,20,VACANCIES,20,West Wing,
+3,9,RationStall1,10,5,PACKS REMAINING,5,East Wing,
+3,10,Tenth Ration Stall,10,5,PACKS REMAINING,5,North Wing,

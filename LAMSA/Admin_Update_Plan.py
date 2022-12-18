@@ -346,7 +346,7 @@ def updateexistingForm():
                                                 fg='#f00')
                 errors_new_camp.append(4)
             if generate_start_date() == "0000-00-00":
-                start_date_label.config(text="Please enter a start date.", fg='#f00')
+                start_date_label.config(text="Please enter a valid start date.", fg='#f00')
                 errors_new_camp.append(5)
             elif generate_start_date() != "0000-00-00" and generate_end_date() != "0000-00-00":
                 test_start_date = datetime.datetime.strptime(str(generate_start_date()), "%Y-%m-%d")
