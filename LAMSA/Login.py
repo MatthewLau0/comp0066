@@ -217,7 +217,7 @@ def main():
                     new_user[4] = password_hash
                     new_user[10] = "Deactivated"
                     new_user[11] = "Standard"
-                    new_user[12] = "Availability"
+                    new_user[12] = "0000-00-00#0000-00-00########"
 
                     new_user_string = "%".join(new_user)
 
