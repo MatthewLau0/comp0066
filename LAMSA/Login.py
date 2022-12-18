@@ -19,10 +19,8 @@ def main():
     center_y = int(screen_height / 2 - window_height / 2)
     master_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
-    Label(master_window, text="\nWelcome to").pack()
-    Label(master_window, text="LAMSA").pack()
-    Label(master_window, text="A State of the Art").pack()
-    Label(master_window, text="Humanitarian Emergency Management System\n\n\n").pack()
+    Label(master_window, text="\nWelcome to LAMSA").pack()
+    Label(master_window, text="A State of the Art Humanitarian Emergency Management System\n\n\n").pack()
 
     def main_signin_screen():
         master_window.destroy()
