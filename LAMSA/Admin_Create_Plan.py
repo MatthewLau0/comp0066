@@ -296,5 +296,6 @@ def createnewemergencyPlan():
 
     done_button = Button(New_Camp_Screen, text="Submit", command=NewCampVerify)
     done_button.pack()
+    Button(New_Camp_Screen, text="Cancel", command=New_Camp_Screen.destroy).pack()
 
     New_Camp_Screen.mainloop()

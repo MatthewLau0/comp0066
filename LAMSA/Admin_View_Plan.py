@@ -15,13 +15,8 @@ def viewexistingCamps():
     center_x1 = int(screen_width1 / 2 - window_width1 / 2)
     center_y1 = int(screen_height1 / 2 - window_height1 / 2)
     view_camp_home_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
-    view_camp_home_screen_label = Label(view_camp_home_screen, text="Please select an option below")
-    view_camp_home_screen_label.pack()
 
-
-    view_camp_screen_label = Label(view_camp_home_screen,
-                                   text="Please see below a summary of all of the camps in the database")
-    view_camp_screen_label.pack()
+    Label(view_camp_home_screen, text="\nPlease see below a summary of all of the camps in the database\n").pack()
 
     emergency_database_file = open("emergency_database.txt", "r")
     emergency_database_list = []
@@ -43,7 +38,7 @@ def viewexistingCamps():
     emergency_database_table.column("Camp ID", anchor=CENTER, width=100)
     emergency_database_table.column("Camp Name", anchor=CENTER, width=100)
     emergency_database_table.column("Emergency Type", anchor=CENTER, width=100)
-    emergency_database_table.column("Emergency Description", anchor=CENTER, width=100)
+    emergency_database_table.column("Emergency Description", anchor=CENTER, width=200)
     emergency_database_table.column("Area Affected", anchor=CENTER, width=100)
     emergency_database_table.column("Start Date", anchor=CENTER, width=100)
     emergency_database_table.column("Close Date", anchor=CENTER, width=100)
@@ -492,8 +487,7 @@ def viewexistingCamps():
         select_camp_button = Button(Layout_Screen, text="Submit", command=layoutSetUp)
         select_camp_button.pack()
 
-    view_camp_layout_button = Button(view_camp_home_screen, text="View Layout of a Camp", command=selectLayoutCamp)
-    view_camp_layout_button.pack()
+
 
     def viewRefugees():
         volunteer_list_file = open("refugee_database.txt", "r")
@@ -574,11 +568,14 @@ def viewexistingCamps():
                                                  command=Update_Emergency_Screen.destroy)
         view_refugee_return_home_button.pack()
 
-    view_refugees_summary_button = Button(view_camp_home_screen, text="View Refugees", command=viewRefugees)
-    view_refugees_summary_button.pack()
     update_emergency_button = Button(view_camp_home_screen, text="Update Existing Emergency Camp", command=Update_Emergency)
     update_emergency_button.pack()
+    view_camp_layout_button = Button(view_camp_home_screen, text="View Layout of a Camp", command=selectLayoutCamp)
+    view_camp_layout_button.pack()
+    view_refugees_summary_button = Button(view_camp_home_screen, text="View Refugees", command=viewRefugees)
+    view_refugees_summary_button.pack()
+    Button(view_camp_home_screen, text="Home", command=view_camp_home_screen.destroy).pack()
+
 
     view_camp_home_screen.mainloop()
 
-viewexistingCamps()

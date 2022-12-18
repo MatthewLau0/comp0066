@@ -1,2 +1,2 @@
-1,1,First Block,100,18,VACANCIES,82,South Wing,
+1,1,First Block,100,0,VACANCIES,100,South Wing,
 1,2,Second Block,50,7,VACANCIES,43,North Wing,

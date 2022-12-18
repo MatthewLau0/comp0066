@@ -478,5 +478,3 @@ def table():
     view_refugee_return_home_button.pack()
 
     view_refugee_table.mainloop()
-
-table()

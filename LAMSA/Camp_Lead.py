@@ -95,6 +95,17 @@ def volunteers_portal():
 
         view_volunteers_screen.title("View Volunteers List")
 
+        screen_width = view_volunteers_screen.winfo_screenwidth()
+        screen_height = view_volunteers_screen.winfo_screenheight()
+        window_height = screen_height
+        window_width = 900
+
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        view_volunteers_screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+        Label(view_volunteers_screen, text=f"\nPlease see below a lost of all the volunteers at Camp {camp_id}\n").pack()
+
         game_frame = Frame(view_volunteers_screen)
         game_frame.pack()
 
@@ -153,6 +164,9 @@ def volunteers_portal():
             ))
 
         my_game.pack()
+
+        Label(view_volunteers_screen, text="Please note, you can scroll through the table horizontally and vertically\n").pack()
+        Button(view_volunteers_screen, text="Close", command=view_volunteers_screen.destroy).pack()
 
         view_volunteers_screen.mainloop()
 
@@ -405,6 +419,7 @@ def accommodation_portal():
         my_game.pack()
 
         update_button = Button(view_existing_blocks_screen, text="Update a Block", command=update_block)
+        Button(view_existing_blocks_screen, text="Close", command=view_existing_blocks_screen.destroy).pack()
 
         if len(blocks_list) > 0:
             update_button.pack()
@@ -637,7 +652,16 @@ def accommodation_portal():
 
         accommodation_window.title("Accommodation Portal")
 
-        accommodation_label = Label(accommodation_window, text="Accommodation Portal", font=("TkDefaultFont", 22))
+        screen_width = accommodation_window.winfo_screenwidth()
+        screen_height = accommodation_window.winfo_screenheight()
+        window_height = 500
+        window_width = 900
+
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        accommodation_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
+        accommodation_label = Label(accommodation_window, text="\nAccommodation Portal\n", font=("TkDefaultFont", 22))
         accommodation_label.pack()
 
         view_block_button = Button(accommodation_window, text="View/Update Accommodation Blocks", command=view_existing_blocks)
@@ -648,6 +672,8 @@ def accommodation_portal():
 
         camp_layout_button = Button(accommodation_window, text="View Camp Layout", command=camp_layout)
         camp_layout_button.pack()
+
+        Button(accommodation_window, text="Close", command=accommodation_window.destroy).pack()
 
         accommodation_window.mainloop()
 
@@ -897,6 +923,7 @@ def ration_portal():
         my_game.pack()
 
         update_button = Button(view_existing_stalls_screen, text="Update a Stall", command=update_stall)
+        Button(view_existing_stalls_screen, text="Close", command=view_existing_stalls_screen.destroy).pack()
 
         if len(ration_list) > 0:
             update_button.pack()
@@ -1133,6 +1160,15 @@ def ration_portal():
 
         ration_window.title("Ration Portal")
 
+        screen_width = ration_window.winfo_screenwidth()
+        screen_height = ration_window.winfo_screenheight()
+        window_height = 500
+        window_width = 900
+
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        ration_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
         ration_label = Label(ration_window, text="Ration Portal", font=("TkDefaultFont", 22))
         ration_label.pack()
 
@@ -1144,6 +1180,8 @@ def ration_portal():
 
         camp_layout_button = Button(ration_window, text="View Camp Layout", command=camp_layout)
         camp_layout_button.pack()
+
+        Button(ration_window, text="Close", command=ration_window.destroy).pack()
 
         ration_window.mainloop()
 
@@ -1394,6 +1432,8 @@ def toilets_portal():
         my_game.pack()
 
         update_button = Button(view_existing_toilets_screen, text="Update a Toilet Block", command=update_toilet)
+        Button(view_existing_toilets_screen, text="Close", command=view_existing_toilets_screen.destroy).pack()
+
 
         if len(toilet_list) > 0:
             update_button.pack()
@@ -1630,6 +1670,15 @@ def toilets_portal():
 
         toilet_window.title("Toilets Portal")
 
+        screen_width = toilet_window.winfo_screenwidth()
+        screen_height = toilet_window.winfo_screenheight()
+        window_height = 500
+        window_width = 900
+
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        toilet_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
         toilet_label = Label(toilet_window, text="Toilets Portal", font=("TkDefaultFont", 22))
         toilet_label.pack()
 
@@ -1637,11 +1686,13 @@ def toilets_portal():
                             )
         view_block_button.pack()
 
-        add_block_button = Button(toilet_window, text="Add New Stall", command=add_new_toilet)
+        add_block_button = Button(toilet_window, text="Add New Toilet", command=add_new_toilet)
         add_block_button.pack()
 
         camp_layout_button = Button(toilet_window, text="View Camp Layout", command=camp_layout)
         camp_layout_button.pack()
+
+        Button(toilet_window, text="Close", command=toilet_window.destroy).pack()
 
         toilet_window.mainloop()
 
@@ -1892,6 +1943,7 @@ def medical_portal():
         my_game.pack()
 
         update_button = Button(view_existing_medical_screen, text="Update a Medical Dispensary", command=update_stall)
+        Button(view_existing_medical_screen, text="Close", command=view_existing_medical_screen.destroy).pack()
 
         if len(medical_list) > 0:
             update_button.pack()
@@ -2128,6 +2180,15 @@ def medical_portal():
 
         medical_window.title("Medical Portal")
 
+        screen_width = medical_window.winfo_screenwidth()
+        screen_height = medical_window.winfo_screenheight()
+        window_height = 500
+        window_width = 900
+
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        medical_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
+
         medical_label = Label(medical_window, text="Medical Portal", font=("TkDefaultFont", 22))
         medical_label.pack()
 
@@ -2139,6 +2200,9 @@ def medical_portal():
 
         camp_layout_button = Button(medical_window, text="View Camp Layout", command=camp_layout)
         camp_layout_button.pack()
+
+        Button(medical_window, text="Close", command=medical_window.destroy).pack()
+
 
         medical_window.mainloop()
 
@@ -2186,7 +2250,7 @@ def camp_layout():
 
     refugee_list = []
     for line6 in refugee_file:
-        list6 = line6.split("#")
+        list6 = line6.split("%")
         if list6[0] == str(camp_id):
             refugee_list.append(list6)
 
@@ -2296,7 +2360,11 @@ def camp_layout():
     volunteer_label = Label(summary_frame, text=f"No. of Volunteers at this camp: \n{len(volunteer_list)}")
     volunteer_label.pack()
 
-    refugee_label = Label(summary_frame, text=f"No. of Refugees at this camp: \n{len(refugee_list)}")
+    refugee_total = 0
+    for i in refugee_list:
+        refugee_total += int(i[3])
+
+    refugee_label = Label(summary_frame, text=f"No. of Refugees at this camp: \n{refugee_total}")
     refugee_label.pack()
 
     north_frame = Frame(camp_summary_window, highlightbackground="orange", highlightthickness=3)
@@ -2310,28 +2378,28 @@ def camp_layout():
     north_accom_label.pack()
 
     for i in accom_north:
-        accom_north_label = Label(north_frame, text=f"{i[2]} ({i[4]} occupants)")
+        accom_north_label = Label(north_frame, text=f"Block {i[1]} ({i[4]} occupants)")
         accom_north_label.pack()
 
     north_ration_label = Label(north_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     north_ration_label.pack()
 
     for i in ration_north:
-        ration_north_label = Label(north_frame, text=f"{i[2]}")
+        ration_north_label = Label(north_frame, text=f"Ration {i[1]}")
         ration_north_label.pack()
 
     north_toilet_label = Label(north_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     north_toilet_label.pack()
 
     for i in toilet_north:
-        toilet_north_label = Label(north_frame, text=f"{i[2]}")
+        toilet_north_label = Label(north_frame, text=f"Toilet {i[1]}")
         toilet_north_label.pack()
 
     north_medical_label = Label(north_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     north_medical_label.pack()
 
     for i in medical_north:
-        medical_north_label = Label(north_frame, text=f"{i[2]}")
+        medical_north_label = Label(north_frame, text=f"Medical {i[1]}")
         medical_north_label.pack()
 
     north_summary_heading = Label(north_frame, text="\nNorth Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
@@ -2363,28 +2431,28 @@ Refugees:
     east_accom_label.pack()
 
     for x in accom_east:
-        accom_east_label = Label(east_frame, text=f"{x[2]} ({x[4]} occupants)")
+        accom_east_label = Label(east_frame, text=f"Block {x[1]} ({x[4]} occupants)")
         accom_east_label.pack()
 
     east_ration_label = Label(east_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     east_ration_label.pack()
 
     for x in ration_east:
-        ration_east_label = Label(east_frame, text=f"{x[2]}")
+        ration_east_label = Label(east_frame, text=f"Ration {x[1]}")
         ration_east_label.pack()
 
     east_toilet_label = Label(east_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     east_toilet_label.pack()
 
     for x in toilet_east:
-        toilet_east_label = Label(east_frame, text=f"{x[2]}")
+        toilet_east_label = Label(east_frame, text=f"Toilet {x[1]}")
         toilet_east_label.pack()
 
     east_medical_label = Label(east_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     east_medical_label.pack()
 
     for x in medical_east:
-        medical_east_label = Label(east_frame, text=f"{x[2]}")
+        medical_east_label = Label(east_frame, text=f"Medical {x[1]}")
         medical_east_label.pack()
 
     east_summary_heading = Label(east_frame, text="\nEast Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
@@ -2416,28 +2484,28 @@ Refugees:
     south_accom_label.pack()
 
     for y in accom_south:
-        accom_south_label = Label(south_frame, text=f"{y[2]} ({y[4]} occupants)")
+        accom_south_label = Label(south_frame, text=f"Block {y[1]} ({y[4]} occupants)")
         accom_south_label.pack()
 
     south_ration_label = Label(south_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     south_ration_label.pack()
 
     for y in ration_south:
-        ration_south_label = Label(south_frame, text=f"{y[2]}")
+        ration_south_label = Label(south_frame, text=f"Ration {y[1]}")
         ration_south_label.pack()
 
     south_toilet_label = Label(south_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     south_toilet_label.pack()
 
     for y in toilet_south:
-        toilet_south_label = Label(south_frame, text=f"{y[2]}")
+        toilet_south_label = Label(south_frame, text=f"Toilet {y[1]}")
         toilet_south_label.pack()
 
     south_medical_label = Label(south_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     south_medical_label.pack()
 
     for y in medical_south:
-        medical_south_label = Label(south_frame, text=f"{y[2]}")
+        medical_south_label = Label(south_frame, text=f"Medical {y[1]}")
         medical_south_label.pack()
 
     south_summary_heading = Label(south_frame, text="\nSouth Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
@@ -2469,28 +2537,28 @@ Refugees:
     west_accom_label.pack()
 
     for z in accom_west:
-        accom_west_label = Label(west_frame, text=f"{z[2]} ({z[4]} occupants)")
+        accom_west_label = Label(west_frame, text=f"Block {z[1]} ({z[4]} occupants)")
         accom_west_label.pack()
 
     west_ration_label = Label(west_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     west_ration_label.pack()
 
     for z in ration_west:
-        ration_west_label = Label(west_frame, text=f"{z[2]}")
+        ration_west_label = Label(west_frame, text=f"Ration {z[1]}")
         ration_west_label.pack()
 
     west_toilet_label = Label(west_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     west_toilet_label.pack()
 
     for z in toilet_west:
-        toilet_west_label = Label(west_frame, text=f"{z[2]}")
+        toilet_west_label = Label(west_frame, text=f"Toilet {z[1]}")
         toilet_west_label.pack()
 
     west_medical_label = Label(west_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     west_medical_label.pack()
 
     for z in medical_west:
-        medical_west_label = Label(west_frame, text=f"{z[2]}")
+        medical_west_label = Label(west_frame, text=f"Medical {z[1]}")
         medical_west_label.pack()
 
     west_summary_heading = Label(west_frame, text="\nWest Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
@@ -2521,18 +2589,25 @@ Refugees:
     refugee_file.close()
 
 
-def settings():
+def Settings():
     camp_id_generate()
-
     volunteer_entry_screen = Toplevel()
-    volunteer_entry_screen.geometry("600x1000")
     volunteer_entry_screen.title("Volunteer Entry Screen")
+
+    screen_width3 = volunteer_entry_screen.winfo_screenwidth()
+    screen_height3 = volunteer_entry_screen.winfo_screenheight()
+    window_height3 = screen_height3
+    window_width3 = 900
+
+    center_x3 = int(screen_width3 / 2 - window_width3 / 2)
+    center_y3 = int(screen_height3 / 2 - window_height3 / 2)
+    volunteer_entry_screen.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
 
     emergency_database_file = open("emergency_database.txt", "r")
     emergency_database_list = []
-    for line in emergency_database_file:
-        line_list = line.split("%")
-        emergency_database_list.append(line_list)
+    for line1 in emergency_database_file:
+        line_list1 = line1.split("%")
+        emergency_database_list.append(line_list1)
     emergency_database_file.close()
 
     camp_ID_list = []
@@ -2543,29 +2618,30 @@ def settings():
 
         headings_frame = Frame(volunteer_entry_screen)
 
-        Label(headings_frame, text="Camp ID:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Camp ID:").pack()
         Label(headings_frame, text=f"{camp_id}").pack()
-        Label(headings_frame, text="Volunteer ID:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Volunteer ID:").pack()
         Label(headings_frame, text=f"{user_id}").pack()
-        Label(headings_frame, text="Full Name:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Full Name:").pack()
         Label(headings_frame, text=f"{user_name}").pack()
-        Label(headings_frame, text="Username:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Username:").pack()
         Label(headings_frame, text=f"{user_username}").pack()
-        Label(headings_frame, text="Email:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Email:").pack()
         Label(headings_frame, text=f"{user_email}").pack()
-        Label(headings_frame, text="Phone Number:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Phone Number:").pack()
         Label(headings_frame, text=f"+{user_number_area} {user_number}").pack()
-        Label(headings_frame, text="Gender:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Gender:").pack()
         Label(headings_frame, text=f"{user_gender}").pack()
-        Label(headings_frame, text="Date of Birth:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Date of Birth:").pack()
         Label(headings_frame, text=f"{user_dob} (Age: {user_age})").pack()
-        Label(headings_frame, text="Account Status:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Account Status:").pack()
         Label(headings_frame, text=f"{user_status}").pack()
-        Label(headings_frame, text="Account Role:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Account Role:").pack()
         Label(headings_frame, text=f"{user_role}").pack()
-        Label(headings_frame, text="Your Availability:", font=("TkDefaultFont", 16, "bold")).pack()
+        Label(headings_frame, text="Your Availability:").pack()
         Label(headings_frame, text=f"{user_availability}").pack()
-        Label(headings_frame, text="To edit your availability, please go back to the home page and use Edit Availability Section").pack()
+        Label(headings_frame,
+              text="To edit your availability, please go back to the home page and use Edit Availability Section").pack()
 
         headings_frame.pack()
 
@@ -2592,18 +2668,16 @@ def settings():
             select_camp_table.column("Camp Name", anchor=CENTER, width=100)
             select_camp_table.column("Location", anchor=CENTER, width=100)
 
-            select_camp_table.heading('#0', text="", anchor=CENTER)
             select_camp_table.heading('Camp ID', text="Camp ID", anchor=CENTER)
             select_camp_table.heading("Camp Name", text="Camp Name", anchor=CENTER)
             select_camp_table.heading("Location", text="Location", anchor=CENTER)
 
-            for i in range(0, len(emergency_database_list)):
-                select_camp_table.insert(parent='', index=i, iid=i, values=(
-                emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
+            for n in range(0, len(emergency_database_list)):
+                select_camp_table.insert(parent='', index=n, iid=n, values=(
+                    emergency_database_list[n][0], emergency_database_list[n][1],
+                    emergency_database_list[n][4]))
 
             select_camp_table.pack()
-
-
 
             select_camp = StringVar()
             full_name = StringVar()
@@ -2611,6 +2685,9 @@ def settings():
             phone_area_code = StringVar()
             phone_number = StringVar()
             gender = StringVar()
+            volunteer_date = StringVar()
+            volunteer_month = StringVar()
+            volunteer_year = StringVar()
 
             select_camp_label = Label(form_frame, text="Please enter the Camp ID")
             select_camp_label.pack()
@@ -2639,99 +2716,130 @@ def settings():
             area_code_sign.pack(side=LEFT)
             phone_number_area_code_entry = Entry(phone_frame, textvariable=phone_area_code)
             phone_number_area_code_entry.insert(END, f"{user_number_area}")
-            phone_number_area_code_entry.pack(side=LEFT, ipadx=1)
+            phone_number_area_code_entry.pack(side=LEFT)
             phone_number_entry = Entry(phone_frame, textvariable=phone_number)
             phone_number_entry.insert(END, f"{user_number}")
             phone_number_entry.pack(side=LEFT)
 
-            gender_label = Label(form_frame, text="Please enter the gender you identify with")
+            gender_list = ["Male", "Female", "Other", "Prefer not to say"]
+
+            gender_label = Label(form_frame, text="Gender:")
             gender_label.pack()
-            gender_entry = Entry(form_frame, textvariable=gender)
-            gender_entry.insert(END, f"{user_gender}")
+            gender_entry = ttk.Combobox(form_frame, textvariable=gender, values=gender_list)
+            gender_entry.insert(END, user_gender)
             gender_entry.pack()
 
             today = datetime.datetime.today()
-            user_day = user_dob[8:10]
-            int_day = int(user_day)
-            user_month = user_dob[5:7]
-            int_month = int(user_month)
-            user_year = user_dob[0:4]
-            int_year = int(user_year)
 
+            day_list = [str(i) for i in range(1, 32)]
+            month_list = [str(i) for i in range(1, 13)]
+            year_list = [str(i) for i in range(2023, 1899, -1)]
 
-            DOB_calendar_label = Label(form_frame, text="Please enter your date of birth")
-            DOB_calendar_label.pack()
-            DOB_calendar = Calendar(form_frame, date_pattern="d/m/y", selectmode='day', maxdate=today, day=int_day, month=int_month, year=int_year)
-            DOB_calendar.pack()
+            dob_label = Label(form_frame, text="Enter your date of birth")
+            dob_label.pack()
+            dob_frame = Frame(form_frame)
+            dob_frame.pack()
+            date_day_combobox = ttk.Combobox(dob_frame, textvariable=volunteer_date, values=day_list)
+            date_day_combobox.insert(END, user_dob[8:10])
+            date_day_combobox.pack(side=LEFT)
+            date_month_combobox = ttk.Combobox(dob_frame, textvariable=volunteer_month, values=month_list)
+            date_month_combobox.insert(END, user_dob[5:7])
+            date_month_combobox.pack(side=LEFT)
+            date_year_combobox = ttk.Combobox(dob_frame, textvariable=volunteer_year, values=year_list)
+            date_year_combobox.insert(END, user_dob[0:4])
+            date_year_combobox.pack(side=LEFT)
 
-            def confirmAge():
+            def generate_dob():
+                if len(volunteer_date.get()) == 0 or len(volunteer_month.get()) == 0 or len(
+                        volunteer_year.get()) == 0:
+                    return "empty"
+                else:
+                    try:
+                        startdateComplete = ("%s-%s-%s" % (
+                            volunteer_year.get(), volunteer_month.get(), volunteer_date.get()))
+                        startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%m-%d")
+                        startDate = datetime.datetime.date(startDateTime)
+                        return startDate
+                    except ValueError:
+                        return "empty"
 
-                DOB = datetime.datetime.strptime(DOB_calendar.get_date(), "%d/%m/%Y").date()
+            def generate_age():
+                x = generate_dob()
+                if x == "empty":
+                    pass
+                else:
+                    DOB = datetime.datetime.strptime(str(x), "%Y-%m-%d").date()
+                    volunteer_age = 0
 
-                volunteer_age = 0
+                    if DOB.month < today.month and today.year > DOB.year:
+                        volunteer_age = today.year - DOB.year
 
-                if DOB.month < today.month and today.year > DOB.year:
-                    volunteer_age = today.year - DOB.year
+                    elif DOB.month > DOB.month and today.year > DOB.year:
+                        volunteer_age = today.year - DOB.year - 1
 
-                elif DOB.month > DOB.month and today.year > DOB.year:
-                    volunteer_age = today.year - DOB.year - 1
+                    elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
+                        volunteer_age = today.year - DOB.year - 1
 
-                elif DOB.month == today.month and today.year > DOB.year and today.day < DOB.day:
-                    volunteer_age = today.year - DOB.year - 1
+                    elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
+                        volunteer_age = today.year - DOB.year
+                    return volunteer_age
 
-                elif DOB.month == today.month and today.year > DOB.year and today.day > DOB.day:
-                    volunteer_age = today.year - DOB.year
+            new_volunteer_error_list = []
 
-                volunteer_age = str(volunteer_age)
+            def newvolunteerVerify():
+                dob_label.config(text="DoB is Valid!", fg="green")
+                select_camp_label.config(text="Camp ID is Valid!", fg="green")
+                full_name_label.config(text="Name is Valid!", fg="green")
+                email_label.config(text="Email is Valid!", fg="green")
+                phone_number_label.config(text="Phone Number is Valid!", fg="green")
+                gender_label.config(text="Gender is Valid!", fg="green")
+                new_volunteer_error_list.clear()
+                if generate_age() == 0:
+                    dob_label.config(
+                        text="Please enter your DOB",
+                        fg="#f00")
+                    new_volunteer_error_list.append("d1")
+                if select_camp.get() not in camp_ID_list:
+                    select_camp_label.config(
+                        text="\nPlease enter a valid Camp ID",
+                        fg="#f00")
+                    new_volunteer_error_list.append("e1")
+                if len(full_name.get()) == 0 or full_name.get() == ' ':
+                    full_name_label.config(
+                        text="Please enter your full name.",
+                        fg='#f00')
+                    new_volunteer_error_list.append("e2")
+                if all(char.isalpha() for char in full_name.get().replace(" ", "")) is False:
+                    full_name_label.config(text="Name can only contain alphabetical characters", fg='#f00')
+                    new_volunteer_error_list.append(1.1)
+                if '@' not in email.get() or '.' not in email.get():
+                    email_label.config(
+                        text="Please enter a valid email address",
+                        fg='#f00')
+                    new_volunteer_error_list.append("e3")
+                if len(phone_area_code.get()) > 4:
+                    phone_number_label.config(
+                        text="Please enter a valid phone area code and a valid phone number",
+                        fg='#f00')
+                    new_volunteer_error_list.append("e4")
+                if len(phone_number.get()) > 15 or len(
+                        phone_number.get()) < 7 or phone_number.get().isalnum() is not True:
+                    phone_number_label.config(
+                        text="Please enter a valid phone area code and a valid phone number",
+                        fg='#f00')
+                    new_volunteer_error_list.append("e5")
+                if gender.get() not in gender_list:
+                    gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
+                    new_volunteer_error_list.append("gender")
+                today = datetime.datetime.today()
+                if generate_dob() == "empty":
+                    dob_label.config(text="Please enter DoB", fg='#f00')
+                    new_volunteer_error_list.append(5)
+                if generate_dob() != "empty":
+                    test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
+                    if test_start_date > today:
+                        dob_label.config(text="Please enter a valid DoB", fg='#f00')
 
-                new_volunteer_error_list = []
-
-                def newvolunteerVerify():
-                    DOB_calendar_label.config(text="DoB is Valid!", fg="green")
-                    select_camp_label.config(text="Camp ID is Valid!", fg="green")
-                    full_name_label.config(text="Name is Valid!", fg="green")
-                    email_label.config(text="Email is Valid!", fg="green")
-                    phone_number_label.config(text="Phone Number is Valid!", fg="green")
-                    gender_label.config(text="Gender is Valid!", fg="green")
-                    new_volunteer_error_list.clear()
-                    if str(volunteer_age) == str(0):
-                        DOB_calendar_label.config(
-                            text="Please enter your DOB",
-                            fg="#f00")
-                        new_volunteer_error_list.append("d1")
-                    if select_camp.get() not in camp_ID_list:
-                        select_camp_label.config(
-                            text="Please enter a valid Camp ID",
-                            fg="#f00")
-                        new_volunteer_error_list.append("e1")
-                    if len(full_name.get()) == 0 or full_name.get() == ' ':
-                        full_name_label.config(
-                            text="Please enter your full name.",
-                            fg='#f00')
-                        new_volunteer_error_list.append("e2")
-                    if '@' not in email.get() or '.' not in email.get():
-                        email_label.config(
-                            text="Please enter a valid email address",
-                            fg='#f00')
-                        new_volunteer_error_list.append("e3")
-                    if len(phone_area_code.get()) > 4:
-                        phone_number_label.config(
-                            text="Please enter a valid phone area code and a valid phone number",
-                            fg='#f00')
-                        new_volunteer_error_list.append("e4")
-                    if len(phone_number.get()) > 15 or len(
-                            phone_number.get()) < 7 or phone_number.get().isalnum() != True:
-                        phone_number_label.config(
-                            text="Please enter a valid phone area code and a valid phone number",
-                            fg='#f00')
-                        new_volunteer_error_list.append("e5")
-                    if len(gender.get()) == 0 or gender.get() == ' ':
-                        gender_label.config(
-                            text="Please enter a gender. If you prefer not to specify a gender, enter n/a.",
-                            fg='#f00')
-                        new_volunteer_error_list.append("e6")
-
-                newvolunteerVerify()
                 if len(new_volunteer_error_list) > 0:
                     pass
                 else:
@@ -2749,8 +2857,8 @@ def settings():
                         updated_user[5] = email.get()
                         updated_user[6] = phone_number_complete
                         updated_user[7] = gender.get()
-                        updated_user[8] = str(DOB)
-                        updated_user[9] = volunteer_age
+                        updated_user[8] = str(generate_dob())
+                        updated_user[9] = str(generate_age())
                         if select_camp.get() == camp_id:
                             updated_user[10] = user_status
                             updated_user[11] = user_role
@@ -2759,14 +2867,15 @@ def settings():
                             updated_user[11] = "Standard"
                         updated_user[12] = user_availability
 
+                        update_details_toplevel = Toplevel()
 
-                        update_details_toplevel = Toplevel(volunteer_entry_screen)
-
-                        Label(update_details_toplevel, text="You will now be logged out. Please log back in to see your updated details").pack()
+                        Label(update_details_toplevel,
+                              text="You will now be logged out. Please log back in to see your updated details").pack()
                         if select_camp.get() == camp_id:
                             pass
                         else:
-                            Label(update_details_toplevel, text=f"As you have changed the Camp you wish to volunteer at,\nyour account will be temporarily deactivated and you will be made a standard volunteer.\nPlease contact the admin to get your account reactivated and become Camp Lead at Camp {select_camp.get()}").pack()
+                            Label(update_details_toplevel,
+                                  text=f"As you have changed the Camp you wish to volunteer at,\nyour account will be temporarily deactivated and moved to standard volunteer.\nPlease contact the admin to get your account reactivated at made Camp Lead at Camp {select_camp.get()}").pack()
 
                         def logout_login():
                             global main_window
@@ -2774,11 +2883,13 @@ def settings():
                             volunteer_read = open("volunteer_database.txt", "r")
 
                             volunteer_list = []
-                            for line in volunteer_read:
-                                line_string = line.split("%")
-                                volunteer_list.append(line_string)
+                            for line2 in volunteer_read:
+                                line_string2 = line2.split("%")
+                                volunteer_list.append(line_string2)
 
-                            volunteer_list = [updated_user if i[1] == str(user_id) else i for i in volunteer_list]
+                            volunteer_read.close()
+
+                            volunteer_list = [updated_user if num[1] == str(user_id) else num for num in volunteer_list]
 
                             clear_file = open("volunteer_database.txt", "w")
                             clear_file.close()
@@ -2787,25 +2898,27 @@ def settings():
                                 with open("volunteer_database.txt", "a") as volunteer_write:
                                     updated_user_string = "%".join(entry)
                                     volunteer_write.write(updated_user_string)
+                            volunteer_write.close()
 
                             update_details_toplevel.destroy()
                             volunteer_entry_screen.destroy()
                             main_window.destroy()
                             Login.main()
 
-                        update_details_toplevel_button = Button(update_details_toplevel, text="Proceed", command=logout_login)
+                        update_details_toplevel_button = Button(update_details_toplevel, text="Proceed",
+                                                                command=logout_login)
                         update_details_toplevel_button.pack()
 
-                        cancel_details_toplevel_button = Button(update_details_toplevel, text="Cancel", command=update_details_toplevel.destroy)
+                        cancel_details_toplevel_button = Button(update_details_toplevel, text="Cancel",
+                                                                command=update_details_toplevel.destroy)
                         cancel_details_toplevel_button.pack()
-
 
                     createvolunteerSubmit()
 
-            log_out_info = Label(form_frame, text="Please log out and log back in to see updated details", font=("TkDefaultFont", 16, 'bold'), fg='blue')
+            log_out_info = Label(form_frame, text="Please log out and log back in to see updated details")
             log_out_info.pack()
 
-            emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
+            emergency_submit_button = Button(form_frame, text="Submit", command=newvolunteerVerify)
             emergency_submit_button.pack()
 
         select_camp_table_button = Button(volunteer_entry_screen, text="Edit Details", command=volunteerEntry)
@@ -2814,7 +2927,6 @@ def settings():
         back_button.pack()
 
     campTable()
-
 
     volunteer_entry_screen.mainloop()
 
@@ -2837,7 +2949,7 @@ def run_camp_lead():
     Label(main_window, text="LAMSA", font=("TkDefaultFont", 80, "bold")).pack()
     Label(main_window, text=f"Welcome to Your Portal, {user_name}.\nYou are the Camp Lead of Camp {camp_id}\n", font=("TkDefaultFont", 22)).pack()
 
-    volunteers_button = Button(main_window, text="Volunteers List", command=volunteers_portal)
+    volunteers_button = Button(main_window, text="Volunteer List", command=volunteers_portal)
     volunteers_button.pack()
     accommodation_button = Button(main_window, text="Accommodation Blocks", command=accommodation_portal)
     accommodation_button.pack()
@@ -2849,11 +2961,10 @@ def run_camp_lead():
     medical_button.pack()
     layout_button = Button(main_window, text="Camp Layout", command=camp_layout)
     layout_button.pack()
-    settings_button = Button(main_window, text="Settings", command=settings)
+    settings_button = Button(main_window, text="Settings", command=Settings)
     settings_button.pack()
     Label(main_window, text="\n").pack()
     exit_button = Button(main_window, text="Log Out", command=lambda: [main_window.destroy(), Login.main()])
     exit_button.pack()
 
     main_window.mainloop()
-

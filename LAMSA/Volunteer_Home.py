@@ -66,7 +66,7 @@ def volunteer_home_page():
 
         screen_width3 = volunteer_entry_screen.winfo_screenwidth()
         screen_height3 = volunteer_entry_screen.winfo_screenheight()
-        window_height3 = screen_height
+        window_height3 = screen_height3
         window_width3 = 900
 
         center_x3 = int(screen_width3 / 2 - window_width3 / 2)
@@ -438,3 +438,5 @@ def volunteer_home_page():
     quit_button.pack()
 
     volunteer_home.mainloop()
+
+volunteer_home_page()

@@ -409,7 +409,7 @@ def manageVolunteers():
 
         selected_camp_id = StringVar()
 
-        id_select_label = Label(view_availability_id_window, text="Please choose a volunteer ID to update")
+        id_select_label = Label(view_availability_id_window, text="Please select the Camp ID at which you wish to view volunteer availabilities")
         id_select_label.pack()
         selected_camp_id.set("Select ID")
         id_select_option = ttk.Combobox(view_availability_id_window, textvariable=selected_camp_id, values=id_list)
@@ -417,7 +417,7 @@ def manageVolunteers():
 
         def view_availability_table():
             view_availability_table_screen = Toplevel()
-            view_availability_table_screen.title("Manage Volunteer Homescreen")
+            view_availability_table_screen.title("Manage Volunteers")
             screen_width3 = view_availability_table_screen.winfo_screenwidth()
             screen_height3 = view_availability_table_screen.winfo_screenheight()
             window_height3 = screen_height3
@@ -516,19 +516,17 @@ def manageVolunteers():
         id_done = Button(view_availability_id_window, text="Done", command=run_the_update)
         id_done.pack()
 
-    update_volunteer_button = Button(manage_volunteer_home_screen, text="Activate a Volunteer", command=activestatusVolunteer)
-    update_volunteer_button.pack()
+    view_availability_button = Button(manage_volunteer_home_screen, text="View Volunteer Availability", command=view_availability)
+    view_availability_button.pack()
     deactivate_volunteer_button = Button(manage_volunteer_home_screen, text="Deactivate a Volunteer", command=deactivateVolunteer)
     deactivate_volunteer_button.pack()
+    update_volunteer_button = Button(manage_volunteer_home_screen, text="Activate a Volunteer", command=activestatusVolunteer)
+    update_volunteer_button.pack()
     promote_volunteer_button = Button(manage_volunteer_home_screen, text="Assign a Camp Lead", command=leadstatusVolunteer)
     promote_volunteer_button.pack()
     delete_volunteer_button = Button(manage_volunteer_home_screen, text="Delete a Volunteer", command=deleteVolunteer)
     delete_volunteer_button.pack()
-    view_availability_button = Button(manage_volunteer_home_screen, text="View Volunteer Availability", command=view_availability)
-    view_availability_button.pack()
-    return_home_button = Button(manage_volunteer_home_screen, text="Return to Homescreen", command=manage_volunteer_home_screen.destroy)
+    return_home_button = Button(manage_volunteer_home_screen, text="Home", command=manage_volunteer_home_screen.destroy)
     return_home_button.pack()
 
     manage_volunteer_home_screen.mainloop()
-
-manageVolunteers()

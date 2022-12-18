@@ -18,7 +18,7 @@ def updateexistingForm():
 
     screen_width1 = update_block_screen_id.winfo_screenwidth()
     screen_height1 = update_block_screen_id.winfo_screenheight()
-    window_height1 = 100
+    window_height1 = 120
     window_width1 = 300
 
     center_x1 = int(screen_width1 / 2 - window_width1 / 2)
@@ -306,11 +306,8 @@ def updateexistingForm():
                         emergency_write.write(updated_camp_string)
                 emergency_write.close()
 
-            Go_Back_Button = Button(New_Camp_Summary_Screen, text="Edit", command=New_Camp_Summary_Screen.destroy)
-            Go_Back_Button.pack()
-
-            New_Camp_Submission_Button = Button(New_Camp_Summary_Screen, text="Submit", command=SubmitEmergency)
-            New_Camp_Submission_Button.pack()
+            Button(New_Camp_Summary_Screen, text="Edit", command=New_Camp_Summary_Screen.destroy).pack()
+            Button(New_Camp_Summary_Screen, text="Submit", command=SubmitEmergency).pack()
 
         errors_new_camp = []
 
@@ -381,6 +378,7 @@ def updateexistingForm():
 
         done_button = Button(update_block_screen, text="Submit", command=NewCampVerify)
         done_button.pack()
+        Button(update_block_screen, text="Cancel", command=update_block_screen.destroy).pack()
 
         update_block_screen.mainloop()
 
@@ -392,7 +390,7 @@ def updateexistingForm():
             update_run()
 
 
-    id_done = Button(update_block_screen_id, text="Done", command=run_the_update)
-    id_done.pack()
+    Button(update_block_screen_id, text="Select", command=run_the_update).pack()
+    Button(update_block_screen_id, text="Cancel", command=update_block_screen_id.destroy).pack()
 
     update_block_screen_id.mainloop()

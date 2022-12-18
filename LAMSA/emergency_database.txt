@@ -1,3 +1,4 @@
 1%CampOne%Flood%Flood in Camp One%American Samoa%2020-05-03%0000-00-00%Active%
 2%CampTwo%Cyclone%Cyclone in Camp Two%Albania%2022-01-11%0000-00-00%Active%
-3%CampThree%Tsunami%Tsunami in Camp Three%United Kingdom%2022-02-05%2022-03-30%Closed%
+3%CampThree%Tsunami%Tsunami in Camp Three%United Kingdom%2022-02-05%2022-03-30%Closed%4%nm%o%o;i%Aland Islands%2021-04-03%0000-00-00%Active%
+4%Camp Five%Health Epidemic%Covid%Swaziland%2019-12-12%2023-02-04%Closed%
