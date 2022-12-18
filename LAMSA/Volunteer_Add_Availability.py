@@ -303,5 +303,3 @@ def add_calendar():
     done_button.pack()
 
     availability_screen.mainloop()
-
-add_calendar()
