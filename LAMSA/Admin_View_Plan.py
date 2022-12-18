@@ -524,7 +524,7 @@ def viewexistingCamps():
         emergency_database_table = ttk.Treeview(Update_Emergency_Screen)
 
         emergency_database_table['columns'] = (
-            "CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "No. family with condition",
+            "CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Gender", "Phone Number", "Address", "No. family with condition",
             "Medical Conditions", "Accommodation", "Medical", "Toilet", "Ration")
 
         emergency_database_table.column("#0", width=0, stretch=NO)
@@ -534,8 +534,9 @@ def viewexistingCamps():
         emergency_database_table.column("Family size", anchor='center', width=60)
         emergency_database_table.column("Date of Birth", anchor='center', width=80)
         emergency_database_table.column("Age", anchor='center', width=40)
-        emergency_database_table.column("Sex", anchor='center', width=80)
+        emergency_database_table.column("Gender", anchor='center', width=80)
         emergency_database_table.column("Address", anchor='center', width=200)
+        emergency_database_table.column("Phone Number", anchor='center', width=200)
         emergency_database_table.column("No. family with condition", anchor='center', width=85)
         emergency_database_table.column("Medical Conditions", anchor='center', width=210)
         emergency_database_table.column("Accommodation", anchor='center', width=80)
@@ -549,8 +550,9 @@ def viewexistingCamps():
         emergency_database_table.heading("Family size", text="Family size", anchor='center')
         emergency_database_table.heading("Date of Birth", text="Date of Birth", anchor='center')
         emergency_database_table.heading("Age", text="Age", anchor='center')
-        emergency_database_table.heading("Sex", text="Sex", anchor='center')
+        emergency_database_table.heading("Gender", text="Sex", anchor='center')
         emergency_database_table.heading("Address", text="Address", anchor='center')
+        emergency_database_table.heading("Phone Number", text="Phone Number", anchor='center')
         emergency_database_table.heading("No. family with condition", text="No. w/ conditions", anchor='center')
         emergency_database_table.heading("Medical Conditions", text="Medical Conditions", anchor='center')
         emergency_database_table.heading("Accommodation", text="Accom.", anchor='center')
@@ -578,3 +580,5 @@ def viewexistingCamps():
     update_emergency_button.pack()
 
     view_camp_home_screen.mainloop()
+
+viewexistingCamps()
