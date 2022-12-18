@@ -287,141 +287,122 @@ def add_calendar():
         monday_initial_time = StringVar()
         monday_final_time = StringVar()
             
-        monday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, variable = monday_initial_time, values = *times)
+        monday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable = monday_initial_time, values = *times)
         monday_initial_time_menu.place(x = 180, y = 280, width = 100)
 
         monday_label = Label(choose_days_screen, text= "to")
         monday_label.place(x = 305, y = 280)
 
 
-        monday_final_time_menu = OptionMenu(choose_days_screen, monday_final_time, *times)
+        monday_final_time_menu = OptionMenu(choose_days_screen, textvariable=monday_final_time, values=*times)
         monday_final_time_menu.place(x=350, y=280, width=100)
 
             
-        def tues():
-            global tuesday_initial_time
-            global tuesday_final_time
-            if tuesday_text.get() == 2:
-                tuesday_initial_time = StringVar()
-                tuesday_initial_time_menu = OptionMenu(choose_days_screen, tuesday_initial_time, *times)
-                tuesday_initial_time_menu.place(x = 180, y = 330, width = 100)
+        
+        global tuesday_initial_time
+        global tuesday_final_time
+       
+        tuesday_initial_time = StringVar()
+        tuesday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=tuesday_initial_time, values=*times)
+        tuesday_initial_time_menu.place(x = 180, y = 330, width = 100)
 
-                tuesday_label = Label(choose_days_screen, text= "to")
-                tuesday_label.place(x = 305, y = 330)
+        tuesday_label = Label(choose_days_screen, text= "to")
+        tuesday_label.place(x = 305, y = 330)
 
-                tuesday_final_time = StringVar()
-                tuesday_final_time_menu = OptionMenu(choose_days_screen, tuesday_final_time, *times)
-                tuesday_final_time_menu.place(x=350, y=330, width=100)
+        tuesday_final_time = StringVar()
+        tuesday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable = tuesday_final_time, values =*times)
+        tuesday_final_time_menu.place(x=350, y=330, width=100)
 
-            if tuesday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=330, width=800, height=40)
+        
+        global wednesday_initial_time
+        global wednesday_final_time
+        
+        wednesday_initial_time = StringVar()
+        wednesday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=wednesday_initial_time, values =*times)
+        wednesday_initial_time_menu.place(x = 180, y = 380, width = 100)
 
-        def wed():
-            global wednesday_initial_time
-            global wednesday_final_time
-            if wednesday_text.get() == 3:
-                wednesday_initial_time = StringVar()
-                wednesday_initial_time_menu = OptionMenu(choose_days_screen, wednesday_initial_time, *times)
-                wednesday_initial_time_menu.place(x = 180, y = 380, width = 100)
+        wednesday_label = Label(choose_days_screen, text= "to")
+        wednesday_label.place(x = 305, y = 380)
 
-                wednesday_label = Label(choose_days_screen, text= "to")
-                wednesday_label.place(x = 305, y = 380)
-
-                wednesday_final_time = StringVar()
-                wednesday_final_time_menu = OptionMenu(choose_days_screen, wednesday_final_time, *times)
-                wednesday_final_time_menu.place(x=350, y=380, width=100)
-
-            if wednesday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=380, width=800, height=40)
-
-        def thurs():
-            global thursday_initial_time
-            global thursday_final_time
-            if thursday_text.get() == 4:
-                thursday_initial_time = StringVar()
-                thursday_initial_time_menu = OptionMenu(choose_days_screen, thursday_initial_time, *times)
-                thursday_initial_time_menu.place(x = 180, y = 430, width = 100)
-
-                thursday_label = Label(choose_days_screen, text= "to")
-                thursday_label.place(x = 305, y = 430)
-
-                thursday_final_time = StringVar()
-                thursday_final_time_menu = OptionMenu(choose_days_screen, thursday_final_time, *times)
-                thursday_final_time_menu.place(x=350, y=430, width=100)
-
-            if thursday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=430, width=800, height=40)
-
-        def fri():
-            global friday_initial_time
-            global friday_final_time
-            if friday_text.get() == 5:
-                friday_initial_time = StringVar()
-                friday_initial_time_menu = OptionMenu(choose_days_screen, friday_initial_time, *times)
-                friday_initial_time_menu.place(x = 180, y = 480, width = 100)
-
-                friday_label = Label(choose_days_screen, text= "to")
-                friday_label.place(x = 305, y = 480)
-
-                friday_final_time = StringVar()
-                friday_final_time_menu = OptionMenu(choose_days_screen, friday_final_time, *times)
-                friday_final_time_menu.place(x=350, y=480, width=100)
-
-            if friday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=480, width=800, height=40)
+        wednesday_final_time = StringVar()
+        wednesday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=wednesday_final_time, values =*times)
+        wednesday_final_time_menu.place(x=350, y=380, width=100)
 
 
-        def sat():
-            global saturday_initial_time
-            global saturday_final_time
-            if saturday_text.get() == 6:
-                saturday_initial_time = StringVar()
-                saturday_initial_time_menu = OptionMenu(choose_days_screen, saturday_initial_time, *times)
-                saturday_initial_time_menu.place(x = 180, y = 530, width = 100)
+        
+        global thursday_initial_time
+        global thursday_final_time
+            
+        thursday_initial_time = StringVar()
+        thursday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable =thursday_initial_time, values=*times)
+        thursday_initial_time_menu.place(x = 180, y = 430, width = 100)
 
-                saturday_label = Label(choose_days_screen, text= "to")
-                saturday_label.place(x = 305, y = 530)
+        thursday_label = Label(choose_days_screen, text= "to")
+        thursday_label.place(x = 305, y = 430)
 
-                saturday_final_time = StringVar()
-                saturday_final_time_menu = OptionMenu(choose_days_screen, saturday_final_time, *times)
-                saturday_final_time_menu.place(x=350, y=530, width=100)
+        thursday_final_time = StringVar()
+        thursday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=thursday_final_time, values=*times)
+        thursday_final_time_menu.place(x=350, y=430, width=100)
 
-            if saturday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=530, width=800, height=40)
+     
+        
+        global friday_initial_time
+        global friday_final_time
+        
+        friday_initial_time = StringVar()
+        friday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=friday_initial_time, values=*times)
+        friday_initial_time_menu.place(x = 180, y = 480, width = 100)
+
+        friday_label = Label(choose_days_screen, text= "to")
+        friday_label.place(x = 305, y = 480)
+
+        friday_final_time = StringVar()
+        friday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=friday_final_time, values=*times)
+        friday_final_time_menu.place(x=350, y=480, width=100)
+
+            
+
+        
+        global saturday_initial_time
+        global saturday_final_time
+        
+        saturday_initial_time = StringVar()
+        saturday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable =saturday_initial_time, values=*times)
+        saturday_initial_time_menu.place(x = 180, y = 530, width = 100)
+
+        saturday_label = Label(choose_days_screen, text= "to")
+        saturday_label.place(x = 305, y = 530)
+
+        saturday_final_time = StringVar()
+        saturday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=saturday_final_time, values=*times)
+        saturday_final_time_menu.place(x=350, y=530, width=100)
 
 
-        def sun():
-            global sunday_initial_time
-            global sunday_final_time
-            if sunday_text.get() == 7:
-                sunday_initial_time = StringVar()
-                sunday_initial_time_menu = OptionMenu(choose_days_screen, sunday_initial_time, *times)
-                sunday_initial_time_menu.place(x = 180, y = 580, width = 100)
+        
+        global sunday_initial_time
+        global sunday_final_time
+        
+        sunday_initial_time = StringVar()
+        sunday_initial_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=sunday_initial_time, values=*times)
+        sunday_initial_time_menu.place(x = 180, y = 580, width = 100)
 
-                sunday_label = Label(choose_days_screen, text= "to")
-                sunday_label.place(x = 305, y = 580)
+        sunday_label = Label(choose_days_screen, text= "to")
+        sunday_label.place(x = 305, y = 580)
 
-                sunday_final_time = StringVar()
-                sunday_final_time_menu = OptionMenu(choose_days_screen, sunday_final_time, *times)
-                sunday_final_time_menu.place(x=350, y=580, width=100)
+        sunday_final_time = StringVar()
+        sunday_final_time_menu = tkinter.ttk.Combobox(choose_days_screen, textvariable=sunday_final_time, values=*times)
+        sunday_final_time_menu.place(x=350, y=580, width=100)
 
-            if sunday_text.get() == 0:
-                lol_label = Label(choose_days_screen, text='')
-                lol_label.place(x=160, y=580, width=800, height=40)
+            
 
         #ALL THE CHECKBUTTON FUNCTIONALITY
-        monday_entry = Checkbutton(choose_days_screen, variable=monday_text, onvalue=1, offvalue=0, text="Monday", command = mon)
-        tuesday_entry = Checkbutton(choose_days_screen, variable=tuesday_text, onvalue=2, offvalue=0, text="Tuesday", command = tues)
-        wednesday_entry = Checkbutton(choose_days_screen, variable=wednesday_text, onvalue=3, offvalue=0, text="Wednesday", command = wed)
-        thursday_entry = Checkbutton(choose_days_screen, variable=thursday_text, onvalue=4, offvalue=0, text="Thursday", command = thurs)
-        friday_entry = Checkbutton(choose_days_screen, variable=friday_text, onvalue=5, offvalue=0, text="Friday", command = fri)
-        saturday_entry = Checkbutton(choose_days_screen, variable=saturday_text, onvalue=6, offvalue=0, text="Saturday", command = sat)
-        sunday_entry = Checkbutton(choose_days_screen, variable=sunday_text, onvalue=7, offvalue=0, text="Sunday", command = sun)
+        monday_entry = Label(choose_days_screen, text= "Monday:")
+        tuesday_entry = Label(choose_days_screen, text= "Tuesday:")
+        wednesday_entry = Label(choose_days_screen, text= "Wednesday:")
+        thursday_entry = Label(choose_days_screen, text= "Thursday:")
+        friday_entry = Label(choose_days_screen, text= "Friday:")
+        saturday_entry = Label(choose_days_screen, text= "Saturday:")
+        sunday_entry = Label(choose_days_screen, text= "Sunday:")
         monday_entry.place(x = 20, y = 280)
         tuesday_entry.place(x = 20, y = 330)
         wednesday_entry.place(x = 20, y = 380)
