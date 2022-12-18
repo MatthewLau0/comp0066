@@ -637,7 +637,7 @@ def accommodation_portal():
 
         accommodation_window.title("Accommodation Portal")
 
-        accommodation_label = Label(accommodation_window, text="Accommodation Portal", font=("Avenir", 22))
+        accommodation_label = Label(accommodation_window, text="Accommodation Portal", font=("TkDefaultFont", 22))
         accommodation_label.pack()
 
         view_block_button = Button(accommodation_window, text="View/Update Accommodation Blocks", command=view_existing_blocks)
@@ -1133,7 +1133,7 @@ def ration_portal():
 
         ration_window.title("Ration Portal")
 
-        ration_label = Label(ration_window, text="Ration Portal", font=("Avenir", 22))
+        ration_label = Label(ration_window, text="Ration Portal", font=("TkDefaultFont", 22))
         ration_label.pack()
 
         view_block_button = Button(ration_window, text="View/Update Ration Stalls", command=view_existing_stalls)
@@ -1630,7 +1630,7 @@ def toilets_portal():
 
         toilet_window.title("Toilets Portal")
 
-        toilet_label = Label(toilet_window, text="Toilets Portal", font=("Avenir", 22))
+        toilet_label = Label(toilet_window, text="Toilets Portal", font=("TkDefaultFont", 22))
         toilet_label.pack()
 
         view_block_button = Button(toilet_window, text="View/Update Toilet Blocks", command=view_existing_toilets,
@@ -2128,7 +2128,7 @@ def medical_portal():
 
         medical_window.title("Medical Portal")
 
-        medical_label = Label(medical_window, text="Medical Portal", font=("Avenir", 22))
+        medical_label = Label(medical_window, text="Medical Portal", font=("TkDefaultFont", 22))
         medical_label.pack()
 
         view_block_button = Button(medical_window, text="View/Update Medical Dispensaries", command=view_existing_medical)
@@ -2290,7 +2290,7 @@ def camp_layout():
     summary_frame.pack()
     summary_frame.place(relx=0.88, rely=0.02, anchor=N)
 
-    summary_label = Label(summary_frame, text="Camp Summary", font=("Avenir", 22, "bold", "underline"))
+    summary_label = Label(summary_frame, text="Camp Summary", font=("TkDefaultFont", 22, "bold", "underline"))
     summary_label.pack()
 
     volunteer_label = Label(summary_frame, text=f"No. of Volunteers at this camp: \n{len(volunteer_list)}")
@@ -2303,38 +2303,38 @@ def camp_layout():
     north_frame.pack()
     north_frame.place(relx=0.12, rely=0.02, anchor=N)
 
-    north_label = Label(north_frame, text="North Wing", font=("Avenir", 22, "bold", "underline"))
+    north_label = Label(north_frame, text="North Wing", font=("TkDefaultFont", 22, "bold", "underline"))
     north_label.pack()
 
-    north_accom_label = Label(north_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    north_accom_label = Label(north_frame, text="Accommodation Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     north_accom_label.pack()
 
     for i in accom_north:
         accom_north_label = Label(north_frame, text=f"{i[2]} ({i[4]} occupants)")
         accom_north_label.pack()
 
-    north_ration_label = Label(north_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    north_ration_label = Label(north_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     north_ration_label.pack()
 
     for i in ration_north:
         ration_north_label = Label(north_frame, text=f"{i[2]}")
         ration_north_label.pack()
 
-    north_toilet_label = Label(north_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    north_toilet_label = Label(north_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     north_toilet_label.pack()
 
     for i in toilet_north:
         toilet_north_label = Label(north_frame, text=f"{i[2]}")
         toilet_north_label.pack()
 
-    north_medical_label = Label(north_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    north_medical_label = Label(north_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     north_medical_label.pack()
 
     for i in medical_north:
         medical_north_label = Label(north_frame, text=f"{i[2]}")
         medical_north_label.pack()
 
-    north_summary_heading = Label(north_frame, text="\nNorth Wing Summary", font=("Avenir", 16, "bold", "underline"))
+    north_summary_heading = Label(north_frame, text="\nNorth Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
     north_summary_heading.pack()
 
     north_summary_label = Label(north_frame, text=
@@ -2356,38 +2356,38 @@ Refugees:
     east_frame.pack()
     east_frame.place(relx=0.31, rely=0.02, anchor=N)
 
-    east_label = Label(east_frame, text="East Wing", font=("Avenir", 22, "bold", "underline"))
+    east_label = Label(east_frame, text="East Wing", font=("TkDefaultFont", 22, "bold", "underline"))
     east_label.pack()
 
-    east_accom_label = Label(east_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    east_accom_label = Label(east_frame, text="Accommodation Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     east_accom_label.pack()
 
     for x in accom_east:
         accom_east_label = Label(east_frame, text=f"{x[2]} ({x[4]} occupants)")
         accom_east_label.pack()
 
-    east_ration_label = Label(east_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    east_ration_label = Label(east_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     east_ration_label.pack()
 
     for x in ration_east:
         ration_east_label = Label(east_frame, text=f"{x[2]}")
         ration_east_label.pack()
 
-    east_toilet_label = Label(east_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    east_toilet_label = Label(east_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     east_toilet_label.pack()
 
     for x in toilet_east:
         toilet_east_label = Label(east_frame, text=f"{x[2]}")
         toilet_east_label.pack()
 
-    east_medical_label = Label(east_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    east_medical_label = Label(east_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     east_medical_label.pack()
 
     for x in medical_east:
         medical_east_label = Label(east_frame, text=f"{x[2]}")
         medical_east_label.pack()
 
-    east_summary_heading = Label(east_frame, text="\nEast Wing Summary", font=("Avenir", 16, "bold", "underline"))
+    east_summary_heading = Label(east_frame, text="\nEast Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
     east_summary_heading.pack()
 
     east_summary_label = Label(east_frame, text=
@@ -2409,38 +2409,38 @@ Refugees:
     south_frame.pack()
     south_frame.place(relx=0.50, rely=0.02, anchor=N)
 
-    south_label = Label(south_frame, text="South Wing", font=("Avenir", 22, "bold", "underline"))
+    south_label = Label(south_frame, text="South Wing", font=("TkDefaultFont", 22, "bold", "underline"))
     south_label.pack()
 
-    south_accom_label = Label(south_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    south_accom_label = Label(south_frame, text="Accommodation Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     south_accom_label.pack()
 
     for y in accom_south:
         accom_south_label = Label(south_frame, text=f"{y[2]} ({y[4]} occupants)")
         accom_south_label.pack()
 
-    south_ration_label = Label(south_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    south_ration_label = Label(south_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     south_ration_label.pack()
 
     for y in ration_south:
         ration_south_label = Label(south_frame, text=f"{y[2]}")
         ration_south_label.pack()
 
-    south_toilet_label = Label(south_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    south_toilet_label = Label(south_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     south_toilet_label.pack()
 
     for y in toilet_south:
         toilet_south_label = Label(south_frame, text=f"{y[2]}")
         toilet_south_label.pack()
 
-    south_medical_label = Label(south_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    south_medical_label = Label(south_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     south_medical_label.pack()
 
     for y in medical_south:
         medical_south_label = Label(south_frame, text=f"{y[2]}")
         medical_south_label.pack()
 
-    south_summary_heading = Label(south_frame, text="\nSouth Wing Summary", font=("Avenir", 16, "bold", "underline"))
+    south_summary_heading = Label(south_frame, text="\nSouth Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
     south_summary_heading.pack()
 
     south_summary_label = Label(south_frame, text=
@@ -2462,38 +2462,38 @@ Refugees:
     west_frame.pack()
     west_frame.place(relx=0.69, rely=0.02, anchor=N)
 
-    west_label = Label(west_frame, text="West Wing", font=("Avenir", 22, "bold", "underline"))
+    west_label = Label(west_frame, text="West Wing", font=("TkDefaultFont", 22, "bold", "underline"))
     west_label.pack()
 
-    west_accom_label = Label(west_frame, text="Accommodation Blocks", font=("Avenir", 16, "bold", "underline"))
+    west_accom_label = Label(west_frame, text="Accommodation Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     west_accom_label.pack()
 
     for z in accom_west:
         accom_west_label = Label(west_frame, text=f"{z[2]} ({z[4]} occupants)")
         accom_west_label.pack()
 
-    west_ration_label = Label(west_frame, text="Ration Stalls", font=("Avenir", 16, "bold", "underline"))
+    west_ration_label = Label(west_frame, text="Ration Stalls", font=("TkDefaultFont", 16, "bold", "underline"))
     west_ration_label.pack()
 
     for z in ration_west:
         ration_west_label = Label(west_frame, text=f"{z[2]}")
         ration_west_label.pack()
 
-    west_toilet_label = Label(west_frame, text="Toilet Blocks", font=("Avenir", 16, "bold", "underline"))
+    west_toilet_label = Label(west_frame, text="Toilet Blocks", font=("TkDefaultFont", 16, "bold", "underline"))
     west_toilet_label.pack()
 
     for z in toilet_west:
         toilet_west_label = Label(west_frame, text=f"{z[2]}")
         toilet_west_label.pack()
 
-    west_medical_label = Label(west_frame, text="Medical Dispensaries", font=("Avenir", 16, "bold", "underline"))
+    west_medical_label = Label(west_frame, text="Medical Dispensaries", font=("TkDefaultFont", 16, "bold", "underline"))
     west_medical_label.pack()
 
     for z in medical_west:
         medical_west_label = Label(west_frame, text=f"{z[2]}")
         medical_west_label.pack()
 
-    west_summary_heading = Label(west_frame, text="\nWest Wing Summary", font=("Avenir", 16, "bold", "underline"))
+    west_summary_heading = Label(west_frame, text="\nWest Wing Summary", font=("TkDefaultFont", 16, "bold", "underline"))
     west_summary_heading.pack()
 
     west_summary_label = Label(west_frame, text=
@@ -2543,27 +2543,27 @@ def settings():
 
         headings_frame = Frame(volunteer_entry_screen)
 
-        Label(headings_frame, text="Camp ID:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Camp ID:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{camp_id}").pack()
-        Label(headings_frame, text="Volunteer ID:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Volunteer ID:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_id}").pack()
-        Label(headings_frame, text="Full Name:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Full Name:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_name}").pack()
-        Label(headings_frame, text="Username:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Username:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_username}").pack()
-        Label(headings_frame, text="Email:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Email:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_email}").pack()
-        Label(headings_frame, text="Phone Number:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Phone Number:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"+{user_number_area} {user_number}").pack()
-        Label(headings_frame, text="Gender:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Gender:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_gender}").pack()
-        Label(headings_frame, text="Date of Birth:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Date of Birth:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_dob} (Age: {user_age})").pack()
-        Label(headings_frame, text="Account Status:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Account Status:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_status}").pack()
-        Label(headings_frame, text="Account Role:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Account Role:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_role}").pack()
-        Label(headings_frame, text="Your Availability:", font=("Avenir", 16, "bold")).pack()
+        Label(headings_frame, text="Your Availability:", font=("TkDefaultFont", 16, "bold")).pack()
         Label(headings_frame, text=f"{user_availability}").pack()
         Label(headings_frame, text="To edit your availability, please go back to the home page and use Edit Availability Section").pack()
 
@@ -2801,7 +2801,7 @@ def settings():
 
                     createvolunteerSubmit()
 
-            log_out_info = Label(form_frame, text="Please log out and log back in to see updated details", font=("avenir", 16, 'bold'), fg='blue')
+            log_out_info = Label(form_frame, text="Please log out and log back in to see updated details", font=("TkDefaultFont", 16, 'bold'), fg='blue')
             log_out_info.pack()
 
             emergency_submit_button = Button(form_frame, text="Submit", command=confirmAge)
@@ -2833,8 +2833,8 @@ def run_camp_lead():
     center_y = int(screen_height / 2 - window_height / 2)
     main_window.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 
-    Label(main_window, text="LAMSA", font=("Avenir", 80, "bold")).pack()
-    Label(main_window, text=f"Welcome to Your Portal, {user_name}.\nYou are the Camp Lead of Camp {camp_id}\n", font=("Avenir", 22)).pack()
+    Label(main_window, text="LAMSA", font=("TkDefaultFont", 80, "bold")).pack()
+    Label(main_window, text=f"Welcome to Your Portal, {user_name}.\nYou are the Camp Lead of Camp {camp_id}\n", font=("TkDefaultFont", 22)).pack()
 
     volunteers_button = Button(main_window, text="Volunteers List", command=volunteers_portal)
     volunteers_button.pack()
