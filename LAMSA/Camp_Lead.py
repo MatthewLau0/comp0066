@@ -2753,9 +2753,10 @@ def settings():
                         updated_user[9] = volunteer_age
                         if select_camp.get() == camp_id:
                             updated_user[10] = user_status
+                            updated_user[11] = user_role
                         else:
                             updated_user[10] = "Deactivated"
-                        updated_user[11] = user_role
+                            updated_user[11] = "Standard"
                         updated_user[12] = user_availability
 
 
