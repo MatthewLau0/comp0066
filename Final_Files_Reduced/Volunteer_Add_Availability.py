@@ -37,6 +37,9 @@ def add_calendar():
         availability_screen.destroy()
         global final_calendar_screen
         global final_calendar
+        global refugee_year_final
+        global refugee_month_final
+        global refugee_day_final
         today = datetime.date.today()
 
         final_calendar_screen = Toplevel()
@@ -49,18 +52,141 @@ def add_calendar():
         final_text.pack()
         final_calendar_label = Label(final_calendar_screen, text="Please enter the final date in the range:", font='Arial 18')
         final_calendar_label.pack(pady=50)
-        initial_calendar_date = initial_calendar.selection_get()
-        final_calendar = Calendar(final_calendar_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= initial_calendar_date, maxdate= max)
-        final_calendar.pack(pady = 50)
+
+        refugee_year_final = StringVar()
+        refugee_month_final = StringVar()
+        refugee_day_final = StringVar()
+        year_lolol = refugee_year.get()
+        month_lolol = refugee_month.get()
+        day_lolol = refugee_day.get()
+        refugee_year_final.set(year_lolol)
+        refugee_month_final.set(month_lolol)
+        refugee_day_final.set(day_lolol)
+
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(year_lolol), int(year_lolol) + 3)]
+
+
+
+
+
+        refugee_year_text = Label(final_calendar_screen, text='Year:')
+        refugee_year_text.pack()
+        refugee_year_combo = tkinter.ttk.Combobox(final_calendar_screen, textvariable=refugee_year_final, values=year_list)
+        refugee_year_combo.pack()
+
+
+        refugee_month_text = Label(final_calendar_screen, text='Month ')
+        refugee_month_text.pack()
+        refugee_month_combo = tkinter.ttk.Combobox(final_calendar_screen, textvariable=refugee_month_final, values=month_list)
+        refugee_month_combo.pack()
+
+
+        refugee_day_text = Label(final_calendar_screen, text='Day: ')
+        refugee_day_text.pack()
+        refugee_day_combo = tkinter.ttk.Combobox(final_calendar_screen, textvariable=refugee_day_final, values=day_list)
+        refugee_day_combo.pack()
+
 
         #SUBMIT DATE RANGE
-        final_calendar_button = Button(final_calendar_screen, text="Continue", width=30, command=choose_days)
-        final_calendar_button.pack()
+        final_calendar_button = Button(final_calendar_screen, text="Continue", width=30, command=validate_final)
+        final_calendar_button.pack(pady = 75)
         final_calendar_back_button = Button(final_calendar_screen, text="Quit", width=30, command=delete2)
         final_calendar_back_button.pack()
 
+
+    def validate_final():
+        today = datetime.datetime.today()
+        year = refugee_year_final.get()
+        month = refugee_month_final.get().capitalize()
+        day = refugee_day_final.get()
+
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(today.year), int(today.year) + 3)]
+
+        try:
+            year = int(year)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Year must be numeric!')
+            return
+
+        try:
+            day = int(day)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Day must be numeric!')
+            return
+
+        if year not in year_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid year from list')
+            return
+
+        if month not in month_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid month from list')
+            return
+
+        if day not in day_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid day from list')
+            return
+
+        if int(year) == int(refugee_year.get()) and month_list.index(month) < month_list.index(refugee_month.get()):
+            tkinter.messagebox.showerror(title='Error!', message='Final date must be after initial date!')
+            return
+
+        if int(year) == int(refugee_year.get()) and month_list.index(month) == month_list.index(refugee_month.get()) and int(day) < int(refugee_day.get()):
+            tkinter.messagebox.showerror(title='Error!', message='Final date must be after initial date!')
+            return
+
+
+
+
+        choose_days()
+    def validate_initial():
+        today = datetime.datetime.today()
+        year = refugee_year.get()
+        month = refugee_month.get().capitalize()
+        day = refugee_day.get()
+
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(today.year), int(today.year) + 3)]
+
+        try:
+            year = int(year)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Year must be numeric!')
+            return
+
+        try:
+            day = int(day)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Day must be numeric!')
+            return
+
+        if year not in year_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid year from list')
+            return
+
+        if month not in month_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid month from list')
+            return
+
+        if day not in day_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select a valid day from list')
+            return
+
+
+        final_calendar_lol()
+
     #INITIAL SCREEN, ALLOWS USER TO SELECT THE START DATE OF THEIR VOLUNTEERING
     def initial_calendar_lol():
+        global refugee_year
+        global refugee_month
+        global refugee_day
         global initial_calendar_date
         global initial_calendar
         intro_text = Label(availability_screen, text = "Use this section to manage your availability\nPlease enter the range of days you will work as a volunteer", fg = 'Green', width= 300)
@@ -71,12 +197,34 @@ def add_calendar():
         #SETTING UP THE CALENDAR
         initial_calendar_label = Label(availability_screen, text = "Please enter the inital date in the range:", font = 'Arial 18')
         initial_calendar_label.pack(pady = 50)
-        initial_calendar = Calendar(availability_screen, font = 'Arial 14', date_pattern="d/m/y", selectmode='day', foreground = 'black', mindate= today, maxdate= max)
-        initial_calendar.pack()
+        day_list = [d for d in range(1, 32)]
+        month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                      "November", "December"]
+        year_list = [m for m in range(int(today.year), int(today.year) + 3)]
+
+
+        refugee_year = StringVar()
+        refugee_month = StringVar()
+        refugee_day = StringVar()
+
+        refugee_year_text = Label(availability_screen, text='Year:')
+        refugee_year_text.pack()
+        refugee_year_combo = tkinter.ttk.Combobox(availability_screen, textvariable=refugee_year, values=year_list)
+        refugee_year_combo.pack()
+
+        refugee_month_text = Label(availability_screen, text='Month ')
+        refugee_month_text.pack()
+        refugee_month_combo = tkinter.ttk.Combobox(availability_screen, textvariable=refugee_month, values=month_list)
+        refugee_month_combo.pack()
+
+        refugee_day_text = Label(availability_screen, text='Day: ')
+        refugee_day_text.pack()
+        refugee_day_combo = tkinter.ttk.Combobox(availability_screen, textvariable=refugee_day, values=day_list)
+        refugee_day_combo.pack()
 
         #SETTING UP THE BUTTONS
-        initial_calendar_button = Button(availability_screen, text = "Continue", width = 30, command = final_calendar_lol)
-        initial_calendar_button.pack(pady = 20)
+        initial_calendar_button = Button(availability_screen, text = "Continue", width = 30, command = validate_initial)
+        initial_calendar_button.pack(pady = 75)
         initial_calendar_quit_button = Button(availability_screen, text="Quit", width=30, command=delete1)
         initial_calendar_quit_button.pack()
 
@@ -94,14 +242,22 @@ def add_calendar():
         range_confirmation_label = Label(choose_days_screen, text = "Please check the summary below to ensure these are your dates of volunteering")
         range_confirmation_label.pack()
 
-        start_date_confirmation = Label(choose_days_screen, text = "The start date of your volunteering is: %s" %initial_calendar.get_date())
+        initial_dates_list = [refugee_day.get(), refugee_month.get(), refugee_year.get()]
+        final_dates_list = [refugee_day_final.get(), refugee_month_final.get(), refugee_year_final.get()]
+        initial_dates_string = ', '.join(initial_dates_list)
+        final_dates_string = ', '.join(final_dates_list)
+
+        start_date_confirmation = Label(choose_days_screen, text = "The start date of your volunteering is: %s" %initial_dates_string)
         start_date_confirmation.pack(pady = 20)
 
-        end_date_confirmation = Label(choose_days_screen, text = "The end date of your volunteering is: %s" %final_calendar.get_date())
+        end_date_confirmation = Label(choose_days_screen, text = "The end date of your volunteering is: %s" %final_dates_string)
         end_date_confirmation.pack(pady = 20)
 
-        x = str(final_calendar.selection_get() - initial_calendar.selection_get())
+        refugee_init_datetime = datetime.datetime.strptime(initial_dates_string, '%d, %B, %Y')
+        refugee_final_datetime = datetime.datetime.strptime(final_dates_string, '%d, %B, %Y')
+        x = str(refugee_final_datetime - refugee_init_datetime)
         y = x.split(',')
+
 
         #CALCULATES THE AMOUNT OF DAYS THEY WORK
         diff_confirmation = Label(choose_days_screen, text = "The total days you will be working is: %s" %str(y[0]))

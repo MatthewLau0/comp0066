@@ -88,11 +88,41 @@ def create_family():
         ref_month = refugee_month.get()
         ref_day = refugee_day.get()
 
-        ref_year = int(ref_year)
-        ref_day = int(ref_day)
+        try:
+            ref_year = int(ref_year)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Year must be numeric!')
+            return
+        try:
+            ref_day = int(ref_day)
+        except:
+            tkinter.messagebox.showerror(title='Error!', message='Day must be numeric!')
+            return
+
+        today_checktime = datetime.datetime.today()
+
+
+        if ref_year not in year_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select valid year')
+            return
+        if ref_month not in month_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select valid month')
+            return
+        if ref_day not in day_list:
+            tkinter.messagebox.showerror(title='Error!', message='Please select valid day')
+            return
+
+
 
         ref_dob_list = ','.join([str(ref_day), str(ref_month), str(ref_year)])
         refugee_dob_calendar = datetime.datetime.strptime(ref_dob_list, '%d,%B,%Y')
+
+        dob_datetime = refugee_dob_calendar
+
+        if today_checktime.year == dob_datetime.year and today_checktime.month == dob_datetime.month:
+            if int(today_checktime.day - dob_datetime.day) < 6:
+                tkinter.messagebox.showerror(title='Error!', message='Refugee must be more than 5 days old!')
+                return
 
         first_address = refugee_first_address.get().strip()
         city_address = refugee_city_address.get().strip()
@@ -165,13 +195,6 @@ def create_family():
             return
 
         # DOB CHECKS
-        dob_datetime = refugee_dob_calendar
-        today_checktime = datetime.datetime.today()
-
-        if today_checktime.year == dob_datetime.year and today_checktime.month == dob_datetime.month:
-            if int(today_checktime.day - dob_datetime.day) < 6:
-                tkinter.messagebox.showerror(title='Error!', message='Refugee must be more than 5 days old!')
-                return
 
         # CHECKS ADDRESS LINE 1
         if first_address.isnumeric():
@@ -270,7 +293,7 @@ def create_family():
 
 
 
-        if no_fam_conditions == "":
+        if no_fam_conditions != "":
 
             if any(i.isalpha() for i in no_fam_conditions):
                 tkinter.messagebox.showerror(title='Error!',
@@ -292,6 +315,11 @@ def create_family():
             if int(no_fam_conditions) > 20:
                 tkinter.messagebox.showerror(title='Error!', message='There is a maximum of value of 20!')
                 return
+
+            if int(no_fam_conditions) > (int(number) + 1):
+                tkinter.messagebox.showerror(title='Error!', message='Number of people with conditions cannot be greater than total number of people!')
+                return
+
 
 
         # CHECK IF THERE IS ENOUGH SPACE IN THE CAMP
@@ -347,12 +375,15 @@ def create_family():
                 if int(accommodation_specific_camp_list_test[i][6]) >= int(total_lol):
                     var_accom_counter = var_accom_counter + 1
 
+            for i in range(len(medical_specific_camp_list_test)):
                 if int(medical_specific_camp_list_test[i][6]) >= (num_medical_check):
                     var_medical_counter = var_medical_counter + 1
 
+            for i in range(len(toilet_specific_camp_list_test)):
                 if int(toilet_specific_camp_list_test[i][6]) >= int(total_lol):
                     var_toilet_counter = var_toilet_counter + 1
 
+            for i in range(len(rations_specific_camp_list_test)):
                 if int(rations_specific_camp_list_test[i][6]) >= int(total_lol):
                     var_ration_counter = var_ration_counter + 1
 
@@ -639,14 +670,12 @@ def create_family():
 
 
 
-        try:
-            if refugee_family_medical_no.get() == '':
-                num_medical_check = 0
-            else:
-                num_medical_check = int(refugee_family_medical_no.get())
 
-        except:
+        if refugee_family_medical_no.get() == '':
             num_medical_check = 0
+        else:
+            num_medical_check = int(refugee_family_medical_no.get())
+
         for i in range(len(medical_specific_camp_list)):
 
             # FIND MEDICAL STALL THAT IS GREATER THAN NO. OF PEOPLE IN FAMILY WITH MEDICAL CONDITIONS
@@ -655,8 +684,8 @@ def create_family():
 
                 # CREATE NEW SPECIFIC LIST WITH NEW VALUES
                 that_medic_list = medical_specific_camp_list[i]
-                ahaha = str(int(that_medic_list[4]) + (int(refugee_family_medical_no.get())))
-                bhaha = str(int(that_medic_list[6]) - (int(refugee_family_medical_no.get())))
+                ahaha = str(int(that_medic_list[4]) + (int(num_medical_check)))
+                bhaha = str(int(that_medic_list[6]) - (int(num_medical_check)))
                 that_medic_list[4] = ahaha
                 that_medic_list[6] = bhaha
 
@@ -836,8 +865,13 @@ def create_family():
         weight_confirmation.pack()
 
         num_of_fam = refugee_family_medical_no.get()
-        if int(num_of_fam) == 0:
-            num_of_fam = 'None'
+        try:
+            num_of_fam = int(num_of_fam)
+        except:
+            if num_of_fam == '':
+                num_of_fam = 'None'
+
+        num_of_fam = str(num_of_fam)
         height_confirmation = Label(screen2, text="Number of family members with conditions: %s" % str(
             num_of_fam))
         height_confirmation.pack()
