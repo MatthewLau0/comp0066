@@ -2753,9 +2753,10 @@ def settings():
                         updated_user[9] = volunteer_age
                         if select_camp.get() == camp_id:
                             updated_user[10] = user_status
+                            updated_user[11] = user_role
                         else:
                             updated_user[10] = "Deactivated"
-                        updated_user[11] = user_role
+                            updated_user[11] = "Standard"
                         updated_user[12] = user_availability
 
 
@@ -2765,7 +2766,7 @@ def settings():
                         if select_camp.get() == camp_id:
                             pass
                         else:
-                            Label(update_details_toplevel, text=f"As you have changed the Camp you wish to volunteer at,\nyour account will be temporarily deactivated.\nPlease contact the admin to get your account reactivated at Camp {select_camp.get()}").pack()
+                            Label(update_details_toplevel, text=f"As you have changed the Camp you wish to volunteer at,\nyour account will be temporarily deactivated and you will be made a standard volunteer.\nPlease contact the admin to get your account reactivated and become Camp Lead at Camp {select_camp.get()}").pack()
 
                         def logout_login():
                             global main_window
