@@ -2766,7 +2766,7 @@ def settings():
                         if select_camp.get() == camp_id:
                             pass
                         else:
-                            Label(update_details_toplevel, text=f"As you have changed the Camp you wish to volunteer at,\nyour account will be temporarily deactivated.\nPlease contact the admin to get your account reactivated at Camp {select_camp.get()}").pack()
+                            Label(update_details_toplevel, text=f"As you have changed the Camp you wish to volunteer at,\nyour account will be temporarily deactivated and you will be made a standard volunteer.\nPlease contact the admin to get your account reactivated and become Camp Lead at Camp {select_camp.get()}").pack()
 
                         def logout_login():
                             global main_window
