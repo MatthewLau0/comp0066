@@ -58,21 +58,15 @@ def adminHome():
     Label(admin_home, text="LAMSA", font=("TkDefaultFont", 80, "bold")).pack()
     Label(admin_home, text="Welcome to the Admin Home Page\n", font=("TkDefaultFont", 24)).pack()
 
-    create_new_emergency_frame = Frame(admin_home)
-    create_new_emergency_frame.pack()
-    create_new_emergency_button = Button(create_new_emergency_frame, text="Create New Emergency Camp", command=Create_Emergency)
+    create_new_emergency_button = Button(admin_home, text="Create New Emergency Camp", command=Create_Emergency)
     create_new_emergency_button.pack()
-    update_emergency_frame = Frame(admin_home)
-    update_emergency_frame.pack()
-    update_emergency_button = Button(update_emergency_frame, text="Update Existing Emergency Camp", command=Update_Emergency)
+    update_emergency_button = Button(admin_home, text="Update Existing Emergency Camp", command=Update_Emergency)
     update_emergency_button.pack()
-    manage_volunteers_frame = Frame(admin_home)
-    manage_volunteers_frame.pack()
-    manage_volunteers_button = Button(manage_volunteers_frame, text="Manage Volunteers", command=Manage_Volunteers)
+    manage_volunteers_button = Button(admin_home, text="Manage Volunteers", command=Manage_Volunteers)
     manage_volunteers_button.pack()
-    view_camps_button = Button(manage_volunteers_frame, text="Summary of Existing Camps", command=View_Camps)
+    view_camps_button = Button(admin_home, text="Summary of Existing Camps", command=View_Camps)
     view_camps_button.pack()
-    user_guide_button = Button(manage_volunteers_frame, text="User Guide", command=userGuide)
+    user_guide_button = Button(admin_home, text="User Guide", command=userGuide)
     user_guide_button.pack()
 
     def admin_home_destroy():
@@ -83,3 +77,4 @@ def adminHome():
 
     admin_home.mainloop()
 
+adminHome()
