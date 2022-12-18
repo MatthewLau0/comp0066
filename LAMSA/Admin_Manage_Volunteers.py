@@ -282,7 +282,7 @@ def manageVolunteers():
                         text="Invalid ID. Please enter the ID of a volunteer who is not yet lead.", fg="#f00")
                 elif promote_volunteer.get() == ' ' or len(
                         str(promote_volunteer.get())) == 0 or promote_volunteer.get() == 0:
-                    promote_volunteer_label.config(text="Please entere a value.", fg="#f00")
+                    promote_volunteer_label.config(text="Please enter a value.", fg="#f00")
                 else:
                     submitNewLead()
             except TclError:
@@ -350,7 +350,7 @@ def manageVolunteers():
                                                   fg="#f00")
                 elif delete_volunteer.get() == ' ' or len(
                         str(delete_volunteer.get())) == 0 or delete_volunteer.get() == 0:
-                    delete_volunteer_label.config(text="Please entere a value.", fg="#f00")
+                    delete_volunteer_label.config(text="Please enter a value.", fg="#f00")
                 else:
                     deletevolunteerSubmit()
             except TclError:
@@ -391,7 +391,7 @@ def manageVolunteers():
         emergency_database_file.close()
 
         view_availability_id_window = Toplevel()
-        view_availability_id_window.title("Select Camp ID")
+        view_availability_id_window.title("Select Volunteer")
 
         screen_width2 = view_availability_id_window.winfo_screenwidth()
         screen_height2 = view_availability_id_window.winfo_screenheight()
@@ -409,7 +409,7 @@ def manageVolunteers():
 
         selected_camp_id = StringVar()
 
-        id_select_label = Label(view_availability_id_window, text="Please choose a block ID to update")
+        id_select_label = Label(view_availability_id_window, text="Please choose a volunteer ID to update")
         id_select_label.pack()
         selected_camp_id.set("Select ID")
         id_select_option = ttk.Combobox(view_availability_id_window, textvariable=selected_camp_id, values=id_list)
@@ -508,7 +508,7 @@ def manageVolunteers():
 
         def run_the_update():
             if selected_camp_id.get() not in id_list:
-                id_select_label.config(fg="#f00")
+                id_select_label.config(text="Please enter the ID of a current volunteer", fg="#f00")
             else:
                 view_availability_id_window.destroy()
                 view_availability_table()

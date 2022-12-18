@@ -1,6 +1,6 @@
-3%1%sa%lead%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#78782323%m%2021-12-09%1%Deactivated%Lead%2023-05-03#2023-06-04#M#M#M#M#M#M#M
+3%1%sa%lead%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#78782323%m%2021-12-09%1%Active%Lead%2023-05-03#2023-06-04#M#M#M#M#M#M#M
 3%2%Sanchit Aapan%sanchitaapan%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%sanchitaapan@outlook.com%44#7855037367%Male%2002-08-13%20%Active%Standard%2023-05-03#2023-06-04#M#M#M#M#M#M#M
 2%3%sanchit%new%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#76767676%Male%2020-09-23%2%Active%Lead%2023-05-03#2023-06-04#M#M#M#M#M#M#M
 1%4%SANCH%more%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%55#676767676%m%2018-11-30%4%Deleted%Standard%2023-05-03#2023-06-04#M#M#M#M#M#M#M
 1%5%lead1%leadone%b47a720dd6b6f8ad4570cd7fd1476bea91203589d5c86e97c435fa0658694aeb%@.%44#76767676%mael%2019-04-02%3%Active%Lead%Availability
-4%6%Volunteer Volunteer%volunteer%68f1927d51ddd7b49c381c7c7d006b813565e3b95f09136cdfc96f529a352a4e%volunteer@volunteer.com%44#285847584%Male%2017-10-12%5%Active%Standard%Availability
+4%6%Volunteer Volunteer%volunteer%68f1927d51ddd7b49c381c7c7d006b813565e3b95f09136cdfc96f529a352a4e%volunteer@volunteer.com%44#285847584%Male%2017-10-12%5%Deleted%Standard%Availability

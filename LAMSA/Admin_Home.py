@@ -25,9 +25,6 @@ def adminHome():
         app_info_screen.title("User Guide")
         app_info_screen.geometry("1200x750")
 
-
-        Label(app_info_screen, text="\nHow to use the Admin Homepage", ).pack()
-
         Label(app_info_screen, text="\nCreate New Emergency Camp").pack()
 
         Label(app_info_screen, text="\nThis page can be used when a new emergency has occured, and you need to create a new camp for volunteers to assign refugees affected by the emergency. \nHere you can create a camp name, register the type of emergency, description of the emergency, area affected, start date and activation status.").pack()
