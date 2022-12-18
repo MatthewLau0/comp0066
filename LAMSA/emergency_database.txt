@@ -1,3 +1,4 @@
 1%camp1%Flood%flood%American Samoa%2020-05-03%0000-00-00%Active%
 2%second%Cyclone%idk%Albania%2022-01-11%0000-00-00%Active%
-3%THIRD%Other: idek%ok%American Samoa%2020-02-05%2022-10-01%Closed%
+3%THIRD%Other: idek%ok%American Samoa%2022-02-05%2022-03-01%Closed%
+4%CampSanMarino%Drought%Drought in Camp Spain%San Marino%2021-02-07%2022-04-04%Closed%

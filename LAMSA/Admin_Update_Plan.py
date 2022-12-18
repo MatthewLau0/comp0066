@@ -181,8 +181,10 @@ def updateexistingForm():
         end_date_year_combobox.pack(side=LEFT)
 
         def generate_start_date():
-            if len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get()) == 0:
+            if len(start_date_day.get()) == 0 and len(start_date_month.get()) == 0 and len(start_date_year.get()) == 0:
                 return "0000-00-00"
+            elif len(start_date_day.get()) == 0 or len(start_date_month.get()) == 0 or len(start_date_year.get()) == 0:
+                start_date_label.config(text="Please enter a day, month and year.", fg='#f00')
             else:
                 try:
                     startdateComplete = ("%s-%s-%s" % (start_date_year.get(), start_date_month.get(), start_date_day.get()))
@@ -195,8 +197,10 @@ def updateexistingForm():
                     return "0000-00-00"
 
         def generate_end_date():
-            if len(end_date_day.get()) == 0 or len(end_date_month.get()) == 0 or len(end_date_year.get()) == 0:
+            if len(end_date_day.get()) == 0 and len(end_date_month.get()) == 0 and len(end_date_year.get()) == 0:
                 return "0000-00-00"
+            elif len(end_date_day.get()) == 0 or len(end_date_month.get()) == 0 or len(end_date_year.get()) == 0:
+                end_date_label.config(text="Please enter a day, month and year, or leave end date blank", fg='#f00')
             else:
                 try:
                     enddateComplete = ("%s-%s-%s" % (end_date_year.get(), end_date_month.get(), end_date_day.get()))
@@ -366,6 +370,9 @@ def updateexistingForm():
                 camp_name_label.config(
                     text="This camp name already exists in the database. Please re-enter another camp-name.", fg='#f00')
                 errors_new_camp.append(8)
+            if area_affected.get() not in country_list:
+                emergency_location_label.config(text="Please enter a valid country where the emergency has occurred", fg="#f00")
+                errors_new_camp.append(9)
 
             if len(errors_new_camp) > 0:
                 pass
