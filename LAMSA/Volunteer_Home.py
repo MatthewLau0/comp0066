@@ -438,5 +438,3 @@ def volunteer_home_page():
     quit_button.pack()
 
     volunteer_home.mainloop()
-
-volunteer_home_page()

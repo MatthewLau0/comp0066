@@ -531,4 +531,3 @@ def manageVolunteers():
 
     manage_volunteer_home_screen.mainloop()
 
-manageVolunteers()
