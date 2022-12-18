@@ -481,7 +481,7 @@ def create_family():
         address3_label.config(text="City entered", fg='green')
         address4_label.config(text="Post Code entered", fg='green')
         address5_label.config(text="Country entered", fg='green')
-        health_number.config(text="No. with health conditions entered", fg='green')
+        health_number.config(text="Total number of family members with any health conditions", fg='green')
         health_label.config(text="Health details entered", fg='green')
 
         error_new_volunteer.clear()
@@ -503,12 +503,12 @@ def create_family():
         try:
             int(refugee_family_health_no.get())
         except ValueError:
-            health_number.config(text="Please enter an integer for medical", fg='#f00')
+            health_number.config(text="Please enter an integer for number of family members with any health conditions", fg='#f00')
             error_new_volunteer.append(3)
         if 2 not in error_new_volunteer and 3 not in error_new_volunteer:
             try:
                 if int(refugee_family_health_no.get()) > int(refugee_family_size.get()):
-                    health_number.config(text="Please enter an medical lower than size", fg='#f00')
+                    health_number.config(text="Please enter a number lower than that of family size", fg='#f00')
                     error_new_volunteer.append(4)
             except ValueError:
                 pass
