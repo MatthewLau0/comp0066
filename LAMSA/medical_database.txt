@@ -1,0 +1,8 @@
+1,1,First Medical,100,0,VACANCIES,100,South Wing,
+1,2,Second Medical,50,0,VACANCIES,50,North Wing,
+1,3,Third Medical,20,0,VACANCIES,20,East Wing,
+1,4,Fourth Medical,10,0,VACANCIES,10,West Wing,
+1,5,Five Medical,100,0,VACANCIES,100,South Wing,
+1,6,Six Medical,10,0,VACANCIES,10,North Wing,
+1,7,Seven Medical,30,0,VACANCIES,30,East Wing,
+1,8,Eight Medical,40,10,VACANCIES,30,West Wing,

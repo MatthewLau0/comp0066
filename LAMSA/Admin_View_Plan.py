@@ -523,8 +523,8 @@ def viewexistingCamps():
         emergency_database_table = ttk.Treeview(Update_Emergency_Screen)
 
         emergency_database_table['columns'] = (
-            "CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "Medical Conditions",
-            "No. family with condition", "CampName", "Wing", "Accommodation", "Medical", "Toilet", "Ration")
+            "CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Sex", "Address", "No. family with condition",
+            "Medical Conditions", "Accommodation", "Medical", "Toilet", "Ration")
 
         emergency_database_table.column("#0", width=0, stretch=NO)
         emergency_database_table.column("CampID", anchor='center', width=50)
@@ -535,10 +535,8 @@ def viewexistingCamps():
         emergency_database_table.column("Age", anchor='center', width=40)
         emergency_database_table.column("Sex", anchor='center', width=80)
         emergency_database_table.column("Address", anchor='center', width=200)
-        emergency_database_table.column("Medical Conditions", anchor='center', width=210)
         emergency_database_table.column("No. family with condition", anchor='center', width=85)
-        emergency_database_table.column("CampName", anchor='center', width=100)
-        emergency_database_table.column("Wing", anchor='center', width=85)
+        emergency_database_table.column("Medical Conditions", anchor='center', width=210)
         emergency_database_table.column("Accommodation", anchor='center', width=80)
         emergency_database_table.column("Medical", anchor='center', width=80)
         emergency_database_table.column("Toilet", anchor='center', width=70)
@@ -552,10 +550,8 @@ def viewexistingCamps():
         emergency_database_table.heading("Age", text="Age", anchor='center')
         emergency_database_table.heading("Sex", text="Sex", anchor='center')
         emergency_database_table.heading("Address", text="Address", anchor='center')
-        emergency_database_table.heading("Medical Conditions", text="Medical Conditions", anchor='center')
         emergency_database_table.heading("No. family with condition", text="No. w/ conditions", anchor='center')
-        emergency_database_table.heading("CampName", text="Camp Name", anchor='center')
-        emergency_database_table.heading("Wing", text="Wing", anchor='center')
+        emergency_database_table.heading("Medical Conditions", text="Medical Conditions", anchor='center')
         emergency_database_table.heading("Accommodation", text="Accom.", anchor='center')
         emergency_database_table.heading("Medical", text="Medical", anchor='center')
         emergency_database_table.heading("Toilet", text="Toilet", anchor='center')
@@ -567,8 +563,7 @@ def viewexistingCamps():
                 volunteer_database_list[i][2], volunteer_database_list[i][3], str(volunteer_database_list[i][4]),
                 volunteer_database_list[i][5], volunteer_database_list[i][6], volunteer_database_list[i][7],
                 volunteer_database_list[i][8], volunteer_database_list[i][9], volunteer_database_list[i][10],
-                volunteer_database_list[i][11], volunteer_database_list[i][12], volunteer_database_list[i][13],
-                volunteer_database_list[i][14], volunteer_database_list[i][15]))
+                volunteer_database_list[i][11], volunteer_database_list[i][12], volunteer_database_list[i][13]))
 
         emergency_database_table.pack(fill='both')
 

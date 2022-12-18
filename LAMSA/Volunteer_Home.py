@@ -5,7 +5,6 @@ import datetime
 import Login
 import Volunteer_Create_Family
 import Volunteer_View_Family
-import Volunteer_Update_Family
 import Volunteer_Add_Availability
 
 
@@ -417,9 +416,6 @@ def volunteer_home_page():
 
     create_new_refugee_button = Button(volunteer_home, text="Add Refugee", command=Volunteer_Create_Family.create_family)
     create_new_refugee_button.pack()
-
-    update_refugee_button = Button(volunteer_home, text="Modify refugees in your camp", command=Volunteer_Update_Family.modify_family)
-    update_refugee_button.pack()
 
     view_refugee_button = Button(volunteer_home, text="View list of refugees in your camp", command=Volunteer_View_Family.table)
     view_refugee_button.pack()

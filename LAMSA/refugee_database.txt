@@ -1,0 +1,6 @@
+3%1%S%1%PY_VAR2/PY_VAR3/PY_VAR4%0%Male%12, , C, S, Albania%1%%%%%
+3%2%New%12%12/12/2002%0%Male%1, Line, Wey, PO, Albania%12%Some%%%%
+1%3%New Guy%20%3/7/1941%10%Female%1, 2, C, P, American Samoa%15%Some%East Wing, Block 3, 20 Spaces%East Wing, Ration 3, 20 Spaces%East Wing, Toilet 3, 20 Spaces%East Wing, Medical 3, 20 Spaces
+1%4%yt%12%1/2/2018%10%Male%11, 1, 1, 1, Afghanistan%1%%South Wing Block 1%North Wing Ration 2%North Wing Toilet 2%South Wing Medical 1
+1%5%name%12%2/12/2022%10%Female%1, 1, 1, 1, Afghanistan%1%1%South Wing Block 1%South Wing Ration 1%South Wing Toilet 1%South Wing Medical 1
+1%6%Family Six%20%2/6/2018%10%Other%Line, Line, City, Post, Afghanistan%10%Some Con%West Wing Block 8%West Wing Ration 8%West Wing Toilet 8%West Wing Medical 8

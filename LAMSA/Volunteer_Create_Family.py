@@ -68,7 +68,7 @@ def create_family():
 
     refugee_file.close()
 
-    new_refugee = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    new_refugee = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     new_refugee_screen = Toplevel()
     new_refugee_screen.title("Add New Family")
@@ -116,24 +116,45 @@ def create_family():
     size_entry = Entry(size_frame, textvariable=refugee_family_size)
     size_entry.pack(side="left")
 
+    day_list = [str(i) for i in range(1, 32)]
+    month_list = [str(i) for i in range(1, 13)]
+    year_list = [str(i) for i in range(2023, 1899, -1)]
+
+    dob_label = Label(new_refugee_screen, text="Enter the start date for the emergency")
+    dob_label.pack()
     dob_frame = Frame(new_refugee_screen)
     dob_frame.pack()
+    date_day_combobox = ttk.Combobox(dob_frame, textvariable=refugee_date, values=day_list)
+    date_day_combobox.pack(side=LEFT)
+    date_month_combobox = ttk.Combobox(dob_frame, textvariable=refugee_month, values=month_list)
+    date_month_combobox.pack(side=LEFT)
+    date_year_combobox = ttk.Combobox(dob_frame, textvariable=refugee_year, values=year_list)
+    date_year_combobox.pack(side=LEFT)
 
-    dob_label = Label(dob_frame, text="Date of Birth (dd/mm/yyyy):   ")
-    dob_label.pack(side="left")
-    dob1_entry = Entry(dob_frame, textvariable=refugee_date, width=5)
-    dob1_entry.pack(side="left")
-    dob2_entry = Entry(dob_frame, textvariable=refugee_month, width=5)
-    dob2_entry.pack(side="left")
-    dob3_entry = Entry(dob_frame, textvariable=refugee_year, width=7)
-    dob3_entry.pack(side="left")
+    def generate_dob():
+        if len(refugee_date.get()) == 0 or len(refugee_month.get()) == 0 or len(refugee_year.get()) == 0:
+            return "empty"
+        else:
+            try:
+                startdateComplete = ("%s-%s-%s" % (refugee_year.get(), refugee_month.get(), refugee_date.get()))
+                startDateTime = datetime.datetime.strptime(startdateComplete, "%Y-%m-%d")
+                startDate = datetime.datetime.date(startDateTime)
+                return startDate
+            except ValueError:
+                return "empty"
+
+    def generate_age():
+        refugee_age = 10
+        return refugee_age
+
+    gender_list = ["Male", "Female", "Other", "Prefer not to say"]
 
     gender_frame = Frame(new_refugee_screen)
     gender_frame.pack()
 
     gender_label = Label(gender_frame, text="Gender:                                 ")
     gender_label.pack(side="left")
-    gender_entry = ttk.Combobox(gender_frame, textvariable=refugee_gender, values=["Male", "Female", "Other", "Prefer not to say"])
+    gender_entry = ttk.Combobox(gender_frame, textvariable=refugee_gender, values=gender_list)
     gender_entry.pack(side="left")
 
     address_frame = Frame(new_refugee_screen)
@@ -192,144 +213,316 @@ def create_family():
     health_entry = Entry(health_frame2, textvariable=refugee_family_health, width=40)
     health_entry.pack()
 
-    refugee_age = 0
-    if refugee_year.get() != "":
-        refugee_age = datetime.datetime.now().year - int(refugee_year.get())
 
-    refugee_wing = ""
-    refugee_accom = ""
-    refugee_ration = ""
-    refugee_toilet = ""
-    refugee_medical = ""
+    def allocate_blocks():
 
-    def summary():
+        new_refugee_screen.destroy()
 
-        refugee_summary = Toplevel()
+        open_accommodation_file = open("accommodation_database.txt", 'r')
+        accommodation_database_list = []
+        for line0 in open_accommodation_file:
+            x = line0.split(",")
+            if x[0] == str(camp_id):
+                accommodation_database_list.append(x)
+        open_accommodation_file.close()
 
-        refugee_summary.title("Refugee Family Summary")
+        open_medical_file = open("medical_database.txt", 'r')
+        medical_database_list = []
+        for line1 in open_medical_file:
+            x = line1.split(",")
+            if x[0] == str(camp_id):
+                medical_database_list.append(x)
+        open_medical_file.close()
 
-        label_1 = Label(refugee_summary, text="Please check that you are happy with the entry below:")
-        label_1.pack()
+        open_toilet_file = open("toilet_database.txt", 'r')
+        toilet_database_list = []
+        for line2 in open_toilet_file:
+            x = line2.split(",")
+            if x[0] == str(camp_id):
+                toilet_database_list.append(x)
+        open_toilet_file.close()
 
-        summary_label = Label(refugee_summary, text=f"""
-        Lead Member Name: {refugee_name.get()} \n 
-        Family Size: {refugee_family_size.get()} \n
-        Lead Member DoB: {refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}
-        Lead Member Age: {refugee_age} 
-        Lead Member Gender: {refugee_gender.get()} \n 
-        Address: {refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()} \n{refugee_address_post.get()}, {refugee_address_country.get()} \n
-        No. Members with Health Conditions: {refugee_family_health_no.get()}\n
-        Health Condition Details: {refugee_family_health.get()}""")
-        summary_label.pack()
+        open_ration_file = open("ration_database.txt", 'r')
+        ration_database_list = []
+        for line3 in open_ration_file:
+            x = line3.split(",")
+            if x[0] == str(camp_id):
+                ration_database_list.append(x)
+        open_ration_file.close()
 
-        def edit_command():
-            refugee_summary.destroy()
+        accom_available = []
+        for i in accommodation_database_list:
+            if int(i[6]) >= int(refugee_family_size.get()):
+                accom_available.append(f"{i[7]}, Block {i[1]}, {i[6]} Spaces")
+        toilet_available = []
+        for i in toilet_database_list:
+            if int(i[6]) >= int(refugee_family_size.get()):
+                toilet_available.append(f"{i[7]}, Toilet {i[1]}, {i[6]} Spaces")
+        ration_available = []
+        for i in ration_database_list:
+            if int(i[6]) >= int(refugee_family_size.get()):
+                ration_available.append(f"{i[7]}, Ration {i[1]}, {i[6]} Spaces")
+        medical_available = []
+        for i in medical_database_list:
+            if int(i[6]) >= int(refugee_family_health_no.get()):
+                medical_available.append(f"{i[7]}, Medical {i[1]}, {i[6]} Spaces")
 
-        def submit_command():
+        if len(accom_available) == 0:
+            accom_available.append("Accommodation Unavailable,")
+        if len(ration_available) == 0:
+            ration_available.append("Ration Unavailable,")
+        if len(toilet_available) == 0:
+            toilet_available.append("Toilet Unavailable,")
+        if len(medical_available) == 0:
+            medical_available.append("Medical Unavailable,")
 
-            new_refugee[0] = refugee_camp_id
-            new_refugee[1] = refugee_id
-            new_refugee[2] = refugee_name.get()
-            new_refugee[3] = refugee_family_size.get()
-            new_refugee[4] = f"{refugee_date}/{refugee_month}/{refugee_year}"
-            new_refugee[5] = refugee_age
-            new_refugee[6] = refugee_gender.get()
-            new_refugee[7] = f"{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()}"
-            new_refugee[8] = refugee_family_health_no.get()
-            new_refugee[9] = refugee_family_health.get()
-            new_refugee[10] = refugee_wing
-            new_refugee[11] = refugee_accom
-            new_refugee[12] = refugee_ration
-            new_refugee[13] = refugee_toilet
-            new_refugee[14] = refugee_medical
+        amenity_window = Toplevel()
+        amenity_window.title("Allocate Amenities")
 
-            new_refugee_string = '%'.join(new_refugee)
+        Label(amenity_window, text="Please allocate amenities to this refugee family").pack()
+        Label(amenity_window, text="Please try to pick amenities within the same wing").pack()
 
-            refugee_append = open("refugee_database.txt", "a")
-            refugee_append.write(new_refugee_string + "\n")
-            refugee_append.close()
+        refugee_accom = StringVar()
+        refugee_ration = StringVar()
+        refugee_toilet = StringVar()
+        refugee_medical = StringVar()
 
-            refugee_summary.destroy()
-            new_refugee_screen.destroy()
+        accom_allocate = Label(amenity_window, text="Accommodation Block: ")
+        accom_allocate.pack()
+        ttk.Combobox(amenity_window, textvariable=refugee_accom, values=accom_available).pack()
 
-        edit_button = Button(refugee_summary, text="Edit", command=edit_command, width=30, height=2)
-        edit_button.pack()
-        submit_button = Button(refugee_summary, text="Submit", command=submit_command, width=30, height=2)
-        submit_button.pack()
+        toilet_allocate = Label(amenity_window, text="Toilet Block: ")
+        toilet_allocate.pack()
+        ttk.Combobox(amenity_window, textvariable=refugee_toilet, values=toilet_available).pack()
 
-        refugee_summary.mainloop()
+        ration_allocate = Label(amenity_window, text="Ration Stall: ")
+        ration_allocate.pack()
+        ttk.Combobox(amenity_window, textvariable=refugee_ration, values=ration_available).pack()
 
-    error_window = Toplevel()
-    error_frame = Frame(error_window)
+        medical_allocate = Label(amenity_window, text="Medical Dispensary: ")
+        medical_allocate.pack()
+        ttk.Combobox(amenity_window, textvariable=refugee_medical, values=medical_available).pack()
+
+        allocation_errors = []
+
+        def summary():
+            amenity_window.destroy()
+
+            refugee_summary = Toplevel()
+
+            refugee_summary.title("Refugee Family Summary")
+
+            label_1 = Label(refugee_summary, text="Please check that you are happy with the entry below:")
+            label_1.pack()
+
+            summary_label = Label(refugee_summary, text=f"""
+            Lead Member Name: {refugee_name.get()} \n 
+            Family Size: {refugee_family_size.get()} \n
+            Lead Member DoB: {refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}
+            Lead Member Age: {generate_age()} 
+            Lead Member Gender: {refugee_gender.get()} \n 
+            Address: {refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()} \n{refugee_address_post.get()}, {refugee_address_country.get()} \n
+            No. Members with Health Conditions: {refugee_family_health_no.get()}\n
+            Health Condition Details: {refugee_family_health.get()}""")
+            summary_label.pack()
+
+            def submit_command():
+                refugee_accom_save = refugee_accom.get().split(",")
+                refugee_ration_save = refugee_ration.get().split(",")
+                refugee_toilet_save = refugee_toilet.get().split(",")
+                refugee_medical_save = refugee_medical.get().split(",")
+                new_refugee[0] = str(refugee_camp_id)
+                new_refugee[1] = str(refugee_id)
+                new_refugee[2] = refugee_name.get()
+                new_refugee[3] = str(refugee_family_size.get())
+                new_refugee[4] = f"{refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}"
+                new_refugee[5] = str(generate_age())
+                new_refugee[6] = refugee_gender.get()
+                new_refugee[7] = f"{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()}"
+                new_refugee[8] = str(refugee_family_health_no.get())
+                new_refugee[9] = refugee_family_health.get()
+                new_refugee[10] = refugee_accom_save[0] + refugee_accom_save[1]
+                new_refugee[11] = refugee_ration_save[0] + refugee_ration_save[1]
+                new_refugee[12] = refugee_toilet_save[0] + refugee_toilet_save[1]
+                new_refugee[13] = refugee_medical_save[0] + refugee_medical_save[1]
+
+                new_refugee_string = '%'.join(new_refugee)
+
+                refugee_append = open("refugee_database.txt", "a")
+                refugee_append.write(new_refugee_string + "\n")
+                refugee_append.close()
+
+                accom_id = refugee_accom_save[1][-1]
+                ration_id = refugee_ration_save[1][-1]
+                toilet_id = refugee_toilet_save[1][-1]
+                medical_id = refugee_medical_save[1][-1]
+
+                for acc in accommodation_database_list:
+                    if acc[1] == accom_id:
+                        acc[4] = str(int(acc[4]) + int(refugee_family_size.get()))
+                        acc[6] = str(int(acc[6]) - int(refugee_family_size.get()))
+
+                clear_file = open("accommodation_database.txt", "w")
+                clear_file.close()
+
+                for entry in accommodation_database_list:
+                    with open("accommodation_database.txt", "a") as accommodation_write:
+                        updated_accommodation_string = ",".join(entry)
+                        accommodation_write.write(updated_accommodation_string)
+                accommodation_write.close()
+
+                for rat in ration_database_list:
+                    if rat[1] == ration_id:
+                        rat[4] = str(int(rat[4]) + int(refugee_family_size.get()))
+                        rat[6] = str(int(rat[6]) - int(refugee_family_size.get()))
+
+                clear_file = open("ration_database.txt", "w")
+                clear_file.close()
+
+                for entry in ration_database_list:
+                    with open("ration_database.txt", "a") as ration_write:
+                        updated_ration_string = ",".join(entry)
+                        ration_write.write(updated_ration_string)
+                ration_write.close()
+
+                for toi in toilet_database_list:
+                    if toi[1] == toilet_id:
+                        toi[4] = str(int(toi[4]) + int(refugee_family_size.get()))
+                        toi[6] = str(int(toi[6]) - int(refugee_family_size.get()))
+
+                clear_file = open("toilet_database.txt", "w")
+                clear_file.close()
+
+                for entry in toilet_database_list:
+                    with open("toilet_database.txt", "a") as toilet_write:
+                        updated_toilet_string = ",".join(entry)
+                        toilet_write.write(updated_toilet_string)
+                toilet_write.close()
+
+                for med in medical_database_list:
+                    if med[1] == toilet_id:
+                        med[4] = str(int(med[4]) + int(refugee_family_health_no.get()))
+                        med[6] = str(int(med[6]) - int(refugee_family_health_no.get()))
+
+                clear_file = open("medical_database.txt", "w")
+                clear_file.close()
+
+                for entry in medical_database_list:
+                    with open("medical_database.txt", "a") as medical_write:
+                        updated_medical_string = ",".join(entry)
+                        medical_write.write(updated_medical_string)
+                medical_write.close()
+
+                refugee_summary.destroy()
+                new_refugee_screen.destroy()
+
+            edit_button = Button(refugee_summary, text="Cancel", command=refugee_summary.destroy, width=30, height=2)
+            edit_button.pack()
+            submit_button = Button(refugee_summary, text="Submit", command=submit_command, width=30, height=2)
+            submit_button.pack()
+
+            refugee_summary.mainloop()
+
+        def check_allocation():
+            accom_allocate.config(text="Accommodation Allocated", fg='green')
+            toilet_allocate.config(text="Toilet Allocated", fg='green')
+            ration_allocate.config(text="Ration Stall Allocated", fg='green')
+            medical_allocate.config(text="Medical Dispensary Allocated", fg='green')
+
+            allocation_errors.clear()
+
+            if refugee_accom.get() not in accom_available:
+                accom_allocate.config(text="Please choose from one of the available accommodations", fg='#f00')
+                allocation_errors.append(1)
+            if refugee_toilet.get() not in toilet_available:
+                toilet_allocate.config(text="Please choose from one of the available toilet blocks", fg='#f00')
+                allocation_errors.append(2)
+            if refugee_ration.get() not in ration_available:
+                ration_allocate.config(text="Please choose from one of the available ration stalls", fg='#f00')
+                allocation_errors.append(3)
+            if refugee_medical.get() not in medical_available:
+                medical_allocate.config(text="Please choose from one of the available medical dispensaries", fg='#f00')
+                allocation_errors.append(4)
+
+            if len(allocation_errors) > 0:
+                pass
+            else:
+                summary()
+
+        Button(amenity_window, text="Done", command=check_allocation).pack()
+
+
+    error_new_volunteer = []
 
     def check_block():
 
-        for widget in error_frame.winfo_children():
-            widget.destroy()
+        name_label.config(text="Name entered", fg='green')
+        size_label.config(text="Family size entered", fg='green')
+        dob_label.config(text="DoB entered", fg='green')
+        gender_label.config(text="Gender entered", fg='green')
+        address1_label.config(text="Address Line 1 entered", fg='green')
+        address2_label.config(text="Address Line 2 entered", fg='green')
+        address3_label.config(text="City entered", fg='green')
+        address4_label.config(text="Post Code entered", fg='green')
+        address5_label.config(text="Country entered", fg='green')
+        health_number.config(text="No. with health conditions entered", fg='green')
+        health_label.config(text="Health details entered", fg='green')
 
-        check_status = ["0", "1", "0", "0", "0", "0"]
+        error_new_volunteer.clear()
 
-        def name_check():
-            if refugee_name.get().strip() == "":
-                new_block_name_reentry_1 = Label(error_frame, text="Please enter a Refugee Name")
-                new_block_name_reentry_1.pack()
-            else:
-                check_status[0] = "1"
-
-        name_check()
-
-        def cap_check():
+        if refugee_name.get().strip() == "":
+            name_label.config(text="Please enter a name", fg='#f00')
+            error_new_volunteer.append(1)
+        if all(char.isalpha() for char in refugee_name.get().replace(" ", "")) is False:
+            name_label.config(text="Name can only contain alphabetical characters", fg='#f00')
+            error_new_volunteer.append(1.1)
+        try:
+            int(refugee_family_size.get())
+            if int(refugee_family_size.get()) == 0:
+                size_label.config(text="Minimum family size is 1", fg='#f00')
+                error_new_volunteer.append(2.1)
+        except ValueError:
+            size_label.config(text="Please enter an integer for family size", fg='#f00')
+            error_new_volunteer.append(2)
+        try:
+            int(refugee_family_health_no.get())
+        except ValueError:
+            health_number.config(text="Please enter an integer for medical", fg='#f00')
+            error_new_volunteer.append(3)
+        if 2 not in error_new_volunteer and 3 not in error_new_volunteer:
             try:
-                int(refugee_family_size.get())
-                check_status[2] = "1"
+                if int(refugee_family_health_no.get()) > int(refugee_family_size.get()):
+                    health_number.config(text="Please enter an medical lower than size", fg='#f00')
+                    error_new_volunteer.append(4)
             except ValueError:
-                new_block_capacity_reentry = Label(error_frame, text="Please enter an integer for family size")
-                new_block_capacity_reentry.pack()
+                pass
+        today = datetime.datetime.today()
+        if generate_dob() == "empty":
+            dob_label.config(text="Please enter DoB", fg='#f00')
+            error_new_volunteer.append(5)
+        if generate_dob() != "empty":
+            test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
+            if test_start_date > today:
+                dob_label.config(text="Please enter a valid DoB", fg='#f00')
 
-        cap_check()
+        if refugee_gender.get() not in gender_list:
+            gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
+        if refugee_address_country.get() not in country_list:
+            address5_label.config(text="Please enter a country from the list provided", fg='#f00')
+        if refugee_address1.get().strip() == "":
+            address1_label.config(text="Please enter a valid Address Line 1", fg='#f00')
+        if refugee_address_city.get().strip() == "":
+            address3_label.config(text="Please enter a valid City", fg='#f00')
+        if refugee_address_post.get().strip() == "":
+            address4_label.config(text="Please enter a valid Postcode", fg='#f00')
 
-        def occ_check():
-            try:
-                int(refugee_family_health_no.get())
-                check_status[3] = "1"
-            except ValueError:
-                new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for medical")
-                new_block_occupancy_reentry_1.pack()
-            if check_status[3] == "1" and check_status[1] == "1":
-                try:
-                    if int(refugee_family_health_no.get()) <= int(refugee_family_size.get()):
-                        print(refugee_family_health_no.get())
-                        print(refugee_family_size)
-                        check_status[4] = "1"
-                    else:
-                        new_block_occupancy_reentry_2 = Label(error_frame, text="Please enter an medical lower than size")
-                        new_block_occupancy_reentry_2.pack()
-                except ValueError:
-                    pass
-
-        occ_check()
-
-        def location_check():
-            if refugee_date.get() == 0 or refugee_month.get() == 0 or refugee_year.get() == 0:
-                new_block_location_reentry = Label(error_frame, text="Please choose a DoB")
-                new_block_location_reentry.pack()
-            else:
-                check_status[5] = "1"
-
-        location_check()
-
-        if "0" in check_status:
-            error_frame.pack()
-            close_button = Button(error_window, text="Close", command=error_window.destroy, width=10, height=1)
-            close_button.pack()
-            error_window.mainloop()
+        if len(error_new_volunteer) > 0:
+            pass
         else:
-            summary()
+            allocate_blocks()
 
     new_block_done = Button(new_refugee_screen, text="Done", command=check_block, width=30, height=2)
     new_block_done.pack()
 
     new_refugee_screen.mainloop()
 
-
-create_family()

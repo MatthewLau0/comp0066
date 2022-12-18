@@ -85,3 +85,5 @@ def adminHome():
     exit_button.pack()
 
     admin_home.mainloop()
+
+adminHome()
