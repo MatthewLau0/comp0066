@@ -238,7 +238,7 @@ def main():
             register_screen.mainloop()
 
         def volunteer_login():
-            import Volunteer_Home
+
             import Camp_Lead
 
             Clean_Database.clean_volunteer_database()
@@ -286,6 +286,7 @@ def main():
             password_visibility_btn.pack()
 
             def check_login_entry():
+                import Volunteer_Home
 
                 def encrypt_password(p):
                     password_info_entry = p.encode()
