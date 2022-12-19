@@ -549,13 +549,12 @@ Date Record Created: {today}\n""")
             test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
             if test_start_date > today:
                 dob_label.config(text="Please enter a valid DoB", fg='#f00')
-        if len(phone_area_code.get()) > 4 or len(phone_area_code.get()) == 0 or phone_area_code.get().isalnum() is not True:
+        if len(phone_area_code.get()) > 4 or len(phone_area_code.get()) == 0 or all(char.isdigit() for char in phone_area_code.get()) is False:
             phone_number_label.config(
                 text="Please enter a valid phone area code and a valid phone number",
                 fg='#f00')
             error_new_volunteer.append("e4")
-        if len(phone_number.get()) > 15 or len(
-                phone_number.get()) < 7 or phone_number.get().isalnum() != True:
+        if len(phone_number.get()) > 15 or len(phone_number.get()) < 7 or all(char.isdigit() for char in phone_number.get()) is False:
             phone_number_label.config(
                 text="Please enter a valid phone area code and a valid phone number",
                 fg='#f00')
@@ -581,3 +580,4 @@ Date Record Created: {today}\n""")
     Button(new_refugee_screen, text="Cancel", command=new_refugee_screen.destroy).pack()
 
     new_refugee_screen.mainloop()
+create_family()
