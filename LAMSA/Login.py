@@ -334,7 +334,7 @@ def main():
                 login_entry_status_string = str(username_entry.get() + password_hash + "Active")
 
                 login_error_window = Toplevel()
-                print(camp_status)
+
                 if (login_entry_string in logins_list) and (login_entry_status_string not in logins_status_list) and (username_entry.get() in usernames_list):
                     deactivated_label = Label(login_error_window, text="Your Account has been Deactivated\nPlease contact the admin for support")
                     deactivated_label.pack()
