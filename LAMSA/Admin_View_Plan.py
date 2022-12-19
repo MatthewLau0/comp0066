@@ -535,7 +535,7 @@ Refugees:
 
         emergency_database_table1['columns'] = (
             "CampID", "Family ID", "Date Added", "Name", "Family size", "Date of Birth", "Age", "Gender", "Phone Number", "Address", "No. family with condition",
-            "Medical Conditions", "Accommodation", "Medical", "Toilet", "Ration")
+            "Medical Conditions", "Accommodation", "Ration", "Toilet", "Medical")
 
         emergency_database_table1.column("#0", width=0, stretch=NO)
         emergency_database_table1.column("CampID", anchor='center', width=50)
@@ -551,9 +551,9 @@ Refugees:
         emergency_database_table1.column("No. family with condition", anchor='center', width=90)
         emergency_database_table1.column("Medical Conditions", anchor='center', width=210)
         emergency_database_table1.column("Accommodation", anchor='center', width=150)
-        emergency_database_table1.column("Medical", anchor='center', width=150)
-        emergency_database_table1.column("Toilet", anchor='center', width=150)
         emergency_database_table1.column("Ration", anchor='center', width=150)
+        emergency_database_table1.column("Toilet", anchor='center', width=150)
+        emergency_database_table1.column("Medical", anchor='center', width=150)
 
         emergency_database_table1.heading("CampID", text="Camp ID", anchor='center')
         emergency_database_table1.heading("Family ID", text="Family ID", anchor='center')
@@ -567,10 +567,10 @@ Refugees:
         emergency_database_table1.heading("Phone Number", text="Phone Number", anchor='center')
         emergency_database_table1.heading("No. family with condition", text="No. w/ conditions", anchor='center')
         emergency_database_table1.heading("Medical Conditions", text="Medical Conditions", anchor='center')
-        emergency_database_table1.heading("Accommodation", text="Accom.", anchor='center')
-        emergency_database_table1.heading("Medical", text="Medical", anchor='center')
+        emergency_database_table1.heading("Accommodation", text="Accommodation", anchor='center')
+        emergency_database_table1.heading("Ration", text="Ration", anchor='center')
         emergency_database_table1.heading("Toilet", text="Toilet", anchor='center')
-        emergency_database_table1.heading("Ration", text="Rations", anchor='center')
+        emergency_database_table1.heading("Medical", text="Medical", anchor='center')
 
         for i in range(0, len(volunteer_database_list)):
             number = volunteer_database_list[i][7].split("#")
