@@ -50,9 +50,9 @@ def updateexistingForm():
 
     def update_run():
 
-        day_list = [str(i) for i in range(1, 32)]
-        month_list = [str(i) for i in range(1, 13)]
-        year_list = [str(i) for i in range(2023, 1899, -1)]
+        day_list = [str(n) for n in range(1, 32)]
+        month_list = [str(n) for n in range(1, 13)]
+        year_list = [str(n) for n in range(2023, 1899, -1)]
 
         update_block_screen = Toplevel()
         update_block_screen.title("Update Block")
@@ -66,8 +66,8 @@ def updateexistingForm():
         center_y2 = int(screen_height2 / 2 - window_height2 / 2)
         update_block_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
-        id = int(selected_camp_id.get())
-        x = id - 1
+        id1 = int(selected_camp_id.get())
+        x = id1 - 1
 
         update_emergency = [emergency_database_list[x][0], emergency_database_list[x][1], emergency_database_list[x][2], emergency_database_list[x][3], emergency_database_list[x][4], emergency_database_list[x][5], emergency_database_list[x][6], emergency_database_list[x][7], "\n"]
 
@@ -224,14 +224,14 @@ def updateexistingForm():
             New_Camp_Summary_Screen = Toplevel()
             New_Camp_Summary_Screen.title("Submit New Emergency")
 
-            screen_width2 = New_Camp_Summary_Screen.winfo_screenwidth()
-            screen_height2 = New_Camp_Summary_Screen.winfo_screenheight()
-            window_height2 = screen_height2
-            window_width2 = 900
+            screen_width3 = New_Camp_Summary_Screen.winfo_screenwidth()
+            screen_height3 = New_Camp_Summary_Screen.winfo_screenheight()
+            window_height3 = screen_height3
+            window_width3 = 900
 
-            center_x2 = int(screen_width2 / 2 - window_width2 / 2)
-            center_y2 = int(screen_height2 / 2 - window_height2 / 2)
-            New_Camp_Summary_Screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
+            center_x3 = int(screen_width3 / 2 - window_width3 / 2)
+            center_y3 = int(screen_height3 / 2 - window_height3 / 2)
+            New_Camp_Summary_Screen.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
 
             New_Camp_Summary_Screen_Label = Label(New_Camp_Summary_Screen,
                                                   text="Please view below a summary of the camp that you are adding to the database")
@@ -289,13 +289,13 @@ def updateexistingForm():
                 emergency_read = open("emergency_database.txt", "r")
 
                 emergency_list = []
-                for line in emergency_read:
-                    line_string = line.split("%")
+                for line1 in emergency_read:
+                    line_string = line1.split("%")
                     emergency_list.append(line_string)
 
                 emergency_read.close()
 
-                emergency_list = [update_emergency if i[0] == str(selected_camp_id.get()) else i for i in emergency_list]
+                emergency_list = [update_emergency if z[0] == str(selected_camp_id.get()) else z for z in emergency_list]
 
                 clear_file = open("emergency_database.txt", "w")
                 clear_file.close()
@@ -388,7 +388,6 @@ def updateexistingForm():
         else:
             update_block_screen_id.destroy()
             update_run()
-
 
     Button(update_block_screen_id, text="Select", command=run_the_update).pack()
     Button(update_block_screen_id, text="Cancel", command=update_block_screen_id.destroy).pack()

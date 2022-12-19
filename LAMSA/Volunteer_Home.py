@@ -81,8 +81,8 @@ def volunteer_home_page():
         emergency_database_file.close()
 
         camp_ID_list = []
-        for i in range(0, len(emergency_database_list)):
-            camp_ID_list.append(emergency_database_list[i][0])
+        for a in range(0, len(emergency_database_list)):
+            camp_ID_list.append(emergency_database_list[a][0])
 
         def campTable():
 
@@ -201,9 +201,9 @@ def volunteer_home_page():
 
                 today = datetime.datetime.today()
 
-                day_list = [str(i) for i in range(1, 32)]
-                month_list = [str(i) for i in range(1, 13)]
-                year_list = [str(i) for i in range(2023, 1899, -1)]
+                day_list = [str(s) for s in range(1, 32)]
+                month_list = [str(s) for s in range(1, 13)]
+                year_list = [str(s) for s in range(2023, 1899, -1)]
 
                 dob_label = Label(form_frame, text="Enter your date of birth")
                 dob_label.pack()
@@ -234,11 +234,11 @@ def volunteer_home_page():
                             return "empty"
 
                 def generate_age():
-                    x = generate_dob()
-                    if x == "empty":
+                    gx = generate_dob()
+                    if gx == "empty":
                         pass
                     else:
-                        DOB = datetime.datetime.strptime(str(x), "%Y-%m-%d").date()
+                        DOB = datetime.datetime.strptime(str(gx), "%Y-%m-%d").date()
                         volunteer_age = 0
 
                         if DOB.month < today.month and today.year > DOB.year:
@@ -301,7 +301,6 @@ def volunteer_home_page():
                     if gender.get() not in gender_list:
                         gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
                         new_volunteer_error_list.append("gender")
-                    today = datetime.datetime.today()
                     if generate_dob() == "empty":
                         dob_label.config(text="Please enter DoB", fg='#f00')
                         new_volunteer_error_list.append(5)

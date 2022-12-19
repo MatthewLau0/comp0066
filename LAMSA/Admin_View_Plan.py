@@ -53,11 +53,11 @@ def viewexistingCamps():
     emergency_database_table.heading("Close Date", text="Close Date", anchor=CENTER)
     emergency_database_table.heading("Status", text="Status", anchor=CENTER)
 
-    for i in range(0, len(emergency_database_list)):
-        emergency_database_table.insert(parent='', index=i, iid=i, values=(
-        emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][2],
-        emergency_database_list[i][3], emergency_database_list[i][4], emergency_database_list[i][5],
-        emergency_database_list[i][6], emergency_database_list[i][7]))
+    for f in range(0, len(emergency_database_list)):
+        emergency_database_table.insert(parent='', index=f, iid=f, values=(
+        emergency_database_list[f][0], emergency_database_list[f][1], emergency_database_list[f][2],
+        emergency_database_list[f][3], emergency_database_list[f][4], emergency_database_list[f][5],
+        emergency_database_list[f][6], emergency_database_list[f][7]))
 
     emergency_database_table.pack()
 
@@ -66,25 +66,25 @@ def viewexistingCamps():
 
         Layout_Screen = Toplevel()
         Layout_Screen.title("View Camp Layout")
-        screen_width1 = Layout_Screen.winfo_screenwidth()
-        screen_height1 = Layout_Screen.winfo_screenheight()
-        window_height1 = 100
-        window_width1 = 500
+        screen_width2 = Layout_Screen.winfo_screenwidth()
+        screen_height2 = Layout_Screen.winfo_screenheight()
+        window_height2 = 100
+        window_width2 = 500
 
-        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
-        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
-        Layout_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
+        center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+        center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+        Layout_Screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
-        emergency_database_file = open("Emergency_Database.txt", "r")
-        emergency_database_list = []
-        for line in emergency_database_file:
-            line_list = line.split("%")
-            emergency_database_list.append(line_list)
-        emergency_database_file.close()
+        emergency_database_file_1 = open("Emergency_Database.txt", "r")
+        emergency_database_list_1 = []
+        for line_1 in emergency_database_file_1:
+            line_list_1 = line_1.split("%")
+            emergency_database_list_1.append(line_list_1)
+        emergency_database_file_1.close()
 
         camp_ID_list_1 = []
-        for i in range(0, len(emergency_database_list)):
-            camp_ID_list_1.append(emergency_database_list[i][0])
+        for ids in range(0, len(emergency_database_list_1)):
+            camp_ID_list_1.append(emergency_database_list_1[ids][0])
 
         selected_camp_id = IntVar()
         select_camp_id_label = Label(Layout_Screen, text="Please select the camp ID that you would like to view")
@@ -167,67 +167,67 @@ def viewexistingCamps():
             toilet_west = []
             medical_west = []
 
-            for i in accom_list:
-                if i[7] == "North Wing":
-                    accom_north.append(i)
-                elif i[7] == "East Wing":
-                    accom_east.append(i)
-                elif i[7] == "South Wing":
-                    accom_south.append(i)
-                elif i[7] == "West Wing":
-                    accom_west.append(i)
+            for s in accom_list:
+                if s[7] == "North Wing":
+                    accom_north.append(s)
+                elif s[7] == "East Wing":
+                    accom_east.append(s)
+                elif s[7] == "South Wing":
+                    accom_south.append(s)
+                elif s[7] == "West Wing":
+                    accom_west.append(s)
 
-            for i in ration_list:
-                if i[7] == "North Wing":
-                    ration_north.append(i)
-                elif i[7] == "East Wing":
-                    ration_east.append(i)
-                elif i[7] == "South Wing":
-                    ration_south.append(i)
-                elif i[7] == "West Wing":
-                    ration_west.append(i)
+            for j in ration_list:
+                if j[7] == "North Wing":
+                    ration_north.append(j)
+                elif j[7] == "East Wing":
+                    ration_east.append(j)
+                elif j[7] == "South Wing":
+                    ration_south.append(j)
+                elif j[7] == "West Wing":
+                    ration_west.append(j)
 
-            for i in toilet_list:
-                if i[7] == "North Wing":
-                    toilet_north.append(i)
-                elif i[7] == "East Wing":
-                    toilet_east.append(i)
-                elif i[7] == "South Wing":
-                    toilet_south.append(i)
-                elif i[7] == "West Wing":
-                    toilet_west.append(i)
+            for k in toilet_list:
+                if k[7] == "North Wing":
+                    toilet_north.append(k)
+                elif k[7] == "East Wing":
+                    toilet_east.append(k)
+                elif k[7] == "South Wing":
+                    toilet_south.append(k)
+                elif k[7] == "West Wing":
+                    toilet_west.append(k)
 
-            for i in medical_list:
-                if i[7] == "North Wing":
-                    medical_north.append(i)
-                elif i[7] == "East Wing":
-                    medical_east.append(i)
-                elif i[7] == "South Wing":
-                    medical_south.append(i)
-                elif i[7] == "West Wing":
-                    medical_west.append(i)
+            for p in medical_list:
+                if p[7] == "North Wing":
+                    medical_north.append(p)
+                elif p[7] == "East Wing":
+                    medical_east.append(p)
+                elif p[7] == "South Wing":
+                    medical_south.append(p)
+                elif p[7] == "West Wing":
+                    medical_west.append(p)
 
             list_occ_north = []
-            for i in accom_north:
-                x = int(i[4])
+            for l in accom_north:
+                x = int(l[4])
                 list_occ_north.append(x)
             refugee_north = sum(list_occ_north)
 
             list_occ_east = []
-            for i in accom_east:
-                x = int(i[4])
+            for m in accom_east:
+                x = int(m[4])
                 list_occ_east.append(x)
             refugee_east = sum(list_occ_east)
 
             list_occ_south = []
-            for i in accom_south:
-                x = int(i[4])
+            for n in accom_south:
+                x = int(n[4])
                 list_occ_south.append(x)
             refugee_south = sum(list_occ_south)
 
             list_occ_west = []
-            for i in accom_west:
-                x = int(i[4])
+            for o in accom_west:
+                x = int(o[4])
                 list_occ_west.append(x)
             refugee_west = sum(list_occ_west)
 
@@ -254,8 +254,8 @@ def viewexistingCamps():
             volunteer_label.pack()
 
             refugee_total = 0
-            for i in refugee_list:
-                refugee_total += int(i[3])
+            for a in refugee_list:
+                refugee_total += int(a[3])
 
             refugee_label = Label(summary_frame, text=f"No. of Refugees at this camp: \n{refugee_total}")
             refugee_label.pack()
@@ -271,32 +271,32 @@ def viewexistingCamps():
                                       font=("TkDefaultFont", 16, "bold", "underline"))
             north_accom_label.pack()
 
-            for i in accom_north:
-                accom_north_label = Label(north_frame, text=f"Block {i[1]} ({i[4]} occupants)")
+            for b in accom_north:
+                accom_north_label = Label(north_frame, text=f"Block {b[1]} ({b[4]} occupants)")
                 accom_north_label.pack()
 
             north_ration_label = Label(north_frame, text="Ration Stalls",
                                        font=("TkDefaultFont", 16, "bold", "underline"))
             north_ration_label.pack()
 
-            for i in ration_north:
-                ration_north_label = Label(north_frame, text=f"Ration {i[1]}")
+            for c in ration_north:
+                ration_north_label = Label(north_frame, text=f"Ration {c[1]}")
                 ration_north_label.pack()
 
             north_toilet_label = Label(north_frame, text="Toilet Blocks",
                                        font=("TkDefaultFont", 16, "bold", "underline"))
             north_toilet_label.pack()
 
-            for i in toilet_north:
-                toilet_north_label = Label(north_frame, text=f"Toilet {i[1]}")
+            for d in toilet_north:
+                toilet_north_label = Label(north_frame, text=f"Toilet {d[1]}")
                 toilet_north_label.pack()
 
             north_medical_label = Label(north_frame, text="Medical Dispensaries",
                                         font=("TkDefaultFont", 16, "bold", "underline"))
             north_medical_label.pack()
 
-            for i in medical_north:
-                medical_north_label = Label(north_frame, text=f"Medical {i[1]}")
+            for e in medical_north:
+                medical_north_label = Label(north_frame, text=f"Medical {e[1]}")
                 medical_north_label.pack()
 
             north_summary_heading = Label(north_frame, text="\nNorth Wing Summary",
@@ -508,77 +508,77 @@ Refugees:
     def viewRefugees():
         volunteer_list_file = open("refugee_database.txt", "r")
         volunteer_database_list = []
-        for line in volunteer_list_file:
-            x = line.split("%")
+        for line2 in volunteer_list_file:
+            x = line2.split("%")
             volunteer_database_list.append(x)
         volunteer_list_file.close()
 
         Update_Emergency_Screen = Tk()
-        screen_width1 = Update_Emergency_Screen.winfo_screenwidth()
-        screen_height1 = Update_Emergency_Screen.winfo_screenheight()
-        window_height1 = screen_height1
-        window_width1 = 900
+        screen_width = Update_Emergency_Screen.winfo_screenwidth()
+        screen_height = Update_Emergency_Screen.winfo_screenheight()
+        window_height = screen_height
+        window_width = 900
 
-        center_x1 = int(screen_width1 / 2 - window_width1 / 2)
-        center_y1 = int(screen_height1 / 2 - window_height1 / 2)
-        Update_Emergency_Screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
+        center_x = int(screen_width / 2 - window_width / 2)
+        center_y = int(screen_height / 2 - window_height / 2)
+        Update_Emergency_Screen.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
         Update_Emergency_Screen.title("Table of Refugees")
 
         emergency_database_label = Label(Update_Emergency_Screen,
                                          text="Please use the below table to view a full list of refugees")
         emergency_database_label.pack()
 
-        emergency_database_frame = Frame(Update_Emergency_Screen)
-        emergency_database_frame.pack()
+        emergency_database_frame_1 = Frame(Update_Emergency_Screen)
+        emergency_database_frame_1.pack()
 
-        emergency_database_table = ttk.Treeview(Update_Emergency_Screen)
+        emergency_database_table1 = ttk.Treeview(Update_Emergency_Screen)
 
-        emergency_database_table['columns'] = (
+        emergency_database_table1['columns'] = (
             "CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Gender", "Phone Number", "Address", "No. family with condition",
             "Medical Conditions", "Accommodation", "Medical", "Toilet", "Ration")
 
-        emergency_database_table.column("#0", width=0, stretch=NO)
-        emergency_database_table.column("CampID", anchor='center', width=50)
-        emergency_database_table.column("ID", anchor='center', width=30)
-        emergency_database_table.column("Name", anchor='center', width=80)
-        emergency_database_table.column("Family size", anchor='center', width=60)
-        emergency_database_table.column("Date of Birth", anchor='center', width=80)
-        emergency_database_table.column("Age", anchor='center', width=40)
-        emergency_database_table.column("Gender", anchor='center', width=80)
-        emergency_database_table.column("Address", anchor='center', width=200)
-        emergency_database_table.column("Phone Number", anchor='center', width=200)
-        emergency_database_table.column("No. family with condition", anchor='center', width=85)
-        emergency_database_table.column("Medical Conditions", anchor='center', width=210)
-        emergency_database_table.column("Accommodation", anchor='center', width=80)
-        emergency_database_table.column("Medical", anchor='center', width=80)
-        emergency_database_table.column("Toilet", anchor='center', width=70)
-        emergency_database_table.column("Ration", anchor='center', width=70)
+        emergency_database_table1.column("#0", width=0, stretch=NO)
+        emergency_database_table1.column("CampID", anchor='center', width=50)
+        emergency_database_table1.column("ID", anchor='center', width=30)
+        emergency_database_table1.column("Name", anchor='center', width=80)
+        emergency_database_table1.column("Family size", anchor='center', width=60)
+        emergency_database_table1.column("Date of Birth", anchor='center', width=80)
+        emergency_database_table1.column("Age", anchor='center', width=40)
+        emergency_database_table1.column("Gender", anchor='center', width=80)
+        emergency_database_table1.column("Address", anchor='center', width=200)
+        emergency_database_table1.column("Phone Number", anchor='center', width=200)
+        emergency_database_table1.column("No. family with condition", anchor='center', width=85)
+        emergency_database_table1.column("Medical Conditions", anchor='center', width=210)
+        emergency_database_table1.column("Accommodation", anchor='center', width=80)
+        emergency_database_table1.column("Medical", anchor='center', width=80)
+        emergency_database_table1.column("Toilet", anchor='center', width=70)
+        emergency_database_table1.column("Ration", anchor='center', width=70)
 
-        emergency_database_table.heading("CampID", text="Camp ID", anchor='center')
-        emergency_database_table.heading("ID", text="ID", anchor='center')
-        emergency_database_table.heading("Name", text="Name", anchor='center')
-        emergency_database_table.heading("Family size", text="Family size", anchor='center')
-        emergency_database_table.heading("Date of Birth", text="Date of Birth", anchor='center')
-        emergency_database_table.heading("Age", text="Age", anchor='center')
-        emergency_database_table.heading("Gender", text="Sex", anchor='center')
-        emergency_database_table.heading("Address", text="Address", anchor='center')
-        emergency_database_table.heading("Phone Number", text="Phone Number", anchor='center')
-        emergency_database_table.heading("No. family with condition", text="No. w/ conditions", anchor='center')
-        emergency_database_table.heading("Medical Conditions", text="Medical Conditions", anchor='center')
-        emergency_database_table.heading("Accommodation", text="Accom.", anchor='center')
-        emergency_database_table.heading("Medical", text="Medical", anchor='center')
-        emergency_database_table.heading("Toilet", text="Toilet", anchor='center')
-        emergency_database_table.heading("Ration", text="Rations", anchor='center')
+        emergency_database_table1.heading("CampID", text="Camp ID", anchor='center')
+        emergency_database_table1.heading("ID", text="ID", anchor='center')
+        emergency_database_table1.heading("Name", text="Name", anchor='center')
+        emergency_database_table1.heading("Family size", text="Family size", anchor='center')
+        emergency_database_table1.heading("Date of Birth", text="Date of Birth", anchor='center')
+        emergency_database_table1.heading("Age", text="Age", anchor='center')
+        emergency_database_table1.heading("Gender", text="Sex", anchor='center')
+        emergency_database_table1.heading("Address", text="Address", anchor='center')
+        emergency_database_table1.heading("Phone Number", text="Phone Number", anchor='center')
+        emergency_database_table1.heading("No. family with condition", text="No. w/ conditions", anchor='center')
+        emergency_database_table1.heading("Medical Conditions", text="Medical Conditions", anchor='center')
+        emergency_database_table1.heading("Accommodation", text="Accom.", anchor='center')
+        emergency_database_table1.heading("Medical", text="Medical", anchor='center')
+        emergency_database_table1.heading("Toilet", text="Toilet", anchor='center')
+        emergency_database_table1.heading("Ration", text="Rations", anchor='center')
 
         for i in range(0, len(volunteer_database_list)):
-            emergency_database_table.insert(parent='', index=i, iid=i, values=(
+            emergency_database_table1.insert(parent='', index=i, iid=i, values=(
                 str(volunteer_database_list[i][0]), str(volunteer_database_list[i][1]),
                 volunteer_database_list[i][2], volunteer_database_list[i][3], str(volunteer_database_list[i][4]),
                 volunteer_database_list[i][5], volunteer_database_list[i][6], volunteer_database_list[i][7],
                 volunteer_database_list[i][8], volunteer_database_list[i][9], volunteer_database_list[i][10],
                 volunteer_database_list[i][11], volunteer_database_list[i][12], volunteer_database_list[i][13], volunteer_database_list[i][14]))
 
-        emergency_database_table.pack(fill='both')
+        emergency_database_table1.pack(fill='both')
 
         view_refugee_return_home_button = Button(Update_Emergency_Screen, text="Return Home",
                                                  command=Update_Emergency_Screen.destroy)

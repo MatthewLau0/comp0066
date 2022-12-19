@@ -233,9 +233,9 @@ def add_calendar():
             volunteer_read = open("volunteer_database.txt", "r")
 
             volunteer_list = []
-            for line in volunteer_read:
-                line_string = line.split("%")
-                volunteer_list.append(line_string)
+            for line1 in volunteer_read:
+                line_string1 = line1.split("%")
+                volunteer_list.append(line_string1)
 
             volunteer_read.close()
 

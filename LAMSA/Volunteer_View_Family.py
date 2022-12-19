@@ -231,9 +231,9 @@ def table():
             name_entry.insert(END, update_refugee_name)
             name_entry.pack()
 
-            day_list = [str(i) for i in range(1, 32)]
-            month_list = [str(i) for i in range(1, 13)]
-            year_list = [str(i) for i in range(2023, 1899, -1)]
+            day_list = [str(g) for g in range(1, 32)]
+            month_list = [str(g) for g in range(1, 13)]
+            year_list = [str(g) for g in range(2023, 1899, -1)]
 
             dob_label = Label(update_refugee_screen, text="Enter the start date for the emergency")
             dob_label.pack()
@@ -263,11 +263,11 @@ def table():
 
             def generate_age():
                 today = datetime.datetime.today()
-                x = generate_dob()
-                if x == "empty":
+                gx = generate_dob()
+                if gx == "empty":
                     pass
                 else:
-                    DOB = datetime.datetime.strptime(str(x), "%Y-%m-%d").date()
+                    DOB = datetime.datetime.strptime(str(gx), "%Y-%m-%d").date()
                     refugee_age = 0
 
                     if DOB.month < today.month and today.year > DOB.year:
@@ -533,51 +533,51 @@ Medical Dispensary: \n{updating_refugee_medical}\n""")
             open_accommodation_file = open("accommodation_database.txt", 'r')
             accommodation_database_list = []
             for line0 in open_accommodation_file:
-                x = line0.split(",")
-                if x[0] == str(camp_id):
-                    accommodation_database_list.append(x)
+                q = line0.split(",")
+                if q[0] == str(camp_id):
+                    accommodation_database_list.append(q)
             open_accommodation_file.close()
 
             open_medical_file = open("medical_database.txt", 'r')
             medical_database_list = []
             for line1 in open_medical_file:
-                x = line1.split(",")
-                if x[0] == str(camp_id):
-                    medical_database_list.append(x)
+                r = line1.split(",")
+                if r[0] == str(camp_id):
+                    medical_database_list.append(r)
             open_medical_file.close()
 
             open_toilet_file = open("toilet_database.txt", 'r')
             toilet_database_list = []
             for line2 in open_toilet_file:
-                x = line2.split(",")
-                if x[0] == str(camp_id):
-                    toilet_database_list.append(x)
+                t = line2.split(",")
+                if t[0] == str(camp_id):
+                    toilet_database_list.append(t)
             open_toilet_file.close()
 
             open_ration_file = open("ration_database.txt", 'r')
             ration_database_list = []
             for line3 in open_ration_file:
-                x = line3.split(",")
-                if x[0] == str(camp_id):
-                    ration_database_list.append(x)
+                v = line3.split(",")
+                if v[0] == str(camp_id):
+                    ration_database_list.append(v)
             open_ration_file.close()
 
             accom_available = []
-            for i in accommodation_database_list:
-                if int(i[6]) >= int(family_size):
-                    accom_available.append(f"{i[7]}, Block {i[1]}, {i[6]} Spaces")
+            for a in accommodation_database_list:
+                if int(a[6]) >= int(family_size):
+                    accom_available.append(f"{a[7]}, Block {a[1]}, {a[6]} Spaces")
             toilet_available = []
-            for i in toilet_database_list:
-                if int(i[6]) >= int(family_size):
-                    toilet_available.append(f"{i[7]}, Toilet {i[1]}, {i[6]} Spaces")
+            for b in toilet_database_list:
+                if int(b[6]) >= int(family_size):
+                    toilet_available.append(f"{b[7]}, Toilet {b[1]}, {b[6]} Spaces")
             ration_available = []
-            for i in ration_database_list:
-                if int(i[6]) >= int(family_size):
-                    ration_available.append(f"{i[7]}, Ration {i[1]}, {i[6]} Spaces")
+            for c in ration_database_list:
+                if int(c[6]) >= int(family_size):
+                    ration_available.append(f"{c[7]}, Ration {c[1]}, {c[6]} Spaces")
             medical_available = []
-            for i in medical_database_list:
-                if int(i[6]) >= int(family_medical_size):
-                    medical_available.append(f"{i[7]}, Medical {i[1]}, {i[6]} Spaces")
+            for d in medical_database_list:
+                if int(d[6]) >= int(family_medical_size):
+                    medical_available.append(f"{d[7]}, Medical {d[1]}, {d[6]} Spaces")
 
             if len(accom_available) == 0:
                 accom_available.append("Accommodation Unavailable")

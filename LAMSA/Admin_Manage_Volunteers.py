@@ -502,7 +502,6 @@ def manageVolunteers():
                     availability[8]
                 ))
 
-
             my_game1.pack()
 
             Button(view_availability_table_screen, text="Close", command=view_availability_table_screen.destroy).pack()

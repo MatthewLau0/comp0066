@@ -147,19 +147,19 @@ def volunteers_portal():
         my_game.heading("Volunteer Age", text="Age", anchor=CENTER)
         my_game.heading("Volunteer Account Status", text="Account Status", anchor=CENTER)
 
-        for i in range(0, len(volunteers_list_print)):
-            current_number = volunteers_list_print[i][6].split('#')
-            my_game.insert(parent='', index=i, iid=i, values=(
-                volunteers_list_print[i][0],
-                volunteers_list_print[i][1],
-                volunteers_list_print[i][2],
-                volunteers_list_print[i][3],
-                volunteers_list_print[i][5],
+        for l in range(0, len(volunteers_list_print)):
+            current_number = volunteers_list_print[l][6].split('#')
+            my_game.insert(parent='', index=l, iid=l, values=(
+                volunteers_list_print[l][0],
+                volunteers_list_print[l][1],
+                volunteers_list_print[l][2],
+                volunteers_list_print[l][3],
+                volunteers_list_print[l][5],
                 f"+{current_number[0]} {current_number[1]}",
-                volunteers_list_print[i][7],
-                volunteers_list_print[i][8],
-                volunteers_list_print[i][9],
-                volunteers_list_print[i][10],
+                volunteers_list_print[l][7],
+                volunteers_list_print[l][8],
+                volunteers_list_print[l][9],
+                volunteers_list_print[l][10],
             ))
 
         my_game.pack()
@@ -434,15 +434,15 @@ def accommodation_portal():
             update_block_screen = Toplevel()
             update_block_screen.title("Update Block")
 
-            id = int(block_id.get())
-            x = id - 1
+            id1 = int(block_id.get())
+            x = id1 - 1
 
-            update_accommodation = [blocks_list[x][0], id, blocks_list[x][2], blocks_list[x][3], blocks_list[x][4], blocks_list[x][5], blocks_list[x][6], blocks_list[x][7]]
+            update_accommodation = [blocks_list[x][0], id1, blocks_list[x][2], blocks_list[x][3], blocks_list[x][4], blocks_list[x][5], blocks_list[x][6], blocks_list[x][7]]
 
             new_block_intro_label = Label(update_block_screen, text="To update this Accommodation Block, please fill in the form below.")
             new_block_intro_label.pack()
 
-            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Accommodation Block is {id}")
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Accommodation Block is {id1}")
             new_block_id_label.pack()
 
             new_block_name_label = Label(update_block_screen, text="Block Name: ")
@@ -505,17 +505,17 @@ def accommodation_portal():
                     lines = accommodations_read.readlines()
 
                     list_relevant_lines = []
-                    for i in lines:
-                        if i[0] == str(camp_id):
-                            list_relevant_lines.append(i)
+                    for l in lines:
+                        if l[0] == str(camp_id):
+                            list_relevant_lines.append(l)
 
-                    for i in list_relevant_lines:
-                        lines.remove(i)
+                    for n in list_relevant_lines:
+                        lines.remove(n)
 
                     list_relevant_lines[int(x)] = new_accommodation_string + "\n"
 
-                    for i in list_relevant_lines:
-                        lines.append(i)
+                    for e in list_relevant_lines:
+                        lines.append(e)
 
                     with open('accommodation_database.txt', 'w') as file1:
                         file1.writelines(lines)
@@ -919,17 +919,17 @@ def ration_portal():
             update_block_screen = Toplevel()
             update_block_screen.title("Update Stall")
 
-            id = int(ration_id.get())
-            x = id - 1
+            idd = int(ration_id.get())
+            x = idd - 1
 
-            update_stall = [ration_list[x][0], id, ration_list[x][2], ration_list[x][3], ration_list[x][4],
+            updated_stall = [ration_list[x][0], idd, ration_list[x][2], ration_list[x][3], ration_list[x][4],
                                     ration_list[x][5], ration_list[x][6], ration_list[x][7]]
 
             new_block_intro_label = Label(update_block_screen,
                                           text="To update this Ration Stall, please fill in the form below.")
             new_block_intro_label.pack()
 
-            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Ration Stall is {id}")
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Ration Stall is {idd}")
             new_block_id_label.pack()
 
             new_block_name_label = Label(update_block_screen, text="Stall Name: ")
@@ -972,18 +972,18 @@ def ration_portal():
                     ration_summary.destroy()
 
                 def submit_command():
-                    update_stall[1] = str(ration_id.get())
-                    update_stall[2] = ration_name.get()
-                    update_stall[3] = str(ration_supply.get())
-                    update_stall[4] = str(ration_list[x][4])
-                    update_stall[6] = str(int(update_stall[3]) - int(update_stall[4]))
-                    if int(update_stall[6]) > 0:
-                        update_stall[5] = "PACKS AVAILABLE"
+                    updated_stall[1] = str(ration_id.get())
+                    updated_stall[2] = ration_name.get()
+                    updated_stall[3] = str(ration_supply.get())
+                    updated_stall[4] = str(ration_list[x][4])
+                    updated_stall[6] = str(int(updated_stall[3]) - int(updated_stall[4]))
+                    if int(updated_stall[6]) > 0:
+                        updated_stall[5] = "PACKS AVAILABLE"
                     else:
-                        update_stall[5] = "PACKS DEPLETED"
-                    update_stall[7] = ration_location.get()
+                        updated_stall[5] = "PACKS DEPLETED"
+                    updated_stall[7] = ration_location.get()
 
-                    new_ration_string = ','.join(update_stall) + ","
+                    new_ration_string = ','.join(updated_stall) + ","
 
                     ration.close()
 
@@ -992,17 +992,17 @@ def ration_portal():
                     lines = ration_read.readlines()
 
                     list_relevant_lines = []
-                    for i in lines:
-                        if i[0] == str(camp_id):
-                            list_relevant_lines.append(i)
+                    for h in lines:
+                        if h[0] == str(camp_id):
+                            list_relevant_lines.append(h)
 
-                    for i in list_relevant_lines:
-                        lines.remove(i)
+                    for j in list_relevant_lines:
+                        lines.remove(j)
 
                     list_relevant_lines[int(x)] = new_ration_string + "\n"
 
-                    for i in list_relevant_lines:
-                        lines.append(i)
+                    for k in list_relevant_lines:
+                        lines.append(k)
 
                     with open('ration_database.txt', 'w') as file2:
                         file2.writelines(lines)
@@ -1411,17 +1411,17 @@ def toilets_portal():
             update_block_screen = Toplevel()
             update_block_screen.title("Update Block")
 
-            id = int(toilet_id.get())
-            x = id - 1
+            idd = int(toilet_id.get())
+            x = idd - 1
 
-            update_toilet = [toilet_list[x][0], id, toilet_list[x][2], toilet_list[x][3], toilet_list[x][4],
+            updated_toilet = [toilet_list[x][0], idd, toilet_list[x][2], toilet_list[x][3], toilet_list[x][4],
                             toilet_list[x][5], toilet_list[x][6], toilet_list[x][7]]
 
             new_block_intro_label = Label(update_block_screen,
                                           text="To update this Toilet Block, please fill in the form below.")
             new_block_intro_label.pack()
 
-            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Toilet Block is {id}")
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Toilet Block is {idd}")
             new_block_id_label.pack()
 
             new_block_name_label = Label(update_block_screen, text="Toilet Block Name: ")
@@ -1464,18 +1464,18 @@ def toilets_portal():
                     toilet_summary.destroy()
 
                 def submit_command():
-                    update_toilet[1] = str(toilet_id.get())
-                    update_toilet[2] = toilet_name.get()
-                    update_toilet[3] = str(toilet_cap.get())
-                    update_toilet[4] = str(toilet_list[x][4])
-                    update_toilet[6] = str(int(update_toilet[3]) - int(update_toilet[4]))
-                    if int(update_toilet[6]) > 0:
-                        update_toilet[5] = "VACANCIES"
+                    updated_toilet[1] = str(toilet_id.get())
+                    updated_toilet[2] = toilet_name.get()
+                    updated_toilet[3] = str(toilet_cap.get())
+                    updated_toilet[4] = str(toilet_list[x][4])
+                    updated_toilet[6] = str(int(updated_toilet[3]) - int(updated_toilet[4]))
+                    if int(updated_toilet[6]) > 0:
+                        updated_toilet[5] = "VACANCIES"
                     else:
-                        update_toilet[5] = "FULL"
-                    update_toilet[7] = toilet_location.get()
+                        updated_toilet[5] = "FULL"
+                    updated_toilet[7] = toilet_location.get()
 
-                    new_toilet_string = ','.join(update_toilet) + ","
+                    new_toilet_string = ','.join(updated_toilet) + ","
 
                     toilets.close()
 
@@ -1484,17 +1484,17 @@ def toilets_portal():
                     lines = toilets_read.readlines()
 
                     list_relevant_lines = []
-                    for i in lines:
-                        if i[0] == str(camp_id):
-                            list_relevant_lines.append(i)
+                    for s in lines:
+                        if s[0] == str(camp_id):
+                            list_relevant_lines.append(s)
 
-                    for i in list_relevant_lines:
-                        lines.remove(i)
+                    for t in list_relevant_lines:
+                        lines.remove(t)
 
                     list_relevant_lines[int(x)] = new_toilet_string + "\n"
 
-                    for i in list_relevant_lines:
-                        lines.append(i)
+                    for u in list_relevant_lines:
+                        lines.append(u)
 
                     with open('toilet_database.txt', 'w') as file3:
                         file3.writelines(lines)
@@ -1903,17 +1903,17 @@ def medical_portal():
             update_block_screen = Toplevel()
             update_block_screen.title("Update Medical Dispensary")
 
-            id = int(medical_id.get())
-            x = id - 1
+            idd = int(medical_id.get())
+            x = idd - 1
 
-            update_medical = [medical_list[x][0], id, medical_list[x][2], medical_list[x][3], medical_list[x][4],
+            update_medical = [medical_list[x][0], idd, medical_list[x][2], medical_list[x][3], medical_list[x][4],
                             medical_list[x][5], medical_list[x][6], medical_list[x][7]]
 
             new_block_intro_label = Label(update_block_screen,
                                           text="To update this Medical Dispensary, please fill in the form below.")
             new_block_intro_label.pack()
 
-            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Medical Dispensary is {id}")
+            new_block_id_label = Label(update_block_screen, text=f"The ID Number of this Medical Dispensary is {idd}")
             new_block_id_label.pack()
 
             new_block_name_label = Label(update_block_screen, text="Medical Dispensary Name: ")
@@ -1976,17 +1976,17 @@ def medical_portal():
                     lines = medical_read.readlines()
 
                     list_relevant_lines = []
-                    for i in lines:
-                        if i[0] == str(camp_id):
-                            list_relevant_lines.append(i)
+                    for w in lines:
+                        if w[0] == str(camp_id):
+                            list_relevant_lines.append(w)
 
-                    for i in list_relevant_lines:
-                        lines.remove(i)
+                    for y in list_relevant_lines:
+                        lines.remove(y)
 
                     list_relevant_lines[int(x)] = new_medical_string + "\n"
 
-                    for i in list_relevant_lines:
-                        lines.append(i)
+                    for z in list_relevant_lines:
+                        lines.append(z)
 
                     with open('medical_database.txt', 'w') as file4:
                         file4.writelines(lines)
@@ -2652,9 +2652,9 @@ def Settings():
 
             today = datetime.datetime.today()
 
-            day_list = [str(i) for i in range(1, 32)]
-            month_list = [str(i) for i in range(1, 13)]
-            year_list = [str(i) for i in range(2023, 1899, -1)]
+            day_list = [str(f) for f in range(1, 32)]
+            month_list = [str(f) for f in range(1, 13)]
+            year_list = [str(f) for f in range(2023, 1899, -1)]
 
             dob_label = Label(form_frame, text="Enter your date of birth")
             dob_label.pack()
@@ -2752,7 +2752,6 @@ def Settings():
                 if gender.get() not in gender_list:
                     gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
                     new_volunteer_error_list.append("gender")
-                today = datetime.datetime.today()
                 if generate_dob() == "empty":
                     dob_label.config(text="Please enter DoB", fg='#f00')
                     new_volunteer_error_list.append(5)

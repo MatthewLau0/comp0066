@@ -47,9 +47,9 @@ def volunteerList():
     emergency_database_file.close()
 
     camp_ID_list = []
-    for i in range(0, len(emergency_database_list)):
-        if emergency_database_list[i][7] != "Closed":
-            camp_ID_list.append(emergency_database_list[i][0])
+    for b in range(0, len(emergency_database_list)):
+        if emergency_database_list[b][7] != "Closed":
+            camp_ID_list.append(emergency_database_list[b][0])
 
     def campTable():
 
@@ -138,9 +138,9 @@ def volunteerList():
 
             today = datetime.datetime.today()
 
-            day_list = [str(i) for i in range(1, 32)]
-            month_list = [str(i) for i in range(1, 13)]
-            year_list = [str(i) for i in range(2023, 1899, -1)]
+            day_list = [str(n) for n in range(1, 32)]
+            month_list = [str(n) for n in range(1, 13)]
+            year_list = [str(n) for n in range(2023, 1899, -1)]
 
             dob_label = Label(form_frame, text="Enter your date of birth")
             dob_label.pack()
@@ -233,7 +233,6 @@ def volunteerList():
                 if gender.get() not in gender_list:
                     gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
                     new_volunteer_error_list.append("gender")
-                today = datetime.datetime.today()
                 if generate_dob() == "empty":
                     dob_label.config(text="Please enter DoB", fg='#f00')
                     new_volunteer_error_list.append(5)
@@ -260,9 +259,9 @@ def volunteerList():
 
                         current_volunteer_list.append(new_volunteer)
                         volunteer_file_write = open("volunteer_database.txt", "r+")
-                        for i in range(0, len(current_volunteer_list)):
-                            current_volunteer_string = '%'.join(current_volunteer_list[i])
-                            volunteer_file_write.write("%s" % (current_volunteer_string))
+                        for a in range(0, len(current_volunteer_list)):
+                            current_volunteer_string = '%'.join(current_volunteer_list[a])
+                            volunteer_file_write.write("%s" % current_volunteer_string)
                         volunteer_file_write.close()
                         closeScreen()
 
