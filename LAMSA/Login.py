@@ -501,7 +501,7 @@ def main():
         screen_width3 = app_info_screen.winfo_screenwidth()
         screen_height3 = app_info_screen.winfo_screenheight()
         window_height3 = screen_height3
-        window_width3 = 600
+        window_width3 = 800
 
         center_x3 = int(screen_width3 / 2 - window_width3 / 2)
         center_y3 = int(screen_height3 / 2 - window_height3 / 2)
@@ -509,17 +509,31 @@ def main():
 
         Label(app_info_screen, text="\nHow to Use LAMSA", font=("TkDefaultFont", 44)).pack()
 
+        Label(app_info_screen, text="LAMSA is a state of the art humanitarian system, to facilitate a global "
+                                    "co-ordinated response to emergencies and disasters.\n\n\n").pack()
+
         Label(app_info_screen, text="\nAdmin", font=("TkDefaultFont", 24, "bold")).pack()
 
-        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
+        Label(app_info_screen, text="The admin is able to manage the entire database globally.\n They can view "
+                                    "register a new emergency that has occurred, update this emergency, "
+                                    "view and manage \nthe volunteers around the world, and view a summary of "
+                                    "all camps and refugees.\n\n\n").pack()
 
         Label(app_info_screen, text="\nCamp Lead", font=("TkDefaultFont", 24, "bold")).pack()
 
-        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n").pack()
+        Label(app_info_screen, text="A camp lead will run the administrative side of the camp to which they are "
+                                    "assigned.\n In addition to managing the volunteers within their camp, "
+                                    "they are able to register any additional amenities \nthat their camp receives ("
+                                    "e.g., accommodation, rations, medical supplies) as well as their capacity \n and "
+                                    "current occupancy.\n\n\n").pack()
 
         Label(app_info_screen, text="\nVolunteer", font=("TkDefaultFont", 24, "bold")).pack()
 
-        Label(app_info_screen, text="Sample Text\nSample Text\nSample Text\nSample Text\n\n\n\n").pack()
+        Label(app_info_screen, text="A standard volunteer's primary role is the management of refugees within their "
+                                    "camp.\n They are able to add refugees, assign them to amenities made available "
+                                    "by a camp lead, and \n to view a list of refugees currently in their camp.\n In "
+                                    "addition to this, volunteers are able to use our system to manage their own "
+                                    "availability and details.\n\n\n").pack()
 
         back_button = Button(app_info_screen, text="Close", command=app_info_screen.destroy)
         back_button.pack()

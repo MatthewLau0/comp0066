@@ -429,6 +429,7 @@ def manageVolunteers():
 
             view_volunteers_availability_label = Label(view_availability_table_screen, text=f"\nPlease see below the availabilities of all the volunteers at Camp {selected_camp_id.get()}\n")
             view_volunteers_availability_label.pack()
+            Label(view_availability_table_screen, text="M = Morning Availability, A = Afternoon Availability, E = Evening Availability").pack()
 
             view_availability_frame = Frame(view_availability_table_screen)
             view_availability_frame.pack()
@@ -530,3 +531,5 @@ def manageVolunteers():
     return_home_button.pack()
 
     manage_volunteer_home_screen.mainloop()
+
+manageVolunteers()

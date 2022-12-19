@@ -204,6 +204,7 @@ def create_family():
     address5_label = Label(new_refugee_screen, text="Country:")
     address5_label.pack()
     address5_entry = ttk.Combobox(new_refugee_screen, textvariable=refugee_address_country, values=country_list)
+    address5_entry.insert(0, '')
     address5_entry.pack()
 
     health_number = Label(new_refugee_screen, text="Total number of family members with any health conditions")
