@@ -272,15 +272,15 @@ def createnewemergencyPlan():
             test_start_date = datetime.datetime.strptime(str(generate_start_date()), "%Y-%m-%d")
             test_end_date = datetime.datetime.strptime(str(generate_end_date()), "%Y-%m-%d")
             if test_start_date > today:
-                start_date_label.config(text="Please enter a start date later than today.", fg='#f00')
+                start_date_label.config(text="Please enter a start date earlier than today.", fg='#f00')
                 errors_new_camp.append(6)
             if test_end_date < test_start_date:
-                end_date_label.config(text="Please enter an end date later than the start date.", fg='#f00')
+                end_date_label.config(text="Please enter an end date earlier than the start date.", fg='#f00')
                 errors_new_camp.append(7)
         elif generate_start_date() != "0000-00-00" and generate_end_date() == "0000-00-00":
             test_start_date = datetime.datetime.strptime(str(generate_start_date()), "%Y-%m-%d")
             if test_start_date > today:
-                start_date_label.config(text="Please enter a start date later than today.", fg='#f00')
+                start_date_label.config(text="Please enter a start date earlier than today.", fg='#f00')
                 errors_new_camp.append(8)
         if camp_name.get() in camp_name_list:
             camp_name_label.config(
