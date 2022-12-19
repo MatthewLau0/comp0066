@@ -580,4 +580,3 @@ Date Record Created: {today}\n""")
     Button(new_refugee_screen, text="Cancel", command=new_refugee_screen.destroy).pack()
 
     new_refugee_screen.mainloop()
-create_family()
