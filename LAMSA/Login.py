@@ -303,19 +303,21 @@ def main():
                     current_camp_list.append(line_list1)
                 file1.close()
 
-                camp_status = ""
+                camp_status = []
                 logins_list = []
                 logins_status_list = []
                 camp_lead_list = []
                 usernames_list = []
                 camp_lead_list.clear()
+                camp_status.clear()
                 for i in current_volunteer_list_2:
                     string_user = i[3]
                     string_password = i[4]
                     string_status = i[10]
                     string_camp = i[0]
-                    string_camp_id = int(i[0])-1
-                    camp_status = current_camp_list[string_camp_id][7]
+                    string_camp_id = int(string_camp)-1
+                    if current_camp_list[string_camp_id][7] == "Closed":
+                        camp_status.append(string_user)
                     if i[10] == "Deleted":
                         pass
                     else:
@@ -331,7 +333,7 @@ def main():
                 login_entry_status_string = str(username_entry.get() + password_hash + "Active")
 
                 login_error_window = Toplevel()
-
+                print(camp_status)
                 if (login_entry_string in logins_list) and (login_entry_status_string not in logins_status_list) and (username_entry.get() in usernames_list):
                     deactivated_label = Label(login_error_window, text="Your Account has been Deactivated\nPlease contact the admin for support")
                     deactivated_label.pack()
@@ -350,7 +352,7 @@ def main():
                     close_button3 = Button(login_error_window, text="Close", command=login_error_window.destroy)
                     close_button3.pack()
                     login_error_window.mainloop()
-                elif camp_status == "Closed":
+                elif username_entry.get() in camp_status:
                     camp_closed_label = Label(login_error_window, text="This Camp has now been closed. Please conatct the admin for more details")
                     camp_closed_label.pack()
                     close_button4 = Button(login_error_window, text="Close", command=login_error_window.destroy)
