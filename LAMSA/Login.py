@@ -253,6 +253,7 @@ def main():
             center_y2 = int(screen_height2 / 2 - window_height2 / 2)
             volunteer_login_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
+            Label(volunteer_login_screen, text="Volunteer & Camp Lead Login", font=("TkDefaultFont", 20)).pack()
             Label(volunteer_login_screen, text="Please enter your login details below\n").pack()
 
             username_entry = StringVar()
@@ -403,6 +404,7 @@ def main():
             center_y2 = int(screen_height2 / 2 - window_height2 / 2)
             admin_login_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
+            Label(admin_login_screen, text="Admin Login", font=("TkDefaultFont", 20)).pack()
             Label(admin_login_screen, text="Please enter your login details below\n").pack()
 
             admin_username_entry = StringVar()
@@ -493,7 +495,7 @@ def main():
             center_y2 = int(screen_height2 / 2 - window_height2 / 2)
             choose_role_window.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
-            volunteer_button = Button(choose_role_window, text="Volunteer Login", command=volunteer_login)
+            volunteer_button = Button(choose_role_window, text="Volunteer & Camp Lead Login", command=volunteer_login)
             volunteer_button.pack()
             admin_button = Button(choose_role_window, text="Admin Login", command=admin_login)
             admin_button.pack()
