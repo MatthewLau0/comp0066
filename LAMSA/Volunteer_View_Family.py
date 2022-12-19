@@ -186,7 +186,7 @@ def table():
                     current_updating_refugee.append(ref)
 
             refugee_date = current_updating_refugee[0][4].split("/")
-            number = current_updating_refugee[0][7].split("#")
+            number1 = current_updating_refugee[0][7].split("#")
             address = current_updating_refugee[0][8].replace(" ", "").split(",")
 
             updating_family_camp_id = current_updating_refugee[0][0]
@@ -197,8 +197,8 @@ def table():
             update_refugee_month = refugee_date[1]
             update_refugee_year = refugee_date[2]
             update_refugee_gender = current_updating_refugee[0][6]
-            update_phone_area_code = number[0]
-            update_phone_number = number[1]
+            update_phone_area_code = number1[0]
+            update_phone_number = number1[1]
             update_refugee_address1 = address[0]
             update_refugee_address2 = address[1]
             update_refugee_address_city = address[2]
@@ -452,6 +452,7 @@ Medical Dispensary: \n{updating_refugee_medical}\n""")
                     test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
                     if test_start_date > today:
                         dob_label.config(text="Please enter a valid DoB", fg='#f00')
+                        error_new_volunteer.append(1)
                 if len(phone_area_code.get()) > 4 or len(phone_area_code.get()) == 0 or all(char.isdigit() for char in phone_area_code.get()) is False:
                     phone_number_label.config(
                         text="Please enter a valid phone area code and a valid phone number",
@@ -464,14 +465,19 @@ Medical Dispensary: \n{updating_refugee_medical}\n""")
                     error_new_volunteer.append("e5")
                 if refugee_gender.get() not in gender_list:
                     gender_label.config(text="Please enter a gender from the provided list", fg='#f00')
+                    error_new_volunteer.append(1)
                 if refugee_address_country.get() not in country_list:
                     address5_label.config(text="Please enter a country from the list provided", fg='#f00')
+                    error_new_volunteer.append(1)
                 if refugee_address1.get().strip() == "":
                     address1_label.config(text="Please enter a valid Address Line 1", fg='#f00')
+                    error_new_volunteer.append(1)
                 if refugee_address_city.get().strip() == "":
                     address3_label.config(text="Please enter a valid City", fg='#f00')
+                    error_new_volunteer.append(1)
                 if refugee_address_post.get().strip() == "":
                     address4_label.config(text="Please enter a valid Postcode", fg='#f00')
+                    error_new_volunteer.append(1)
 
                 if len(error_new_volunteer) > 0:
                     pass
