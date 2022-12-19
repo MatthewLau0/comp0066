@@ -1,1 +1,1 @@
-4,1,Block 1,100,22,VACANCIES,78,North Wing,
+1,1,Block 1,110,40,VACANCIES,70,North Wing,

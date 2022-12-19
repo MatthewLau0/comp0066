@@ -171,9 +171,6 @@ def volunteers_portal():
 
     view_volunteers_list()
 
-
-
-
 def accommodation_portal():
 
     accommodations = open("accommodation_database.txt", "r+")
@@ -206,7 +203,6 @@ def accommodation_portal():
 
         block_name = StringVar()
         block_cap = StringVar()
-        block_occ = StringVar()
         block_location = StringVar()
 
         new_block_intro_label = Label(new_accommodation_screen, text="To create a new Accommodation Block, please fill in the form below.")
@@ -225,11 +221,6 @@ def accommodation_portal():
         new_block_capacity_entry = Entry(new_accommodation_screen, textvariable=block_cap)
         new_block_capacity_entry.pack()
 
-        new_block_occupancy_label = Label(new_accommodation_screen, text="Block Occupancy: ")
-        new_block_occupancy_label.pack()
-        new_block_occupancy_entry = Entry(new_accommodation_screen, textvariable=block_occ)
-        new_block_occupancy_entry.pack()
-
         block_location.set("Select Camp Area")
         new_block_location_label = Label(new_accommodation_screen, text="Block Location: ")
         new_block_location_label.pack()
@@ -247,7 +238,6 @@ def accommodation_portal():
             summary_label = Label(accommodation_summary, text=f"""
             Block Name: {block_name.get()} \n 
             Block Capacity: {block_cap.get()} \n 
-            Block Occupancy: {block_occ.get()} \n 
             Block Location: {block_location.get()}""")
             summary_label.pack()
 
@@ -257,7 +247,7 @@ def accommodation_portal():
             def submit_command():
                 new_accommodation[2] = block_name.get()
                 new_accommodation[3] = str(block_cap.get())
-                new_accommodation[4] = str(block_occ.get())
+                new_accommodation[4] = str(0)
                 new_accommodation[6] = str(int(new_accommodation[3]) - int(new_accommodation[4]))
                 if int(new_accommodation[6]) > 0:
                     new_accommodation[5] = "VACANCIES"
@@ -266,7 +256,6 @@ def accommodation_portal():
                 new_accommodation[7] = block_location.get()
 
                 new_accommodation_string = ','.join(new_accommodation)
-
 
                 accommodations_append = open("accommodation_database.txt", "a")
                 accommodations_append.write(new_accommodation_string + ",\n")
@@ -324,18 +313,13 @@ def accommodation_portal():
 
             def occ_check():
                 try:
-                    int(block_occ.get())
                     check_status[3] = "1"
                 except ValueError:
                     new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for occupancy")
                     new_block_occupancy_reentry_1.pack()
                 if check_status[3] == "1" and check_status[1] == "1":
                     try:
-                        if int(block_occ.get()) <= int(block_cap.get()):
-                            check_status[4] = "1"
-                        else:
-                            new_block_occupancy_reentry_2 = Label(error_frame, text="Please enter an occupancy lower than capacity")
-                            new_block_occupancy_reentry_2.pack()
+                        check_status[4] = "1"
                     except ValueError:
                         pass
 
@@ -437,7 +421,6 @@ def accommodation_portal():
         block_id = StringVar()
         block_name = StringVar()
         block_cap = StringVar()
-        block_occ = StringVar()
         block_location = StringVar()
 
         id_select_label = Label(update_block_screen_id, text="Please choose a block ID to update")
@@ -474,11 +457,8 @@ def accommodation_portal():
             new_block_capacity_entry.insert(END, f"{blocks_list[x][3]}")
             new_block_capacity_entry.pack()
 
-            new_block_occupancy_label = Label(update_block_screen, text="Block Occupancy: ")
+            new_block_occupancy_label = Label(update_block_screen, text=f"Block Occupancy: \n{blocks_list[x][4]}")
             new_block_occupancy_label.pack()
-            new_block_occupancy_entry = Entry(update_block_screen, textvariable=block_occ)
-            new_block_occupancy_entry.insert(END, f"{blocks_list[x][4]}")
-            new_block_occupancy_entry.pack()
 
             block_location.set(f"{blocks_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Block Location: ")
@@ -497,7 +477,7 @@ def accommodation_portal():
                 summary_label = Label(accommodation_summary, text=f"""
                         Block Name: {block_name.get()} \n 
                         Block Capacity: {block_cap.get()} \n 
-                        Block Occupancy: {block_occ.get()} \n 
+                        Block Occupancy: {blocks_list[x][4]} \n 
                         Block Location: {block_location.get()}""")
                 summary_label.pack()
 
@@ -508,7 +488,7 @@ def accommodation_portal():
                     update_accommodation[1] = str(block_id.get())
                     update_accommodation[2] = block_name.get()
                     update_accommodation[3] = str(block_cap.get())
-                    update_accommodation[4] = str(block_occ.get())
+                    update_accommodation[4] = str(blocks_list[x][4])
                     update_accommodation[6] = str(int(update_accommodation[3]) - int(update_accommodation[4]))
                     if int(update_accommodation[6]) > 0:
                         update_accommodation[5] = "VACANCIES"
@@ -595,19 +575,17 @@ def accommodation_portal():
 
                 def occ_check():
                     try:
-                        int(block_occ.get())
                         check_status[2] = "1"
                     except ValueError:
-                        new_block_occupancy_reentry_1 = Label(error_frame,
-                                                              text="Please enter an integer for occupancy")
+                        new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for occupancy")
                         new_block_occupancy_reentry_1.pack()
                     if check_status[2] == "1" and check_status[1] == "1":
                         try:
-                            if int(block_occ.get()) <= int(block_cap.get()):
-                                check_status[3] = "1"
+                            if int(blocks_list[x][4]) <= int(block_cap.get()):
+                                check_status[4] = "1"
                             else:
                                 new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                      text="Please enter an occupancy lower than capacity")
+                                                                      text="Please enter a capacity higher than the occupancy")
                                 new_block_occupancy_reentry_2.pack()
                         except ValueError:
                             pass
@@ -707,7 +685,6 @@ def ration_portal():
 
         ration_name = StringVar()
         ration_supply = StringVar()
-        ration_use = StringVar()
         ration_location = StringVar()
 
         new_block_intro_label = Label(new_ration_screen,
@@ -728,11 +705,6 @@ def ration_portal():
         new_block_capacity_entry = Entry(new_ration_screen, textvariable=ration_supply)
         new_block_capacity_entry.pack()
 
-        new_block_occupancy_label = Label(new_ration_screen, text="Ration Packs Distributed: ")
-        new_block_occupancy_label.pack()
-        new_block_occupancy_entry = Entry(new_ration_screen, textvariable=ration_use)
-        new_block_occupancy_entry.pack()
-
         ration_location.set("Select Camp Area")
         new_block_location_label = Label(new_ration_screen, text="Stall Location: ")
         new_block_location_label.pack()
@@ -750,7 +722,6 @@ def ration_portal():
             summary_label = Label(ration_summary, text=f"""
                 Stall Name: {ration_name.get()} \n 
                 Packs Supplied: {ration_supply.get()} \n 
-                Packs Distributed: {ration_use.get()} \n 
                 Stall Location: {ration_location.get()}""")
             summary_label.pack()
 
@@ -760,7 +731,7 @@ def ration_portal():
             def submit_command():
                 new_ration[2] = ration_name.get()
                 new_ration[3] = str(ration_supply.get())
-                new_ration[4] = str(ration_use.get())
+                new_ration[4] = str(0)
                 new_ration[6] = str(int(new_ration[3]) - int(new_ration[4]))
                 if int(new_ration[6]) > 0:
                     new_ration[5] = "PACKS REMAINING"
@@ -828,19 +799,13 @@ def ration_portal():
 
             def use_check():
                 try:
-                    int(ration_use.get())
                     check_status[3] = "1"
                 except ValueError:
                     new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for packs distributed")
                     new_block_occupancy_reentry_1.pack()
                 if check_status[3] == "1" and check_status[1] == "1":
                     try:
-                        if int(ration_use.get()) <= int(ration_supply.get()):
-                            check_status[4] = "1"
-                        else:
-                            new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                  text="Please enter an used lower than supplied")
-                            new_block_occupancy_reentry_2.pack()
+                        check_status[4] = "1"
                     except ValueError:
                         pass
 
@@ -941,7 +906,6 @@ def ration_portal():
         ration_id = StringVar()
         ration_name = StringVar()
         ration_supply = StringVar()
-        ration_use = StringVar()
         ration_location = StringVar()
 
         id_select_label = Label(update_block_screen_id, text="Please choose a Stall ID to update")
@@ -980,11 +944,8 @@ def ration_portal():
             new_block_capacity_entry.insert(END, f"{ration_list[x][3]}")
             new_block_capacity_entry.pack()
 
-            new_block_occupancy_label = Label(update_block_screen, text="Packs Distributed: ")
+            new_block_occupancy_label = Label(update_block_screen, text=f"Packs Distributed: \n{ration_list[x][4]}")
             new_block_occupancy_label.pack()
-            new_block_occupancy_entry = Entry(update_block_screen, textvariable=ration_use)
-            new_block_occupancy_entry.insert(END, f"{ration_list[x][4]}")
-            new_block_occupancy_entry.pack()
 
             ration_location.set(f"{ration_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Stall Location: ")
@@ -1003,7 +964,7 @@ def ration_portal():
                 summary_label = Label(ration_summary, text=f"""
                             Stall Name: {ration_name.get()} \n 
                             Packs Supplied: {ration_supply.get()} \n 
-                            Packs Distributed: {ration_use.get()} \n 
+                            Packs Distributed: {ration_list[x][4]} \n 
                             Stall Location: {ration_location.get()}""")
                 summary_label.pack()
 
@@ -1014,7 +975,7 @@ def ration_portal():
                     update_stall[1] = str(ration_id.get())
                     update_stall[2] = ration_name.get()
                     update_stall[3] = str(ration_supply.get())
-                    update_stall[4] = str(ration_use.get())
+                    update_stall[4] = str(ration_list[x][4])
                     update_stall[6] = str(int(update_stall[3]) - int(update_stall[4]))
                     if int(update_stall[6]) > 0:
                         update_stall[5] = "PACKS AVAILABLE"
@@ -1103,7 +1064,6 @@ def ration_portal():
 
                 def use_check():
                     try:
-                        int(ration_use.get())
                         check_status[3] = "1"
                     except ValueError:
                         new_block_occupancy_reentry_1 = Label(error_frame,
@@ -1111,11 +1071,11 @@ def ration_portal():
                         new_block_occupancy_reentry_1.pack()
                     if check_status[3] == "1" and check_status[1] == "1":
                         try:
-                            if int(ration_use.get()) <= int(ration_supply.get()):
+                            if int(ration_list[x][4]) <= int(ration_supply.get()):
                                 check_status[4] = "1"
                             else:
                                 new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                      text="Please enter an used lower than supplied")
+                                                                      text="Please enter a supply higher than the used")
                                 new_block_occupancy_reentry_2.pack()
                         except ValueError:
                             pass
@@ -1215,7 +1175,6 @@ def toilets_portal():
 
         toilet_name = StringVar()
         toilet_cap = StringVar()
-        toilet_occ = StringVar()
         toilet_location = StringVar()
 
         new_block_intro_label = Label(new_toilet_screen,
@@ -1236,11 +1195,6 @@ def toilets_portal():
         new_block_capacity_entry = Entry(new_toilet_screen, textvariable=toilet_cap)
         new_block_capacity_entry.pack()
 
-        new_block_occupancy_label = Label(new_toilet_screen, text="Toilet Block Occupancy: ")
-        new_block_occupancy_label.pack()
-        new_block_occupancy_entry = Entry(new_toilet_screen, textvariable=toilet_occ)
-        new_block_occupancy_entry.pack()
-
         toilet_location.set("Select Camp Area")
         new_block_location_label = Label(new_toilet_screen, text="Toilet Block Location: ")
         new_block_location_label.pack()
@@ -1258,7 +1212,6 @@ def toilets_portal():
             summary_label = Label(toilet_summary, text=f"""
                     Toilet Block Name: {toilet_name.get()} \n 
                     Toilet Block Capacity: {toilet_cap.get()} \n 
-                    Toilet Block Occupancy: {toilet_occ.get()} \n 
                     Toilet Block Location: {toilet_location.get()}""")
             summary_label.pack()
 
@@ -1268,7 +1221,7 @@ def toilets_portal():
             def submit_command():
                 new_toilet[2] = toilet_name.get()
                 new_toilet[3] = str(toilet_cap.get())
-                new_toilet[4] = str(toilet_occ.get())
+                new_toilet[4] = str(0)
                 new_toilet[6] = str(int(new_toilet[3]) - int(new_toilet[4]))
                 if int(new_toilet[6]) > 0:
                     new_toilet[5] = "VACANCIES"
@@ -1336,7 +1289,6 @@ def toilets_portal():
 
             def use_check():
                 try:
-                    int(toilet_occ.get())
                     check_status[3] = "1"
                 except ValueError:
                     new_block_occupancy_reentry_1 = Label(error_frame,
@@ -1344,12 +1296,7 @@ def toilets_portal():
                     new_block_occupancy_reentry_1.pack()
                 if check_status[3] == "1" and check_status[1] == "1":
                     try:
-                        if int(toilet_occ.get()) <= int(toilet_cap.get()):
-                            check_status[4] = "1"
-                        else:
-                            new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                  text="Please enter an occupancy lower than the capacity")
-                            new_block_occupancy_reentry_2.pack()
+                        check_status[4] = "1"
                     except ValueError:
                         pass
 
@@ -1451,7 +1398,6 @@ def toilets_portal():
         toilet_id = StringVar()
         toilet_name = StringVar()
         toilet_cap = StringVar()
-        toilet_occ = StringVar()
         toilet_location = StringVar()
 
         id_select_label = Label(update_block_screen_id, text="Please choose a Block ID to update")
@@ -1490,11 +1436,8 @@ def toilets_portal():
             new_block_capacity_entry.insert(END, f"{toilet_list[x][3]}")
             new_block_capacity_entry.pack()
 
-            new_block_occupancy_label = Label(update_block_screen, text="Toilet Block Occupancy: ")
+            new_block_occupancy_label = Label(update_block_screen, text=f"Toilet Block Occupancy: \n{toilet_list[x][4]}")
             new_block_occupancy_label.pack()
-            new_block_occupancy_entry = Entry(update_block_screen, textvariable=toilet_occ)
-            new_block_occupancy_entry.insert(END, f"{toilet_list[x][4]}")
-            new_block_occupancy_entry.pack()
 
             toilet_location.set(f"{toilet_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Toilet Block Location: ")
@@ -1513,7 +1456,7 @@ def toilets_portal():
                 summary_label = Label(toilet_summary, text=f"""
                                 Toilet Block Name: {toilet_name.get()} \n 
                                 Toilet Block Capacity: {toilet_cap.get()} \n 
-                                Toilet Block Occupancy: {toilet_occ.get()} \n 
+                                Toilet Block Occupancy: {toilet_list[x][4]} \n 
                                 Toilet Block Location: {toilet_location.get()}""")
                 summary_label.pack()
 
@@ -1524,7 +1467,7 @@ def toilets_portal():
                     update_toilet[1] = str(toilet_id.get())
                     update_toilet[2] = toilet_name.get()
                     update_toilet[3] = str(toilet_cap.get())
-                    update_toilet[4] = str(toilet_occ.get())
+                    update_toilet[4] = str(toilet_list[x][4])
                     update_toilet[6] = str(int(update_toilet[3]) - int(update_toilet[4]))
                     if int(update_toilet[6]) > 0:
                         update_toilet[5] = "VACANCIES"
@@ -1613,7 +1556,6 @@ def toilets_portal():
 
                 def use_check():
                     try:
-                        int(toilet_occ.get())
                         check_status[3] = "1"
                     except ValueError:
                         new_block_occupancy_reentry_1 = Label(error_frame,
@@ -1621,11 +1563,11 @@ def toilets_portal():
                         new_block_occupancy_reentry_1.pack()
                     if check_status[3] == "1" and check_status[1] == "1":
                         try:
-                            if int(toilet_occ.get()) <= int(toilet_cap.get()):
+                            if int(toilet_list[x][4]) <= int(toilet_cap.get()):
                                 check_status[4] = "1"
                             else:
                                 new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                      text="Please enter an occupancy lower than the capacity")
+                                                                      text="Please enter a capacity higher than the occupancy")
                                 new_block_occupancy_reentry_2.pack()
                         except ValueError:
                             pass
@@ -1726,7 +1668,6 @@ def medical_portal():
 
         medical_name = StringVar()
         medical_cap = StringVar()
-        medical_occ = StringVar()
         medical_location = StringVar()
 
         new_block_intro_label = Label(new_medical_screen,
@@ -1747,11 +1688,6 @@ def medical_portal():
         new_block_capacity_entry = Entry(new_medical_screen, textvariable=medical_cap)
         new_block_capacity_entry.pack()
 
-        new_block_occupancy_label = Label(new_medical_screen, text="Medical Dispensary Occupancy: ")
-        new_block_occupancy_label.pack()
-        new_block_occupancy_entry = Entry(new_medical_screen, textvariable=medical_occ)
-        new_block_occupancy_entry.pack()
-
         medical_location.set("Select Camp Area")
         new_block_location_label = Label(new_medical_screen, text="Medical Dispensary Location: ")
         new_block_location_label.pack()
@@ -1769,7 +1705,6 @@ def medical_portal():
             summary_label = Label(medical_summary, text=f"""
                     Medical Dispensary Name: {medical_name.get()} \n 
                     Medical Dispensary Capacity: {medical_cap.get()} \n 
-                    Medical Dispensary Occupancy: {medical_occ.get()} \n 
                     Medical Dispensary Location: {medical_location.get()}""")
             summary_label.pack()
 
@@ -1779,7 +1714,7 @@ def medical_portal():
             def submit_command():
                 new_medical[2] = medical_name.get()
                 new_medical[3] = str(medical_cap.get())
-                new_medical[4] = str(medical_occ.get())
+                new_medical[4] = str(0)
                 new_medical[6] = str(int(new_medical[3]) - int(new_medical[4]))
                 if int(new_medical[6]) > 0:
                     new_medical[5] = "VACANCIES"
@@ -1847,7 +1782,6 @@ def medical_portal():
 
             def use_check():
                 try:
-                    int(medical_occ.get())
                     check_status[3] = "1"
                 except ValueError:
                     new_block_occupancy_reentry_1 = Label(error_frame,
@@ -1855,12 +1789,7 @@ def medical_portal():
                     new_block_occupancy_reentry_1.pack()
                 if check_status[3] == "1" and check_status[1] == "1":
                     try:
-                        if int(medical_occ.get()) <= int(medical_cap.get()):
-                            check_status[4] = "1"
-                        else:
-                            new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                  text="Please enter an occupancy lower than the capacity")
-                            new_block_occupancy_reentry_2.pack()
+                        check_status[4] = "1"
                     except ValueError:
                         pass
 
@@ -1961,7 +1890,6 @@ def medical_portal():
         medical_id = StringVar()
         medical_name = StringVar()
         medical_cap = StringVar()
-        medical_occ = StringVar()
         medical_location = StringVar()
 
         id_select_label = Label(update_block_screen_id, text="Please choose a Medical Dispensary ID to update")
@@ -2000,11 +1928,8 @@ def medical_portal():
             new_block_capacity_entry.insert(END, f"{medical_list[x][3]}")
             new_block_capacity_entry.pack()
 
-            new_block_occupancy_label = Label(update_block_screen, text="Medical Dispensary Occupancy: ")
+            new_block_occupancy_label = Label(update_block_screen, text=f"Medical Dispensary Occupancy: \n{medical_list[x][4]}")
             new_block_occupancy_label.pack()
-            new_block_occupancy_entry = Entry(update_block_screen, textvariable=medical_occ)
-            new_block_occupancy_entry.insert(END, f"{medical_list[x][4]}")
-            new_block_occupancy_entry.pack()
 
             medical_location.set(f"{medical_list[x][7]}")
             new_block_location_label = Label(update_block_screen, text="Medical Dispensary Location: ")
@@ -2023,7 +1948,7 @@ def medical_portal():
                 summary_label = Label(medical_summary, text=f"""
                                 Medical Dispensary Name: {medical_name.get()} \n 
                                 Medical Dispensary Capacity: {medical_cap.get()} \n 
-                                Medical Dispensary Occupancy: {medical_occ.get()} \n 
+                                Medical Dispensary Occupancy: {medical_list[x][4]} \n 
                                 Medical Dispensary Location: {medical_location.get()}""")
                 summary_label.pack()
 
@@ -2034,7 +1959,7 @@ def medical_portal():
                     update_medical[1] = str(medical_id.get())
                     update_medical[2] = medical_name.get()
                     update_medical[3] = str(medical_cap.get())
-                    update_medical[4] = str(medical_occ.get())
+                    update_medical[4] = str(medical_list[x][4])
                     update_medical[6] = str(int(update_medical[3]) - int(update_medical[4]))
                     if int(update_medical[6]) > 0:
                         update_medical[5] = "VACANCIES"
@@ -2123,19 +2048,17 @@ def medical_portal():
 
                 def use_check():
                     try:
-                        int(medical_occ.get())
                         check_status[3] = "1"
                     except ValueError:
-                        new_block_occupancy_reentry_1 = Label(error_frame,
-                                                              text="Please enter an integer for dispensary occupancy")
+                        new_block_occupancy_reentry_1 = Label(error_frame, text="Please enter an integer for dispensary occupancy")
                         new_block_occupancy_reentry_1.pack()
                     if check_status[3] == "1" and check_status[1] == "1":
                         try:
-                            if int(medical_occ.get()) <= int(medical_cap.get()):
+                            if int(medical_list[x][4]) <= int(medical_cap.get()):
                                 check_status[4] = "1"
                             else:
                                 new_block_occupancy_reentry_2 = Label(error_frame,
-                                                                      text="Please enter an occupancy lower than the capacity")
+                                                                      text="Please enter a capacity higher than the occupancy")
                                 new_block_occupancy_reentry_2.pack()
                         except ValueError:
                             pass

@@ -1,1 +1,1 @@
-4,1,Stall 1,100,22,PACKS REMAINING,78,North Wing,
+1,1,Stall 1,15,15,PACKS DEPLETED,0,North Wing,

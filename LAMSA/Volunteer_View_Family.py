@@ -90,32 +90,33 @@ def table():
     emergency_database_table.pack(fill='both')
 
     def modify_family():
-        update_family_screen_id = Toplevel()
-        update_family_screen_id.title("Update ID Select")
+        update_family_screen_id_2 = Toplevel()
+        update_family_screen_id_2.title("Update ID Select")
 
-        screen_width2 = update_family_screen_id.winfo_screenwidth()
-        screen_height2 = update_family_screen_id.winfo_screenheight()
-        window_height2 = 100
-        window_width2 = 300
+        screen_width4 = update_family_screen_id_2.winfo_screenwidth()
+        screen_height4 = update_family_screen_id_2.winfo_screenheight()
+        window_height4 = 110
+        window_width4 = 300
 
-        center_x2 = int(screen_width2 / 2 - window_width2 / 2)
-        center_y2 = int(screen_height2 / 2 - window_height2 / 2)
-        update_family_screen_id.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
+        center_x4 = int(screen_width4 / 2 - window_width4 / 2)
+        center_y4 = int(screen_height4 / 2 - window_height4 / 2)
+        update_family_screen_id_2.geometry(f'{window_width4}x{window_height4}+{center_x4}+{center_y4}')
 
-        id_list = []
+        id_list_2 = []
 
-        for i in refugee_database_list:
-            id_list.append(i[1])
+        for n in refugee_database_list:
+            id_list_2.append(n[1])
 
-        selected_refugee_id = StringVar()
+        selected_refugee_id_2 = StringVar()
 
-        id_select_label = Label(update_family_screen_id, text="Please choose a block ID to update")
-        id_select_label.pack()
-        selected_refugee_id.set("Select ID")
-        id_select_option = ttk.Combobox(update_family_screen_id, textvariable=selected_refugee_id, values=id_list)
-        id_select_option.pack()
+        id_select_label_2 = Label(update_family_screen_id_2, text="Please choose a Family ID to update")
+        id_select_label_2.pack()
+        selected_refugee_id_2.set("Select ID")
+        id_select_option_2 = ttk.Combobox(update_family_screen_id_2, textvariable=selected_refugee_id_2, values=id_list_2)
+        id_select_option_2.pack()
 
         def update_run():
+            update_family_screen_id_2.destroy()
 
             country_list = ['Afghanistan', 'Aland Islands', 'Albania', 'Algeria', 'American Samoa', 'Andorra', 'Angola',
                             'Anguilla', 'Antarctica', 'Antigua and Barbuda', 'Argentina', 'Armenia', 'Aruba',
@@ -165,11 +166,20 @@ def table():
                             'Yemen', 'Zambia', 'Zimbabwe']
 
             update_refugee_screen = Toplevel()
-            update_refugee_screen.title(f"Update Family {selected_refugee_id.get()}")
+            update_refugee_screen.title(f"Update Family {selected_refugee_id_2.get()}")
+
+            screen_width2 = update_refugee_screen.winfo_screenwidth()
+            screen_height2 = update_refugee_screen.winfo_screenheight()
+            window_height2 = screen_height2
+            window_width2 = 900
+
+            center_x2 = int(screen_width2 / 2 - window_width2 / 2)
+            center_y2 = int(screen_height2 / 2 - window_height2 / 2)
+            update_refugee_screen.geometry(f'{window_width2}x{window_height2}+{center_x2}+{center_y2}')
 
             current_updating_refugee = []
             for ref in refugee_database_list:
-                if ref[1] == str(selected_refugee_id.get()):
+                if ref[1] == str(selected_refugee_id_2.get()):
                     current_updating_refugee.append(ref)
 
             refugee_date = current_updating_refugee[0][4].split("/")
@@ -340,22 +350,23 @@ def table():
                 label_1 = Label(refugee_summary, text="Please check that you are happy with the entry below:")
                 label_1.pack()
 
-                summary_label = Label(refugee_summary, text=f"""
-                Lead Member Name: {refugee_name.get()} \n 
-                Family Size: {updating_family_size} \n
-                Lead Member DoB: {refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}
-                Lead Member Age: {generate_age()} 
-                Lead Member Gender: {refugee_gender.get()} \n 
-                Address: {refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()} \n{refugee_address_post.get()}, {refugee_address_country.get()} \n
-                No. Members with Health Conditions: {updating_family_health_no}\n
-                Health Condition Details: {refugee_family_health.get()}
-                Accommodation: {updating_refugee_accom}
-                Ration Stall: {updating_refugee_ration}
-                Toilet Block: {updating_refugee_toilet}
-                Medical Dispensary: {updating_refugee_medical}""")
+                summary_label = Label(refugee_summary, text=
+f"""Lead Member Name: \n{refugee_name.get()} 
+Family Size: \n{updating_family_size} 
+Lead Member DoB: \n{refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()} (Age: {generate_age()})
+Lead Member Gender: \n{refugee_gender.get()} 
+Contact Number: \n+{phone_area_code.get()} {phone_number.get()}
+Address: \n{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()} 
+No. Members with Health Conditions: \n{updating_family_health_no}
+Health Condition Details: \n{refugee_family_health.get()}\n\n
+Accommodation: \n{updating_refugee_accom}
+Ration Stall: \n{updating_refugee_ration}
+Toilet Block: \n{updating_refugee_toilet}
+Medical Dispensary: \n{updating_refugee_medical}\n""")
                 summary_label.pack()
 
                 def submit_command():
+                    view_refugee_table.destroy()
                     phone_number_complete = ("%s#%s" % (phone_area_code.get(), phone_number.get()))
 
                     updated_family = ["NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"]
@@ -400,9 +411,9 @@ def table():
                     refugee_summary.destroy()
                     update_refugee_screen.destroy()
 
-                edit_button = Button(refugee_summary, text="Cancel", command=refugee_summary.destroy, width=30, height=2)
+                edit_button = Button(refugee_summary, text="Cancel", command=refugee_summary.destroy)
                 edit_button.pack()
-                submit_button = Button(refugee_summary, text="Submit", command=submit_command, width=30, height=2)
+                submit_button = Button(refugee_summary, text="Submit", command=submit_command)
                 submit_button.pack()
 
                 refugee_summary.mainloop()
@@ -465,11 +476,337 @@ def table():
                 else:
                     summary()
 
-            button_block_done = Button(update_refugee_screen, text="Done", command=check_block)
+            button_block_done = Button(update_refugee_screen, text="Submit", command=check_block)
             button_block_done.pack()
+            Button(update_refugee_screen, text="Cancel", command=update_refugee_screen.destroy).pack()
 
-        new_block_done = Button(update_family_screen_id, text="Done", command=update_run)
+        def run_the_update():
+            if selected_refugee_id_2.get() not in id_list_2:
+                id_select_label_2.config(fg="#f00")
+            else:
+                update_family_screen_id_2.destroy()
+                update_run()
+
+        new_block_done = Button(update_family_screen_id_2, text="Select", command=run_the_update)
         new_block_done.pack()
+        Button(update_family_screen_id_2, text="Close", command=update_family_screen_id_2.destroy).pack()
+
+    def assign_to_unavailable():
+        assign_id = Toplevel()
+        assign_id.title("Update ID Select")
+
+        screen_width3 = assign_id.winfo_screenwidth()
+        screen_height3 = assign_id.winfo_screenheight()
+        window_height3 = 110
+        window_width3 = 500
+
+        center_x3 = int(screen_width3 / 2 - window_width3 / 2)
+        center_y3 = int(screen_height3 / 2 - window_height3 / 2)
+        assign_id.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
+
+        unassigned_id_list = []
+
+        for ref in refugee_database_list:
+            if "Accommodation Unavailable" in ref or "Ration Unavailable" in ref or "Toilet Unavailable" in ref or "Medical Unavailable" in ref:
+                unassigned_id_list.append(ref[1])
+
+        selected_family_id = StringVar()
+
+        select_label = Label(assign_id, text="Please choose a Family ID to assign amenities to")
+        select_label.pack()
+        selected_family_id.set("Select ID")
+        select_option = ttk.Combobox(assign_id, textvariable=selected_family_id, values=unassigned_id_list)
+        select_option.pack()
+
+        def run_assignment():
+            assign_id.destroy()
+
+            current_family = []
+            for z in refugee_database_list:
+                if z[1] == selected_family_id.get():
+                    current_family.append(z)
+
+            camp_id = current_family[0][0]
+            family_size = current_family[0][3]
+            family_medical_size = current_family[0][9]
+
+            open_accommodation_file = open("accommodation_database.txt", 'r')
+            accommodation_database_list = []
+            for line0 in open_accommodation_file:
+                x = line0.split(",")
+                if x[0] == str(camp_id):
+                    accommodation_database_list.append(x)
+            open_accommodation_file.close()
+
+            open_medical_file = open("medical_database.txt", 'r')
+            medical_database_list = []
+            for line1 in open_medical_file:
+                x = line1.split(",")
+                if x[0] == str(camp_id):
+                    medical_database_list.append(x)
+            open_medical_file.close()
+
+            open_toilet_file = open("toilet_database.txt", 'r')
+            toilet_database_list = []
+            for line2 in open_toilet_file:
+                x = line2.split(",")
+                if x[0] == str(camp_id):
+                    toilet_database_list.append(x)
+            open_toilet_file.close()
+
+            open_ration_file = open("ration_database.txt", 'r')
+            ration_database_list = []
+            for line3 in open_ration_file:
+                x = line3.split(",")
+                if x[0] == str(camp_id):
+                    ration_database_list.append(x)
+            open_ration_file.close()
+
+            accom_available = []
+            for i in accommodation_database_list:
+                if int(i[6]) >= int(family_size):
+                    accom_available.append(f"{i[7]}, Block {i[1]}, {i[6]} Spaces")
+            toilet_available = []
+            for i in toilet_database_list:
+                if int(i[6]) >= int(family_size):
+                    toilet_available.append(f"{i[7]}, Toilet {i[1]}, {i[6]} Spaces")
+            ration_available = []
+            for i in ration_database_list:
+                if int(i[6]) >= int(family_size):
+                    ration_available.append(f"{i[7]}, Ration {i[1]}, {i[6]} Spaces")
+            medical_available = []
+            for i in medical_database_list:
+                if int(i[6]) >= int(family_medical_size):
+                    medical_available.append(f"{i[7]}, Medical {i[1]}, {i[6]} Spaces")
+
+            if len(accom_available) == 0:
+                accom_available.append("Accommodation Unavailable")
+            if len(ration_available) == 0:
+                ration_available.append("Ration Unavailable")
+            if len(toilet_available) == 0:
+                toilet_available.append("Toilet Unavailable")
+            if len(medical_available) == 0:
+                medical_available.append("Medical Unavailable")
+
+            amenity_window = Toplevel()
+            amenity_window.title("Allocate Amenities")
+
+            screen_width4 = amenity_window.winfo_screenwidth()
+            screen_height4 = amenity_window.winfo_screenheight()
+            window_height4 = screen_height4
+            window_width4 = 900
+
+            center_x4 = int(screen_width4 / 2 - window_width4 / 2)
+            center_y4 = int(screen_height4 / 2 - window_height4 / 2)
+            amenity_window.geometry(f'{window_width4}x{window_height4}+{center_x4}+{center_y4}')
+
+            Label(amenity_window, text="Please allocate amenities to this refugee family").pack()
+            Label(amenity_window, text="Please try to pick amenities within the same wing").pack()
+
+            refugee_accom = StringVar()
+            refugee_ration = StringVar()
+            refugee_toilet = StringVar()
+            refugee_medical = StringVar()
+
+            amenity_count = 0
+            accom_count = 0
+            toilet_count = 0
+            ration_count = 0
+            medical_count = 0
+
+            accom_allocate = Label(amenity_window, text="Accommodation Block: ")
+            accom_combo = ttk.Combobox(amenity_window, textvariable=refugee_accom, values=accom_available)
+            if "Accommodation Unavailable" in current_family[0]:
+                accom_allocate.pack()
+                accom_combo.pack()
+                amenity_count += 1
+                accom_count += 1
+
+            toilet_allocate = Label(amenity_window, text="Toilet Block: ")
+            toilet_combo = ttk.Combobox(amenity_window, textvariable=refugee_toilet, values=toilet_available)
+            if "Toilet Unavailable" in current_family[0]:
+                toilet_allocate.pack()
+                toilet_combo.pack()
+                amenity_count += 1
+                toilet_count += 1
+
+            ration_allocate = Label(amenity_window, text="Ration Stall: ")
+            ration_combo = ttk.Combobox(amenity_window, textvariable=refugee_ration, values=ration_available)
+            if "Ration Unavailable" in current_family[0]:
+                ration_allocate.pack()
+                ration_combo.pack()
+                amenity_count += 1
+                ration_count += 1
+
+            medical_allocate = Label(amenity_window, text="Medical Dispensary: ")
+            med_combo = ttk.Combobox(amenity_window, textvariable=refugee_medical, values=medical_available)
+            if "Medical Unavailable" in current_family[0]:
+                medical_allocate.pack()
+                med_combo.pack()
+                amenity_count += 1
+                medical_count += 1
+
+            def submit_command():
+                amenity_window.destroy()
+                view_refugee_table.destroy()
+
+                refugee_accom_save = ""
+                refugee_toilet_save = ""
+                refugee_ration_save = ""
+                refugee_medical_save = ""
+
+                if accom_count == 1:
+                    if refugee_accom.get() != "Accommodation Unavailable":
+                        refugee_accom_save = refugee_accom.get().split(",")
+                        current_family[0][11] = refugee_accom_save[0] + refugee_accom_save[1]
+                if toilet_count == 1:
+                    if refugee_toilet.get() != "Toilet Unavailable":
+                        refugee_toilet_save = refugee_toilet.get().split(",")
+                        current_family[0][13] = refugee_toilet_save[0] + refugee_toilet_save[1]
+                if ration_count == 1:
+                    if refugee_ration.get() != "Ration Unavailable":
+                        refugee_ration_save = refugee_ration.get().split(",")
+                        current_family[0][12] = refugee_ration_save[0] + refugee_ration_save[1]
+                if medical_count == 1:
+                    if refugee_medical.get() != "Medical Unavailable":
+                        refugee_medical_save = refugee_medical.get().split(",")
+                        current_family[0][14] = refugee_medical_save[0] + refugee_medical_save[1]
+
+                refugee_read = open("refugee_database.txt", "r")
+
+                refugee_list = []
+                for refugee_line in refugee_read:
+                    line_string_1 = refugee_line.split("%")
+                    refugee_list.append(line_string_1)
+
+                refugee_read.close()
+
+                refugee_list = [current_family[0] if num[1] == str(selected_family_id.get()) else num for num in refugee_list]
+
+                clear_file = open("refugee_database.txt", "w")
+                clear_file.close()
+
+                for entry in refugee_list:
+                    with open("refugee_database.txt", "a") as refugee_write:
+                        updated_refugee_string = "%".join(entry)
+                        refugee_write.write(updated_refugee_string)
+                refugee_write.close()
+                refugee_write.close()
+
+                if refugee_accom.get() == "Accommodation Unavailable" or accom_count == 0:
+                    pass
+                else:
+                    accom_id = refugee_accom_save[1][-1]
+                    for acc in accommodation_database_list:
+                        if acc[1] == accom_id:
+                            acc[4] = str(int(acc[4]) + int(family_size))
+                            acc[6] = str(int(acc[6]) - int(family_size))
+
+                    clear_file = open("accommodation_database.txt", "w")
+                    clear_file.close()
+
+                    for entry in accommodation_database_list:
+                        with open("accommodation_database.txt", "a") as accommodation_write:
+                            updated_accommodation_string = ",".join(entry)
+                            accommodation_write.write(updated_accommodation_string)
+                    accommodation_write.close()
+
+                if refugee_ration.get() == "Ration Unavailable"or ration_count == 0:
+                    pass
+                else:
+                    ration_id = refugee_ration_save[1][-1]
+                    for rat in ration_database_list:
+                        if rat[1] == ration_id:
+                            rat[4] = str(int(rat[4]) + int(family_size))
+                            rat[6] = str(int(rat[6]) - int(family_size))
+
+                    clear_file = open("ration_database.txt", "w")
+                    clear_file.close()
+
+                    for entry in ration_database_list:
+                        with open("ration_database.txt", "a") as ration_write:
+                            updated_ration_string = ",".join(entry)
+                            ration_write.write(updated_ration_string)
+                    ration_write.close()
+
+                if refugee_toilet.get() == "Toilet Unavailable"or toilet_count == 0:
+                    pass
+                else:
+                    toilet_id = refugee_toilet_save[1][-1]
+                    for toi in toilet_database_list:
+                        if toi[1] == toilet_id:
+                            toi[4] = str(int(toi[4]) + int(family_size))
+                            toi[6] = str(int(toi[6]) - int(family_size))
+
+                    clear_file = open("toilet_database.txt", "w")
+                    clear_file.close()
+
+                    for entry in toilet_database_list:
+                        with open("toilet_database.txt", "a") as toilet_write:
+                            updated_toilet_string = ",".join(entry)
+                            toilet_write.write(updated_toilet_string)
+                    toilet_write.close()
+
+                if refugee_medical.get() == "Medical Unavailable" or medical_count == 0:
+                    pass
+                else:
+                    medical_id = refugee_medical_save[1][-1]
+                    for med in medical_database_list:
+                        if med[1] == medical_id:
+                            med[4] = str(int(med[4]) + int(family_medical_size))
+                            med[6] = str(int(med[6]) - int(family_medical_size))
+
+                    clear_file = open("medical_database.txt", "w")
+                    clear_file.close()
+
+                    for entry in medical_database_list:
+                        with open("medical_database.txt", "a") as medical_write:
+                            updated_medical_string = ",".join(entry)
+                            medical_write.write(updated_medical_string)
+                    medical_write.close()
+
+            allocation_errors = []
+
+            def check_allocation():
+                accom_allocate.config(text="Accommodation Allocated", fg='green')
+                toilet_allocate.config(text="Toilet Allocated", fg='green')
+                ration_allocate.config(text="Ration Stall Allocated", fg='green')
+                medical_allocate.config(text="Medical Dispensary Allocated", fg='green')
+
+                allocation_errors.clear()
+
+                if refugee_accom.get() not in accom_available:
+                    accom_allocate.config(text="Please choose from one of the available accommodations", fg='#f00')
+                    allocation_errors.append(1)
+                if refugee_toilet.get() not in toilet_available:
+                    toilet_allocate.config(text="Please choose from one of the available toilet blocks", fg='#f00')
+                    allocation_errors.append(2)
+                if refugee_ration.get() not in ration_available:
+                    ration_allocate.config(text="Please choose from one of the available ration stalls", fg='#f00')
+                    allocation_errors.append(3)
+                if refugee_medical.get() not in medical_available:
+                    medical_allocate.config(text="Please choose from one of the available medical dispensaries",
+                                            fg='#f00')
+                    allocation_errors.append(4)
+
+                if len(allocation_errors) <= (4-amenity_count):
+                    submit_command()
+
+            done_button = Button(amenity_window, text="Submit", command=check_allocation)
+            done_button.pack()
+            Button(amenity_window, text="Cancel", command=amenity_window.destroy).pack()
+
+        def run_the_update():
+            if selected_family_id.get() not in unassigned_id_list:
+                select_label.config(fg="#f00")
+            else:
+                assign_id.destroy()
+                run_assignment()
+
+        Button(assign_id, text="Select", command=run_the_update).pack()
+        Button(assign_id, text="Close", command=assign_id.destroy).pack()
+
+    Button(view_refugee_table, text="Assign Amenities to Unassigned Families", command=assign_to_unavailable).pack()
 
     update_family_button = Button(view_refugee_table, text="Update a Family", command=modify_family)
     update_family_button.pack()
@@ -478,3 +815,4 @@ def table():
     view_refugee_return_home_button.pack()
 
     view_refugee_table.mainloop()
+
