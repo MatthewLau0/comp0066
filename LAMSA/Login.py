@@ -296,6 +296,14 @@ def main():
                     current_volunteer_list_2.append(line_list)
                 file.close()
 
+                file1 = open("emergency_database.txt", "r")
+                current_camp_list = []
+                for line1 in file1:
+                    line_list1 = line1.split("%")
+                    current_camp_list.append(line_list1)
+                file1.close()
+
+                camp_status = ""
                 logins_list = []
                 logins_status_list = []
                 camp_lead_list = []
@@ -305,6 +313,9 @@ def main():
                     string_user = i[3]
                     string_password = i[4]
                     string_status = i[10]
+                    string_camp = i[0]
+                    string_camp_id = int(i[0])-1
+                    camp_status = current_camp_list[string_camp_id][7]
                     if i[10] == "Deleted":
                         pass
                     else:
@@ -336,8 +347,14 @@ def main():
                 elif (username_entry.get() in usernames_list) and (login_entry_string not in logins_list):
                     wrong_password_label = Label(login_error_window, text="Username exists. Wrong Password entered.")
                     wrong_password_label.pack()
-                    close_button2 = Button(login_error_window, text="Close", command=login_error_window.destroy)
-                    close_button2.pack()
+                    close_button3 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button3.pack()
+                    login_error_window.mainloop()
+                elif camp_status == "Closed":
+                    camp_closed_label = Label(login_error_window, text="This Camp has now been closed. Please conatct the admin for more details")
+                    camp_closed_label.pack()
+                    close_button4 = Button(login_error_window, text="Close", command=login_error_window.destroy)
+                    close_button4.pack()
                     login_error_window.mainloop()
                 elif (login_entry_string in logins_list) and (login_entry_status_string in logins_status_list):
                     for i in current_volunteer_list_2:
