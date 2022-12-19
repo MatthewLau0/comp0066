@@ -1,1 +1,1 @@
-1,1,Stall 1,15,15,PACKS DEPLETED,0,North Wing,
+1,1,Stall 1,30,27,PACKS AVAILABLE,3,North Wing,

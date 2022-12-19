@@ -452,7 +452,7 @@ Medical Dispensary: \n{updating_refugee_medical}\n""")
                     test_start_date = datetime.datetime.strptime(str(generate_dob()), "%Y-%m-%d")
                     if test_start_date > today:
                         dob_label.config(text="Please enter a valid DoB", fg='#f00')
-                if len(phone_area_code.get()) > 4:
+                if len(phone_area_code.get()) > 4 or len(phone_area_code.get()) == 0 or phone_area_code.get().isalnum() is not True:
                     phone_number_label.config(
                         text="Please enter a valid phone area code and a valid phone number",
                         fg='#f00')
@@ -500,7 +500,7 @@ Medical Dispensary: \n{updating_refugee_medical}\n""")
 
         screen_width3 = assign_id.winfo_screenwidth()
         screen_height3 = assign_id.winfo_screenheight()
-        window_height3 = 110
+        window_height3 = 150
         window_width3 = 500
 
         center_x3 = int(screen_width3 / 2 - window_width3 / 2)
@@ -805,6 +805,9 @@ Medical Dispensary: \n{updating_refugee_medical}\n""")
             else:
                 assign_id.destroy()
                 run_assignment()
+
+        if len(unassigned_id_list) == 0:
+            Label(assign_id, text="All families have already been assigned all amenities").pack()
 
         Button(assign_id, text="Select", command=run_the_update).pack()
         Button(assign_id, text="Close", command=assign_id.destroy).pack()

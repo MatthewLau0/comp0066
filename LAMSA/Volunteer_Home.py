@@ -287,7 +287,7 @@ def volunteer_home_page():
                             text="Please enter a valid email address",
                             fg='#f00')
                         new_volunteer_error_list.append("e3")
-                    if len(phone_area_code.get()) > 4:
+                    if len(phone_area_code.get()) > 4 or len(phone_area_code.get()) == 0 or phone_area_code.get().isalnum() is not True:
                         phone_number_label.config(
                             text="Please enter a valid phone area code and a valid phone number",
                             fg='#f00')
