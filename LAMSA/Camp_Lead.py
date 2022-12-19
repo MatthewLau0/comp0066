@@ -2254,6 +2254,13 @@ def camp_layout():
         if list6[0] == str(camp_id):
             refugee_list.append(list6)
 
+    accommodation_file.close()
+    ration_file.close()
+    toilet_file.close()
+    medical_file.close()
+    volunteer_file.close()
+    refugee_file.close()
+
     accom_north = []
     ration_north = []
     toilet_north = []
@@ -2341,10 +2348,10 @@ def camp_layout():
     camp_summary_window = Toplevel()
     camp_summary_window.title("Camp Layout")
 
-    screen_width = main_window.winfo_screenwidth()
-    screen_height = main_window.winfo_screenheight()
+    screen_width = camp_summary_window.winfo_screenwidth()
+    screen_height = camp_summary_window.winfo_screenheight()
     window_height = screen_height
-    window_width = 1200
+    window_width = screen_width
 
     center_x = int(screen_width / 2 - window_width / 2)
     center_y = int(screen_height / 2 - window_height / 2)
@@ -2578,16 +2585,8 @@ Refugees:
 """)
 
     west_summary_label.pack()
-
+    Button(camp_summary_window, text="Close", command=camp_summary_window.destroy).pack(side=BOTTOM, pady=20)
     camp_summary_window.mainloop()
-
-    accommodation_file.close()
-    ration_file.close()
-    toilet_file.close()
-    medical_file.close()
-    volunteer_file.close()
-    refugee_file.close()
-
 
 def Settings():
     camp_id_generate()

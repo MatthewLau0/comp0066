@@ -1,2 +1,1 @@
-1,1,First Medical,100,13,VACANCIES,87,South Wing,
-1,2,Second Medical,50,2,VACANCIES,48,North Wing,
+4,1,Medical 1,100,8,VACANCIES,92,North Wing,

@@ -1,3 +1,1 @@
-1,1,First Toilet,100,12,VACANCIES,88,South Wing,
-1,2,Second Toilet,50,13,VACANCIES,37,North Wing,
-1,3,Third Toilet,20,0,VACANCIES,20,East Wing,
+4,1,Toilet 1,100,22,VACANCIES,78,North Wing,

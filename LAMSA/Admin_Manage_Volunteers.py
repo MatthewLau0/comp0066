@@ -39,7 +39,7 @@ def manageVolunteers():
     center_y1 = int(screen_height1 / 2 - window_height1 / 2)
     manage_volunteer_home_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
-    view_volunteers_screen_label = Label(manage_volunteer_home_screen, text="Please see below a list of the current volunteers and the camps they are associated with.")
+    view_volunteers_screen_label = Label(manage_volunteer_home_screen, text="\nPlease see below a list of all the volunteers registered at LAMSA.\n")
     view_volunteers_screen_label.pack()
 
     view_volunteer_frame = Frame(manage_volunteer_home_screen)
@@ -391,12 +391,12 @@ def manageVolunteers():
         emergency_database_file.close()
 
         view_availability_id_window = Toplevel()
-        view_availability_id_window.title("Select Volunteer")
+        view_availability_id_window.title("Select Camp")
 
         screen_width2 = view_availability_id_window.winfo_screenwidth()
         screen_height2 = view_availability_id_window.winfo_screenheight()
         window_height2 = 100
-        window_width2 = 300
+        window_width2 = 500
 
         center_x2 = int(screen_width2 / 2 - window_width2 / 2)
         center_y2 = int(screen_height2 / 2 - window_height2 / 2)
@@ -427,7 +427,7 @@ def manageVolunteers():
             center_y3 = int(screen_height3 / 2 - window_height3 / 2)
             view_availability_table_screen.geometry(f'{window_width3}x{window_height3}+{center_x3}+{center_y3}')
 
-            view_volunteers_availability_label = Label(view_availability_table_screen, text="Please see below a list of the current volunteers and the camps they are associated with.")
+            view_volunteers_availability_label = Label(view_availability_table_screen, text=f"\nPlease see below the availabilities of all the volunteers at Camp {selected_camp_id.get()}\n")
             view_volunteers_availability_label.pack()
 
             view_availability_frame = Frame(view_availability_table_screen)
