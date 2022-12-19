@@ -93,9 +93,8 @@ def add_calendar():
     start_date_year_combobox.insert(END, sy)
     start_date_year_combobox.pack(side=LEFT)
 
-    end_date_label = Label(availability_screen, text="Enter the end date for the emergency")
+    end_date_label = Label(availability_screen, text="Please enter the date you would like to finish volunteering")
     end_date_label.pack()
-    Label(availability_screen, text="Please enter the date you would like to ").pack()
     end_date_frame = Frame(availability_screen)
     end_date_frame.pack()
     end_date_day_combobox = ttk.Combobox(end_date_frame, textvariable=volunteering_end_day, values=day_list)
