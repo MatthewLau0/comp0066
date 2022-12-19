@@ -256,7 +256,7 @@ def add_calendar():
 
         Button(availability_summary_screen, text="Edit", command=availability_summary_screen.destroy).pack()
         Button(availability_summary_screen, text="Submit", command=submit_availability).pack()
-        Label(availability_summary_screen, text="Once you submit, please log out and log back in to view your updated availability.")
+        Label(availability_summary_screen, text="Once you submit, please log out and log back in to view your updated availability.").pack()
 
     errors_availability = []
 
