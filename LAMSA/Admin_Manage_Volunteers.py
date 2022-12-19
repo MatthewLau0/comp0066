@@ -268,8 +268,8 @@ def manageVolunteers():
                 promote_volunteer_camp = current_volunteer_list[(promote_volunteer.get()) - 1][0]
 
                 promote_volunteer_camp_list = []
-                for j in range(0, len(current_volunteer_list)):
-                    if current_volunteer_list[j][0] == str(promote_volunteer_camp) and current_volunteer_list[j][-2] == "Lead":
+                for j in range(0, len(current_volunteer_list_print)):
+                    if current_volunteer_list[j][0] == str(promote_volunteer_camp) and current_volunteer_list_print[j][-2] == "Lead":
                         promote_volunteer_camp_list.append(current_volunteer_list[j])
                     else:
                         pass
@@ -531,5 +531,3 @@ def manageVolunteers():
     return_home_button.pack()
 
     manage_volunteer_home_screen.mainloop()
-
-manageVolunteers()
