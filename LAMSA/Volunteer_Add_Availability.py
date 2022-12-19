@@ -228,7 +228,9 @@ def add_calendar():
             availability[7] = volunteer_saturday.get()
             availability[8] = volunteer_sunday.get()
 
-            availability_string = "#".join(availability)
+            availability_string_1 = "#".join(availability)
+            availability_string = f"{availability_string_1}\n"
+
 
             volunteer_read = open("volunteer_database.txt", "r")
 
@@ -254,6 +256,7 @@ def add_calendar():
 
         Button(availability_summary_screen, text="Edit", command=availability_summary_screen.destroy).pack()
         Button(availability_summary_screen, text="Submit", command=submit_availability).pack()
+        Label(availability_summary_screen, text="Once you submit, please log out and log back in to view your updated availability.")
 
     errors_availability = []
 
@@ -300,5 +303,6 @@ def add_calendar():
 
     done_button = Button(availability_screen, text="Submit", command=availability_verify)
     done_button.pack()
+    Button(availability_screen, text="Home", command=availability_screen.destroy).pack()
 
     availability_screen.mainloop()
