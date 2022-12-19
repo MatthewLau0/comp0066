@@ -48,7 +48,8 @@ def volunteerList():
 
     camp_ID_list = []
     for i in range(0, len(emergency_database_list)):
-        camp_ID_list.append(emergency_database_list[i][0])
+        if emergency_database_list[i][7] != "Closed":
+            camp_ID_list.append(emergency_database_list[i][0])
 
     def campTable():
 
@@ -74,7 +75,8 @@ def volunteerList():
         select_camp_table.heading("Location", text="Location", anchor=CENTER)
 
         for i in range(0, len(emergency_database_list)):
-            select_camp_table.insert(parent='', index=i, iid=i, values=(emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
+            if emergency_database_list[i][7] != "Closed":
+                select_camp_table.insert(parent='', index=i, iid=i, values=(emergency_database_list[i][0], emergency_database_list[i][1], emergency_database_list[i][4]))
 
         select_camp_table.pack()
 
