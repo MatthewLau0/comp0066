@@ -16,7 +16,7 @@ def viewexistingCamps():
     center_y1 = int(screen_height1 / 2 - window_height1 / 2)
     view_camp_home_screen.geometry(f'{window_width1}x{window_height1}+{center_x1}+{center_y1}')
 
-    Label(view_camp_home_screen, text="\nPlease see below a summary of all of the camps in the database\n").pack()
+    Label(view_camp_home_screen, text="\nPlease see below a summary of all LAMSA Camps\n").pack()
 
     emergency_database_file = open("emergency_database.txt", "r")
     emergency_database_list = []
@@ -517,7 +517,7 @@ Refugees:
         screen_width = Update_Emergency_Screen.winfo_screenwidth()
         screen_height = Update_Emergency_Screen.winfo_screenheight()
         window_height = screen_height
-        window_width = 900
+        window_width = screen_width
 
         center_x = int(screen_width / 2 - window_width / 2)
         center_y = int(screen_height / 2 - window_height / 2)
@@ -525,7 +525,7 @@ Refugees:
         Update_Emergency_Screen.title("Table of Refugees")
 
         emergency_database_label = Label(Update_Emergency_Screen,
-                                         text="Please use the below table to view a full list of refugees")
+                                         text="\nPlease use the below table will Refugees at all LAMSA Camps\n")
         emergency_database_label.pack()
 
         emergency_database_frame_1 = Frame(Update_Emergency_Screen)
@@ -534,28 +534,30 @@ Refugees:
         emergency_database_table1 = ttk.Treeview(Update_Emergency_Screen)
 
         emergency_database_table1['columns'] = (
-            "CampID", "ID", "Name", "Family size", "Date of Birth", "Age", "Gender", "Phone Number", "Address", "No. family with condition",
+            "CampID", "Family ID", "Date Added", "Name", "Family size", "Date of Birth", "Age", "Gender", "Phone Number", "Address", "No. family with condition",
             "Medical Conditions", "Accommodation", "Medical", "Toilet", "Ration")
 
         emergency_database_table1.column("#0", width=0, stretch=NO)
         emergency_database_table1.column("CampID", anchor='center', width=50)
-        emergency_database_table1.column("ID", anchor='center', width=30)
-        emergency_database_table1.column("Name", anchor='center', width=80)
-        emergency_database_table1.column("Family size", anchor='center', width=60)
+        emergency_database_table1.column("Family ID", anchor='center', width=50)
+        emergency_database_table1.column("Date Added", anchor='center', width=90)
+        emergency_database_table1.column("Name", anchor='center', width=100)
+        emergency_database_table1.column("Family size", anchor='center', width=70)
         emergency_database_table1.column("Date of Birth", anchor='center', width=80)
         emergency_database_table1.column("Age", anchor='center', width=40)
-        emergency_database_table1.column("Gender", anchor='center', width=80)
+        emergency_database_table1.column("Gender", anchor='center', width=90)
         emergency_database_table1.column("Address", anchor='center', width=200)
-        emergency_database_table1.column("Phone Number", anchor='center', width=200)
-        emergency_database_table1.column("No. family with condition", anchor='center', width=85)
+        emergency_database_table1.column("Phone Number", anchor='center', width=120)
+        emergency_database_table1.column("No. family with condition", anchor='center', width=90)
         emergency_database_table1.column("Medical Conditions", anchor='center', width=210)
-        emergency_database_table1.column("Accommodation", anchor='center', width=80)
-        emergency_database_table1.column("Medical", anchor='center', width=80)
-        emergency_database_table1.column("Toilet", anchor='center', width=70)
-        emergency_database_table1.column("Ration", anchor='center', width=70)
+        emergency_database_table1.column("Accommodation", anchor='center', width=150)
+        emergency_database_table1.column("Medical", anchor='center', width=150)
+        emergency_database_table1.column("Toilet", anchor='center', width=150)
+        emergency_database_table1.column("Ration", anchor='center', width=150)
 
         emergency_database_table1.heading("CampID", text="Camp ID", anchor='center')
-        emergency_database_table1.heading("ID", text="ID", anchor='center')
+        emergency_database_table1.heading("Family ID", text="Family ID", anchor='center')
+        emergency_database_table1.heading("Date Added", text="Date Added", anchor='center')
         emergency_database_table1.heading("Name", text="Name", anchor='center')
         emergency_database_table1.heading("Family size", text="Family size", anchor='center')
         emergency_database_table1.heading("Date of Birth", text="Date of Birth", anchor='center')
@@ -571,10 +573,11 @@ Refugees:
         emergency_database_table1.heading("Ration", text="Rations", anchor='center')
 
         for i in range(0, len(volunteer_database_list)):
+            number = volunteer_database_list[i][7].split("#")
             emergency_database_table1.insert(parent='', index=i, iid=i, values=(
-                str(volunteer_database_list[i][0]), str(volunteer_database_list[i][1]),
+                str(volunteer_database_list[i][0]), str(volunteer_database_list[i][1]), str(volunteer_database_list[i][15]),
                 volunteer_database_list[i][2], volunteer_database_list[i][3], str(volunteer_database_list[i][4]),
-                volunteer_database_list[i][5], volunteer_database_list[i][6], volunteer_database_list[i][7],
+                volunteer_database_list[i][5], volunteer_database_list[i][6], f"+{number[0]} {number[1]}",
                 volunteer_database_list[i][8], volunteer_database_list[i][9], volunteer_database_list[i][10],
                 volunteer_database_list[i][11], volunteer_database_list[i][12], volunteer_database_list[i][13], volunteer_database_list[i][14]))
 
