@@ -522,7 +522,7 @@ def main():
         screen_width3 = app_info_screen.winfo_screenwidth()
         screen_height3 = app_info_screen.winfo_screenheight()
         window_height3 = screen_height3
-        window_width3 = 800
+        window_width3 = 900
 
         center_x3 = int(screen_width3 / 2 - window_width3 / 2)
         center_y3 = int(screen_height3 / 2 - window_height3 / 2)
@@ -556,14 +556,14 @@ def main():
                                     "addition to this, volunteers are able to use our system to manage their own "
                                     "availability and details.\n\n\n").pack()
 
-        back_button = Button(app_info_screen, text="Close", command=app_info_screen.destroy)
+        back_button = Button(app_info_screen, text="Home", command=app_info_screen.destroy)
         back_button.pack()
 
         app_info_screen.mainloop()
 
     signin = Button(master_window, text="Sign In", command=main_signin_screen)
     signin.pack()
-    info = Button(master_window, text="How to use this Application", command=app_info)
+    info = Button(master_window, text="How to use LAMSA", command=app_info)
     info.pack()
     exit_app = Button(master_window, text="Exit Application", command=exit)
     exit_app.pack()
