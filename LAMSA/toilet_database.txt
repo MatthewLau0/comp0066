@@ -1,2 +1,2 @@
-1,1,Toilet 1,20,15,VACANCIES,5,North Wing,
-1,2,Toilet 2,20,12,VACANCIES,8,South Wing,
+1,1,Toilet 1,20,15,VACANCIES,5,South Wing,
+1,2,Toilet 2,20,17,VACANCIES,3,North Wing,

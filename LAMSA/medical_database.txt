@@ -1,1 +1,2 @@
-1,1,Med 1,50,21,VACANCIES,29,North Wing,
+1,1,Med 1,50,21,VACANCIES,29,South Wing,
+1,2,Med 2,50,2,VACANCIES,48,North Wing,
