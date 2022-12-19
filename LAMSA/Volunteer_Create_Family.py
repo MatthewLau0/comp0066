@@ -282,6 +282,15 @@ def create_family():
         amenity_window = Toplevel()
         amenity_window.title("Allocate Amenities")
 
+        screen_width4 = amenity_window.winfo_screenwidth()
+        screen_height4 = amenity_window.winfo_screenheight()
+        window_height4 = screen_height4
+        window_width4 = 900
+
+        center_x4 = int(screen_width4 / 2 - window_width4 / 2)
+        center_y4 = int(screen_height4 / 2 - window_height4 / 2)
+        amenity_window.geometry(f'{window_width4}x{window_height4}+{center_x4}+{center_y4}')
+
         Label(amenity_window, text="Please allocate amenities to this refugee family").pack()
         Label(amenity_window, text="Please try to pick amenities within the same wing").pack()
 
@@ -313,9 +322,18 @@ def create_family():
 
             refugee_summary = Toplevel()
 
+            screen_width5 = refugee_summary.winfo_screenwidth()
+            screen_height5 = refugee_summary.winfo_screenheight()
+            window_height5 = screen_height5
+            window_width5 = 900
+
+            center_x5 = int(screen_width5 / 2 - window_width5 / 2)
+            center_y5 = int(screen_height5 / 2 - window_height5 / 2)
+            refugee_summary.geometry(f'{window_width5}x{window_height5}+{center_x5}+{center_y5}')
+
             refugee_summary.title("Refugee Family Summary")
 
-            label_1 = Label(refugee_summary, text="Please check that you are happy with the entry below:")
+            label_1 = Label(refugee_summary, text="\nPlease check that you are happy with the entry below:\n")
             label_1.pack()
 
             refugee_accom_save = refugee_accom.get().split(",")
@@ -323,24 +341,26 @@ def create_family():
             refugee_toilet_save = refugee_toilet.get().split(",")
             refugee_medical_save = refugee_medical.get().split(",")
 
-            summary_label = Label(refugee_summary, text=f"""
-            Lead Member Name: {refugee_name.get()} \n 
-            Family Size: {refugee_family_size.get()} \n
-            Lead Member DoB: {refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()}
-            Lead Member Age: {generate_age()} 
-            Lead Member Gender: {refugee_gender.get()} \n 
-            Address: {refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()} \n{refugee_address_post.get()}, {refugee_address_country.get()} \n
-            No. Members with Health Conditions: {refugee_family_health_no.get()}\n
-            Health Condition Details: {refugee_family_health.get()}
-            Accommodation: {refugee_accom_save[0]}, {refugee_accom_save[1]}
-            Ration Stall: {refugee_ration_save[0]}, {refugee_ration_save[1]}
-            Toilet Block: {refugee_toilet_save[0]}, {refugee_toilet_save[1]}
-            Medical Dispensary: {refugee_medical_save[0]}, {refugee_medical_save[1]}""")
+            today = datetime.date.today()
+
+            summary_label = Label(refugee_summary, text=
+f"""Lead Member Name: \n{refugee_name.get()} 
+Family Size: \n{refugee_family_size.get()} 
+Lead Member DoB: \n{refugee_date.get()}/{refugee_month.get()}/{refugee_year.get()} (Age: {generate_age()})
+Lead Member Gender: \n{refugee_gender.get()} 
+Contact Number: \n+{phone_area_code.get()} {phone_number.get()}
+Address: \n{refugee_address1.get()}, {refugee_address2.get()}, {refugee_address_city.get()}, {refugee_address_post.get()}, {refugee_address_country.get()} 
+No. Members with Health Conditions: \n{refugee_family_health_no.get()}
+Health Condition Details: \n{refugee_family_health.get()}\n\n
+Accommodation: \n{refugee_accom_save[0]},{refugee_accom_save[1]}
+Ration Stall: \n{refugee_ration_save[0]},{refugee_ration_save[1]}
+Toilet Block: \n{refugee_toilet_save[0]},{refugee_toilet_save[1]}
+Medical Dispensary: \n{refugee_medical_save[0]},{refugee_medical_save[1]}\n
+Date Record Created: {today}\n""")
             summary_label.pack()
 
             def submit_command():
                 phone_number_complete = ("%s#%s" % (phone_area_code.get(), phone_number.get()))
-                today = datetime.date.today()
                 new_refugee[0] = str(refugee_camp_id)
                 new_refugee[1] = str(refugee_id)
                 new_refugee[2] = refugee_name.get()
@@ -439,9 +459,9 @@ def create_family():
                 refugee_summary.destroy()
                 new_refugee_screen.destroy()
 
-            edit_button = Button(refugee_summary, text="Cancel", command=refugee_summary.destroy, width=30, height=2)
+            edit_button = Button(refugee_summary, text="Cancel", command=refugee_summary.destroy)
             edit_button.pack()
-            submit_button = Button(refugee_summary, text="Submit", command=submit_command, width=30, height=2)
+            submit_button = Button(refugee_summary, text="Submit", command=submit_command)
             submit_button.pack()
 
             refugee_summary.mainloop()
@@ -560,3 +580,4 @@ def create_family():
     Button(new_refugee_screen, text="Cancel", command=new_refugee_screen.destroy).pack()
 
     new_refugee_screen.mainloop()
+create_family()
